@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2021.11.27)  28 NOV 2021 11:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2021.11.27)  28 NOV 2021 22:25
 entering extended mode
 **./IYM011_Project_180240438_v9.tex
 (IYM011_Project_180240438_v9.tex
@@ -490,35 +490,45 @@ Package: hanging 2009/09/02 v1.2b hanging paragraphs and punctuation
 \h@ngcolonwd=\skip93
 \h@ngscolonwd=\skip94
 )
+(C:\Users\Luke\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
+\TX@col@width=\dimen257
+\TX@old@table=\dimen258
+\TX@old@col=\dimen259
+\TX@target=\dimen260
+\TX@delta=\dimen261
+\TX@cols=\count311
+\TX@ftn=\toks28
+)
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... none found.
 
 (C:\Users\Luke\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdft
 ex.def
 File: l3backend-pdftex.def 2021-10-18 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count311
+\l__color_backend_stack_int=\count312
 \l__pdf_internal_box=\box61
 ) (IYM011_Project_180240438_v9.aux)
 \openout1 = `IYM011_Project_180240438_v9.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -563,17 +573,17 @@ Package caption Info: End \AtBeginDocument code.
 (C:\Users\Luke\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mki
 i
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count312
-\scratchdimen=\dimen257
+\scratchcounter=\count313
+\scratchdimen=\dimen262
 \scratchbox=\box62
-\nofMPsegments=\count313
-\nofMParguments=\count314
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count315
-\MPscratchDim=\dimen258
-\MPnumerator=\count316
-\makeMPintoPDFobject=\count317
-\everyMPtoPDFconversion=\toks29
+\nofMPsegments=\count314
+\nofMParguments=\count315
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count316
+\MPscratchDim=\dimen263
+\MPnumerator=\count317
+\makeMPintoPDFobject=\count318
+\everyMPtoPDFconversion=\toks30
 )
 (C:\Users\Luke\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-ba
 se.sty
@@ -585,8 +595,8 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 g
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-\c@lstlisting=\count318
-Package hyperref Info: Link coloring OFF on input line 37.
+\c@lstlisting=\count319
+Package hyperref Info: Link coloring OFF on input line 43.
  (C:\Users\Luke\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (C:\Users\Luke\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
@@ -596,11 +606,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 estring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count319
+\c@section@level=\count320
 )
-LaTeX Info: Redefining \ref on input line 37.
-LaTeX Info: Redefining \pageref on input line 37.
-LaTeX Info: Redefining \nameref on input line 37.
+LaTeX Info: Redefining \ref on input line 43.
+LaTeX Info: Redefining \pageref on input line 43.
+LaTeX Info: Redefining \nameref on input line 43.
  (IYM011_Project_180240438_v9.out)
 (IYM011_Project_180240438_v9.out)
 \@outlinefile=\write3
@@ -609,44 +619,44 @@ LaTeX Info: Redefining \nameref on input line 37.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <16> not available
-(Font)              size <17.28> substituted on input line 46.
+(Font)              size <17.28> substituted on input line 52.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <16> not available
-(Font)              size <17.28> substituted on input line 46.
+(Font)              size <17.28> substituted on input line 52.
 
-<../images/rhuol_logo_2.jpg, id=93, 414.04688pt x 207.02344pt>
+<../images/rhuol_logo_2.jpg, id=357, 414.04688pt x 207.02344pt>
 File: ../images/rhuol_logo_2.jpg Graphic file (type jpg)
 <use ../images/rhuol_logo_2.jpg>
-Package pdftex.def Info: ../images/rhuol_logo_2.jpg  used on input line 46.
+Package pdftex.def Info: ../images/rhuol_logo_2.jpg  used on input line 52.
 (pdftex.def)             Requested size: 284.53648pt x 142.26378pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 46.
+(Font)              <12> on input line 52.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 46.
+(Font)              <8> on input line 52.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 46.
+(Font)              <6> on input line 52.
 [1
 
 {C:/Users/Luke/AppData/Local/MiKTeX/pdftex/config/pdftex.map} <../images/rhuol_
 logo_2.jpg>]
-<../images/signature.png, id=102, 382.42876pt x 132.495pt>
+<../images/signature.png, id=366, 382.42876pt x 132.495pt>
 File: ../images/signature.png Graphic file (type png)
 <use ../images/signature.png>
-Package pdftex.def Info: ../images/signature.png  used on input line 56.
+Package pdftex.def Info: ../images/signature.png  used on input line 62.
 (pdftex.def)             Requested size: 80.3124pt x 27.82475pt.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.68 \newpage
+l.74 \newpage
               [2 <../images/signature.png>]pdfTeX warning (ext4): destination w
 ith the same identifier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.76 \newpage
+l.82 \newpage
               [3] [1] [2] [3]
-Overfull \hbox (11.35158pt too wide) in paragraph at lines 149--149
+Overfull \hbox (11.35158pt too wide) in paragraph at lines 156--156
 \OML/cmm/m/it/12 <$\OT1/cmtt/m/n/12 scheme$\OML/cmm/m/it/12 >$\OT1/cmtt/m/n/12 
 :$\OML/cmm/m/it/12 <$\OT1/cmtt/m/n/12 scheme-specific-part$\OML/cmm/m/it/12 >$\
 OT1/cmr/m/n/12 . An ex-am-ple URL is \OT1/cmtt/m/n/12 https://www.example.com 
@@ -665,49 +675,80 @@ LaTeX Warning: Citation `SuarezTangil2014' on page vi undefined on input line 1
 \tf@lot=\write5
 \openout5 = `IYM011_Project_180240438_v9.lot'.
 
- [7] (IYM011_Project_180240438_v9.toc)
+ [7] (IYM011_Project_180240438_v9.toc
+[8] [9]
+Underfull \vbox (badness 1584) has occurred while \output is active []
+
+ [10])
 \tf@toc=\write6
 \openout6 = `IYM011_Project_180240438_v9.toc'.
 
 
-[1] [2]
-
-LaTeX Warning: Citation `GooglePlayP2017' on page 3 undefined on input line 230
-.
-
-
-LaTeX Warning: Citation `SuarezTangil2014' on page 3 undefined on input line 23
-0.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 230--231
+[11] [1] [2]
+Underfull \hbox (badness 10000) in paragraph at lines 222--223
 
  []
 
-<../images/figure_1.png, id=190, 843.90282pt x 448.67625pt>
+<../images/figure_1.png, id=539, 843.90282pt x 448.67625pt>
 File: ../images/figure_1.png Graphic file (type png)
 <use ../images/figure_1.png>
-Package pdftex.def Info: ../images/figure_1.png  used on input line 234.
+Package pdftex.def Info: ../images/figure_1.png  used on input line 226.
 (pdftex.def)             Requested size: 337.55515pt x 179.46732pt.
 
-LaTeX Warning: Citation `SuarezTangil2014' on page 3 undefined on input line 23
-5.
+LaTeX Warning: Citation `SuarezTangil2014' on page 3 undefined on input line 22
+7.
 
 
-LaTeX Warning: Citation `SuarezTangil2014' on page 3 undefined on input line 23
-5.
+LaTeX Warning: Citation `SuarezTangil2014' on page 3 undefined on input line 22
+7.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[3] [4 <../images/figure_1.png>]
+[3 <../images/figure_1.png>]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 255.
- [5
+put line 241.
+ [4
 
-] [6] [7
+] [5] [6] [7] [8]
+Overfull \hbox (29.2555pt too wide) in paragraph at lines 388--403
+ [] 
+ []
 
-] (IYM011_Project_180240438_v9.bbl
+
+Underfull \vbox (badness 5077) has occurred while \output is active []
+
+ [9]
+[10] [11] [12] [13] [14] [15] [16] [17]
+Overfull \hbox (74.28256pt too wide) in paragraph at lines 656--657
+\OT1/cmr/m/n/12 load the re-source. For ex-am-ple, if the re-quest ini-tia-tor'
+s ori-gin is https://account.example.com/index.html
+ []
+
+[18] [19]
+Overfull \hbox (2.26645pt too wide) in paragraph at lines 686--687
+\OT1/cmr/m/n/12 The page must not be ren-dered in any of the fol-low-ing html e
+l-e-ments: $\OML/cmm/m/it/12 <$\OT1/cmtt/m/n/12 frame$\OML/cmm/m/it/12 >$\OT1/c
+mr/m/n/12 , $\OML/cmm/m/it/12 <$\OT1/cmtt/m/n/12 iframe$\OML/cmm/m/it/12 >$\OT1
+/cmr/m/n/12 ,
+ []
+
+
+LaTeX Warning: Citation `Chen2018-ft' on page 20 undefined on input line 697.
+
+
+LaTeX Warning: Citation `Chuat2021-nf' on page 20 undefined on input line 697.
+
+
+LaTeX Warning: Citation `Chuat2021-nf' on page 20 undefined on input line 697.
+
+
+LaTeX Warning: Citation `Evans2018-mi' on page 20 undefined on input line 697.
+
+[20] [21]
+Overfull \hbox (28.96127pt too wide) in paragraph at lines 733--734
+[]\OT1/cmtt/m/n/12 /.well-known/security.txt \OT1/cmr/m/n/12 (e.g. \OT1/cmtt/m/
+n/12 https://example.com/.well-known/security.txt\OT1/cmr/m/n/12 ) 
+ []
+
+[22] (IYM011_Project_180240438_v9.bbl
 ** WARNING: IEEEtran.bst: No hyphenation pattern has been
 ** loaded for the language `en'. Using the pattern for
 ** the default language instead.
@@ -717,7 +758,99 @@ Underfull \hbox (badness 10000) in paragraph at lines 29--31
 T1/cmr/m/it/12 URL
  []
 
-) [8] [9] (IYM011_Project_180240438_v9.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--53
+[]\OT1/cmr/m/n/12 E. Rescorla, ``RFC2818: HTTP over TLS, may 2000,'' \OT1/cmr/m
+/it/12 URL
+ []
+
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+[23]
+Underfull \hbox (badness 10000) in paragraph at lines 96--100
+[]\OT1/cmr/m/n/12 S. Blake-Wilson, M. Nys-trom, D. Hop-wood, J. Mikkelsen, and
+ []
+
+
+Underfull \hbox (badness 3849) in paragraph at lines 96--100
+\OT1/cmr/m/n/12 T. Wright, ``RFC3546: Trans-port layer se-cu-rity (TLS) ex-ten-
+sions,'' \OT1/cmr/m/it/12 URL
+ []
+
+
+Overfull \hbox (66.19011pt too wide) in paragraph at lines 117--120
+[]\OT1/cmr/m/n/12 Multiple, ``Same ori-gin pol-icy,'' \OT1/cmr/m/it/12 URL http
+s://html.spec.whatwg.org/multipage/browsers.html#cross-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--125
+[]\OT1/cmr/m/n/12 Apple, Google, Mozilla, and Mi-crosoft, ``CORS pro-to-col,'' 
+\OT1/cmr/m/it/12 URL
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 127--130
+[]\OT1/cmr/m/n/12 A. Barth and B. Sterne, ``Con-tent se-cu-rity pol-icy 1.0, 20
+12,'' \OT1/cmr/m/it/12 URL
+ []
+
+
+Underfull \hbox (badness 1838) in paragraph at lines 127--130
+\OT1/cmr/m/it/12 https://www.w3.org/TR/2012/CR-CSP-20121115/; Ac-cessed 01 Nove
+m-ber 2021\OT1/cmr/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 132--135
+[]\OT1/cmr/m/n/12 A. Barth and B. Sterne, ``Con-tent se-cu-rity pol-icy 1.0, 20
+15,'' \OT1/cmr/m/it/12 URL
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 132--135
+\OT1/cmr/m/it/12 https://www.w3.org/TR/2015/NOTE-CSP1-20150219/; Ac-cessed 01 N
+ovem-ber
+ []
+
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 147--150
+[]\OT1/cmr/m/n/12 M. West, ``Con-tent se-cu-rity pol-icy level 3; 2016,'' \OT1/
+cmr/m/it/12 URL
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 152--155
+[]\OT1/cmr/m/n/12 M. West, ``Con-tent se-cu-rity pol-icy level 3, 2021,'' \OT1/
+cmr/m/it/12 URL
+ []
+
+
+Underfull \hbox (badness 1062) in paragraph at lines 163--167
+[]\OT1/cmr/m/n/12 Apple, Google, Mozilla, and Mi-crosoft, ``Cross-Origin-Resour
+ce-Policy header,''
+ []
+
+
+Underfull \hbox (badness 1496) in paragraph at lines 169--173
+[]\OT1/cmr/m/n/12 Apple, Google, Mozilla, and Mi-crosoft, ``Cross-origin opener
+ poli-cies,'' \OT1/cmr/m/it/12 URL:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 169--173
+\OT1/cmr/m/it/12 https://html.spec.whatwg.org/multipage/origin.html#the-headers
+; Ac-cessed 03
+ []
+
+) [25] [26] (IYM011_Project_180240438_v9.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.28pt have occurred.
@@ -727,16 +860,16 @@ LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `IYM011_Project_180240438_v9.out' has not cha
 nged.
-(rerunfilecheck)             Checksum: BF33508EADCC84C58EAED1E5BED3D636;2943.
+(rerunfilecheck)             Checksum: B74D81D045515DC67C3C5DE9391EC467;12581.
  ) 
 Here is how much of TeX's memory you used:
- 15058 strings out of 478681
- 248505 string characters out of 2847008
- 549143 words of memory out of 3000000
- 32890 multiletter control sequences out of 15000+600000
+ 15327 strings out of 478681
+ 253000 string characters out of 2847008
+ 555252 words of memory out of 3000000
+ 33042 multiletter control sequences out of 15000+600000
  409596 words of font info for 48 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,9n,77p,1495b,468s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 70i,11n,77p,488b,502s stack positions out of 5000i,500n,10000p,200000b,80000s
  <C:\Users\Luke\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1
 200.pk><C:/Users/Luke/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb><C:/Users/Luke/AppData/Local/Programs/MiKTeX/fonts/type1/public/
@@ -746,9 +879,9 @@ s/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Luke/AppData/Local/Programs/MiKT
 eX/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Users/Luke/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Luke/AppData/Loc
 al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on IYM011_Project_180240438_v9.pdf (19 pages, 1283007 bytes).
+Output written on IYM011_Project_180240438_v9.pdf (40 pages, 1383389 bytes).
 PDF statistics:
- 273 PDF objects out of 1000 (max. 8388607)
- 49 named destinations out of 1000 (max. 500000)
- 200 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 788 PDF objects out of 1000 (max. 8388607)
+ 163 named destinations out of 1000 (max. 500000)
+ 728 words of extra memory for PDF output out of 10000 (max. 10000000)
 
