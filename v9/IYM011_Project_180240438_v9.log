@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2021.11.27)  28 NOV 2021 22:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2021.11.27)  29 NOV 2021 13:23
 entering extended mode
 **./IYM011_Project_180240438_v9.tex
 (IYM011_Project_180240438_v9.tex
@@ -625,7 +625,7 @@ LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <16> not available
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <16> not available
 (Font)              size <17.28> substituted on input line 52.
 
-<../images/rhuol_logo_2.jpg, id=357, 414.04688pt x 207.02344pt>
+<../images/rhuol_logo_2.jpg, id=481, 414.04688pt x 207.02344pt>
 File: ../images/rhuol_logo_2.jpg Graphic file (type jpg)
 <use ../images/rhuol_logo_2.jpg>
 Package pdftex.def Info: ../images/rhuol_logo_2.jpg  used on input line 52.
@@ -640,7 +640,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 {C:/Users/Luke/AppData/Local/MiKTeX/pdftex/config/pdftex.map} <../images/rhuol_
 logo_2.jpg>]
-<../images/signature.png, id=366, 382.42876pt x 132.495pt>
+<../images/signature.png, id=490, 382.42876pt x 132.495pt>
 File: ../images/signature.png Graphic file (type png)
 <use ../images/signature.png>
 Package pdftex.def Info: ../images/signature.png  used on input line 62.
@@ -684,12 +684,15 @@ Underfull \vbox (badness 1584) has occurred while \output is active []
 \openout6 = `IYM011_Project_180240438_v9.toc'.
 
 
-[11] [1] [2]
+Underfull \vbox (badness 4713) has occurred while \output is active []
+
+ [11]
+[12] [1] [2]
 Underfull \hbox (badness 10000) in paragraph at lines 222--223
 
  []
 
-<../images/figure_1.png, id=539, 843.90282pt x 448.67625pt>
+<../images/figure_1.png, id=698, 843.90282pt x 448.67625pt>
 File: ../images/figure_1.png Graphic file (type png)
 <use ../images/figure_1.png>
 Package pdftex.def Info: ../images/figure_1.png  used on input line 226.
@@ -730,25 +733,31 @@ mr/m/n/12 , $\OML/cmm/m/it/12 <$\OT1/cmtt/m/n/12 iframe$\OML/cmm/m/it/12 >$\OT1
 /cmr/m/n/12 ,
  []
 
-
-LaTeX Warning: Citation `Chen2018-ft' on page 20 undefined on input line 697.
-
-
-LaTeX Warning: Citation `Chuat2021-nf' on page 20 undefined on input line 697.
-
-
-LaTeX Warning: Citation `Chuat2021-nf' on page 20 undefined on input line 697.
-
-
-LaTeX Warning: Citation `Evans2018-mi' on page 20 undefined on input line 697.
-
 [20] [21]
-Overfull \hbox (28.96127pt too wide) in paragraph at lines 733--734
+Overfull \hbox (28.96127pt too wide) in paragraph at lines 732--733
 []\OT1/cmtt/m/n/12 /.well-known/security.txt \OT1/cmr/m/n/12 (e.g. \OT1/cmtt/m/
 n/12 https://example.com/.well-known/security.txt\OT1/cmr/m/n/12 ) 
  []
 
-[22] (IYM011_Project_180240438_v9.bbl
+[22] [23] [24] [25]
+Overfull \hbox (14.03001pt too wide) in paragraph at lines 827--829
+\OT1/cmtt/m/n/12 http://www.twitter.com/?status=Don't Click: http://tinyurl.com
+/amgzs6 \OT1/cmr/m/n/12 [[]] and
+ []
+
+[26]
+Underfull \vbox (badness 1859) has occurred while \output is active []
+
+ [27]
+[28]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [29]
+[30] [31] [32] [33]
+
+LaTeX Warning: Citation `' on page 34 undefined on input line 991.
+
+[34] [35] (IYM011_Project_180240438_v9.bbl
 ** WARNING: IEEEtran.bst: No hyphenation pattern has been
 ** loaded for the language `en'. Using the pattern for
 ** the default language instead.
@@ -773,7 +782,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 50--53
 ** WARNING: IEEEtran.bst: No hyphenation pattern has been
 ** loaded for the language `en'. Using the pattern for
 ** the default language instead.
-[23]
+[36]
 Underfull \hbox (badness 10000) in paragraph at lines 96--100
 []\OT1/cmr/m/n/12 S. Blake-Wilson, M. Nys-trom, D. Hop-wood, J. Mikkelsen, and
  []
@@ -820,7 +829,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 132--135
 ovem-ber
  []
 
-[24]
+[37]
 Underfull \hbox (badness 10000) in paragraph at lines 147--150
 []\OT1/cmr/m/n/12 M. West, ``Con-tent se-cu-rity pol-icy level 3; 2016,'' \OT1/
 cmr/m/it/12 URL
@@ -850,7 +859,52 @@ Underfull \hbox (badness 10000) in paragraph at lines 169--173
 ; Ac-cessed 03
  []
 
-) [25] [26] (IYM011_Project_180240438_v9.aux)
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+[38]
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+
+Underfull \hbox (badness 4291) in paragraph at lines 228--230
+[]\OT1/cmr/m/n/12 ``OWASP top ten 2021 - in-jec-tion at-tacks,'' []$https : / /
+ owasp . org / Top10 / A03[]
+ []
+
+[39] [40]
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+[41]
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+
+Underfull \hbox (badness 10000) in paragraph at lines 402--406
+\OT1/cmr/m/n/12 mozilla . org / security / 2020 / 11 / 13 / preloading-[]interm
+ediate-[]ca-[]certicates-[]into-[]refox$[],
+ []
+
+) [42] [43] (IYM011_Project_180240438_v9.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.28pt have occurred.
@@ -860,28 +914,29 @@ LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `IYM011_Project_180240438_v9.out' has not cha
 nged.
-(rerunfilecheck)             Checksum: B74D81D045515DC67C3C5DE9391EC467;12581.
+(rerunfilecheck)             Checksum: 8A9C968FDF5998A7811548BD30B7124C;17924.
  ) 
 Here is how much of TeX's memory you used:
- 15327 strings out of 478681
- 253000 string characters out of 2847008
- 555252 words of memory out of 3000000
- 33042 multiletter control sequences out of 15000+600000
+ 15493 strings out of 478681
+ 255829 string characters out of 2847008
+ 556824 words of memory out of 3000000
+ 33118 multiletter control sequences out of 15000+600000
  409596 words of font info for 48 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,11n,77p,488b,502s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 70i,11n,77p,933b,502s stack positions out of 5000i,500n,10000p,200000b,80000s
  <C:\Users\Luke\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1
 200.pk><C:/Users/Luke/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb><C:/Users/Luke/AppData/Local/Programs/MiKTeX/fonts/type1/public/
 amsfonts/cm/cmmi12.pfb><C:/Users/Luke/AppData/Local/Programs/MiKTeX/fonts/type1
 /public/amsfonts/cm/cmr12.pfb><C:/Users/Luke/AppData/Local/Programs/MiKTeX/font
 s/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Luke/AppData/Local/Programs/MiKT
-eX/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Users/Luke/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Luke/AppData/Loc
-al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on IYM011_Project_180240438_v9.pdf (40 pages, 1383389 bytes).
+eX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Luke/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Users/Luke/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Luke/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on IYM011_Project_180240438_v9.pdf (58 pages, 1481711 bytes).
 PDF statistics:
- 788 PDF objects out of 1000 (max. 8388607)
- 163 named destinations out of 1000 (max. 500000)
- 728 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1185 PDF objects out of 1200 (max. 8388607)
+ 253 named destinations out of 1000 (max. 500000)
+ 976 words of extra memory for PDF output out of 10000 (max. 10000000)
 

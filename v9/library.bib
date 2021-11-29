@@ -413,13 +413,6 @@ Output from paperile
   language  = "en"
 }
 
-@MISC{Lavrenovs2018-ci,
-  title   = "{HTTP} security headers analysis of top one million websites",
-  author  = "Lavrenovs, Arturs and Jesus Rubio Melon, F",
-  journal = "2018 10th International Conference on Cyber Conflict (CyCon)",
-  year    =  2018
-}
-
 @ARTICLE{Buchanan2018-xz,
   title     = "Analysis of the adoption of security headers in {HTTP}",
   author    = "Buchanan, William J and Helme, Scott and Woodward, Alan",
@@ -1444,4 +1437,132 @@ Output from paperile
   year      =  2012,
   address   = "IETF Administration LLC c/o IETF Secretariat Association
                Management Solutions 5177 Brandin Ct Fremont, CA 94538 USA"
+}
+
+
+@ARTICLE{Evans2018-mi,
+  title    = "{RFC7469}: Public Key Pinning Extension for {HTTP}",
+  author   = "Evans, C and {Palmer, C: Sleevi, R}",
+  journal  = "URL: https://datatracker.ietf.org/doc/html/rfc7469, Accessed 28
+              November 2021",
+  year     =  2018
+}
+
+
+@PHDTHESIS{Chen2018-ft,
+  title    = "Empirical study on the use of client-side web security mechanisms",
+  author   = "Chen, P",
+  editor   = "{dr. ir. W. Joosen dr. ir. L. Desmet}",
+  abstract = "Nowadays, no one disputes the fact that the web has become an
+              essential part of our society. More and more organizations and
+              individuals are relying on the web for almost all kinds of
+              activities. Naturally, the rising importance of the web attracts
+              an increasing number of web attacks. As the web (and the attacks)
+              keep on expanding, it is important for website operators to
+              ensure the security of their web applications. To defend against
+              a rising number of web attacks, one basic yet important step is
+              to adopt various known defense mechanisms that have been
+              developed by the security community. In this dissertation, we
+              assess the security of websites from the adoption perspective of
+              these client-side defense mechanisms. Client-side security
+              mechanisms are configured and controled by web servers, and they
+              help websites to reduce their client-side attack surface. As
+              such, the presence of these mechanisms on a website might be used
+              as an external indicator of the security awareness and practices
+              of the website owner. Firstly, we discuss the eight
+              most-important client-side defense mechanisms that are used as
+              metrics to design a web scoring system to measure the security of
+              web applications. Secondly, we propose an efficient crawling
+              approach for large-scale web assessments to measure the adoption
+              of these mechanisms. We then use this crawling approach to
+              investigate mixed-content inclusion weaknesses, to conduct a
+              security assessment for the Chinese Web, and to perform a
+              longitudinal assessment on the adoption of client-side security
+              mechanisms on the European Web. By quantifying a website's
+              security level as a web security score, we can compare the
+              security maturity of websites per country, sector and popularity.
+              Lastly, we explore the relationship between a company's
+              cybercrime cost and the adoption of defense mechanisms on its
+              website. Our correlational analysis shows that companies with
+              better security defense tend to have less business loss caused by
+              web attacks.",
+  month    =  sep,
+  year     =  2018,
+  school   = "ARENBERG DOCTORAL SCHOOL",
+  keywords = "web security; client-side security mechanism; security
+              measurement; cybercrime cost",
+  language = "en"
+}
+
+
+@ARTICLE{Chuat2021-nf,
+  title         = "{F-PKI}: Enabling Innovation and Trust Flexibility in the
+                   {HTTPS} {Public-Key} Infrastructure",
+  author        = "Chuat, Laurent and Kr{\"a}henb{\"u}hl, Cyrill and Mittal,
+                   Prateek and Perrig, Adrian",
+  abstract      = "We present F-PKI, an enhancement to the HTTPS public-key
+                   infrastructure that gives trust flexibility to both clients
+                   and domain owners while giving certification authorities
+                   (CAs) means to enforce stronger security measures. In
+                   today's web PKI, all CAs are equally trusted, and security
+                   is defined by the weakest link. We address this problem by
+                   introducing trust flexibility in two dimensions: with F-PKI,
+                   each domain owner can define a domain policy (specifying,
+                   for example, which CAs are authorized to issue certificates
+                   for their domain name) and each client can set or choose a
+                   validation policy based on trust levels. F-PKI thus supports
+                   a property that is sorely needed in today's Internet: trust
+                   heterogeneity. Different parties can express different trust
+                   preferences while still being able to verify all
+                   certificates. In contrast, today's web PKI only allows
+                   clients to fully distrust suspicious/misbehaving CAs, which
+                   is likely to cause collateral damage in the form of
+                   legitimate certificates being rejected. Our contribution is
+                   to present a system that is backward compatible, provides
+                   sensible security properties to both clients and domain
+                   owners, ensures the verifiability of all certificates, and
+                   prevents downgrade attacks. Furthermore, F-PKI provides a
+                   ground for innovation, as it gives CAs an incentive to
+                   deploy new security measures to attract more customers,
+                   without having these measures undercut by vulnerable CAs.",
+  month         =  aug,
+  year          =  2021,
+  archivePrefix = "arXiv",
+  primaryClass  = "cs.CR",
+  eprint        = "2108.08581"
+}
+
+
+@INPROCEEDINGS{Durumeric2014-yj,
+  title     = "The Matter of Heartbleed",
+  booktitle = "Proceedings of the 2014 Conference on Internet Measurement
+               Conference",
+  author    = "Durumeric, Zakir and Li, Frank and Kasten, James and Amann,
+               Johanna and Beekman, Jethro and Payer, Mathias and Weaver,
+               Nicolas and Adrian, David and Paxson, Vern and Bailey, Michael
+               and Halderman, J Alex",
+  abstract  = "The Heartbleed vulnerability took the Internet by surprise in
+               April 2014. The vulnerability, one of the most consequential
+               since the advent of the commercial Internet, allowed attackers
+               to remotely read protected memory from an estimated 24--55\% of
+               popular HTTPS sites. In this work, we perform a comprehensive,
+               measurement-based analysis of the vulnerability's impact,
+               including (1) tracking the vulnerable population, (2) monitoring
+               patching behavior over time, (3) assessing the impact on the
+               HTTPS certificate ecosystem, and (4) exposing real attacks that
+               attempted to exploit the bug. Furthermore, we conduct a
+               large-scale vulnerability notification experiment involving
+               150,000 hosts and observe a nearly 50\% increase in patching by
+               notified hosts. Drawing upon these analyses, we discuss what
+               went well and what went poorly, in an effort to understand how
+               the technical community can respond more effectively to such
+               events in the future.",
+  publisher = "Association for Computing Machinery",
+  pages     = "475--488",
+  series    = "IMC '14",
+  month     =  nov,
+  year      =  2014,
+  address   = "New York, NY, USA",
+  keywords  = "security, heartbleed, openssl, internet-wide scanning",
+  location  = "Vancouver, BC, Canada"
 }
