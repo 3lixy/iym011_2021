@@ -242,8 +242,9 @@ HTTP (Hypertext Transfer Protocol), standardised in 1996 \cite{Berners-Lee1996-j
 \vspace{0.3cm}
 \noindent The below are relevant methods for this project:
 \begin{itemize}
-	  \item GET – Requests a specified resource without altering the resource.
-	  \item HEAD – Identical to the GET method without the resource being returned (i.e. only metadata such as HTTP Headers)
+	\setlength\itemsep{0.1em}
+	\item GET – Requests a specified resource without altering the resource.
+	\item HEAD – Identical to the GET method without the resource being returned (i.e. only metadata such as HTTP Headers)
 \end{itemize}
 
 \subsection{HTTPS}
@@ -310,18 +311,20 @@ In 1996 the IETF Transport Layer Security (TLS) Working Group was established \c
 
 TLS 1.1 was released as RFC4346 in 2006 \cite{Dierks2006-wu} which included a number of changes from TLS 1.0 some of which are:
 \begin{itemize}
-	  \item CBC (block mode) has to use explicit IVs which addressed the predictable IV weakness \cite{Ristic2017-aj}.
-	  \item \texttt{\UScore{bad_record_mac alert}} required to be used in the response when there are padding problems to protect against padding attacks \cite{Ristic2017-aj}.
-	  \item The addition of TLS extensions \cite{Ristic2017-aj} as described in RFC3546 \cite{Blake-Wilson2003-qv}
+	\setlength\itemsep{0.1em}
+	\item CBC (block mode) has to use explicit IVs which addressed the predictable IV weakness \cite{Ristic2017-aj}.
+	\item \texttt{\UScore{bad_record_mac alert}} required to be used in the response when there are padding problems to protect against padding attacks \cite{Ristic2017-aj}.
+	\item The addition of TLS extensions \cite{Ristic2017-aj} as described in RFC3546 \cite{Blake-Wilson2003-qv}
 \end{itemize}
 
 \subsubsection{TSL 1.2 [2008]}
 
 TLS 1.2 was released as RFC5246 in 2008 \cite{Dierks2008-uy} which included a number of changes from TLS 1.1 some of which are:
 \begin{itemize}
-	  \item IDEA and DES cipher suites were removed
-	  \item Authenticated encryption was added
-	  \item The extension "\UScore{signature_algorithms}" was added
+	\setlength\itemsep{0.1em}
+	\item IDEA and DES cipher suites were removed
+	\item Authenticated encryption was added
+	\item The extension "\UScore{signature_algorithms}" was added
 \end{itemize}
 
 
@@ -329,9 +332,10 @@ TLS 1.2 was released as RFC5246 in 2008 \cite{Dierks2008-uy} which included a nu
 
 TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currently the latest published, as an RFC, TLS version as of 2022 which included a number of changes from TLS 1.2 some of which are:
 \begin{itemize}
-	  \item Removal of RSA for key exchange
-	  \item Removal of MD5, SHA-224 and DSA for Signature Algorithms
-	  \item Enforcement of Perfect Forward Secrecy
+	\setlength\itemsep{0.1em}
+	\item Removal of RSA for key exchange
+	\item Removal of MD5, SHA-224 and DSA for Signature Algorithms
+	\item Enforcement of Perfect Forward Secrecy
 \end{itemize}
 
 \newpage
@@ -382,9 +386,10 @@ A Cross origin request is one that is between two different origins, example of 
 \noindent
 Cross Origin network requests can be summarised into 3 different categories:
 \begin{itemize}
-	  \item Cross-Origin reads are mostly denied
-	  \item Cross-Origin embedding is mostly allowed (e.g. \texttt{$<$script src="…"$><$/script$>$}
-	  \item Cross-Origin writes are mostly allowed (e.g. form submissions, links and redirects)
+	\setlength\itemsep{0.1em}
+	\item Cross-Origin reads are mostly denied
+	\item Cross-Origin embedding is mostly allowed (e.g. \texttt{$<$script src="…"$><$/script$>$}
+	\item Cross-Origin writes are mostly allowed (e.g. form submissions, links and redirects)
 \end{itemize}
 
 \subsection{Cross-Origin-Request-Sharing}
@@ -457,20 +462,22 @@ CSP is developed and maintained by The World Wide Web Consortium (W3C) \cite{Bar
 CSP Level 1 initial draft was published in 2012 \cite{Barth2012-ow} and finalised in 2015 \cite{Barth2015-ez}.
 CSP Level 2 had its first draft in 2014 \cite{West2014-oe} and was finalised in 2016 \cite{West2016-ol}:
 \begin{itemize}
-	  \item base-uri, child-src, form-action, frame-ancestors, plugin-types directives added
-	  \item frame-src depreciated
-	  \item Inline scripts / stylesheets allowed via nonces
-	  \item New fields added to violation reports
+	\setlength\itemsep{0.1em}
+	\item base-uri, child-src, form-action, frame-ancestors, plugin-types directives added
+	\item frame-src depreciated
+	\item Inline scripts / stylesheets allowed via nonces
+	\item New fields added to violation reports
 \end{itemize}
 
 CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the most recent draft in 2021 \cite{West2021-hi} and is currently in the working draft state.
 \begin{itemize}
-	  \item Spec re-written
-	  \item frame-src undepreciated (uses child-src if not present)
-	  \item manifest-src, worker-src directives added
-	  \item 'strict-dynamic' source expression added
-	  \item child-src substantially changed
-	  \item deprecation of the report-uri directive in favour of a more recent directive report-to
+	\setlength\itemsep{0.1em}
+	\item Spec re-written
+	\item frame-src undepreciated (uses child-src if not present)
+	\item manifest-src, worker-src directives added
+	\item 'strict-dynamic' source expression added
+	\item child-src substantially changed
+	\item deprecation of the report-uri directive in favour of a more recent directive report-to
 \end{itemize}
 
 \subsection{Policy Delivery}
@@ -515,10 +522,11 @@ This project will be analysing the directives in table \ref{table:cpsdirectives1
 \subsubsection{Keyword}
 The values below are keywords that can be used as values for directives:
 \begin{itemize}
-	  \item \texttt{'none'} – does not allow the use of resources that apply to the directive in question
-	  \item \texttt{'self'} – restricts the resources to the domain of the web page and does not include subdomains
-	  \item \texttt{'unsafe-inline'} – Permits the resource to be inline,.e.g. a scripts code resides in a <script> element rather that in a separate file.
-	  \item \texttt{'unsafe-eval'} – Permits the use of mechanisms, such as eval(), which transform plain text into executable code
+	\setlength\itemsep{0.1em}
+	\item \texttt{'none'} – does not allow the use of resources that apply to the directive in question
+	\item \texttt{'self'} – restricts the resources to the domain of the web page and does not include subdomains
+	\item \texttt{'unsafe-inline'} – Permits the resource to be inline,.e.g. a scripts code resides in a <script> element rather that in a separate file.
+	\item \texttt{'unsafe-eval'} – Permits the use of mechanisms, such as eval(), which transform plain text into executable code
 \end{itemize}
 
 Both \texttt{'unsafe-inline'} and \texttt{'unsafe-eval'} are deemed to be dangerous as inline resources and the use of mechanisms such as eval() are attack vectors for malicious actors, hence the use of the prefix unsafe.
@@ -526,19 +534,21 @@ Both \texttt{'unsafe-inline'} and \texttt{'unsafe-eval'} are deemed to be danger
 \subsubsection{Host}
 One or more "hosts" can be specified as values for a directive. The following are all valid examples of host values:
 \begin{itemize}
-	  \item domain.com
-	  \item *.domain.com
-	  \item https://*.domain.com:81
-	  \item domain.com/path/to/script.js
+	\setlength\itemsep{0.1em}
+	\item domain.com
+	\item *.domain.com
+	\item https://*.domain.com:81
+	\item domain.com/path/to/script.js
 \end{itemize}
 
 \subsubsection{Scheme}
 Scheme values, referring the to protocol via which to access resources, may be used in directives. For example:
 
 \begin{itemize}
-	  \item http:
-	  \item https:
-	  \item data:
+	\setlength\itemsep{0.1em}
+	\item http:
+	\item https:
+	\item data:
 \end{itemize}
 
 
@@ -594,8 +604,9 @@ The X-Content-Type-Options header is used to enforce the Multipurpose Internet M
 Denies requests under either of the two below conditions:
 
 \begin{itemize}
-	  \item A request has a destination of type script-like (one of "audioworklet", "paintworklet", "script", "serviceworker", "sharedworker", or "worker") and the MIME type (from the Content-Type header) is not a JavaScript MIME type
-	  \item A request has a destination of type style and the MIME type (from the Content-Type header) is not text/css
+	\setlength\itemsep{0.1em}
+	\item A request has a destination of type script-like (one of "audioworklet", "paintworklet", "script", "serviceworker", "sharedworker", or "worker") and the MIME type (from the Content-Type header) is not a JavaScript MIME type
+	\item A request has a destination of type style and the MIME type (from the Content-Type header) is not text/css
 \end{itemize}
 
 \newpage
@@ -699,8 +710,9 @@ The "security.txt" mechanism is to aid in informing security researchers how to 
 A file named “security.txt” should be place in either of the following two locations and served only over HTTPS:
 
 \begin{itemize}
-	  \item \texttt{/.well-known/security.txt} (e.g. \texttt{https://example.com/.well-known/security.txt})
-	  \item \texttt{/security.txt} (e.g. \texttt{https://example.com/security.txt})
+	\setlength\itemsep{0.1em}
+	\item \texttt{/.well-known/security.txt} (e.g. \texttt{https://example.com/.well-known/security.txt})
+	\item \texttt{/security.txt} (e.g. \texttt{https://example.com/security.txt})
 \end{itemize}
 
 \noindent
@@ -768,9 +780,10 @@ The attack is known as the “Samy Worm” as it propagated to other myspace pro
 \subsubsection{Security Mechanism(s) Providing Mitigation}
 
 \begin{itemize}
-	  \item Content Security Policy (CSP) – multiple directives
-	  \item Cross-Origin-Resource-Policy
-	  \item X-Frame-Options
+	\setlength\itemsep{0.1em}
+	\item Content Security Policy (CSP) – multiple directives
+	\item Cross-Origin-Resource-Policy
+	\item X-Frame-Options
 \end{itemize}
 
 
@@ -784,7 +797,8 @@ The 2018 Texthelp breach is one example of this type of attack where a malicious
 \subsubsection{Security Mechanism(s) Providing Mitigation}
 
 \begin{itemize}
-	  \item Content Security Policy (CSP) - sub resource integrity
+	\setlength\itemsep{0.1em}
+	\item Content Security Policy (CSP) - sub resource integrity
 \end{itemize}
 
 \subsection{Clickjacking}
@@ -802,8 +816,9 @@ When the user clicks the \texttt{"Don't Click"} section of the page they are act
 \subsubsection{Security Mechanism(s) Providing Mitigation}
 
 \begin{itemize}
-	  \item Content Security Policy (CSP) – frame-ancestors directive
-	  \item X-Frame-Options
+	\setlength\itemsep{0.1em}
+	\item Content Security Policy (CSP) – frame-ancestors directive
+	\item X-Frame-Options
 \end{itemize}
 
 \subsection{Entity in the Middle}
@@ -984,6 +999,7 @@ Whilst this is generally enough for the reader to understand the high-level meth
 The scanner is to obtain the following information from a large number of domains:
 
 \begin{itemize}
+	\setlength\itemsep{0.1em}
     \item If the domain redirects from http:// to https://
     \item If the domain redirects from https:// to http://
     \item The TLS version(s) the domain supports
@@ -1002,7 +1018,7 @@ This section covers the high-level design, represented in Figure \ref{fig:hla_de
 
 \begin{figure}[p]
 	\begin{center}
-		\includegraphics[scale=0.5]{../images/HLA_Pre_Implementation_v1.png} 
+		\includegraphics[scale=0.5]{../images/HLA_Pre_Implementation_v2.png} 
 		\caption{High Level Design}
 		\label{fig:hla_design}
 	\end{center}
@@ -1042,11 +1058,11 @@ This section covers the high-level design, represented in Figure \ref{fig:hla_de
 
 \subsection{Implementation}
 
-This section describes the chosen technologies and resources for the various aspects for the implementation, showin in Figure \ref{fig:hla_design_implmementation} of the design in section \ref{subsection:hld}.
+This section describes the chosen technologies and resources for the various aspects for the implementation, shown in Figure \ref{fig:hla_design_implmementation} of the design in section \ref{subsection:hld}.
 
 \begin{figure}[h!]
 	\begin{center}
-		\includegraphics[scale=0.7]{../images/HLA_Pre_Implementation_v2.png} 
+		\includegraphics[scale=0.65]{../images/HLA_Implementation_v1_Entites.png} 
 		\caption{High Level Design - Implementation}
 		\label{fig:hla_design_implmementation}
 	\end{center}
@@ -1061,7 +1077,8 @@ This section describes the chosen technologies and resources for the various asp
 The Task Manager performs the following tasks:
 
 \begin{itemize}
-    \item Obtains the list of domains from the domain list source (\texttt{https://tranco-list.eu/top-1m.csv.zip})
+	\setlength\itemsep{0.1em}
+    \item Obtains the list of domains from the domain list source \newline (\texttt{https://tranco-list.eu/top-1m.csv.zip})
     \item Create the tasks directly in the Datastore (MongoDB)
     \item Create an archive of the tasks via the Task API
     \item Delete tasks from the Datastore
@@ -1073,6 +1090,7 @@ The Task Manager performs the following tasks:
 The task manager was developed in python as it:
 
 \begin{itemize}
+	\setlength\itemsep{0.1em}
     \item Is a relatively high-level programming language which aids in being easier to learn than a more low-level language
     \item Has many libraries, resources freely available online
     \item There is a large global community generally willing to help
@@ -1104,6 +1122,7 @@ A NOSQL database is designed to store arbitrary length and a non pre-defined con
 The MongoDB database technology was chosen as it:
 
 \begin{itemize}
+	\setlength\itemsep{0.1em}
     \item Is relatively mature
     \item Has a community version (i.e. free)
     \item Many programming languages have pre-existing support (libraries)
@@ -1123,7 +1142,9 @@ The intended clients of the API is the Task Agent (for running and updating the 
 
 \vspace{0.3cm} \noindent
 The Task API can perform the following functions:
+
 \begin{itemize}
+	\setlength\itemsep{0.1em}
     \item Allow a client to retrieve one or more tasks via a HTTP GET request
     \item Allow the following datastore filtering via url arguments when a HTTP GET request is made:
     \item Task Status (e.g completed)
@@ -1132,9 +1153,10 @@ The Task API can perform the following functions:
     \item Allow a client to update one or more tasks via a HTTP GET request
 \end{itemize}
 
+\vspace{0.6cm} \noindent
 GO (also referred to as Golang) was chosen as the programming language to implement the API as it:
-
 \begin{itemize}
+	\setlength\itemsep{0.1em}
     \item Is a relatively low language which helps with improving performance
     \item Is one of the easier lower-level languages to learn as it is one of the GO core principles
     \item Has the ability to run tasks concurrently (the more domains scanned concurrently the faster the scan of all domains can be completed)
@@ -1174,6 +1196,7 @@ Grafana was chosen as it is free and offers the ability to create basic alerts.
 Alerts were configured to fire under the following conditions:
 
 \begin{itemize}
+	\setlength\itemsep{0.1em}
     \item If there were zombie tasks
     \item If the number of tasks being processed dropped below a certain value over a specific amount of time for a task agent if there were tasks waiting to be processed
 \end{itemize}
