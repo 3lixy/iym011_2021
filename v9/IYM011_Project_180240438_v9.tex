@@ -35,6 +35,7 @@
 \newcolumntype{D}{>{\centering\arraybackslash}m{3cm}}
 \newcolumntype{E}{>{\centering\arraybackslash}m{5cm}}
 \newcolumntype{F}{>{\centering\arraybackslash}m{8cm}}
+\newcolumntype{G}{>{\centering\arraybackslash}m{13cm}}
 
 
 
@@ -42,6 +43,21 @@
 
 \begin{document}
 \pagenumbering{gobble} %diable page numbering until set again
+
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Draft v9
+
+\vspace{3cm}
+\today
+\end{huge}
+\end{center}
+\vspace{\fill}
+
+\newpage
+
+
 \author{Student Number: 180240438	}
 \title{Measuring Adoption of Security Features in the HTTPS Ecosystem}
 %\studentname set from titlePage.sty
@@ -64,7 +80,7 @@ I declare that this assignment is all my own work and that I have acknowledged a
   \begingroup
     \setstretch{2}
     \noindent\textsf{Student Name} \vspace{0.5cm}\\
-    \noindent\textsf{26st March 2018}
+    \noindent\textsf{\today}
   \endgroup
   \end{flushleft}
 
@@ -186,11 +202,7 @@ Executive Summary
 
 Describe structure of the introduction
 
-\subsection{Motivation}
-
-Motivation for the project
-
-\subsection{Objectives}
+\section{Objectives and Scope}
 
 The objectives of this project are:
 \begin{itemize}
@@ -200,54 +212,12 @@ The objectives of this project are:
   \item Objective 4
   \item Objective 5
 \end{itemize}  
-  
-\subsection{Structure of the Report}
-
-Describe structure of the whole report
 
 \newpage
 
 \section{Document Structure}
 
 Describe structure of the upcoming sections
-
-\newpage
-
-\section{Sample Section For Latex Reference}
-
-Background research section
-
-\subsection{Figure}
-
-A paragrph \newline
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[scale=0.4]{../images/figure_1.png} 
-\caption{Different malware characterizations in smart devices \cite{SuarezTangil2014}}
-\label{Figure 1: Different malware characterizations in smart devices }
-\end{center}
-\end{figure}
-
-\clearpage
-
-\subsection{Item List}
-
-\subsubsection{Algorithm}
-
-Sub-subsection 1 of the proposed solution.
-
-\begin{algorithm}
-\caption{Algorithm 1}\label{euclid}
-\begin{algorithmic}
-\If {$A$ intersect with $B$ is $True$}
-	\State {\textit{A intersects}}
-\ElsIf{$A$ = $C$}
-	\State {\textit{A equals C}}
-\Else \State {\textit{A does not intersect with B and is not equal to C}}
-\EndIf   
-\end{algorithmic}
-\end{algorithm}
 
 \newpage
 
@@ -879,7 +849,6 @@ This allowed the extraction of private memory which could lead to the ex-filtrat
 \vspace{0.6cm} \noindent
 \textbf{FREAK (2015)}
 
-
 \vspace{0.2cm} \noindent
 The 2015 FREAK shed light that the OpenSSL library would accept weak RSA encryption keys, from the use of export grade cipher suites, during a full-strength RSA TLS handshake. A malicious actor would force the client to use such a weak key by sending a SeverKeyExchange TLS protocol message to the client. If such a weak key was used the malicious actor could capture the traffic, brute force the key within a matter of hours and decrypt the captured traffic. The removal of export grade cipher suites on the server would stop this attack \cite{Ristic2017-aj,Beurdouche2015-ga}.
 
@@ -901,7 +870,6 @@ Passive data collection is capturing TLS connection data as it flows through net
 
 \vspace{0.3cm} \noindent
 Third Party data sets is the use of data collected by another entity that is using passive and or active collection. The only infrastructure that should be needed by the researcher would be that needed to analyse the data. There is great trust that the third party has conducted the data collection in a way that makes the analysis of meaningful use.
-
 
 \subsection{Scanning Targets}
 Active data collection, for the purpose of measuring security mechanism adoption, requires a list of entities to collect data from. Generating a list of domains to scan on ones own could be potentially quite an arduous task. Using resources that contain collections of domains is a much easier task assuming the collection is of high relevance to the research that is to be conducted.
@@ -1009,6 +977,216 @@ Whilst this is generally enough for the reader to understand the high-level meth
 
 \newpage
 
+\section{Methodology}
+
+\subsection{Requirements}
+
+The scanner is to obtain the following information from a large number of domains:
+
+\begin{itemize}
+    \item If the domain redirects from http:// to https://
+    \item If the domain redirects from https:// to http://
+    \item The TLS version(s) the domain supports
+    \item The TLS version auto negotiated against the domain
+    \item If the domain meets the HSTS Preload requirements
+    \item The HTTP security headers, including their values, in use by the domain
+    \item The content of the security.txt of the domain
+\end{itemize}
+
+\subsection{High Level Design}
+\label{subsection:hld}
+
+This section covers the high-level design, represented in Figure \ref{fig:hla_design}, for the scanning of domains to provide the data required as stated in the above requirements section. 
+
+%\clearpage
+
+\begin{figure}[p]
+	\begin{center}
+		\includegraphics[scale=0.5]{../images/HLA_Pre_Implementation_v1.png} 
+		\caption{High Level Design}
+		\label{fig:hla_design}
+	\end{center}
+\end{figure}
+
+\begin{table}[p]
+  \begin{center}
+    \begin{tabular}{|l|G|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{\#} & \textbf{Description}\\
+      \hline
+      1 & A list of domains will be acquired to scan against \\
+      \hline
+      2 & For the domains in the domain list a task manager will create a “task”, to be stored in a datastore, representing a domain to be scanned \\
+      \hline
+      3 & Metrics on the state of tasks will be sent to a time series database \\
+      \hline
+      4 & A task agent will poll an API for a new batch of tasks \\
+      \hline
+      5 & A task agent will per for each task to scan a domain \\
+      \hline
+      6 & A task agent will send the result of a domain scan to an api to be stored in a datastore \\
+      \hline
+      7 & A task manager, once all tasks are completed, will extracted all tasks from the database to a offline archival format \\
+      \hline
+      8 & A task manager, once all tasks are completed, will delete all the tasks from the datastore \\
+      \hline
+    \end{tabular}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Descriptions for Figure \ref{fig:hla_design}}
+    \label{table:hla_design} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\clearpage
+\newpage
+
+\subsection{Implementation}
+
+This section describes the chosen technologies and resources for the various aspects for the implementation, showin in Figure \ref{fig:hla_design_implmementation} of the design in section \ref{subsection:hld}.
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[scale=0.7]{../images/HLA_Pre_Implementation_v2.png} 
+		\caption{High Level Design - Implementation}
+		\label{fig:hla_design_implmementation}
+	\end{center}
+\end{figure}
+
+\clearpage
+
+\newpage
+
+\subsubsection{[A] Task Manager}
+
+The Task Manager performs the following tasks:
+
+\begin{itemize}
+    \item Obtains the list of domains from the domain list source (\texttt{https://tranco-list.eu/top-1m.csv.zip})
+    \item Create the tasks directly in the Datastore (MongoDB)
+    \item Create an archive of the tasks via the Task API
+    \item Delete tasks from the Datastore
+    \item Identify Zombie Tasks (tasks that have been marked as started but not complete after a certain amount of time)
+    \item Generate task metrics and store them directly in the time series DB (Influx DB)
+\end{itemize}
+
+\noindent
+The task manager was developed in python as it:
+
+\begin{itemize}
+    \item Is a relatively high-level programming language which aids in being easier to learn than a more low-level language
+    \item Has many libraries, resources freely available online
+    \item There is a large global community generally willing to help
+    \item Being such a popular language, issues that one may come across may have already been encountered and solved already
+    \item Is cross platform, i.e. will run on any computer than can execute python code
+\end{itemize}
+
+\subsubsection{[B] Task Manager}
+
+As previously mentioned similar research to this project have used pre-compiled lists, predominantly using the Alex Top Sites list \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}.
+
+\vspace{0.3cm} \noindent
+The research conducted by the Tranco team \cite{Le_Pochat2018-ql}, who provide the Tranco domain list \cite{noauthor_undated-mt},  identified that after comparing several most popular domain lists that that differ on the rankings for the same domain, domains present in the list can vary wildly on a day to day basis and are susceptible to influence by manicous actors.
+
+\vspace{0.3cm} \noindent
+As a result of this paper and that the Tranco list uses other top site lists to influence their list, the Tranco list \cite{noauthor_undated-mt} was chosen for the domains to can for this project.
+
+\subsubsection{[C] Datastore}
+
+The datastore is intended to only be an ephemeral store as it will only store the tasks until they have been completed.
+
+\vspace{0.3cm} \noindent
+The data that will be returned by the task agent of arbitrary length and content a relation database is not the optimal choice as it is based on having one or more “tables” that relate to one another.
+
+\vspace{0.3cm} \noindent
+A NOSQL database is designed to store arbitrary length and a non pre-defined content structure.
+
+\vspace{0.3cm} \noindent
+The MongoDB database technology was chosen as it:
+
+\begin{itemize}
+    \item Is relatively mature
+    \item Has a community version (i.e. free)
+    \item Many programming languages have pre-existing support (libraries)
+    \item Has native support for unstructured data
+    \item Has detailed online documentation
+\end{itemize}
+
+\subsubsection{[D] Task API}
+
+The Task API is meant purely as a common interface for the task agent such that the datastore can be changed without the need to modify the task agent.
+
+\vspace{0.3cm} \noindent
+The HTTP protocol was chosen as the interface to the API as it is a very well-known and a standard protocol to use for API’s.
+
+\vspace{0.3cm} \noindent
+The intended clients of the API is the Task Agent (for running and updating the tasks) and the Task Manager (for creating an offline archive once all tasks have completed for later analysis)
+
+\vspace{0.3cm} \noindent
+The Task API can perform the following functions:
+\begin{itemize}
+    \item Allow a client to retrieve one or more tasks via a HTTP GET request
+    \item Allow the following datastore filtering via url arguments when a HTTP GET request is made:
+    \item Task Status (e.g completed)
+    \item Task Unique ID
+    \item Sort by Unique ID
+    \item Allow a client to update one or more tasks via a HTTP GET request
+\end{itemize}
+
+GO (also referred to as Golang) was chosen as the programming language to implement the API as it:
+
+\begin{itemize}
+    \item Is a relatively low language which helps with improving performance
+    \item Is one of the easier lower-level languages to learn as it is one of the GO core principles
+    \item Has the ability to run tasks concurrently (the more domains scanned concurrently the faster the scan of all domains can be completed)
+    \item There are several community modules for GO to communicate with MongoDB, the chosen datastore for this project
+    \item Has numerous community modules for GO for the purpose of creating an HTTP API
+\end{itemize}
+
+\subsubsection{[E] Task Agent}
+
+The task agent will be obtaining tasks from the Task API, that will contain the required information to allow the task agent to conduct scans against domains.
+
+\vspace{0.3cm} \noindent
+Below is a High Level flow chart for the process of performing a domain scanning Task.
+
+\vspace{0.3cm} \noindent
+As with the Task API the Task Agent will use the programming language GO.
+
+\subsubsection{[F] Domain}
+
+This is the target domain of a task being performed by the Task Agent
+
+\subsubsection{[G] Time Series Database}
+
+The Task Manager will create metrics about tasks and send then to the time series database (InfluxDB). Time series databases are optimise metrics that are time bound which is this type of database was chosen to store the metrics.
+
+\vspace{0.3cm} \noindent
+Influx DB was chosen as it is relatively modern and found to be quick and easy to setup whilst also having a community (free) version available.
+
+\subsubsection{[H] Metric Grapher}
+
+A metric grapher allows the user to create charts to represent data points. In the case of this project a metric grapher was used to generate basic graphs about the state of tasks for monitoring purposes.
+
+\vspace{0.3cm} \noindent
+Grafana was chosen as it is free and offers the ability to create basic alerts.
+
+\vspace{0.3cm} \noindent
+Alerts were configured to fire under the following conditions:
+
+\begin{itemize}
+    \item If there were zombie tasks
+    \item If the number of tasks being processed dropped below a certain value over a specific amount of time for a task agent if there were tasks waiting to be processed
+\end{itemize}
+
+\subsubsection{[I] All Tasks Archive}
+
+Once all tasks have been processed the Task Manager will use the Task API to create a gzip compressed tar file archive containing a json structured representation for each task.
+
+\vspace{0.3cm} \noindent
+This compressed archive is later stored on a file server for later analysis.
+
+\newpage
+
 \bibliographystyle{IEEEtran}
 %Mendeley automatically generatex BibTex file to be included
 \bibliography{IEEEabrv,library}
@@ -1016,9 +1194,23 @@ Whilst this is generally enough for the reader to understand the high-level meth
 \newpage
 
 \begin{appendices}
-\section{Title of Appendix}
+\section{Sample Latex Appendix}
 
-Some text.
+\subsubsection{Algorithm}
+
+Sub-subsection 1 of the proposed solution.
+
+\begin{algorithm}
+\caption{Algorithm 1}\label{euclid}
+\begin{algorithmic}
+\If {$A$ intersect with $B$ is $True$}
+	\State {\textit{A intersects}}
+\ElsIf{$A$ = $C$}
+	\State {\textit{A equals C}}
+\Else \State {\textit{A does not intersect with B and is not equal to C}}
+\EndIf   
+\end{algorithmic}
+\end{algorithm}
 
 \end{appendices}
 
