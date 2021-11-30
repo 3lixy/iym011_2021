@@ -1100,10 +1100,10 @@ The task manager was developed in python as it:
 
 \subsubsection{[B] Task Manager}
 
-As previously mentioned similar research to this project have used pre-compiled lists, predominantly using the Alex Top Sites list \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}.
+As previously mentioned, similar research to this project have used pre-compiled lists, predominantly using the Alex Top Sites list \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}.
 
 \vspace{0.3cm} \noindent
-The research conducted by the Tranco team \cite{Le_Pochat2018-ql}, who provide the Tranco domain list \cite{noauthor_undated-mt},  identified that after comparing several most popular domain lists that that differ on the rankings for the same domain, domains present in the list can vary wildly on a day to day basis and are susceptible to influence by manicous actors.
+The research conducted by the Tranco team \cite{Le_Pochat2018-ql}, who provide the Tranco domain list \cite{noauthor_undated-mt}, compared several of the "most popular domains" lists and identified that domains present in the list can vary wildly on a day to day basis and are susceptible to influence by malicious actors.
 
 \vspace{0.3cm} \noindent
 As a result of this paper and that the Tranco list uses other top site lists to influence their list, the Tranco list \cite{noauthor_undated-mt} was chosen for the domains to can for this project.
@@ -1210,8 +1210,67 @@ This compressed archive is later stored on a file server for later analysis.
 
 \newpage
 
+\section{Ethical Considerations}
+
+It is not feasible to request permission to conduct internet measurement scans from the desired targets. This means that researches should take it upon themselves to evaluate their methodology for ethical considerations in the absence of permission to conduct such research.
+
+\vspace{0.3cm} \noindent
+The ethical considerations as outlined in \cite{Amann2017-co,Partridge2016-ph,Durumeric2015-zq,Kumar2017-qw} were considered for this research.
+
+\vspace{0.3cm} \noindent
+During the literature research, not all research that was of a similar nature contained ethical considerations. One would hope that ethic consideration was performed in the research, but should be outlined if only minimally.
+
+\subsection{Service Degradation}
+
+Using a list "Tranco List" which is a "most popular" type of domain lists reduces the chance of service degradation as the more popular a domain is the more resources it is likely has which reduces the impact of the measurement analysis
+
+\vspace{0.3cm} \noindent
+For the purpose of obtaining the HTTP headers of a domain the "Home Page" of the domains are requested which are more likely to be cached than other pages.
+
+\vspace{0.3cm} \noindent
+To determine the TLS versions supported by a domain, other than that used on the HTTPS request to the home page, raw TLS only connections are attempted which reduces the service impact as HTTP requests will add additional load over raw TLS connections. Additionally raw TLS connections are only attempted if an HTTPS connection was succuessfull to a domain's home page.
+
+\vspace{0.3cm} \noindent
+Whilst obtaining if a domain meets the HSTS preload requirements of a domain, it is first checked if a url has already been requested (including redirects) that is needed, to avoid the duplication of requests unnecessarily.
+
+\vspace{0.3cm} \noindent
+There is no retry logic for a request to a domain to additionally reduce service degradation of the target domain.
+
+\vspace{0.3cm} \noindent
+Randomisation, as  is another potential tactic however as the research uses a domain list rather than ip addresses and thus for randomisation to be effective the ip addresses would need to be pre resolved which is not being undertaken in this research.
+
+\subsection{Exploitation}
+
+The software used to conduct the research against domains does not attempt to:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item Send malformed requests
+    \item Login
+    \item Exploit vulnerabilities
+    \item Access hidden/private paths/urls
+\end{itemize}
+
+\subsection{Information Disclosure}
+
+As this research obtains publicly available information and is not revealing vulnerabilities about any particular domain, there is not a concern of exposing information about domains that may revel vulnerability.
+
+\subsection{Abuse Reports}
+
+As the domains being scanned have not given permission for research to be conducted upon them, the ip addresses that conduct the research have rDNS (reverse DNS) entries configures such that complaints/enquires can be submitted.
+
+\vspace{0.3cm} \noindent
+The cloud service providers for the servers that conduct the research have easy to use interfaces to allow responses to abuse reports should they be submitted.
+
+\vspace{0.3cm} \noindent
+The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an ip address can host more than one domain and a complaint may ask to block an ip address range.
+
+
+\newpage
+
 \bibliographystyle{IEEEtran}
-%Mendeley automatically generatex BibTex file to be included
+
+
 \bibliography{IEEEabrv,library}
 
 \newpage
