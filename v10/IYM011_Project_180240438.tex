@@ -15,6 +15,7 @@
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage[normalem]{ulem}
+%\usepackage[clean]{svg}
 \useunder{\uline}{\ul}{}
 \usepackage[title]{appendix}
 \usepackage{tocloft}
@@ -1169,10 +1170,23 @@ GO (also referred to as Golang) was chosen as the programming language to implem
 The task agent will be obtaining tasks from the Task API, that will contain the required information to allow the task agent to conduct scans against domains.
 
 \vspace{0.3cm} \noindent
-Below is a High Level flow chart for the process of performing a domain scanning Task.
+As with the Task API the Task Agent will use the programming language GO.
 
 \vspace{0.3cm} \noindent
-As with the Task API the Task Agent will use the programming language GO.
+Below is a high level flow chart for the process of performing a domain scanning Task for \texttt{example.com}.
+
+\begin{figure}[p]
+	\begin{center}
+		\includegraphics[scale=0.75]{../images/Task_Flow_v2.jpg}
+%		\includesvg[width=0.75](myfig.svg)
+%        \input{test.pdf_tex}
+		\caption{High Level Task Flow}
+		\label{fig:task_hla}
+	\end{center}
+\end{figure}
+
+\clearpage
+\newpage
 
 \subsubsection{[F] Domain}
 
@@ -1208,7 +1222,14 @@ Once all tasks have been processed the Task Manager will use the Task API to cre
 \vspace{0.3cm} \noindent
 This compressed archive is later stored on a file server for later analysis.
 
+\subsection{Deployment}
+
+
+
 \newpage
+
+
+
 
 \section{Ethical Considerations}
 
@@ -1265,6 +1286,9 @@ The cloud service providers for the servers that conduct the research have easy 
 \vspace{0.3cm} \noindent
 The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an ip address can host more than one domain and a complaint may ask to block an ip address range.
 
+\newpage
+
+\section{Analysis}
 
 \newpage
 
