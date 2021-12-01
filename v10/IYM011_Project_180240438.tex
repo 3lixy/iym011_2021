@@ -1058,6 +1058,7 @@ This section covers the high-level design, represented in Figure \ref{fig:hla_de
 \newpage
 
 \subsection{Implementation}
+\label{section:Implementation}
 
 This section describes the chosen technologies and resources for the various aspects for the implementation, shown in Figure \ref{fig:hla_design_implmementation} of the design in section \ref{subsection:hld}.
 
@@ -1173,11 +1174,11 @@ The task agent will be obtaining tasks from the Task API, that will contain the 
 As with the Task API the Task Agent will use the programming language GO.
 
 \vspace{0.3cm} \noindent
-Below is a high level flow chart for the process of performing a domain scanning Task for \texttt{example.com}.
+Below is a high level flow chart for the process of performing a domain scanning Task for domain  \texttt{example.com}.
 
 \begin{figure}[p]
 	\begin{center}
-		\includegraphics[scale=0.75]{../images/Task_Flow_v2.jpg}
+		\includegraphics[scale=0.75]{../images/Task_Flowv2.png}
 %		\includesvg[width=0.75](myfig.svg)
 %        \input{test.pdf_tex}
 		\caption{High Level Task Flow}
@@ -1224,12 +1225,59 @@ This compressed archive is later stored on a file server for later analysis.
 
 \subsection{Deployment}
 
+The components as outlined in Section \ref{section:Implementation} were deployed using cloud infrastructure as detailed in Table \ref{table:implmentation_cloud}.
 
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Components} & \textbf{OS} & \textbf{\# vCPU} & \textbf{RAM} & \textbf{SSD} & \textbf{Qty}\\
+      \hline
+      MongoDB & FreeBSD 12.2 & 2 & 2GB & 25GB SSD & 1 \\
+      \hline
+      InfluxDB$+$Grafana & FreeBSD 12.2 & 1 & 1GB & 25GB SSD & 1 \\
+      \hline
+      Task API & FreeBSD 12.2 & 1 & 1GB & 25GB SSD & 1 \\
+      \hline
+      Task Agent & FreeBSD 13.0 & 1 & 512MB & 60GB SSD & 5 \\
+      \hline
+    \end{tabular}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Cloud Infrastructure}
+    \label{table:implmentation_cloud} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\vspace{0.3cm} \noindent
+FreeBSD 13.0 was used for the task agents as it was the most recent version available at the time of deployment. There were no performance or security issues identified that required the effort to upgrade the components that remained on FreeBSD 12.2.
+
+\vspace{0.3cm} \noindent
+The number of Task Agents deployed was 5 such that the scanning could be conducted well within 24 hours to allow a reasonable amount of time to rectify issues should they occur. The average time for all 1 million tasks to be completed is approximately 11 hours.
+
+\subsubsection{Automation}
+
+The Task Manager is scheduled to obtain the latest Tranco domain list and create tasks to scan each day at 0000 UTC. This will only occur if the previous day was completed successfully.
+
+\vspace{0.3cm} \noindent
+The Task Manager is scheduled to check if all the tasks have been completed between 1000 UTC to 2300 UTC. Once all tasks have been completed to create the "All Tasks Archive" and then delete the tasks in the MonogDB datastore. Each "All Tasks Archive" is approximately 4GB in size.
+
+\vspace{0.3cm} \noindent
+The Task Agents continually look for new tasks to perform and queue up to 100 concurrent tasks.
+
+\subsubsection{Issues Encountered}
+
+\textbf{Zombie Tasks}
+
+\vspace{0.2cm} \noindent
+A zombie task is one where it is started but does not complete within a set amount of time. For this research the duration limit for a task deemed to be a zombie task is 120 minutes (2hours). This occurred less than one task per 10 million tasks performed. When a zombie task was detected it was reset and re-attempted. All reset tasks completed successfully. It was not looked into why zombie tasks occurred as the rate was so low it was not an efficient use of time and would not affect the research results as the tasks were successfully re-attempted.
+
+\vspace{0.6cm} \noindent
+\textbf{Data Loss}
+
+\vspace{0.2cm} \noindent
+An unexpected permanent loss of access to the storage location the "All Tasks Archives" were stored, resulted in the permanent loss of several days worth of scan archives. Since this incident, scan archives are stored in more than one location within several hours of a scan archive being created.
 
 \newpage
-
-
-
 
 \section{Ethical Considerations}
 
@@ -1285,6 +1333,9 @@ The cloud service providers for the servers that conduct the research have easy 
 
 \vspace{0.3cm} \noindent
 The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an ip address can host more than one domain and a complaint may ask to block an ip address range.
+
+\vspace{0.3cm} \noindent
+There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which state a request for "assistance in verifying possible malicious activity being hosted on a system registered to you". The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating the the request was made for the purpose of internet research.
 
 \newpage
 
