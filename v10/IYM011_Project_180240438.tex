@@ -177,16 +177,18 @@ Executive Summary
 \textbf{Transport Layer Security} A protocol, successor of the SSL protocol, to establish a secure communications channel mainly used by the HTTP protocol \par
 
 \end{hangparas}
-
+\clearpage
 \newpage
 
 \addcontentsline{toc}{section}{\listfigurename}
 \listoffigures
 
+\clearpage
 \newpage
 \addcontentsline{toc}{section}{\listtablename}
 \listoftables
 
+\clearpage
 \newpage
 
 %\printglossary[type=\acronymtype,title=List of Abbreviations,nonumberlist]
@@ -493,23 +495,23 @@ This project will be analysing the directives in table \ref{table:cpsdirectives1
 
 \begin{table}[h!]
   \begin{center}
-    \begin{tabular}{|l|F|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+    \begin{tabular}{|l|F|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
       \hline
-      \textbf{Directive} & \textbf{Restrictive Context Sources}\\
+      \textbf{Directive} & \textbf{Restrictive Context Sources} & CSP Level\\
       \hline
-      script-src & script sources: e.g. <script> elements, inline script blocks and XSLT stylesheets \\
+      script-src & script sources: e.g. \texttt{$<$script$>$} elements, inline script blocks and XSLT stylesheets & 1 \\
       \hline
-      connect-src & The URLs being called from scripts e.g. XMLHttpRequest requests \\
+      connect-src & The URLs being called from scripts e.g. XMLHttpRequest requests & 1 \\
       \hline
-      style-src & Style sources: e.g. \texttt{$<$style$>$} elements and \texttt{$<$link rel='stylesheet'$>$ elements} \\
+      style-src & Style sources: e.g. \texttt{$<$style$>$} elements and \texttt{$<$link rel='stylesheet'$>$ elements} & 1\\
       \hline
-      img-src & Image sources: e.g. \texttt{$<$img$>$} elements \\
+      img-src & Image sources: e.g. \texttt{$<$img$>$} elements & 1\\
       \hline
-      child-src & web worker sources and child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) \\
+      child-src & web worker sources and child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 2\\
       \hline
-      frame-src & child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) \\
+      frame-src & child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1\\
       \hline
-      default-src & Fall-back for interactions that are covered by CSP but not specified in other directives \\
+      default-src & Fall-back for interactions that are covered by CSP but not specified in other directives & 1\\
       \hline
     \end{tabular}
 %    \captionsetup{width=.75\textwidth}
@@ -530,7 +532,7 @@ The values below are keywords that can be used as values for directives:
 	\item \texttt{'unsafe-eval'} – Permits the use of mechanisms, such as eval(), which transform plain text into executable code
 \end{itemize}
 
-Both \texttt{'unsafe-inline'} and \texttt{'unsafe-eval'} are deemed to be dangerous as inline resources and the use of mechanisms such as eval() are attack vectors for malicious actors, hence the use of the prefix unsafe.
+Both \texttt{'unsafe-inline'} and \texttt{'unsafe-eval'} are deemed to be dangerous as inline resources and the use of mechanisms such as eval() are attack vectors for malicious actors, hence the use of the prefix \texttt{unsafe}.
 
 \subsubsection{Host}
 One or more "hosts" can be specified as values for a directive. The following are all valid examples of host values:
@@ -670,7 +672,7 @@ The page must not be rendered in any of the following html elements: \texttt{$<$
 \subsubsection{SAMEORIGIN}
 The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of page that contains the element is that of the page to be rendered in the element.
 
-\subsubsection{ALLOW-FROM <uri>}
+\subsubsection{ALLOW-FROM $<$uri$>$}
 Similar to the SAMEORIGIN but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
 
 \section{HTTP-Public-Key-Pins}
@@ -708,7 +710,7 @@ A set of criteria must be met in order to qualify to be included in the preload 
 
 \section{security.txt}
 The "security.txt" mechanism is to aid in informing security researchers how to disclose security issues found on a website \cite{Foudil2021-vh}.
-A file named “security.txt” should be place in either of the following two locations and served only over HTTPS:
+A file named "security.txt" should be place in either of the following two locations, with a Content-Type header of "text/plain", and served only over HTTPS:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
@@ -716,8 +718,9 @@ A file named “security.txt” should be place in either of the following two l
 	\item \texttt{/security.txt} (e.g. \texttt{https://example.com/security.txt})
 \end{itemize}
 
-\noindent
+\noindent \vspace{0.3cm}
 The RFC is currently in the draft stage and seeing updates as recently as May 2021
+
 
 \newpage
 
@@ -1253,6 +1256,13 @@ FreeBSD 13.0 was used for the task agents as it was the most recent version avai
 
 \vspace{0.3cm} \noindent
 The number of Task Agents deployed was 5 such that the scanning could be conducted well within 24 hours to allow a reasonable amount of time to rectify issues should they occur. The average time for all 1 million tasks to be completed is approximately 11 hours.
+
+\subsubsection{Parameters}
+
+TODO
+http timeout
+tls timeout
+max redirects
 
 \subsubsection{Automation}
 
