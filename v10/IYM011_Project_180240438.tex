@@ -497,7 +497,7 @@ This project will be analysing the directives in table \ref{table:cpsdirectives1
   \begin{center}
     \begin{tabular}{|l|F|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
       \hline
-      \textbf{Directive} & \textbf{Restrictive Context Sources} & CSP Level\\
+      \textbf{Directive} & \textbf{Restrictive Context Sources} & \textbf{CSP Level}\\
       \hline
       script-src & script sources: e.g. \texttt{$<$script$>$} elements, inline script blocks and XSLT stylesheets & 1 \\
       \hline
@@ -520,16 +520,35 @@ This project will be analysing the directives in table \ref{table:cpsdirectives1
   \end{center}
 \end{table}
 
-\subsection{Fetch Directive Value Types}
+\newpage
+
+\subsection{Defined in other standards}
+
+There are several CSP directives defined in other standards.
+
+\subsubsection{upgrade-insecure-requests}
+
+Converts any http:// request made by the browser to use https:// i.e. all http:// requests will be forced to use https://.
+
+\subsubsection{block-all-mixed-content}
+
+Does not allow the browser to make any http:// requests for assets if the page was loaded over https://. This directive is processed after the upgrade-insecure-requests is processed, should it be present.
+
+\subsection{Source Lists}
+
+Below are the types of sources for values of CSP directives.
 
 \subsubsection{Keyword}
 The values below are keywords that can be used as values for directives:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item \texttt{'none'} – does not allow the use of resources that apply to the directive in question
-	\item \texttt{'self'} – restricts the resources to the domain of the web page and does not include subdomains
-	\item \texttt{'unsafe-inline'} – Permits the resource to be inline,.e.g. a scripts code resides in a <script> element rather that in a separate file.
-	\item \texttt{'unsafe-eval'} – Permits the use of mechanisms, such as eval(), which transform plain text into executable code
+	\item \texttt{none} – does not allow the use of resources that apply to the directive in question
+	\item \texttt{self} – restricts the resources to the domain of the web page and does not include subdomains
+	\item \texttt{unsafe-inline} – Permits the resource to be inline,.e.g. a scripts code resides in a <script> element rather that in a separate file.
+	\item \texttt{unsafe-eval} – Permits the use of mechanisms, such as eval(), which transform plain text into executable code
+	\item \texttt{unsafe-allow-redirects} – Used with the \texttt{navigate-to} directive. Not currently supported in browsers.
+	\item \texttt{unsafe-hashes} – Allows the use of inline scripts if the script matches a hash in the \texttt{script-src} directive.
+	
 \end{itemize}
 
 Both \texttt{'unsafe-inline'} and \texttt{'unsafe-eval'} are deemed to be dangerous as inline resources and the use of mechanisms such as eval() are attack vectors for malicious actors, hence the use of the prefix \texttt{unsafe}.
@@ -558,20 +577,16 @@ Scheme values, referring the to protocol via which to access resources, may be u
 \subsubsection{Nonce}
 A nonce can be used to allow inline resources to be allowed without the need to use the dangerous \texttt{'unsafe-inline'} keyword. The nonce would need to be included in both the CSP Policy directive and the inline resource.
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 For example if an in-line script was required, only scripts from the same origin are to be allowed, and the nonce was to be \texttt{MyRandomNonce}, then the CSP Policy would be:
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 \texttt{Content-Security-Policy: script-src 'self' 'nonce- MyRandomNonce'}
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 The inline script would also have the nonce:
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 \texttt{$<$script nonce="MyRandomNonce"$>$...$<$/script$>$}
 
 
@@ -579,12 +594,10 @@ The inline script would also have the nonce:
 
 A hash (digest) value can be used for scripts, the script-src directive, and non-script elements, such as the style-src directive. An example digest for the script-src directive:
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 \texttt{Content-Security-Policy: script-src 'sha256-MyHashDigest='}
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 If a digest value is present, each script element will be hashed and the resultant hash compared to the hash value in the directive and if a match occurs the script is deemed to be allowed.
 
 \subsection{Reporting Directives Value Types}
@@ -592,8 +605,7 @@ If a digest value is present, each script element will be hashed and the resulta
 \subsubsection{report-uri}
 Upon a CSP Policy violation and a value is present for report-uri, the browser will send a report to the location specified for report-uri. The report is in the form of JSON document(s) and sent using the HTTP POST method. An example report-uri configuration can be seen below:
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 \texttt{Content-Security-Policy: ...; report-uri https://report.example.com;}
 
 \newpage
@@ -678,10 +690,10 @@ Similar to the SAMEORIGIN but only for \texttt{$<$frame$>$} elements. This is di
 \section{HTTP-Public-Key-Pins}
 The HTTP-Public-Key-Pins (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
 
+\vspace{0.3cm} \noindent
 There have been several issues with HPKP such as HPKP Suicide \cite{Chen2018-ft,Chuat2021-nf} or Ransom PKP \cite{Chuat2021-nf} which are forms of Hostile Pinning \cite{Evans2018-mi}
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 HPKP mechanism is now deprecated by most modern web browsers.
 
 \newpage
@@ -1286,6 +1298,12 @@ A zombie task is one where it is started but does not complete within a set amou
 
 \vspace{0.2cm} \noindent
 An unexpected permanent loss of access to the storage location the "All Tasks Archives" were stored, resulted in the permanent loss of several days worth of scan archives. Since this incident, scan archives are stored in more than one location within several hours of a scan archive being created.
+
+\vspace{0.6cm} \noindent
+\textbf{Programming}
+
+\vspace{0.2cm} \noindent
+Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when there is a non standard  http code is received it will cause golang to panic and the program will terminate. There was a single domain that caused this issue and it was put in the deny list to overcome this issue.
 
 \newpage
 
