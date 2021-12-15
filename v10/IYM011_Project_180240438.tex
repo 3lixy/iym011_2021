@@ -327,7 +327,7 @@ TLS 1.2 was released as RFC5246 in 2008 \cite{Dierks2008-uy} which included a nu
 	\setlength\itemsep{0.1em}
 	\item IDEA and DES cipher suites were removed
 	\item Authenticated encryption was added
-	\item The extension "\UScore{signature_algorithms}" was added
+	\item The extension \texttt{\UScore{signature_algorithms}} was added
 \end{itemize}
 
 
@@ -354,17 +354,19 @@ The concept of SOP started in 1996 with the release of Netscape Navigator 2.0 \c
 
 \vspace{0.3cm}
 \noindent
-If the scheme (e.g. \texttt{https://}), port (e.g. 443) and host (e.g. images.exmaple.com) are the same for two URLs they are deemed to be in the same origin. The combination of scheme, port and host can be referred to as the origin tuple or triplet. The path of a URL after the origin triplet is NOT evaluated when origins are being compared, for example the origin of https://example.com/index.html is https://exmaple.com.
+If the scheme (e.g. \texttt{https://}), port (e.g. 443) and host (e.g. images.exmaple.com) are the same for two URLs they are deemed to be in the same origin. The combination of scheme, port and host can be referred to as the origin tuple or triplet. The path of a URL after the origin triplet is NOT evaluated when origins are being compared, for example the origin triplet of \texttt{https://example.com/index.html} is \texttt{https://exmaple.com}.
 
 \vspace{0.3cm}
 \noindent
-Table \ref{table:sopviolations1} shows same origin triplet violations via the comparison of origins to the origin https://shop.example.com/index.html.
+Table \ref{table:sopviolations1} shows some origin triplets via the comparison of origins to the origin \newline \texttt{https://shop.example.com/index.html}.
 
 \begin{table}[h!]
+%\tiny
   \begin{center}
+  \resizebox{\textwidth}{!}{
     \begin{tabular}{|l|D|E|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
       \hline
-      \textbf{URL} & \textbf{Same Origin Triplet Violation} & \textbf{Reasoning}\\
+      \multicolumn{1}{|{c}|}{\textbf{URL}} & \textbf{Same Origin Triplet Violation} & \textbf{Reasoning}\\
       \hline
       https://shop.example.com/books.html & No & The difference \newline is after the origin triplet\\
       \hline
@@ -376,7 +378,7 @@ Table \ref{table:sopviolations1} shows same origin triplet violations via the co
       \hline
       http://shop.example.com/index.html & Yes & The scheme of the origin triplet, http, is different.\\
       \hline
-    \end{tabular}
+    \end{tabular}}
     \caption{Same Origin triplet example violations}
     \label{table:sopviolations1} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
@@ -422,11 +424,11 @@ If the response from the target url contains the header Access-Control-Allow-Cre
 
 \subsubsection{Access-Control-Allow-Headers}
 
-This header can be present in the headers from a "preflight" (HTTP OPTIONS method request) response which determine the HTTP headers that are permitted to be used in the intended request.
+This header can be present in the headers from a ``preflight'' (HTTP OPTIONS method request) response which determine the HTTP headers that are permitted to be used in the intended request.
 
 \subsubsection{Access-Control-Allow-Methods}
 
-This header can be present in the headers from a "preflight" (HTTP OPTIONS method request) response which determine the HTTP methods (e.g. GET, HEAD) that are permitted to be used in the intended request.
+This header can be present in the headers from a ``preflight'' (HTTP OPTIONS method request) response which determine the HTTP methods (e.g. GET, HEAD) that are permitted to be used in the intended request.
 
 \subsubsection{Access-Control-Allow-Origin}
 
@@ -443,11 +445,11 @@ The duration for which a preflight response can be cached before another preflig
 \subsection{Request Headers}
 \subsubsection{Access-Control-Request-Headers}
 
-Optional header can be added to a "preflight" (HTTP OPTIONS method) request to specify the HTTP headers that are request to be used in the intended request.
+Optional header can be added to a ``preflight'' (HTTP OPTIONS method) request to specify the HTTP headers that are request to be used in the intended request.
 
 \subsubsection{Access-Control-Request-Method}
 
-Optional header can be added to a "preflight" (HTTP OPTIONS method) request to specify the HTTP methods (e.g. GET, HEAD) that are request to be used in the intended request.
+Optional header can be added to a ``preflight'' (HTTP OPTIONS method) request to specify the HTTP methods (e.g. GET, HEAD) that are request to be used in the intended request.
 
 \newpage
 
@@ -522,7 +524,7 @@ This project will be analysing the directives in table \ref{table:cpsdirectives1
 
 \newpage
 
-\subsection{Defined in other standards}
+\subsection{Directives defined in other standards}
 
 There are several CSP directives defined in other standards.
 
@@ -554,7 +556,7 @@ The values below are keywords that can be used as values for directives:
 Both \texttt{'unsafe-inline'} and \texttt{'unsafe-eval'} are deemed to be dangerous as inline resources and the use of mechanisms such as eval() are attack vectors for malicious actors, hence the use of the prefix \texttt{unsafe}.
 
 \subsubsection{Host}
-One or more "hosts" can be specified as values for a directive. The following are all valid examples of host values:
+One or more ``hosts'' can be specified as values for a directive. The following are all valid examples of host values:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
 	\item domain.com
@@ -620,16 +622,11 @@ Denies requests under either of the two below conditions:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item A request has a destination of type script-like (one of "audioworklet", "paintworklet", "script", "serviceworker", "sharedworker", or "worker") and the MIME type (from the Content-Type header) is not a JavaScript MIME type
-	\item A request has a destination of type style and the MIME type (from the Content-Type header) is not text/css
+	\item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type
+	\item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not text/css
 \end{itemize}
 
 \newpage
-
-\section{Access-Control-Allow-Origin}
-
-Access-Control-Allow-Origin is one of several headers that belongs to the Cross-Origin Request Sharing (CORS) mechanism, as stated in section \ref{section:Cross-Origin-Request-Sharing}, which specifies the origins that are allowed to access the resource being requested \cite{Apple2006-hk}
-
 
 \section{Cross-Origin-Embedder-Policy}
 The Cross-Origin-Embedder-Policy header provides a mechanism that does not allow any cross-origin resources from being loaded unless explicitly allowed to (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
@@ -649,11 +646,11 @@ The Cross-Origin-Resource-Policy header provides a mechanism that restricts whic
 
 \subsubsection{same-site}
 
-If the request initiator’s origin and the request destination’s origins are of the same site then load the resource. For example, if the request initiator’s origin is https://account.example.com/index.html and the request destination is https://signin.example.com/script.js, the resource can be loaded as both are of the same site example.com.
+If the request initiator’s origin and the request destination’s origins are of the same site then load the resource. For example, if the request initiator’s origin is \newline \texttt{https://account.example.com/index.html} and the request destination is \newline \texttt{https://signin.example.com/script.js}, the resource can be loaded as both are of the same site example.com.
 
 \subsubsection{same-origin}
 
-If the request initiator’s origin and the request destination’s origin are the same then load the resource. For example, if the request initiator’s origin is https://blog.example.com and the request destination is https://blog.example.com, the resource can be loaded as both are of the same origin https://blog.example.com.
+If the request initiator’s origin and the request destination’s origin are the same then load the resource. For example, if the request initiator’s origin is \texttt{https://blog.example.com} and the request destination is \texttt{https://blog.example.com}, the resource can be loaded as both are of the same origin \texttt{https://blog.example.com}.
 
 \subsubsection{cross-origin}
 
@@ -721,17 +718,17 @@ A set of criteria must be met in order to qualify to be included in the preload 
 \newpage
 
 \section{security.txt}
-The "security.txt" mechanism is to aid in informing security researchers how to disclose security issues found on a website \cite{Foudil2021-vh}.
-A file named "security.txt" should be place in either of the following two locations, with a Content-Type header of "text/plain", and served only over HTTPS:
+The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on a website \cite{Foudil2021-vh}.
+A file named ``security.txt'' should be place in either of the following two locations, with a Content-Type header of \texttt{text/plain}, and served only over HTTPS:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item \texttt{/.well-known/security.txt} (e.g. \texttt{https://example.com/.well-known/security.txt})
+	\item \texttt{/.well-known/security.txt} (e.g. \newline \texttt{https://example.com/.well-known/security.txt})
 	\item \texttt{/security.txt} (e.g. \texttt{https://example.com/security.txt})
 \end{itemize}
 
 \noindent \vspace{0.3cm}
-The RFC is currently in the draft stage and seeing updates as recently as May 2021
+The RFC is currently in the draft stage and seeing updates as recently as May 2021.
 
 
 \newpage
@@ -741,16 +738,16 @@ The RFC is currently in the draft stage and seeing updates as recently as May 20
 As communication technologies continually improve it has allowing and attracting an ever-increasing amount of people to interact with services on the internet. Malicious actors and security researches are attracted to this large user base being online interacting with online services such as those that: process payments \cite{Herman2019-zb}, provide online banking \cite{Gezer2019-oy} and that contain confidential information (e.g. medical related data) \cite{Mrdjenovich2020-vz}
 
 \vspace{0.3cm} \noindent
-[General Attacks Stats from 2020]
+TODO [General Attacks Stats from 2020]
 
 \vspace{0.3cm} \noindent
-2021-data-breach-investigations-report.pdf
+TODO 2021-data-breach-investigations-report.pdf
 
 \vspace{0.3cm} \noindent
-F-Secure-attack-landscape-h12020.pdf
+TODO F-Secure-attack-landscape-h12020.pdf
 
 \vspace{0.3cm} \noindent
-\UScore{2019_WhiteHatSecurity_StatsReport_TheDevSecOpsApproach.pdf}
+TODO \UScore{2019_WhiteHatSecurity_StatsReport_TheDevSecOpsApproach.pdf}
 
 \vspace{0.3cm} \noindent
 There are many entities that track trends and malicious activity, one of which is the non-profit organisation Open Web Application Security Project (OWASP) which works to advance the security of applications \cite{noauthor_undated-ta,Kellezi2021-nd}.
@@ -822,13 +819,13 @@ The 2018 Texthelp breach is one example of this type of attack where a malicious
 A clickjacking attack is in one which a user-initiated attack is hijacked to perform unwanted actions. A user is enticed to click on an element of a page, such as an image, however rather than an action or outcome the user expects to occur one determined by the attacker takes place. To undertake the attack a malicious site renders a web page from the target website within an iframe. The malicious site uses styling to show only what the attack desires of the target website \cite{Jamwal2018-tz}.
 
 \subsubsection{Historical Example}
-The Twitter Attack, also referred to as the "Twitter Bomb", begins by a user seeing a twitter post that contains the text "\texttt{Don't Click: http://tinyurl.com/amgzs6}" \cite{Jani2015-kw} and clicking on the link. Visiting the link will present the user with a page seemingly only containing only a single button ladled "\texttt{Don't Click}".
+The Twitter Attack, also referred to as the ``Twitter Bomb'', begins by a user seeing a twitter post that contains the text \texttt{Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and clicking on the link. Visiting the link will present the user with a page seemingly only containing only a single button ladled \texttt{Don't Click}.
 
 \vspace{0.3cm} \noindent
-Unbeknownst to the user, the twitter home page is also rendered on the page but in an invisible iframe. The \texttt{"Don't Click"} button is directly underneath the invisible “update” button, which posts a tweet, of the twitter home page. The iframe is configure to load the url \texttt{http://www.twitter.com/?status=Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and twitters \texttt{?status=} feature will pre-load the users tweet box with the status message.
+Unbeknownst to the user, the twitter home page is also rendered on the page but in an invisible iframe. The \texttt{Don't Click} button is directly underneath the invisible “update” button, which posts a tweet, of the twitter home page. The iframe is configure to load the url \texttt{http://www.twitter.com/?status=Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and twitters \texttt{?status=} feature will pre-load the users tweet box with the status message.
 
 \vspace{0.3cm} \noindent
-When the user clicks the \texttt{"Don't Click"} section of the page they are actually clicking the invisible \texttt{"update"} button of the twitter home page which posts the text \texttt{"Don’t Click: http://tinyurl.com/amgzs6"} \cite{Jani2015-kw} which helps to spread the message. There was no ill intent to this clickjacking attack and as such considered more of a prank.
+When the user clicks the \texttt{Don't Click} section of the page they are actually clicking the invisible \texttt{update} button of the twitter home page which posts the text \texttt{Don’t Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} which helps to spread the message. There was no ill intent to this clickjacking attack and as such considered more of a prank.
 \subsubsection{Security Mechanism(s) Providing Mitigation}
 
 \begin{itemize}
@@ -1120,7 +1117,7 @@ The task manager was developed in python as it:
 As previously mentioned, similar research to this project have used pre-compiled lists, predominantly using the Alex Top Sites list \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}.
 
 \vspace{0.3cm} \noindent
-The research conducted by the Tranco team \cite{Le_Pochat2018-ql}, who provide the Tranco domain list \cite{noauthor_undated-mt}, compared several of the "most popular domains" lists and identified that domains present in the list can vary wildly on a day to day basis and are susceptible to influence by malicious actors.
+The research conducted by the Tranco team \cite{Le_Pochat2018-ql}, who provide the Tranco domain list \cite{noauthor_undated-mt}, compared several of the ``most popular domains'' lists and identified that domains present in the list can vary wildly on a day to day basis and are susceptible to influence by malicious actors.
 
 \vspace{0.3cm} \noindent
 As a result of this paper and that the Tranco list uses other top site lists to influence their list, the Tranco list \cite{noauthor_undated-mt} was chosen for the domains to can for this project.
@@ -1281,7 +1278,7 @@ max redirects
 The Task Manager is scheduled to obtain the latest Tranco domain list and create tasks to scan each day at 0000 UTC. This will only occur if the previous day was completed successfully.
 
 \vspace{0.3cm} \noindent
-The Task Manager is scheduled to check if all the tasks have been completed between 1000 UTC to 2300 UTC. Once all tasks have been completed to create the "All Tasks Archive" and then delete the tasks in the MonogDB datastore. Each "All Tasks Archive" is approximately 4GB in size.
+The Task Manager is scheduled to check if all the tasks have been completed between 1000 UTC to 2300 UTC. Once all tasks have been completed to create the ``All Tasks Archive'' and then delete the tasks in the MonogDB datastore. Each ``All Tasks Archive'' is approximately 4GB in size.
 
 \vspace{0.3cm} \noindent
 The Task Agents continually look for new tasks to perform and queue up to 100 concurrent tasks.
@@ -1297,7 +1294,7 @@ A zombie task is one where it is started but does not complete within a set amou
 \textbf{Data Loss}
 
 \vspace{0.2cm} \noindent
-An unexpected permanent loss of access to the storage location the "All Tasks Archives" were stored, resulted in the permanent loss of several days worth of scan archives. Since this incident, scan archives are stored in more than one location within several hours of a scan archive being created.
+An unexpected permanent loss of access to the storage location the ``All Tasks Archives'' were stored, resulted in the permanent loss of several days worth of scan archives. Since this incident, scan archives are stored in more than one location within several hours of a scan archive being created.
 
 \vspace{0.6cm} \noindent
 \textbf{Programming}
@@ -1319,10 +1316,10 @@ During the literature research, not all research that was of a similar nature co
 
 \subsection{Service Degradation}
 
-Using a list "Tranco List" which is a "most popular" type of domain lists reduces the chance of service degradation as the more popular a domain is the more resources it is likely has which reduces the impact of the measurement analysis
+Using a list ``Tranco List'' which is a ``most popular'' type of domain lists reduces the chance of service degradation as the more popular a domain is the more resources it is likely has which reduces the impact of the measurement analysis
 
 \vspace{0.3cm} \noindent
-For the purpose of obtaining the HTTP headers of a domain the "Home Page" of the domains are requested which are more likely to be cached than other pages.
+For the purpose of obtaining the HTTP headers of a domain the ``Home Page'' of the domains are requested which are more likely to be cached than other pages.
 
 \vspace{0.3cm} \noindent
 To determine the TLS versions supported by a domain, other than that used on the HTTPS request to the home page, raw TLS only connections are attempted which reduces the service impact as HTTP requests will add additional load over raw TLS connections. Additionally raw TLS connections are only attempted if an HTTPS connection was succuessfull to a domain's home page.
@@ -1363,7 +1360,7 @@ The cloud service providers for the servers that conduct the research have easy 
 The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an ip address can host more than one domain and a complaint may ask to block an ip address range.
 
 \vspace{0.3cm} \noindent
-There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which state a request for "assistance in verifying possible malicious activity being hosted on a system registered to you". The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating the the request was made for the purpose of internet research.
+There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which state a request for ``assistance in verifying possible malicious activity being hosted on a system registered to you''. The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating the the request was made for the purpose of internet research.
 
 \newpage
 
