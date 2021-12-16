@@ -168,9 +168,9 @@ Executive Summary
 \textbf{Hypertext Markup Language} A standardised language to create documents \cite{Berners-Lee1995-hg} for instructing a web browser how a web page should be rendered/visualised. \par
 \textbf{Hypertext Transfer Protocol} A stateless application level protocol \cite{Berners-Lee1996-ji} for the transmission of data (e.g. HTML) typically between a website and a web browser. \par
 \vspace{0.5cm}
-\textbf{Multipurpose Internet Mail Extensions} is used to announce the intended format of a resource (e.g document or file) \cite{Freed2013-yn}. \par
+\textbf{Multi-purpose Internet Mail Extensions} is used to announce the intended format of a resource (e.g document or file) \cite{Freed2013-yn}. \par
 \vspace{0.5cm}
-\textbf{Universal Resource Locator} A specific type of URI that has a scheme (how to access) and a resource (where to access). The most basic form of a URI is as follows \texttt{$<$scheme$>$:$<$scheme-specific-part$>$}. An example URL is \texttt{https://www.example.com} \par
+\textbf{Universal Resource Locator} A specific type of URI that has a scheme (how to access) and a resource (where to access). The most basic form of a URI is as follows \texttt{$<$scheme$>$:$<$scheme-specific-part$>$}. An example URL is \newline \texttt{https://www.example.com} \par
 \vspace{0.5cm}
 \textbf{Secure Socket Layer} A protocol to establish a secure communications channel mainly used by the HTTP protocol \par
 \vspace{0.5cm}
@@ -271,23 +271,35 @@ Started with payments etc then the normal for all websites.
 \noindent The acronyms SSL and TLS are often used interchangeably to refer to the secure channel they provide, even though none of the SSL versions should be used any more due to the vulnerabilities and weaknesses of SSL 2.0 and SSL 3.0 \cite{Oppliger2016-ig}.
 
 \subsection{Security Services}
-\noindent The SSL/TLS mechanism provides several security services, as of the release of TLS 1.3 the main categories are: Confidentiality, Data Origin Authentication, Entity Authentication and Perfect Forward Secrecy
+\noindent The SSL/TLS mechanism provides several security services, as of the release of TLS 1.3 the main categories are: Confidentiality, Data Origin Authentication, Entity Authentication and Perfect Forward Secrecy.
 
 \subsubsection{Confidentiality}
 
-The secure channel that is established should be secure such that only the two entities that created it should be able to access the data transferred over it, thus preventing the ability for a third party to get access to the plaintext data.
+Confidentiality is the protection of data such that only those who have been given authorisation can access the data.
+
+\vspace{0.3cm} \noindent
+Two entities should be able to establish a SSL/TLS connection between one another such that only these two entities can access the data data being sent over it. This should result in any thirds parties that are able capture the traffic from being able to recover the data being sent over the SSL/TLS channel \cite{Martin2017-sx}.
 
 \subsubsection{Data origin authentication}
 
-As the secure channel is generally established over open networks (such as the internet) the data transmitted over it needs to be protected against manipulation by third parties who have the ability to alter the data, such as the changing the origin or content of the data, in transit.
+The purpose of Data origin authentication is to establish the integrity of the SSL/TLS channel data. This is accomplished using message authentication codes (MAC)  or authenticated encryption with associated data (AEAD) algorithms \cite{Ristic2017-aj} which use keys derived from when the SSL/TLS connection was established.
 
 \subsubsection{Entity Authentication}
 
-Both the server and the client need to be able to establish their respective identities to one another for the establishment of a secure channel. It is mandatory for the server to establish its identity to the client but optional for the client to establish its identity to the server.
+Entity Authentication provides the ability for an entity to prove their identity using mechanisms such as digital signatures.
+
+\vspace{0.3cm} \noindent
+In SSL/TLS Entity Authentication is mandatory and used to show that during the establishment of a SSL/TLS channel the client can verify that it really is communicating directly with the website/server they intended to. This is accomplished via the use of PKI (Public Key Infrastructure) with X.509 certificates and root stores. For further details on PKI please see \cite{Clark2013-sh,Holz2011-yv}
+
+\vspace{0.3cm} \noindent
+It is optional for a client to prove its identity using PKI during the establishment of the SSL/TLS channel.
 
 \subsubsection{Perfect forward secrecy}
 
-Mandatory as of TLS 1.3. The encryption keys used to secure the data transmitted over the secure channel must not be able to be recovered by the exposure of the servers private key.
+Perfect forward secrecy ensures that if the private key that is paired with certificate of a server/website was compromised, any SSL/TLS traffic that was captured being sent to or from this server could not be decrypted with the private key being revealed. This is accomplished via the use of Ephemeral Diffie-Hellman key exchange \cite{Martin2017-sx}.
+
+\vspace{0.3cm} \noindent
+Perfect forward secrecy is mandatory as of TLS 1.3 and as such RSA key exchange is not permitted.
 
 \subsection{Versions}
 
@@ -424,11 +436,11 @@ If the response from the target url contains the header Access-Control-Allow-Cre
 
 \subsubsection{Access-Control-Allow-Headers}
 
-This header can be present in the headers from a ``preflight'' (HTTP OPTIONS method request) response which determine the HTTP headers that are permitted to be used in the intended request.
+This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP headers that are permitted to be used in the intended request.
 
 \subsubsection{Access-Control-Allow-Methods}
 
-This header can be present in the headers from a ``preflight'' (HTTP OPTIONS method request) response which determine the HTTP methods (e.g. GET, HEAD) that are permitted to be used in the intended request.
+This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are permitted to be used in the intended request.
 
 \subsubsection{Access-Control-Allow-Origin}
 
@@ -445,11 +457,11 @@ The duration for which a preflight response can be cached before another preflig
 \subsection{Request Headers}
 \subsubsection{Access-Control-Request-Headers}
 
-Optional header can be added to a ``preflight'' (HTTP OPTIONS method) request to specify the HTTP headers that are request to be used in the intended request.
+Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP headers that are request to be used in the intended request.
 
 \subsubsection{Access-Control-Request-Method}
 
-Optional header can be added to a ``preflight'' (HTTP OPTIONS method) request to specify the HTTP methods (e.g. GET, HEAD) that are request to be used in the intended request.
+Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are request to be used in the intended request.
 
 \newpage
 
@@ -530,11 +542,11 @@ There are several CSP directives defined in other standards.
 
 \subsubsection{upgrade-insecure-requests}
 
-Converts any http:// request made by the browser to use https:// i.e. all http:// requests will be forced to use https://.
+Converts any \texttt{http://} request made by the browser to use \texttt{https://} i.e. all \texttt{http://} requests will be forced to use \texttt{https://}.
 
 \subsubsection{block-all-mixed-content}
 
-Does not allow the browser to make any http:// requests for assets if the page was loaded over https://. This directive is processed after the upgrade-insecure-requests is processed, should it be present.
+Does not allow the browser to make any \texttt{http://} requests for assets if the page was loaded over \texttt{https://}. This directive is processed after the upgrade-insecure-requests is processed, should it be present.
 
 \subsection{Source Lists}
 
@@ -735,30 +747,33 @@ The RFC is currently in the draft stage and seeing updates as recently as May 20
 
 \section{The Need for Security Mechanisms}
 
-As communication technologies continually improve it has allowing and attracting an ever-increasing amount of people to interact with services on the internet. Malicious actors and security researches are attracted to this large user base being online interacting with online services such as those that: process payments \cite{Herman2019-zb}, provide online banking \cite{Gezer2019-oy} and that contain confidential information (e.g. medical related data) \cite{Mrdjenovich2020-vz}
-
-\vspace{0.3cm} \noindent
-TODO [General Attacks Stats from 2020]
-
-\vspace{0.3cm} \noindent
-TODO 2021-data-breach-investigations-report.pdf
-
-\vspace{0.3cm} \noindent
-TODO F-Secure-attack-landscape-h12020.pdf
-
-\vspace{0.3cm} \noindent
-TODO \UScore{2019_WhiteHatSecurity_StatsReport_TheDevSecOpsApproach.pdf}
+As communication technologies continually improve, it has allowed and attracted an ever-increasing amount of people to interact with services on the internet. Malicious actors and security researches are drawn to this large online user base being interacting with online services such as those that:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item process payments \cite{Herman2019-zb}
+	\item provide online banking \cite{Gezer2019-oy}
+	\item contain confidential information (e.g. medical related data) \cite{Mrdjenovich2020-vz}
+	\item provide communication channels e.g. social networks and forums
+\end{itemize}
 
 \vspace{0.3cm} \noindent
 There are many entities that track trends and malicious activity, one of which is the non-profit organisation Open Web Application Security Project (OWASP) which works to advance the security of applications \cite{noauthor_undated-ta,Kellezi2021-nd}.
 
 \vspace{0.3cm} \noindent
-OWASP maintain a Top Ten list, determined using a publicised methodology, of the most important risks to web applications \cite{Kellezi2021-nd,noauthor_undated-kz}. In the 2021 Top Ten Report Injection attacks, of which Cross Site Scripting (XSS) is one variant, was ranked number three, had an average incident rate of 3\% and 274k occurrences \cite{noauthor_undated-gt}.
+OWASP maintain a Top Ten list, determined using a publicised methodology, which state the most important risks to web applications \cite{Kellezi2021-nd,noauthor_undated-kz}. In the 2021 Top Ten Report, Injection attacks (of which Cross Site Scripting (XSS) detailed in section \ref{subsection:XSS} is one variant) was ranked number three and of the 94\% of the applications they tested there was an average incident rate of 3\% and 274k occurrences \cite{noauthor_undated-gt}.
 
 \vspace{0.3cm} \noindent
-The following attacks are ones that can be mitigated by one or more of the security mechanisms described in the previous sections.
+The ``Global Data At Risk State of the Web'' 2020 report \cite{Tala_Security2020-ee} claims that on average, the top 1000 websites in the Alexa top one million website list, rely upon the 32 third party integrations. This gives a great opportunity for attackers to leverage the supply chain attack (detailed in section \ref{subsection:SupplyChain}) to compromise websites that may be harder to compromise directly. One such example of this attack is the 2018 Magecart attack on Ticktmaster \cite{Herman2019-zb} to steal payment information via the compromise of third party resources.
+
+\vspace{0.3cm} \noindent
+Due to the susceptibility of data traversing the internet being intercepted and attacked, its integrity and confidentially needs to be protected. For browser traffic this would achieved by the use of HTTPS, which uses SSL/TLS secure channels, instead of the insure HTTP. Unfortunately not all websites use HTTPS and or redirect to the HTTPS version should it exist. Governments are encouraging the use of HTTPS \cite{noauthor_undated-oz} as well as the community itself \cite{noauthor_undated-xk}. The general advice is that if one is in control of a website, it should be using HTTPS regardless of the websites purpose or content. 
+
+\vspace{0.3cm} \noindent
+The following attacks are ones that can be mitigated by one or more of the security mechanisms described in the previous sections of this report.
 
 \subsection{Cross Site Scripting (XSS)}
+\label{subsection:XSS}
+
 Cross Site Scripting (XSS) attacks are part of the injection class of attacks where one or more malicious scripts, commonly written in JavaScript, are injected and subsequently executed on a web browser. There are three main categories of XSS attacks:
 
 \subsubsection{Attack Variants}
@@ -801,11 +816,19 @@ The attack is known as the “Samy Worm” as it propagated to other myspace pro
 
 
 \subsection{Supply Chain}
+\label{subsection:SupplyChain}
 
-Supply chain attacks are when a malicious entity alters one or more third party resource(s) that a web application uses, commonly hosted on a third party location such as a CDN.
+Supply chain attacks are when a malicious entity maliciously alters one or more third party resource(s) (such as a javascript library) that a web application uses, commonly hosted on a third party location such as a CDN. These malicious modifications to such are for several reasons including:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Running a cryptominer \cite{Tekiner2021-sq} on browsers
+	\item Capturing Payment Information
+	\item Screen Scraping
+	\item Ad injection
+\end{itemize}
 
 \subsubsection{Historical Example}
-The 2018 Texthelp breach is one example of this type of attack where a malicious entity compromised a JavaScript library modified it to include a cryptominer, which uses computing resources to mine cryptocurrency. This single compromised JavaScript library was reportedly found to be used on 4,000 websites \cite{Billman2018-sq}.
+The 2018 Texthelp breach is one example of this type of attack where a malicious entity compromised a JavaScript library and modified it to include a cryptominer. A cryptominer uses computing resources to mine cryptocurrency such as (Bitcoin, Etherium and Monero). This single compromised JavaScript library was reportedly found to be used on 4,000 websites \cite{Billman2018-sq}.
 
 \subsubsection{Security Mechanism(s) Providing Mitigation}
 
