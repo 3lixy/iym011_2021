@@ -21,6 +21,7 @@
 \usepackage{tocloft}
 \usepackage{hanging}
 \usepackage{tabularx}
+\usepackage{calc}
 %\usepackage[nottoc]{tocbibind}
 %\renewcommand{\contentsname}{\centering Contents} 
 %\makeglossaries
@@ -614,7 +615,7 @@ A hash (digest) value can be used for scripts, the script-src directive, and non
 \vspace{0.3cm} \noindent
 If a digest value is present, each script element will be hashed and the resultant hash compared to the hash value in the directive and if a match occurs the script is deemed to be allowed.
 
-\subsection{Reporting Directives Value Types}
+\subsection{Reporting Directives}
 
 \subsubsection{report-uri}
 Upon a CSP Policy violation and a value is present for report-uri, the browser will send a report to the location specified for report-uri. The report is in the form of JSON document(s) and sent using the HTTP POST method. An example report-uri configuration can be seen below:
@@ -721,17 +722,43 @@ Instructs the browser to also load any subdomains of the site only over HTTPS
 Must be present if the site is to be preloaded via google's HSTS preload service.
 
 \section{HSTS Preloading}
+\label{section:hsts_preload}
 HSTS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
 
-\noindent \vspace{0.3cm}
-Google maintains this predefined list of websites where the owners have requested to be added \cite{Hodges2012-pe}.
-A set of criteria must be met in order to qualify to be included in the preload list. If after being present in the preload list the site no longer meets the criteria, it is runs the risk of being removed from the preload list.
+\vspace{0.3cm} \noindent
+The main reason for HSTS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
 
-\newpage
+\vspace{0.3cm} \noindent
+Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
+
+\vspace{0.3cm} \noindent
+The following criteria must be met in order for a domain to qualify to be included in the preload list:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item The website has a valid certificate trusted by browsers.
+	\item If the domain (e.g. example.com) is running a HTTP server, on port 80, it must redirect to the HTTPS on the same domain.
+	\begin{description}
+	\item[e.g.:] if \texttt{http://example.com} is accessible, it must redirect to \texttt{https://example.com}
+	\end{description}
+	\item All subdomains should be served over HTTPS, however only the \texttt{www} subdomain (e.g. \texttt{www.example.com}) is checked if present in DNS.
+	\item An HSTS header (\texttt{strict}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests
+	\begin{itemize}
+		\item \texttt{max-age} directive must be no less than 31536000 seconds (i.e. 1 year).
+		\item \texttt{includeSubDomains} directive must be present.
+		\item \texttt{preload} directive must be present.
+		\item Should the site redirect away when accessed over HTTPS, the site must have the HSTS header.
+	\end{itemize}	
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+If after being present in the preload list the site no longer meets the criteria, it is runs the risk of being removed from the preload list.
 
 \section{security.txt}
 The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on a website \cite{Foudil2021-vh}.
-A file named ``security.txt'' should be place in either of the following two locations, with a Content-Type header of \texttt{text/plain}, and served only over HTTPS:
+
+\vspace{0.3cm} \noindent
+A file named ``security.txt'' should be place in either of the following two locations, with a \texttt{Content-Type} header with the value of \texttt{text/plain}, and served only over HTTPS:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
@@ -858,6 +885,7 @@ When the user clicks the \texttt{Don't Click} section of the page they are actua
 \end{itemize}
 
 \subsection{Entity in the Middle}
+\label{subsection:entity_in_the_middle}
 
 Malicious actors are constantly on the lookout for was to obtain sensitive data for a multitude of reasons including: intellectual property theft, stealing money and personal information.
 
@@ -865,7 +893,13 @@ Malicious actors are constantly on the lookout for was to obtain sensitive data 
 One of the ways to help prevent this is to secure the communication traffic over the internet using HTTPS which relies on the SSL/TLS mechanism.
 
 \vspace{0.3cm} \noindent
-If a malicious actor is able to intercept and or passively monitor web traffic the opportunity arises to perform what is known as an Entity in the Middle attack. Over the years there have been several attacks against SSL/TLS mechanism compromising the confidentiality of the information it is meant to secure.
+If a malicious actor is able to intercept and or passively monitor web traffic, the opportunity arises to perform what is known as an Entity in the Middle attack.
+
+\vspace{0.3cm} \noindent
+The Entity in the Middle attack is where an attacker is able to intercept and manipulate traffic between the victim and the target entity such as a website. This can lead to attacks such as victims unknowingly giving their credentials to attackers as well as attackers manipulating the response from the website before being sent to the victim.
+
+\vspace{0.3cm} \noindent
+Over the years there have been several attacks against SSL/TLS mechanism compromising the confidentiality of the information it is meant to secure.
 
 \subsubsection{Historical Examples}
 \textbf{BEAST (2011)}
@@ -1203,26 +1237,22 @@ GO (also referred to as Golang) was chosen as the programming language to implem
 
 \subsubsection{[E] Task Agent}
 
-The task agent will be obtaining tasks from the Task API, that will contain the required information to allow the task agent to conduct scans against domains.
+The task agent obtains tasks from the Task API. A task contains the required information to allow the task agent to conduct scans against domains.
+
+TODO Task Parameters
+TODO Deny List
+TODO Configuration
+TODO TLS info Supported
+
+http timeout
+tls timeout
+max redirects
+
+\vspace{0.3cm} \noindent
+Section TODO details the high level flow for the process of performing a domain scanning Task.
 
 \vspace{0.3cm} \noindent
 As with the Task API the Task Agent will use the programming language GO.
-
-\vspace{0.3cm} \noindent
-Below is a high level flow chart for the process of performing a domain scanning Task for domain  \texttt{example.com}.
-
-\begin{figure}[p]
-	\begin{center}
-		\includegraphics[scale=0.75]{../images/Task_Flowv2.png}
-%		\includesvg[width=0.75](myfig.svg)
-%        \input{test.pdf_tex}
-		\caption{High Level Task Flow}
-		\label{fig:task_hla}
-	\end{center}
-\end{figure}
-
-\clearpage
-\newpage
 
 \subsubsection{[F] Domain}
 
@@ -1258,6 +1288,140 @@ Once all tasks have been processed the Task Manager will use the Task API to cre
 \vspace{0.3cm} \noindent
 This compressed archive is later stored on a file server for later analysis.
 
+\subsection{Task Parameters}
+
+A task has up to two parameters.
+
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{|c|c|c|F|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Name} & \textbf{Data Type} & \textbf{Mandatory} & \textbf{Description}\\
+      \hline
+      \textbf{fqdn} & string & Yes & A domain from the domain list provided by tranco-list.eu\\
+      \hline
+      \textbf{headers} & string & No & A JSON string of one or more http client headers and values\\
+      \hline
+    \end{tabular}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Task Parameters}
+    \label{table:task_paramters} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\subsection{Task Flow}
+
+This section describes the high level task flow once a task has been obtained from the Task API and is ready to be processed.
+
+\vspace{0.3cm} \noindent
+The following describes the stages that the task processing goes through for the domain \texttt{example.com}. This is shown graphically in figure \ref{fig:task_flow}.
+
+\subsubsection{Stage 0 - Task Parameters}
+
+The task parameters are checked for validity in the following way:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item If the parameter name is not valid for the task, abort the task
+    \item If a mandatory parameter is not present, abort the task
+\end{itemize}
+
+\subsubsection{Stage 1 - Deny List}
+
+The \texttt{fqdn} parameter value \texttt{example.com} is checked to see if it is on the task agents deny list, and if present the task is aborted and no further attempts will be made to process the task.
+
+\subsubsection{Stage 2 - Resolve Domain}
+
+A DNS request to lookup the \texttt{A records} (IPv4 addresses) of the fqdn parameter \texttt{example.com} is made.
+
+\vspace{0.3cm} \noindent
+If IPv4 addresses are returned, \texttt{example.com} is now referred to as the resolved domain resulting in Stage 2 being complete and processing moves to Stage 3.
+
+\vspace{0.3cm} \noindent
+If no IPv4 addresses are returned, a further DNS request to lookup the \texttt{A records} (IPv4 addresses) of the \texttt{www} subdomain of the fqdn parameter i.e. \texttt{www.example.com}.
+
+\vspace{0.3cm} \noindent
+If the DNS request made to \texttt{www.example.com} returns no IPv4 addresses, the task is aborted and no further attempts will be made to process the task.
+
+\vspace{0.3cm} \noindent
+If the DNS request made to \texttt{www.example.com} returns IPv4 addresses, \texttt{www.example.com} is now referred to as the resolvable domain resulting in Stage 2 being complete and processing moves to Stage 3.
+
+\vspace{0.3cm} \noindent
+\textbf{NOTE:} For the purpose of describing the task flow, for the further stages, the resolved domain shall from here on out be assumed to have been determined to be \texttt{www.example.com} for the fqdn parameter of \texttt{example.com}.
+
+\subsubsection{Stage 3 - HTTP(S) Request}
+
+A HTTP request is made to the resolved domain \texttt{http://www.example.com}.
+
+\vspace{0.3cm} \noindent
+Following redirects, if the last url in the redirect chain starts with \texttt{https://} (e.g. \texttt{https://www.example.com/index.php}) Stage 3 is deemed complete and processing moves to Stage 4.
+
+\vspace{0.3cm} \noindent
+If the previous request did not result in a \texttt{https://} url a HTTPS request is made to the resolvable domain \texttt{https://www.example.com}.
+
+\vspace{0.3cm} \noindent
+Following redirects, if the last url in the redirect chain starts with \texttt{https://} (e.g. \newline \texttt{https://www.example.com/index.php}) Stage 3 is deemed complete and processing moves to Stage 4.
+
+\vspace{0.3cm} \noindent
+If the first request did result in a \texttt{http://} url (e.g. \texttt{http://www.example.com/index.php}), i.e. did not ultimately get redirected to a \texttt{https://} url, Stage 3 is deemed complete and processing moves to Stage 4.
+
+\vspace{0.3cm} \noindent
+If no \texttt{http://} or \texttt{https://} response is obtained from the resolved domain, Stage 3 is deemed to have failed and the task is aborted and no further attempts will be made to process the task.
+
+\subsubsection{Stage 4 - TLS Versions}
+
+TLS 1.0, 1.1, 1.2 and 1.3 connections are attempted against the domain of the last url in the redirect chain (e.g. domain \texttt{www.example.com} from last redirect url \newline \texttt{http://www.example.com/index.php}) from Stage 3.
+
+\vspace{0.3cm} \noindent
+The TLS version used for the HTTPS connection in Stage 3 is skipped as it has already been attempted and was successful.
+
+
+\vspace{0.3cm} \noindent
+Stage 4 is deemed complete and processing moves to Stage 5.
+
+\subsubsection{Stage 5 - HSTS}
+
+This stage gathers the required data, such that a determination can be made at a later stage, if the domain of last url in the redirect chain (e.g. \texttt{http://www.example.com/index.php}) from Stage 3 meets the HSTS Preload requirements.
+
+\vspace{0.3cm} \noindent
+The HSTS Preload requirements are detailed in section \ref{section:hsts_preload}.
+
+\vspace{0.3cm} \noindent
+The following actions are performed on the base domain of the last url in the redirect chain from Step 3 and the results of which are recorded. The base domain is determined by the use of the golang library ``golang.org/x/net/publicsuffix''. If any of the actions have already been performed in section 3, they are skipped as the results have already been captured:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item If the domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, make a HTTP request to \texttt{example.com} i.e. \texttt{http://example.com}
+    \item If the \texttt{www} subdomain has a DNS (A record) try and establish a TLS connection to the \texttt{www} subdomain \texttt{www.example.com}
+    \item Make a https call to \texttt{https://example.com} and capture the HTTP headers
+\end{itemize}
+
+
+\subsubsection{Stage 6 - security.txt}
+
+The path of last url in the redirect chain (e.g. \texttt{http://www.example.com/index.php}) from Stage 3 is replaced with \texttt{.well-known/security.txt} i.e. \newline \texttt{http://www.example.com/.well-known/security.txt}.
+
+\vspace{0.3cm} \noindent
+A call is made to this url and if the \texttt{Content-Type} header is present with the value \texttt{text/plain} the body of the response is captured.
+
+%\clearpage
+
+%\newgeometry{top=7mm, bottom=0mm}
+\begin{figure}[p]
+	\begin{center}
+%		\includegraphics[scale=0.75]{../images/Task_Flowv2.png}
+%		\includesvg[width=0.75](TaskFlow.svg)
+%		\def\svgscale{0.4}
+        \scalebox{0.47}{\input{task_flow.pdf_tex}}
+		\caption{High Level Task Flow}
+		\label{fig:task_flow}
+	\end{center}
+\end{figure}
+%\restoregeometry
+
+\clearpage
+\newpage
+
 \subsection{Deployment}
 
 The components as outlined in Section \ref{section:Implementation} were deployed using cloud infrastructure as detailed in Table \ref{table:implmentation_cloud}.
@@ -1288,13 +1452,6 @@ FreeBSD 13.0 was used for the task agents as it was the most recent version avai
 
 \vspace{0.3cm} \noindent
 The number of Task Agents deployed was 5 such that the scanning could be conducted well within 24 hours to allow a reasonable amount of time to rectify issues should they occur. The average time for all 1 million tasks to be completed is approximately 11 hours.
-
-\subsubsection{Parameters}
-
-TODO
-http timeout
-tls timeout
-max redirects
 
 \subsubsection{Automation}
 
