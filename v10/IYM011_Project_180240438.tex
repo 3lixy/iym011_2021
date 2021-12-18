@@ -1239,17 +1239,39 @@ GO (also referred to as Golang) was chosen as the programming language to implem
 
 The task agent obtains tasks from the Task API. A task contains the required information to allow the task agent to conduct scans against domains.
 
-TODO Task Parameters
-TODO Deny List
-TODO Configuration
-TODO TLS info Supported
+\vspace{0.6cm} \noindent
+The following table \ref{table:task_agent_parameters} details the parameters of a Task Agent.
 
-http timeout
-tls timeout
-max redirects
+\begin{table}[H]
+  \begin{center}
+  	\resizebox{\textwidth}{!}{
+    \begin{tabular}{|c|c|D|E|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Parameter} & \textbf{Data Type} & \textbf{Value(s)} & \textbf{Description} \\
+      \hline
+      max http/https redirects & int & 10 (golang default) & The number of http redirects allowed \\
+      \hline
+      \UScore{max_concurrent_tasks} & int & 100 & The maximum number of tasks that can be running concurrently \\
+      \hline
+      \UScore{deny_domains} & array of strings & domains not to be scanned & domains not to be scanned \\
+      \hline
+      \UScore{deny_ips} & array of strings & IPv4 addresses not to be scanned & IPv4 addresses not to be scanned \\
+      \hline
+      \UScore{dns_lookup_nameservers} & array of strings & ``open'' recursive dns servers & A list of recursive DNS servers \\
+      \hline
+    \end{tabular}}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Task Agent Parameters}
+    \label{table:task_agent_parameters} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+Section \ref{subsection:task_parameters} details the parameters of a task. \newline
+Section \ref{section:task_flow} details the high level flow for the process of performing a domain scanning Task.
 
 \vspace{0.3cm} \noindent
-Section TODO details the high level flow for the process of performing a domain scanning Task.
+Appendix TODO details the TLS client capabilities of the Task Agent.
 
 \vspace{0.3cm} \noindent
 As with the Task API the Task Agent will use the programming language GO.
@@ -1289,6 +1311,7 @@ Once all tasks have been processed the Task Manager will use the Task API to cre
 This compressed archive is later stored on a file server for later analysis.
 
 \subsection{Task Parameters}
+\label{subsection:task_parameters}
 
 A task has up to two parameters.
 
@@ -1310,6 +1333,7 @@ A task has up to two parameters.
 \end{table}
 
 \subsection{Task Flow}
+\label{section:task_flow}
 
 This section describes the high level task flow once a task has been obtained from the Task API and is ready to be processed.
 
@@ -1447,7 +1471,7 @@ The components as outlined in Section \ref{section:Implementation} were deployed
   \end{center}
 \end{table}
 
-\vspace{0.3cm} \noindent
+\noindent
 FreeBSD 13.0 was used for the task agents as it was the most recent version available at the time of deployment. There were no performance or security issues identified that required the effort to upgrade the components that remained on FreeBSD 12.2.
 
 \vspace{0.3cm} \noindent
