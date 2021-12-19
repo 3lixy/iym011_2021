@@ -3,6 +3,7 @@
 \usepackage{setspace}
 %\usepackage{dtklogos} % this is just used for typesetting \BibTeX, and may thus be removed
 %\usepackage[acronym]{glossaries}
+\usepackage{longtable}
 \usepackage{csquotes}
 \usepackage{tabulary}
 \usepackage{booktabs}
@@ -34,10 +35,12 @@
 %\setlength{\parskip}{1em}
 % abbreviations:
 %\newacronym{os}{OS}{Operating System}
+\newcolumntype{C}{>{\centering\arraybackslash}m{2cm}}
 \newcolumntype{D}{>{\centering\arraybackslash}m{3cm}}
 \newcolumntype{E}{>{\centering\arraybackslash}m{5cm}}
 \newcolumntype{F}{>{\centering\arraybackslash}m{8cm}}
 \newcolumntype{G}{>{\centering\arraybackslash}m{13cm}}
+\newcolumntype{H}{>{\centering\arraybackslash}m{3.6cm}}
 
 
 
@@ -945,7 +948,7 @@ Organisations should have policies in place to keep up to date with current stat
 
 \section{Data Acquisition}
 
-In order to be able to analyse HTTP Security Header, TLS Version, HSTS and security.txt adoption, or lack thereof, data on these desired metrics needs to be acquired. There are several overarching ways to acquire the desired data: Active, Passive and Third-Party data sets.
+In order to be able to analyse HTTP Security Headers, TLS Versions, HSTS Preloading and security.txt adoption, or lack thereof, data on these desired metrics needs to be acquired. There are several overarching ways to acquire the desired data: Active, Passive and Third-Party data sets.
 
 \vspace{0.3cm} \noindent
 Active data collection is the act of establishing TLS connections and or making HTTP requests and storing the resultant connection/request/response data. This method requires the setup of infrastructure and software that can involve the customisation and or development of entire software applications. Active scanning gives great versatility, however care needs to be taken to ensure the data is collected in a known and reportable way in order for the analysis to have meaning.
@@ -1060,6 +1063,53 @@ The majority of research reviewed for this project state the technologies used a
 \vspace{0.3cm} \noindent
 Whilst this is generally enough for the reader to understand the high-level methodology those who wish or are conducting research could benefit form a more detailed and formal method. To that end it would be of benefit to the community if a more formal method by which methodologies for internet research is detailed such that they can be compared and contrasted more easily and to aid in its evolution.
 
+\subsection{Literature Review}
+
+Table \ref{table:data_acquisition_lit_review} is a critical review of limitations identified in the literature research and how this project aims to fix them.
+
+\begin{center}
+
+\footnotesize
+\begin{longtable}{|C|E|H|H|}
+
+    \caption{Data Acquisition Literature Review} 
+    \label{table:data_acquisition_lit_review} \\ % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex 
+\hline
+\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{This Projects Reaction} \\
+\hline
+\endfirsthead
+\multicolumn{4}{c}%
+{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+\hline
+\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{This Projects Reaction} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\textit{Continued on next page}} \\
+\endfoot
+\hline
+\endlastfoot
+      \textbf{Filtering data during data acquisition} & If data is pre filtered before the analysis stage it could result in unintended data being filtered & The researches in \cite{Buchanan2018-xz} specify the headers to capture during the data acquisition phase
+ & No http headers are filtered out during capture phase \\
+      \hline
+      \textbf{www sumdomin} & If using base domains as the starting point, not all domains serve http on the base domain. The www subdomain is the most common subdomain to use for the home/default page of a website & Researchers \cite{Buchanan2018-xz,Amann2017-co} chose not to use www & Use www subdomain if base domain does not serve http\\
+      \hline
+      \textbf{HTTP method} & Browsers use the http GET method to obtain web pages. A website might behave differently if a non GET http method (e.g. HEAD) was used. Some websites may not allow the http HEAD method & Researchers \cite{Amann2017-co} use the HEAD http method & Use the HTTP GET method \\
+      \hline
+      \textbf{Client Headers} & To best represent a browser, the headers sent on the request to a website should match that of a popular browser or arguably the most popular. The single most relevant header to include is the user agent header. It is quite common when a non browser user agent header is detected a different response is sent. & ?? & Use chrome headers not just the user agent \\
+      \hline
+      \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have & None of the research identified during the lit research mentions this point. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or servers may not have up to date root certificate stores & Do not perform the SSL/TLS verification check at the data capture phase. Capture the certificates the website presents and verify SSL/TLS at the analysis phase \\
+      \hline
+      \textbf{Monitoring} & When a scanning session is conducted and not monitored one or more sessions could fail without the researcher(s) being aware for an unknown amount of time & It is possible that the outage mentioned in \cite{Poteat2021-zr} could have been avoided or minimised by the use of effective monitoring & Generate metrics and alert on them \\
+      \hline
+      \textbf{Scan frequency} & The more data the better & - & - \\
+      \hline
+      \textbf{Scanner Tool Verification} & One cannot assume that the technology used to perform the scanning is doing what one expects or intends without due diligence being performed & ?? & Randomly pick good and bad results and verify they are as expected via manually verifying results \\
+%       &  &  &  \\
+%      \hline
+\end{longtable}
+\end{center}
+
+\clearpage
 \newpage
 
 \section{Methodology}
@@ -1240,7 +1290,8 @@ GO (also referred to as Golang) was chosen as the programming language to implem
 The task agent obtains tasks from the Task API. A task contains the required information to allow the task agent to conduct scans against domains.
 
 \vspace{0.6cm} \noindent
-The following table \ref{table:task_agent_parameters} details the parameters of a Task Agent.
+Table \ref{table:task_agent_parameters} details the parameters of a Task Agent.
+\newpage
 
 \begin{table}[H]
   \begin{center}
@@ -1356,6 +1407,9 @@ The \texttt{fqdn} parameter value \texttt{example.com} is checked to see if it i
 
 \subsubsection{Stage 2 - Resolve Domain}
 
+DNS lookups for Stage 2 uses a round robin methodology with the DNS servers specified in the Task Agent parameter \texttt{\UScore{dns_lookup_nameservers}}, to reduce the load on any one DNS resolver.
+
+\vspace{0.3cm} \noindent
 A DNS request to lookup the \texttt{A records} (IPv4 addresses) of the fqdn parameter \texttt{example.com} is made.
 
 \vspace{0.3cm} \noindent
