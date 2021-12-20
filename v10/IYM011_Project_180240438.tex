@@ -983,6 +983,13 @@ The number of internet rout-able IP Addresses, i.e. internet rout-able addresses
 
 \subsection{Scanning}
 
+
+\subsubsection{Sacnner Technology}
+
+TODO
+
+Research uses many different technologies
+
 \subsubsection{Domain Resolution}
 
 When a http client makes a request to a URL (e.g. http://example.com) the client needs to lookup the IP Address of the domain (e.g. example.com) in order to send the HTTP request.
@@ -1065,7 +1072,7 @@ Whilst this is generally enough for the reader to understand the high-level meth
 
 \subsection{Literature Review}
 
-Table \ref{table:data_acquisition_lit_review} is a critical review of limitations identified in the literature research and how this project aims to fix them.
+Table \ref{table:data_acquisition_lit_review} is a critical review of limitations identified in the literature research and how this project aims to address them.
 
 \begin{center}
 
@@ -1081,29 +1088,30 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
 \multicolumn{4}{c}%
 {\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
 \hline
-\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{This Projects Reaction} \\
+\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{This Projects Decision} \\
 \hline
 \endhead
 \hline \multicolumn{4}{r}{\textit{Continued on next page}} \\
 \endfoot
 \hline
 \endlastfoot
-      \textbf{Filtering data during data acquisition} & If data is pre filtered before the analysis stage it could result in unintended data being filtered & The researches in \cite{Buchanan2018-xz} specify the headers to capture during the data acquisition phase
- & No http headers are filtered out during capture phase \\
+      \textbf{Data Filtering} & If data is filtered during data capture, it could result in unintended data being filtered & The researches in \cite{Buchanan2018-xz} filter headers during data capture, which if not done perfectly (e.g. spelling and case) could produce unintended results. & All http headers, TLS certificates/connection information is captured \\
       \hline
-      \textbf{www sumdomin} & If using base domains as the starting point, not all domains serve http on the base domain. The www subdomain is the most common subdomain to use for the home/default page of a website & Researchers \cite{Buchanan2018-xz,Amann2017-co} chose not to use www & Use www subdomain if base domain does not serve http\\
+      \textbf{www sumdomin} & If using only the base domains for http(s) requests could produce inaccurate results as not all domains serve http on the base domain. The www subdomain is the most common domain to server http requests besides the base domain. & Researchers \cite{Buchanan2018-xz,Amann2017-co} do not state if the www subdomain explicitly added during scanning. & www subdomain is used if base domain does not have a DNS A record \\
       \hline
-      \textbf{HTTP method} & Browsers use the http GET method to obtain web pages. A website might behave differently if a non GET http method (e.g. HEAD) was used. Some websites may not allow the http HEAD method & Researchers \cite{Amann2017-co} use the HEAD http method & Use the HTTP GET method \\
+      \textbf{HTTP method} & Browsers use the http GET method to obtain web pages. A website might behave differently if a non GET http method (e.g. HEAD) was used. Some websites may not even allow the http HEAD method. & Researchers \cite{Amann2017-co} specifically use the HEAD http method to reduce load on target domains & Use the HTTP GET method as browsers would use\\
       \hline
-      \textbf{Client Headers} & To best represent a browser, the headers sent on the request to a website should match that of a popular browser or arguably the most popular. The single most relevant header to include is the user agent header. It is quite common when a non browser user agent header is detected a different response is sent. & ?? & Use chrome headers not just the user agent \\
+      \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in TODO \\
       \hline
-      \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have & None of the research identified during the lit research mentions this point. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or servers may not have up to date root certificate stores & Do not perform the SSL/TLS verification check at the data capture phase. Capture the certificates the website presents and verify SSL/TLS at the analysis phase \\
+      \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have. & None of the research \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Roth2020-hg,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Calzavara2018-xv,Holz2020-ha,Michael2015-hn,} processes SSL/TLS verification at the analysis stage. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or assumed to be not enough sites affected. & SSL/TLS verification is performed at the analysis phase. \\
       \hline
-      \textbf{Monitoring} & When a scanning session is conducted and not monitored one or more sessions could fail without the researcher(s) being aware for an unknown amount of time & It is possible that the outage mentioned in \cite{Poteat2021-zr} could have been avoided or minimised by the use of effective monitoring & Generate metrics and alert on them \\
+      \textbf{Monitoring} & When a scanning session is conducted and not monitored one or more sessions could fail without the researcher(s) being aware for an unknown amount of time & It is possible that the outage mentioned in \cite{Poteat2021-zr} could have been avoided or minimised by the use of effective monitoring & Metrics of the status of scanning are crated and alerted upon. \\
+%      \hline
+%      \textbf{Scan frequency} & The more data the better & - & - \\
       \hline
-      \textbf{Scan frequency} & The more data the better & - & - \\
+      \textbf{Scanner Tool Verification} & One cannot assume that the technology used to perform the scanning is doing what one expects or intends without due diligence being performed & None of the research specifically calls out testing of the scanner with manual verification of results & Successfully and unsuccessfully scanned domains were picked at random during the creation of the scanner, manually verifying results and correcting/updating scanner as required. \\
       \hline
-      \textbf{Scanner Tool Verification} & One cannot assume that the technology used to perform the scanning is doing what one expects or intends without due diligence being performed & ?? & Randomly pick good and bad results and verify they are as expected via manually verifying results \\
+      \textbf{Scanner Tool Flow} & The use of a graphical flows allows greater accuracy for research replication and understanding & Whilst most research gives an written overview of scanner methodology \cite{Buchanan2018-xz,Amann2017-co,Patil2017-bg,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Holz2020-ha,Michael2015-hn}, they cary in detail and do not have a graphical counterpart & Includes a graphical representation to enhance the understanding of scanner methodology \\
 %       &  &  &  \\
 %      \hline
 \end{longtable}
@@ -1394,7 +1402,6 @@ The following describes the stages that the task processing goes through for the
 \subsubsection{Stage 0 - Task Parameters}
 
 The task parameters are checked for validity in the following way:
-
 \begin{itemize}
 	\setlength\itemsep{0.1em}
     \item If the parameter name is not valid for the task, abort the task
@@ -1536,10 +1543,10 @@ The number of Task Agents deployed was 5 such that the scanning could be conduct
 The Task Manager is scheduled to obtain the latest Tranco domain list and create tasks to scan each day at 0000 UTC. This will only occur if the previous day was completed successfully.
 
 \vspace{0.3cm} \noindent
-The Task Manager is scheduled to check if all the tasks have been completed between 1000 UTC to 2300 UTC. Once all tasks have been completed to create the ``All Tasks Archive'' and then delete the tasks in the MonogDB datastore. Each ``All Tasks Archive'' is approximately 4GB in size.
+The Task Manager is scheduled to check if all the tasks have been completed between 1000 UTC to 2300 UTC. Once all tasks have been completed, they are collected to create the ``All Tasks Archive'' and then the tasks are deleted from the MonogDB datastore. Each ``All Tasks Archive'' is approximately 4GB in size.
 
 \vspace{0.3cm} \noindent
-The Task Agents continually look for new tasks to perform and queue up to 100 concurrent tasks.
+The Task Agents continually look for new tasks to perform and run up to 100 concurrent tasks.
 
 \subsubsection{Issues Encountered}
 
