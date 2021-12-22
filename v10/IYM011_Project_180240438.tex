@@ -206,6 +206,7 @@ Executive Summary
 \newpage
 \pagenumbering{arabic}
 \section{Introduction}
+\label{section:intro}
 
 Describe structure of the introduction
 
@@ -223,31 +224,56 @@ The objectives of this project are:
 \newpage
 
 \section{Document Structure}
+\label{section:doc_struct}
 
-Describe structure of the upcoming sections
+To aid the reader this report is separated into the following sections:
+
+\vspace{0.3cm} \noindent
+\textbf{Part I - Security Features Primer} provides a technical overview of the following security features and related technologies, the adoption of which will be analysed later in this report: \textit{HTTP}, \textit{SSL/TLS}, \textit{Same Origin Policy}, \textit{Cross Origin Request Sharing}, \textit{Content-Security-Policy}, \textit{Cross-Origin-Embedder-Policy}, \textit{Cross-Origin-Resource-Policy}, \textit{Corss-Origin-Opener-Policy}, \textit{X-Content-Type-Options}, \textit{X-Frame-Options}, \textit{HTTP-Public-Key-Pins}, \textit{Strict-Transport-Security}, \textit{HSTS Preloading} and \textit{security.txt}
+ %\hyperref[section:http]{\textbf{HTTP}}, \hyperref[section:ssl_tls]{\textbf{SSL/TLS}}, \hyperref[section:same_origin_policy]{\textbf{Same Origin Policy}}, \hyperref[section:cors]{\textbf{Cross Origin Request Sharing}}, \hyperref[section:csp]{\textbf{Content-Security-Policy}},  \hyperref[section:coep]{\textbf{Cross-Origin-Embedder-Policy}},  \hyperref[section:corp]{\textbf{Cross-Origin-Resource-Policy}}, \newline \hyperref[section:coop]{\textbf{Corss-Origin-Opener-Policy}}, \hyperref[section:xcto]{\textbf{X-Content-Type-Options}},  \hyperref[section:xfo]{\textbf{X-Frame-Options}}, \hyperref[section:hpkp]{\textbf{HTTP-Public-Key-Pins}}, \hyperref[section:hsts]{\textbf{Strict-Transport-Security}}, \hyperref[section:hsts_preload]{\textbf{HSTS Preloading}} and \hyperref[section:security_txt]{\textbf{security.txt}}
+
+\vspace{0.3cm} \noindent
+\textbf{Part II - Why Security Features Exist} details the need for security mechanisms, focusing on those mentioned in Part I, with the following sections: \textit{Cross Site Scripting (XSS)}, \textit{Supply Chain Attacks}, \textit{Clickjacking} and \textit{Entity in the Middle Attacks}.
+
+\vspace{0.3cm} \noindent
+\textbf{Part III - Data Acquisition} discusses internet scanning, the issues to be aware of and how other similar research has captured their data. This part concludes with detailing how this project carried out the data capture.
+
+\vspace{0.3cm} \noindent
+\textbf{Part IV - Security Mechanism Adoption Analysis} analyses that data captured over an TODO month period from TODO - TODO.
+
+\newpage
+
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Part I - Security Features Primer
+\end{huge}
+\end{center}
+\vspace{\fill}
 
 \newpage
 
 \section{HTTP}
+\label{section:http}
 
-HTTP (Hypertext Transfer Protocol), standardised in 1996 \cite{Berners-Lee1996-ji}, is the stateless protocol used for the transmission of data between a web browser and a website. When one enters an address into the address bar of a web browser or clicks a link on a web page, HTTP is used to send the request to and receive the repose from a website.
+HTTP (Hypertext Transfer Protocol), standardised in 1996 \cite{Berners-Lee1996-ji}, is the stateless protocol used for the transmission of data between a web browser and a website. When one enters an address into the address bar of a web browser or clicks a link on a web page, HTTP is used to send the request to and receive the response from a website.
 
 \subsection{HTTP Headers}
 
-\noindent HTTP Headers make up part of the additional metadata that accompanies request and response payload on the HTTP protocol.
+\noindent HTTP Headers make up part of the additional meta-data that accompanies a request and response payloads on the HTTP protocol.
 
-\vspace{0.3cm}
-\noindent Headers are key value pairs delimited by the colon \texttt{(:)} character \cite{Berners-Lee1996-ji}. The key of a header is case insensitive.
+\vspace{0.3cm} \noindent
+Headers are key value pairs delimited by the colon \texttt{:} character \cite{Berners-Lee1996-ji}. The key of a header is case insensitive.
 
-\vspace{0.3cm}
-\noindent An example header would be \texttt{server: nginx} where \texttt{server} is the key and \texttt{nginx} is the value.
+\vspace{0.3cm} \noindent
+An example header would be \texttt{server: nginx} where \texttt{server} is the key and \texttt{nginx} is the value.
 
 \subsection{HTTP Methods}
 
-\noindent HTTP has a number of methods for the purpose of denoting the indented request action that the recipient is requestung to perform on a resource.
+\noindent HTTP has a number of methods for the purpose of denoting the indented request action that the request initiator is requesting to perform on a resource.
 
-\vspace{0.3cm}
-\noindent The below are relevant methods for this project:
+\vspace{0.3cm} \noindent
+The below are relevant methods for this project:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
 	\item GET – Requests a specified resource without altering the resource.
@@ -256,17 +282,25 @@ HTTP (Hypertext Transfer Protocol), standardised in 1996 \cite{Berners-Lee1996-j
 
 \subsection{HTTPS}
 
-\noindent The S in HTTPS signifies that the HTTP protocol commination will be over a secure channel which is provided by the SSL/TLS protocols \cite{Rescorla2000-fs}. A URL starting with \texttt{https://} e.g. \texttt{https://exmaple.com} signifies it will be using a SSL/TLS secure channel.
+\noindent The S in HTTPS signifies that the HTTP protocol communication shall be over a secure channel, provided by the SSL/TLS protocols \cite{Rescorla2000-fs}. A URL starting with \texttt{https://} e.g. \texttt{https://exmaple.com} signifies it will be using a SSL/TLS secure channel.
 
 \vspace{0.3cm}
-\noindent HTTPS has been preferred over unsecured HTTP for some time now [CITATION REQUIRED].
-Started with payments etc then the normal for all websites.
+\noindent Slowly over time HTTPS has seen an ever increasing amount of adoption. There have been several incentives over the years to encourage the use of HTTPS and reduce the barrier to entry:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Lets Encrypt provides free certificates, a prerequisite to enable HTTPS, for websites and is currently able to issue at least 200 million certificates a day as of February 2020 \cite{noauthor_undated-bi}.
+	\item Search engines will rank websites higher if they use HTTPS. Google uses HTTPS as a ``very lightweight signal'' \cite{noauthor_undated-im}
+	\item Google Chrome and Mozilla Firefox both start to show warnings in thier browsers in 2017 when users typed in passwords on a site loaded over HTTP \cite{Vyas2017-ds,Google_undated-ws}.
+	\item Governments and Community resources on why to use HTTPS \cite{noauthor_undated-oz,noauthor_undated-xk}
+\end{itemize}
 
 \newpage
 
 \section{SSL/TLS}
+\label{section:ssl_tls}
 
-\noindent The SSL (Secure Socket Layer)/TLS (Transport Layer Security) protocols were designed to establish a secure communications channel between two entities. Protocols such as HTTP can utilise SSL/TLS to secure its communication.
+\noindent The SSL (Secure Socket Layer)/TLS (Transport Layer Security) protocols were designed to establish a secure communications channel between two entities e.g. a web browser and a website. Protocols such as HTTP can utilise SSL/TLS to secure its communication.
 
 \vspace{0.3cm}
 \noindent With each new version of SSL/TLS more security features were added in response to attacks against the protocols, weakness identified and the desire to make the protocols more secure.
@@ -360,6 +394,7 @@ TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currentl
 \newpage
 
 \section{Same Origin Policy}
+\label{section:same_origin_policy}
 \vspace{0.3cm}
 \noindent
 Same-Origin Policy (SOP) is a critical base security mechanism of web browsers that restricts the origin of a resource (e.g. script) to only be able to communicate to resources from the same origin.
@@ -413,7 +448,7 @@ Cross Origin network requests can be summarised into 3 different categories:
 	\item Cross-Origin writes are mostly allowed (e.g. form submissions, links and redirects)
 \end{itemize}
 
-\subsection{Cross-Origin-Request-Sharing}
+\subsection{Cross Origin Request Sharing}
 \label{section:Cross-Origin-Request-Sharing}
 Cross-Origin-Request-Sharing (CORS) can be used to override the default SOP behaviour, however it must be used with caution to limit exposure to attacks.
 
@@ -421,6 +456,7 @@ Cross-Origin-Request-Sharing (CORS) can be used to override the default SOP beha
 \newpage
 
 \section{Cross Origin Request Sharing}
+\label{section:cors}
 
 Cross Origin Request Sharing is a web browser mechanism for the purpose of allowing a resource to specify the restrictions in being able to access a resource via one or more of the following HTTP Headers \cite{Apple2006-hk}.
 
@@ -469,7 +505,8 @@ Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) r
 
 \newpage
 
-\section{Content-Security-Policy (CSP)}
+\section{Content-Security-Policy}
+\label{section:csp}
 
 Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed be retrieved and or loaded by the browser. CSP is an evolution of the Same-Origin Policy (SOP) browser mechanism.
 
@@ -628,23 +665,9 @@ Upon a CSP Policy violation and a value is present for report-uri, the browser w
 
 \newpage
 
-\section{X-Content-Type-Options}
-
-The X-Content-Type-Options header is used to enforce the Multipurpose Internet Mail Extensions MIME specified in the Content-Type header (e.g . Content-Type: text/css) match that of a requested resource \cite{Apple_undated-hz}.
-\subsection{Directives}
-\subsubsection{nosniff}
-
-Denies requests under either of the two below conditions:
-
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type
-	\item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not text/css
-\end{itemize}
-
-\newpage
-
 \section{Cross-Origin-Embedder-Policy}
+\label{section:coep}
+
 The Cross-Origin-Embedder-Policy header provides a mechanism that does not allow any cross-origin resources from being loaded unless explicitly allowed to (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
 
 \subsection{Directives}
@@ -655,6 +678,7 @@ Disables the mechanism allowing resources to be loaded without explicit permissi
 Enables this mechanism only allowing resources being loaded from the same origin or from other origins that explicitly give permissions to do so (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
 
 \section{Cross-Origin-Resource-Policy}
+\label{section:corp}
 
 The Cross-Origin-Resource-Policy header provides a mechanism that restricts which origins are permitted to load a resource \cite{Apple_undated-au}.
 
@@ -673,6 +697,8 @@ If the request initiator’s origin and the request destination’s origin are t
 The resource is allowed to be loaded.
 
 \section{Cross-Origin-Opener-Policy}
+\label{section:coop}
+
 The Cross-Origin-Opener-Policy (COOP) header provides a mechanism that prevents the sharing of a browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
 
 \subsection{Directives}
@@ -687,7 +713,26 @@ Does not allow communication (isolates) from new windows or tab to the originati
 
 \newpage
 
+\section{X-Content-Type-Options}
+\label{section:xcto}
+
+The X-Content-Type-Options header is used to enforce the Multipurpose Internet Mail Extensions MIME specified in the Content-Type header (e.g . Content-Type: text/css) match that of a requested resource \cite{Apple_undated-hz}.
+\subsection{Directives}
+\subsubsection{nosniff}
+
+Denies requests under either of the two below conditions:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type
+	\item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not text/css
+\end{itemize}
+
+\newpage
+
 \section{X-Frame-Options}
+\label{section:xfo}
+
 The X-Frame-Options response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
 
 \subsection{Directives}
@@ -701,6 +746,8 @@ The page is allowed to be rendered in any of the following html elements: \textt
 Similar to the SAMEORIGIN but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
 
 \section{HTTP-Public-Key-Pins}
+\label{section:hpkp}
+
 The HTTP-Public-Key-Pins (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
 
 \vspace{0.3cm} \noindent
@@ -712,6 +759,8 @@ HPKP mechanism is now deprecated by most modern web browsers.
 \newpage
 
 \section{Strict-Transport Security}
+\label{section:hsts}
+
 The Strict-Transport Security response header is a mechanism that instructs the browser to load the page only over https and not http \cite{Hodges2012-pe}.
 \subsection{Directives}
 \subsubsection{max-age}
@@ -726,6 +775,7 @@ Must be present if the site is to be preloaded via google's HSTS preload service
 
 \section{HSTS Preloading}
 \label{section:hsts_preload}
+
 HSTS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
 
 \vspace{0.3cm} \noindent
@@ -758,6 +808,8 @@ The following criteria must be met in order for a domain to qualify to be includ
 If after being present in the preload list the site no longer meets the criteria, it is runs the risk of being removed from the preload list.
 
 \section{security.txt}
+\label{section:security_txt}
+
 The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on a website \cite{Foudil2021-vh}.
 
 \vspace{0.3cm} \noindent
@@ -772,10 +824,20 @@ A file named ``security.txt'' should be place in either of the following two loc
 \noindent \vspace{0.3cm}
 The RFC is currently in the draft stage and seeing updates as recently as May 2021.
 
+\newpage
+
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Part I - Security Features Primer
+\end{huge}
+\end{center}
+\vspace{\fill}
 
 \newpage
 
 \section{The Need for Security Mechanisms}
+\label{section:need_for_security_mechanisms}
 
 As communication technologies continually improve, it has allowed and attracted an ever-increasing amount of people to interact with services on the internet. Malicious actors and security researches are drawn to this large online user base being interacting with online services such as those that:
 \begin{itemize}
@@ -946,7 +1008,18 @@ Organisations should have policies in place to keep up to date with current stat
 
 \newpage
 
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Part III - Data Acquisition 
+\end{huge}
+\end{center}
+\vspace{\fill}
+
+\newpage
+
 \section{Data Acquisition}
+\label{section:data_aquisition}
 
 In order to be able to analyse HTTP Security Headers, TLS Versions, HSTS Preloading and security.txt adoption, or lack thereof, data on these desired metrics needs to be acquired. There are several overarching ways to acquire the desired data: Active, Passive and Third-Party data sets.
 
@@ -984,7 +1057,7 @@ The number of internet rout-able IP Addresses, i.e. internet rout-able addresses
 \subsection{Scanning}
 
 
-\subsubsection{Sacnner Technology}
+\subsubsection{Scanner Technology}
 
 TODO
 
@@ -1082,7 +1155,7 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
     \caption{Data Acquisition Literature Review} 
     \label{table:data_acquisition_lit_review} \\ % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex 
 \hline
-\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{This Projects Reaction} \\
+\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{This Projects Decision} \\
 \hline
 \endfirsthead
 \multicolumn{4}{c}%
@@ -1121,6 +1194,7 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
 \newpage
 
 \section{Methodology}
+\label{section:methodology}
 
 \subsection{Requirements}
 
@@ -1570,6 +1644,7 @@ Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when the
 \newpage
 
 \section{Ethical Considerations}
+\label{section:ethics}
 
 It is not feasible to request permission to conduct internet measurement scans from the desired targets. This means that researches should take it upon themselves to evaluate their methodology for ethical considerations in the absence of permission to conduct such research.
 
@@ -1629,7 +1704,19 @@ There was a single abuse report, which came from the Cybersecurity and Infrastru
 
 \newpage
 
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Part IV - Security Mechanism Adoption Analysis
+\end{huge}
+\end{center}
+\vspace{\fill}
+
+\newpage
+
+
 \section{Analysis}
+\label{section:analysis}
 
 \newpage
 
