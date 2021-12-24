@@ -256,7 +256,7 @@ Part I - Security Features Primer
 \section{HTTP}
 \label{section:http}
 
-HTTP (Hypertext Transfer Protocol), standardised in 1996 \cite{Berners-Lee1996-ji}, is the stateless protocol used for the transmission of data between a web browser and a website. When one enters an address into the address bar of a web browser or clicks a link on a web page, HTTP is used to send the request to and receive the response from a website.
+HTTP (Hypertext Transfer Protocol), standardised in 1996 \cite{Berners-Lee1996-ji}, is a stateless protocol used for the transmission of data between a web browser and a website. When one enters an address into the address bar of a web browser or clicks a link on a web page, HTTP is used to send the request to and receive the response from a website.
 
 \subsection{HTTP Headers}
 
@@ -289,9 +289,9 @@ The below are relevant methods for this project:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item Lets Encrypt provides free certificates, a prerequisite to enable HTTPS, for websites and is currently able to issue at least 200 million certificates a day as of February 2020 \cite{noauthor_undated-bi}.
+	\item Lets Encrypt provides free certificates, a prerequisite to enable HTTPS, for websites and is currently able to issue at least 200 million certificates a day as of February 2020 \cite{noauthor_undated-bi}
 	\item Search engines will rank websites higher if they use HTTPS. Google uses HTTPS as a ``very lightweight signal'' \cite{noauthor_undated-im}
-	\item Google Chrome and Mozilla Firefox both start to show warnings in thier browsers in 2017 when users typed in passwords on a site loaded over HTTP \cite{Vyas2017-ds,Google_undated-ws}.
+	\item Google Chrome and Mozilla Firefox both start to show warnings in thier browsers in 2017 when users typed in passwords on a site loaded over HTTP \cite{Vyas2017-ds,Google_undated-ws}
 	\item Governments and Community resources on why to use HTTPS \cite{noauthor_undated-oz,noauthor_undated-xk}
 \end{itemize}
 
@@ -316,7 +316,7 @@ The below are relevant methods for this project:
 Confidentiality is the protection of data such that only those who have been given authorisation can access the data.
 
 \vspace{0.3cm} \noindent
-Two entities should be able to establish a SSL/TLS connection between one another such that only these two entities can access the data data being sent over it. This should result in any thirds parties that are able capture the traffic from being able to recover the data being sent over the SSL/TLS channel \cite{Martin2017-sx}.
+Two entities should be able to establish a SSL/TLS connection between one another such that only these two entities can access the data data being sent over it. This should result in any third parties that are able capture the traffic from being able to recover the data being sent over the SSL/TLS channel \cite{Martin2017-sx}.
 
 \subsubsection{Data origin authentication}
 
@@ -327,19 +327,19 @@ The purpose of Data origin authentication is to establish the integrity of the S
 Entity Authentication provides the ability for an entity to prove their identity using mechanisms such as digital signatures.
 
 \vspace{0.3cm} \noindent
-In SSL/TLS Entity Authentication is mandatory and used to show that during the establishment of a SSL/TLS channel the client can verify that it really is communicating directly with the website/server they intended to. This is accomplished via the use of PKI (Public Key Infrastructure) with X.509 certificates and root stores. For further details on PKI please see \cite{Clark2013-sh,Holz2011-yv}
+In SSL/TLS entity authentication is mandatory and used to show that during the establishment of a SSL/TLS channel the client can verify that it really is communicating directly with the website/server they intended to. This is accomplished via the use of PKI (Public Key Infrastructure) with X.509 certificates and root stores. For further details on PKI please see \cite{Clark2013-sh,Holz2011-yv}.
 
 \vspace{0.3cm} \noindent
-It is optional for a client to prove its identity using PKI during the establishment of the SSL/TLS channel.
+It is optional for a client to prove its identity to the server using PKI during the establishment of the SSL/TLS channel.
 
 \subsubsection{Perfect forward secrecy}
 
 Perfect forward secrecy ensures that if the private key that is paired with certificate of a server/website was compromised, any SSL/TLS traffic that was captured being sent to or from this server could not be decrypted with the private key being revealed. This is accomplished via the use of Ephemeral Diffie-Hellman key exchange \cite{Martin2017-sx}.
 
 \vspace{0.3cm} \noindent
-Perfect forward secrecy is mandatory as of TLS 1.3 and as such RSA key exchange is not permitted.
+Perfect forward secrecy is mandatory as of TLS 1.3 and as such RSA key exchange was removed in TLS 1.3.
 
-\subsection{Versions}
+\subsection{SSL/TLS Versions}
 
 \subsubsection{SSL 2.0 [1994]}
 
@@ -350,15 +350,15 @@ Netscape Communications introduced SSL 2.0 in 1994 \cite{Oppliger2016-ig,Wu2016-
 
 SSL 3.0 was introduced 1995 \cite{Ristic2017-aj,Oppliger2016-ig} and was a re-write of the SSL protocol, rather than additions/modifications, as many vulnerabilities and weaknesses had been identified in SSL 2.0 \cite{Ristic2017-aj,Wagner1996-fx}.
 
-\vspace{0.3cm}
-\noindent SSL 3.0 was eventually standardised as RFC6101 \cite{Freier2011-pt}.
+\vspace{0.3cm}\noindent
+SSL 3.0 was eventually standardised as RFC6101 \cite{Freier2011-pt}.
 
 \subsubsection{TLS 1.0 [1999]}
 
 In 1996 the IETF Transport Layer Security (TLS) Working Group was established \cite{Oppliger2016-ig,Farrell2010-kv} which produced TLS 1.0 as RFC4436 in 1999 \cite{Dierks1999-fn}.
 
-\vspace{0.3cm}
-\noindent TLS 1.0 was based on SSL 3.0 and introduced some enhancements and modifications \cite{Rescorla2001-gg}. Due to the changes TLS 1.0 was allowed to be used by US government as it gained FIPS approval \cite{Ristic2017-aj}.
+\vspace{0.3cm} \noindent
+TLS 1.0 was based on SSL 3.0 and introduced some enhancements and modifications \cite{Rescorla2001-gg}. Due to the changes made in TLS 1.0, it was allowed to be used by US government as it gained FIPS approval \cite{Ristic2017-aj}.
 
 \subsubsection{TLS 1.1 [2006]}
 
@@ -395,21 +395,23 @@ TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currentl
 
 \section{Same Origin Policy}
 \label{section:same_origin_policy}
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 Same-Origin Policy (SOP) is a critical base security mechanism of web browsers that restricts the origin of a resource (e.g. script) to only be able to communicate to resources from the same origin.
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 The concept of SOP started in 1996 with the release of Netscape Navigator 2.0 \cite{Preston2012-cs} and standardised by The Web Hypertext Application Technology Working Group (WHATWG) \cite{Multiple1996-ju}
 
-\vspace{0.3cm}
-\noindent
-If the scheme (e.g. \texttt{https://}), port (e.g. 443) and host (e.g. images.exmaple.com) are the same for two URLs they are deemed to be in the same origin. The combination of scheme, port and host can be referred to as the origin tuple or triplet. The path of a URL after the origin triplet is NOT evaluated when origins are being compared, for example the origin triplet of \texttt{https://example.com/index.html} is \texttt{https://exmaple.com}.
+\vspace{0.3cm} \noindent
+If the scheme (e.g. \texttt{https://}), port (e.g. 443) and host (e.g. images.exmaple.com) are the same for two URLs they are deemed to be in the same origin. The combination of scheme, port and host can be referred to as the origin tuple or triplet.
 
-\vspace{0.3cm}
-\noindent
-Table \ref{table:sopviolations1} shows some origin triplets via the comparison of origins to the origin \newline \texttt{https://shop.example.com/index.html}.
+\vspace{0.3cm} \noindent
+A request is deemed to be ``cross origin'' when the origin triplets of the url of the request being made is different from that of the origin of the request.
+
+\vspace{0.3cm} \noindent
+The path of a URL after the origin triplet is NOT evaluated when origins are being compared, for example the origin triplet of \texttt{https://example.com/index.html} is \newline \texttt{https://exmaple.com}.
+
+\vspace{0.3cm} \noindent
+Table \ref{table:sopviolations1} shows some origin triplets via the comparison of origins to the url \newline \texttt{https://shop.example.com/index.html} which is of the origin \newline \texttt{https://shop.example.com}.
 
 \begin{table}[h!]
 %\tiny
@@ -423,7 +425,7 @@ Table \ref{table:sopviolations1} shows some origin triplets via the comparison o
       \hline
       https://shop.example.com/music.html & No & The difference is after the origin triplet\\
       \hline
-      https://blog.company.com/index.html & Yes & The host of the origin triplet, blog.company.com, is different.\\
+      https://blog.example.com/index.html & Yes & The host of the origin triplet, blog.example.com, is different.\\
       \hline
       https://shop.example.com:8000/forum.html & Yes & The port of the origin triplet is different (https default port is 443)\\
       \hline
@@ -436,15 +438,14 @@ Table \ref{table:sopviolations1} shows some origin triplets via the comparison o
 \end{table}
 
 \subsection{Cross Origin Network Requests}
-A Cross origin request is one that is between two different origins, example of which are shown as a violation in table \ref{table:sopviolations1}.
+A Cross origin request is one that is between two different origins, examples of which are shown as a violation in table \ref{table:sopviolations1}.
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 Cross Origin network requests can be summarised into 3 different categories:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item Cross-Origin reads are mostly denied
-	\item Cross-Origin embedding is mostly allowed (e.g. \texttt{$<$script src="…"$><$/script$>$}
+	\item Cross-Origin reads are mostly denied (to prevent attacks such as XSS which is discussed further in section \ref{subsection:XSS}.
+	\item Cross-Origin embedding is mostly allowed (e.g. \texttt{$<$script src="…"$><$/script$>$})
 	\item Cross-Origin writes are mostly allowed (e.g. form submissions, links and redirects)
 \end{itemize}
 
@@ -458,20 +459,21 @@ Cross-Origin-Request-Sharing (CORS) can be used to override the default SOP beha
 \section{Cross Origin Request Sharing}
 \label{section:cors}
 
-Cross Origin Request Sharing is a web browser mechanism for the purpose of allowing a resource to specify the restrictions in being able to access a resource via one or more of the following HTTP Headers \cite{Apple2006-hk}.
+A request is deemed to be ``cross origin'' when the origin triplets of the url of the request being made is different from that of the origin of the request. For example if a script on the web page \texttt{https://shop.example.com/index.com} which has the origin \texttt{https://shop.example.com} make a request to \texttt{https://www.domain.com/login.html} which has the origin \texttt{https://www.domain.com} the two origins are different thus the request is deemed to be cross-origin.
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
+Cross Origin Request Sharing is a web browser mechanism for the purpose of allowing a resource to specify the restrictions to be able to access a resource via one or more of the HTTP Headers \cite{Apple2006-hk} detailed in the following sections.
+
+\vspace{0.3cm} \noindent
 Under certain circumstances a 'preflight', HTTP OPTIONS call, is made to the resource in question to obtain the criteria that must be met for the desired request to be allowed to be made.
 
 \subsection{Response Headers}
 
 \subsubsection{Access-Control-Allow-Credentials}
 
-When a script specifies the value of “include” keyword for the request.credentials variable this results in the browser sending the cookies (which can include session tokens) for the target url along with the request. The default behaviour in this situation is to deny access of the response to the script in case the script is has malicious intent to obtain sensitive information.
+When a script specifies the value of the \texttt{include} keyword for the request.credentials variable, this results in the browser sending the cookies (which can include session tokens) for the target url along with the request. The default behaviour in this situation is to deny access of the response to the script in case the script has malicious intent to obtain sensitive information.
 
-\vspace{0.3cm}
-\noindent
+\vspace{0.3cm} \noindent
 If the response from the target url contains the header Access-Control-Allow-Credentials with a value true the script will be able to access the response.
 
 \subsubsection{Access-Control-Allow-Headers}
@@ -484,24 +486,24 @@ This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPT
 
 \subsubsection{Access-Control-Allow-Origin}
 
-Specifies which origins (e.g. example.com) the requested resource is permitted to be loaded from.
+Specifies which origins (e.g. \texttt{example.com}) the requested resource is permitted to be loaded from.
 
 \subsubsection{Access-Control-Expose-Headers}
 
-Specifies which headers, other than the CORS safe listed headers, from the response can be exposed to scripts
+Specifies which headers, other than the deemed to be safe by CORS, from the response can be exposed to scripts.
 
 \subsubsection{Access-Control-Max-Age}
 
-The duration for which a preflight response can be cached before another preflight request is required
+The duration for which a preflight response can be cached before another preflight request is required.
 
 \subsection{Request Headers}
 \subsubsection{Access-Control-Request-Headers}
 
-Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP headers that are request to be used in the intended request.
+Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP headers that are requested to be used in the intended request.
 
 \subsubsection{Access-Control-Request-Method}
 
-Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are request to be used in the intended request.
+Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are requested to be used in the intended request.
 
 \newpage
 
@@ -510,15 +512,14 @@ Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) r
 
 Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed be retrieved and or loaded by the browser. CSP is an evolution of the Same-Origin Policy (SOP) browser mechanism.
 
-\vspace{0.3cm}
-\noindent
-Same-Origin Policy is rather restrictive and this is where Content Security Policy gives more control to website maintainers and developers.
+\vspace{0.3cm} \noindent
+Same Origin Policy is rather restrictive and this is where Content Security Policy gives more control to website maintainers and developers.
 
 \subsection{CSP Development}
 
 CSP is developed and maintained by The World Wide Web Consortium (W3C) \cite{Barth2012-ow}.
 CSP Level 1 initial draft was published in 2012 \cite{Barth2012-ow} and finalised in 2015 \cite{Barth2015-ez}.
-CSP Level 2 had its first draft in 2014 \cite{West2014-oe} and was finalised in 2016 \cite{West2016-ol}:
+CSP Level 2 had its first draft in 2014 \cite{West2014-oe} and was finalised in 2016 \cite{West2016-ol} which uncluded the following changes:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
 	\item base-uri, child-src, form-action, frame-ancestors, plugin-types directives added
@@ -527,7 +528,8 @@ CSP Level 2 had its first draft in 2014 \cite{West2014-oe} and was finalised in 
 	\item New fields added to violation reports
 \end{itemize}
 
-CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the most recent draft in 2021 \cite{West2021-hi} and is currently in the working draft state.
+\vspace{0.3cm} \noindent
+CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the most recent draft in 2021 \cite{West2021-hi} and is currently in the working draft state which included the following changes:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
 	\item Spec re-written
@@ -539,11 +541,13 @@ CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the mo
 \end{itemize}
 
 \subsection{Policy Delivery}
-There CSP policy can be delivered in either by the use of one of two HTTP headers (Content-Security-Policy and Content-Security-Policy-Report-Only) or in the <meta> element in the html body of a web page
+There CSP policy can be delivered either by the use of one of two HTTP headers (Content-Security-Policy and Content-Security-Policy-Report-Only) or in the \texttt{$<$meta$>$} element in the html body of a web page.
 
 \subsection{CSP Directive}
 A CSP Policy consists of one or more directives which are bound to a specific type of resource. For example, the script-src directive controls the restrictions, or lack thereof, for the location(s) scripts can be obtained, executed or loaded from. A CSP Directive can have of one or more values.
-Should a directive be absent from a CSP Policy it is deemed to have no values i.e. ‘open’. Configuring the default-src directive in a CSP policy cause a directive that is not present to inherit the values of the values of the default-src directive.
+
+\vspace{0.3cm} \noindent
+Should a directive be absent from a CSP Policy it is deemed to have no values i.e. ``open''. Configuring the default-src directive in a CSP policy cause most directives that are not present to inherit the values of the values of the default-src directive.
 
 \subsection{Selected Directives}
 This project will be analysing the directives in table \ref{table:cpsdirectives1} as these have been identified as the most significant to implement in order to reduce the likelihood of malicious interaction with resources.
@@ -597,16 +601,16 @@ Below are the types of sources for values of CSP directives.
 The values below are keywords that can be used as values for directives:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item \texttt{none} – does not allow the use of resources that apply to the directive in question
-	\item \texttt{self} – restricts the resources to the domain of the web page and does not include subdomains
-	\item \texttt{unsafe-inline} – Permits the resource to be inline,.e.g. a scripts code resides in a <script> element rather that in a separate file.
-	\item \texttt{unsafe-eval} – Permits the use of mechanisms, such as eval(), which transform plain text into executable code
+	\item \texttt{none} – does not allow the use of resources that apply to the directive in question.
+	\item \texttt{self} – restricts the resources to the domain of the web page and does not include subdomains.
+	\item \texttt{unsafe-inline} – Permits the resource to be inline, .e.g. a scripts code resides in a \texttt{$<$script$>$} element rather that in a separate file.
+	\item \texttt{unsafe-eval} – Permits the use of mechanisms, such as \texttt{eval()}, which transform plain text into executable code.
 	\item \texttt{unsafe-allow-redirects} – Used with the \texttt{navigate-to} directive. Not currently supported in browsers.
 	\item \texttt{unsafe-hashes} – Allows the use of inline scripts if the script matches a hash in the \texttt{script-src} directive.
 	
 \end{itemize}
 
-Both \texttt{'unsafe-inline'} and \texttt{'unsafe-eval'} are deemed to be dangerous as inline resources and the use of mechanisms such as eval() are attack vectors for malicious actors, hence the use of the prefix \texttt{unsafe}.
+Both \texttt{unsafe-inline} and \texttt{unsafe-eval} are deemed to be dangerous as inline resources and the use of mechanisms such as \texttt{eval()} are attack vectors for malicious actors, hence the use of the prefix \texttt{unsafe}.
 
 \subsubsection{Host}
 One or more ``hosts'' can be specified as values for a directive. The following are all valid examples of host values:
@@ -615,7 +619,7 @@ One or more ``hosts'' can be specified as values for a directive. The following 
 	\item domain.com
 	\item *.domain.com
 	\item https://*.domain.com:81
-	\item domain.com/path/to/script.js
+	\item domain.com/script.js
 \end{itemize}
 
 \subsubsection{Scheme}
@@ -630,13 +634,13 @@ Scheme values, referring the to protocol via which to access resources, may be u
 
 
 \subsubsection{Nonce}
-A nonce can be used to allow inline resources to be allowed without the need to use the dangerous \texttt{'unsafe-inline'} keyword. The nonce would need to be included in both the CSP Policy directive and the inline resource.
+A nonce can be used to allow inline resources to be allowed without the need to use the dangerous \texttt{unsafe-inline} keyword. The nonce would need to be included in both the CSP Policy directive and the inline resource.
 
 \vspace{0.3cm} \noindent
 For example if an in-line script was required, only scripts from the same origin are to be allowed, and the nonce was to be \texttt{MyRandomNonce}, then the CSP Policy would be:
 
 \vspace{0.3cm} \noindent
-\texttt{Content-Security-Policy: script-src 'self' 'nonce- MyRandomNonce'}
+\texttt{Content-Security-Policy: script-src 'self' 'nonce-MyRandomNonce'}
 
 \vspace{0.3cm} \noindent
 The inline script would also have the nonce:
@@ -655,6 +659,9 @@ A hash (digest) value can be used for scripts, the script-src directive, and non
 \vspace{0.3cm} \noindent
 If a digest value is present, each script element will be hashed and the resultant hash compared to the hash value in the directive and if a match occurs the script is deemed to be allowed.
 
+\vspace{0.3cm} \noindent
+The current hashing functions specified in CSP Level 3 are \texttt{sha256}, \texttt{sha368} and \texttt{sha512}.
+
 \subsection{Reporting Directives}
 
 \subsubsection{report-uri}
@@ -663,30 +670,36 @@ Upon a CSP Policy violation and a value is present for report-uri, the browser w
 \vspace{0.3cm} \noindent
 \texttt{Content-Security-Policy: ...; report-uri https://report.example.com;}
 
+\subsection{Content-Security-Policy-Report-Only}
+
+The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \newline \texttt{Content-Security-Policy} with the exception that violations are only reported and not enforced. One of the main uses of this is when webmasters and developers are creating a CSP Policy and do not want to impact the end user experience until the policy is configured as desired.
+
 \newpage
 
 \section{Cross-Origin-Embedder-Policy}
 \label{section:coep}
 
-The Cross-Origin-Embedder-Policy header provides a mechanism that does not allow any cross-origin resources from being loaded unless explicitly allowed to (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
+The \texttt{Cross-Origin-Embedder-Policy} header provides a mechanism that does not allow any cross-origin resources from being loaded unless explicitly allowed (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
 
 \subsection{Directives}
-unsafe-none
+\subsubsection{unsafe-none}
 Disables the mechanism allowing resources to be loaded without explicit permission being given. This is the default behaviour.
 
 \subsubsection{require-corp}
 Enables this mechanism only allowing resources being loaded from the same origin or from other origins that explicitly give permissions to do so (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
 
+\newpage
+
 \section{Cross-Origin-Resource-Policy}
 \label{section:corp}
 
-The Cross-Origin-Resource-Policy header provides a mechanism that restricts which origins are permitted to load a resource \cite{Apple_undated-au}.
+The \texttt{Cross-Origin-Resource-Policy} header provides a mechanism that restricts which origins are permitted to load a resource \cite{Apple_undated-au}.
 
 \subsection{Directives}
 
 \subsubsection{same-site}
 
-If the request initiator’s origin and the request destination’s origins are of the same site then load the resource. For example, if the request initiator’s origin is \newline \texttt{https://account.example.com/index.html} and the request destination is \newline \texttt{https://signin.example.com/script.js}, the resource can be loaded as both are of the same site example.com.
+If the request initiator's origin and the request destination's origins are of the same site then load the resource. For example, if the request initiator's origin is \newline \texttt{https://account.example.com/index.html} and the request destination is \newline \texttt{https://signin.example.com/script.js}, the resource can be loaded as both are of the same site \texttt{example.com}.
 
 \subsubsection{same-origin}
 
@@ -694,29 +707,33 @@ If the request initiator’s origin and the request destination’s origin are t
 
 \subsubsection{cross-origin}
 
-The resource is allowed to be loaded.
+The resource is allowed to be loaded regardless of the sites/origins involved.
+
+\newpage
 
 \section{Cross-Origin-Opener-Policy}
 \label{section:coop}
 
-The Cross-Origin-Opener-Policy (COOP) header provides a mechanism that prevents the sharing of a browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
+The \texttt{Cross-Origin-Opener-Policy} (COOP) header provides a mechanism that prevents the sharing of browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the web page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
 
 \subsection{Directives}
 \subsubsection{unsafe-none}
-Disables the mechanism unless the document (e.g. popup) uses this header with either of the two values: same-origin and same-origin-allow-popups. This is the default behaviour.
+Disables the mechanism unless the document (e.g. popup) uses this header with either of the two values: \texttt{same-origin} and \texttt{same-origin-allow-popups}. This is the default behaviour.
 
 \subsubsection{same-origin-allow-popups}
-Allows the communication of a new window or tab (e.g. popup) to the originating page (document) if a COOP header is not present, or has the value unsafe-non, on the new window or tab.
+Allows the communication of a new window or tab (e.g. popup) to the originating page (document) if a COOP header is not present, or has the value \texttt{unsafe-non}, on the new window or tab.
 
 \subsubsection{same-origin}
-Does not allow communication (isolates) from new windows or tab to the originating page (document) unless they are from the same origin. If not from the same origin they are placed in a sperate browsing context.
+Does not allow communication (isolates) from new windows or tab to the originating page (document) unless they are from the same origin. If not from the same origin they are placed in a separate browsing contexts.
 
 \newpage
 
 \section{X-Content-Type-Options}
 \label{section:xcto}
 
-The X-Content-Type-Options header is used to enforce the Multipurpose Internet Mail Extensions MIME specified in the Content-Type header (e.g . Content-Type: text/css) match that of a requested resource \cite{Apple_undated-hz}.
+The \texttt{X-Content-Type-Options header} is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
+\texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
+
 \subsection{Directives}
 \subsubsection{nosniff}
 
@@ -724,8 +741,8 @@ Denies requests under either of the two below conditions:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type
-	\item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not text/css
+	\item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type.
+	\item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not \texttt{text/css}.
 \end{itemize}
 
 \newpage
@@ -733,11 +750,11 @@ Denies requests under either of the two below conditions:
 \section{X-Frame-Options}
 \label{section:xfo}
 
-The X-Frame-Options response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+The \texttt{X-Frame-Options} response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
 
 \subsection{Directives}
 \subsubsection{DENY}
-The page must not be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}
+The page must not be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
 
 \subsubsection{SAMEORIGIN}
 The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of page that contains the element is that of the page to be rendered in the element.
@@ -745,33 +762,41 @@ The page is allowed to be rendered in any of the following html elements: \textt
 \subsubsection{ALLOW-FROM $<$uri$>$}
 Similar to the SAMEORIGIN but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
 
-\section{HTTP-Public-Key-Pins}
+\newpage
+
+\section{Public-Key-Pins}
 \label{section:hpkp}
 
-The HTTP-Public-Key-Pins (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
+The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
 
 \vspace{0.3cm} \noindent
 There have been several issues with HPKP such as HPKP Suicide \cite{Chen2018-ft,Chuat2021-nf} or Ransom PKP \cite{Chuat2021-nf} which are forms of Hostile Pinning \cite{Evans2018-mi}
 
 \vspace{0.3cm} \noindent
-HPKP mechanism is now deprecated by most modern web browsers.
+This header is now deprecated by most modern web browsers.
+
+\subsubsection{Public-Key-Pins-Report-Only}
+The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rather only sends violation reports.
 
 \newpage
 
 \section{Strict-Transport Security}
 \label{section:hsts}
 
-The Strict-Transport Security response header is a mechanism that instructs the browser to load the page only over https and not http \cite{Hodges2012-pe}.
+The Strict-Transport Security response header is a mechanism that instructs the browser to load the page only over https and never http \cite{Hodges2012-pe}.
+
 \subsection{Directives}
 \subsubsection{max-age}
 The duration, in seconds, the browser will honour the Strict-Transport Security request to only load the page over HTTPS.
 
 \subsubsection{includeSubDomains}
-Instructs the browser to also load any subdomains of the site only over HTTPS
+Instructs the browser to also load any subdomains of the site only over HTTPS.
 
 \subsubsection{preload}
 
 Must be present if the site is to be preloaded via google's HSTS preload service.
+
+\newpage
 
 \section{HSTS Preloading}
 \label{section:hsts_preload}
@@ -790,12 +815,12 @@ The following criteria must be met in order for a domain to qualify to be includ
 \begin{itemize}
 	\setlength\itemsep{0.1em}
 	\item The website has a valid certificate trusted by browsers.
-	\item If the domain (e.g. example.com) is running a HTTP server, on port 80, it must redirect to the HTTPS on the same domain.
+	\item If the domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, it must redirect to the HTTPS on the same domain.
 	\begin{description}
 	\item[e.g.:] if \texttt{http://example.com} is accessible, it must redirect to \texttt{https://example.com}
 	\end{description}
 	\item All subdomains should be served over HTTPS, however only the \texttt{www} subdomain (e.g. \texttt{www.example.com}) is checked if present in DNS.
-	\item An HSTS header (\texttt{strict}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests
+	\item An HSTS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
 	\begin{itemize}
 		\item \texttt{max-age} directive must be no less than 31536000 seconds (i.e. 1 year).
 		\item \texttt{includeSubDomains} directive must be present.
@@ -813,7 +838,7 @@ If after being present in the preload list the site no longer meets the criteria
 The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on a website \cite{Foudil2021-vh}.
 
 \vspace{0.3cm} \noindent
-A file named ``security.txt'' should be place in either of the following two locations, with a \texttt{Content-Type} header with the value of \texttt{text/plain}, and served only over HTTPS:
+A file named ``security.txt'' should be placed in either of the following two locations, with a \texttt{Content-Type} header with the value of \texttt{text/plain}, and served only over HTTPS:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
@@ -829,7 +854,7 @@ The RFC is currently in the draft stage and seeing updates as recently as May 20
 \vspace*{\fill}
 \begin{center}
 \begin{huge}
-Part I - Security Features Primer
+Part II - Why Security Features Exist
 \end{huge}
 \end{center}
 \vspace{\fill}
