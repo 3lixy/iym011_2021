@@ -127,7 +127,8 @@ Executive Summary
 \end{center}
 \addcontentsline{toc}{section}{Acronyms}
 
-
+\noindent \textbf{API} Application Programming Interface \par
+\vspace{0.5cm}
 \noindent \textbf{CSS} Cascading Style Sheets \par
 \noindent \textbf{CORS} Cross-Origin-Request-Sharing \par
 \noindent \textbf{CSP} Content Security Policy \par
@@ -159,6 +160,8 @@ Executive Summary
 \addcontentsline{toc}{section}{Glossary}
 
 \begin{hangparas}{.25in}{1}
+\textbf{Application Programming Interface} is an interface intended to be used by a computer program for the purpose of allowing two computer programs to communicate to one another in a structured format. \par
+\vspace{0.5cm}
 \textbf{Cascading Style Sheets} is a mechanism by which a web page can be styled by many different aspects such as fonts, colours and spaces. \par
 \textbf{Cipher Suite} Defines the implementation of cryptographic primitives and addition information referable via a unique identifier such as \UScore{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256} for the use in establishment of SSL/TLS connections \cite{Ristic2017-aj}. \par
 \textbf{Cross Origin-Request-Sharing} Is a web browser mechanism for the purpose of allowing a resource to specify the origins allowed to access the resource via the use of HTTP Headers. \par
@@ -1250,25 +1253,29 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
 \section{Methodology}
 \label{section:methodology}
 
-\subsection{Requirements}
+This section details the methodology this project used to obtain the data analysed in section \ref{section:analysis}.
 
-The scanner is to obtain the following information from a large number of domains:
+\subsection{Requirements}
+\label{subsection:requirements}
+
+A scanner is to obtain the following information from a list of domains:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-    \item If the domain redirects from http:// to https://
-    \item If the domain redirects from https:// to http://
-    \item The TLS version(s) the domain supports
-    \item The TLS version auto negotiated against the domain
-    \item If the domain meets the HSTS Preload requirements
-    \item The HTTP security headers, including their values, in use by the domain
-    \item The content of the security.txt of the domain
+    \item If the domain redirects from \texttt{http://} to \texttt{https://}.
+    \item If the domain redirects from \texttt{https://} to \texttt{http://}.
+    \item The TLS version(s) the domain supports.
+    \item The TLS version auto negotiated against the domain.
+    \item If the domain meets the HSTS Preload requirements.
+    \item The HTTP headers, including their values, in use by the base domain (or the www subdomain if the base domain does not have an A DNS record.
+    \item The content of the security.txt of the domain.
 \end{itemize}
 
 \subsection{High Level Design}
 \label{subsection:hld}
 
-This section covers the high-level design, represented in Figure \ref{fig:hla_design}, for the scanning of domains to provide the data required as stated in the above requirements section. 
+This section covers the high-level design, represented in Figure \ref{fig:hla_design}, for the scanning of domains to provide the data required as stated in section
+\ref{subsection:requirements}. 
 
 %\clearpage
 
@@ -1288,19 +1295,19 @@ This section covers the high-level design, represented in Figure \ref{fig:hla_de
       \hline
       1 & A list of domains will be acquired to scan against \\
       \hline
-      2 & For the domains in the domain list a task manager will create a ``task'', to be stored in a datastore, representing a domain to be scanned \\
+      2 & For each of the domains in the domain list, a task manager will create a ``task'', to be stored in a database, representing a domain to be scanned \\
       \hline
       3 & Metrics on the state of tasks will be sent to a time series database \\
       \hline
       4 & A task agent will poll an API for a new batch of tasks \\
       \hline
-      5 & A task agent will per for each task to scan a domain \\
+      5 & A task agent will scan a domain as stated in the task being processed \\
       \hline
-      6 & A task agent will send the result of a domain scan to an api to be stored in a datastore \\
+      6 & A task agent will send the result of a domain scan to an API to be stored in a database \\
       \hline
-      7 & A task manager, once all tasks are completed, will extracted all tasks from the database to a offline archival format \\
+      7 & A task manager, once all tasks are completed, will extract all tasks from the database to an archive file format \\
       \hline
-      8 & A task manager, once all tasks are completed, will delete all the tasks from the datastore \\
+      8 & A task manager, once all tasks are completed, will delete all the tasks from the database \\
       \hline
     \end{tabular}
 %    \captionsetup{width=.75\textwidth}
@@ -1315,7 +1322,7 @@ This section covers the high-level design, represented in Figure \ref{fig:hla_de
 \subsection{Implementation}
 \label{section:Implementation}
 
-This section describes the chosen technologies and resources for the various aspects for the implementation, shown in Figure \ref{fig:hla_design_implmementation} of the design in section \ref{subsection:hld}.
+This section describes the chosen technologies and resources for the implementation, shown in Figure \ref{fig:hla_design_implmementation}, of the design in section \ref{subsection:hld}.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -1335,12 +1342,12 @@ The Task Manager performs the following tasks:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-    \item Obtains the list of domains from the domain list source \newline (\texttt{https://tranco-list.eu/top-1m.csv.zip})
-    \item Create the tasks directly in the Datastore (MongoDB)
-    \item Create an archive of the tasks via the Task API
-    \item Delete tasks from the Datastore
-    \item Identify Zombie Tasks (tasks that have been marked as started but not complete after a certain amount of time)
-    \item Generate task metrics and store them directly in the time series DB (Influx DB)
+    \item Obtains the list of domains from the ``Tranco'' domain list source \newline (\texttt{https://tranco-list.eu/top-1m.csv.zip}).
+    \item Create tasks directly in the Datastore (MongoDB).
+    \item Create an archive of the tasks via the Task API.
+    \item Delete tasks from the MongoDB database.
+    \item Identify zombie tasks (tasks that have been marked as started but not complete after a certain amount of time).
+    \item Generate task metrics and store them directly in the time series DB (Influx DB).
 \end{itemize}
 
 \noindent
@@ -1348,14 +1355,14 @@ The task manager was developed in python as it:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-    \item Is a relatively high-level programming language which aids in being easier to learn than a more low-level language
-    \item Has many libraries, resources freely available online
-    \item There is a large global community generally willing to help
-    \item Being such a popular language, issues that one may come across may have already been encountered and solved already
-    \item Is cross platform, i.e. will run on any computer than can execute python code
+    \item Is a relatively high-level programming language which aids in being easier to learn than a more low-level language.
+    \item Has many libraries and resources freely available online.
+    \item There is a large global community generally willing to help each other.
+    \item Being such a popular language, issues that one may come across may have already been encountered and solved already.
+    \item Is cross platform, i.e. will run on any computer than has a python interpretor available to it.
 \end{itemize}
 
-\subsubsection{[B] Task Manager}
+\subsubsection{[B] Tranco Domains Source List}
 
 As previously mentioned, similar research to this project have used pre-compiled lists, predominantly using the Alex Top Sites list \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}.
 
@@ -1363,14 +1370,14 @@ As previously mentioned, similar research to this project have used pre-compiled
 The research conducted by the Tranco team \cite{Le_Pochat2018-ql}, who provide the Tranco domain list \cite{noauthor_undated-mt}, compared several of the ``most popular domains'' lists and identified that domains present in the list can vary wildly on a day to day basis and are susceptible to influence by malicious actors.
 
 \vspace{0.3cm} \noindent
-As a result of this paper and that the Tranco list uses other top site lists to influence their list, the Tranco list \cite{noauthor_undated-mt} was chosen for the domains to can for this project.
+As a result of this paper and that the Tranco list uses other top site lists to influence their list, the Tranco list \cite{noauthor_undated-mt} was chosen as the source for the domains to scan for this project.
 
 \subsubsection{[C] Datastore}
 
-The datastore is intended to only be an ephemeral store as it will only store the tasks until they have been completed.
+The database is intended to only be an ephemeral store as it will only store the tasks until they have all been completed.
 
 \vspace{0.3cm} \noindent
-The data that will be returned by the task agent of arbitrary length and content a relation database is not the optimal choice as it is based on having one or more ``tables'' that relate to one another.
+The data that will be returned by the task agent will be of arbitrary length and structure. A relational database is not the optimal choice as it is based on having one or more ``tables'' that relate to one another.
 
 \vspace{0.3cm} \noindent
 A NOSQL database is designed to store arbitrary length and a non pre-defined content structure.
@@ -1380,19 +1387,20 @@ The MongoDB database technology was chosen as it:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-    \item Is relatively mature
-    \item Has a community version (i.e. free)
-    \item Many programming languages have pre-existing support (libraries)
-    \item Has native support for unstructured data
-    \item Has detailed online documentation
+    \item A NOSQL database.
+    \item Is relatively mature technology implementation.
+    \item Has a community version (i.e. free).
+    \item Many programming languages have pre-existing support (libraries).
+    \item Has native support for unstructured data.
+    \item Has detailed online documentation.
 \end{itemize}
 
 \subsubsection{[D] Task API}
 
-The Task API is meant purely as a common interface for the task agent such that the datastore can be changed without the need to modify the task agent.
+The Task API is meant purely as a common interface for the task agent such that the task database can be changed without the need to modify the task agent.
 
 \vspace{0.3cm} \noindent
-The HTTP protocol was chosen as the interface to the API as it is a very well-known and a standard protocol to use for API’s.
+The HTTP protocol was chosen as the interface to the API as it is a very well-known and a standard protocol to use for an API.
 
 \vspace{0.3cm} \noindent
 The intended clients of the API is the Task Agent (for running and updating the tasks) and the Task Manager (for creating an offline archive once all tasks have completed for later analysis)
@@ -1402,28 +1410,28 @@ The Task API can perform the following functions:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-    \item Allow a client to retrieve one or more tasks via a HTTP GET request
-    \item Allow the following datastore filtering via url arguments when a HTTP GET request is made:
+    \item Allow a client to retrieve one or more tasks via a HTTP GET request.
+    \item Allow the following task database filtering via url arguments when a HTTP GET request is made:
     \item Task Status (e.g completed)
     \item Task Unique ID
     \item Sort by Unique ID
-    \item Allow a client to update one or more tasks via a HTTP GET request
+    \item Allow a client to update one or more tasks via a HTTP POST request
 \end{itemize}
 
 \vspace{0.6cm} \noindent
 GO (also referred to as Golang) was chosen as the programming language to implement the API as it:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-    \item Is a relatively low language which helps with improving performance
-    \item Is one of the easier lower-level languages to learn as it is one of the GO core principles
-    \item Has the ability to run tasks concurrently (the more domains scanned concurrently the faster the scan of all domains can be completed)
-    \item There are several community modules for GO to communicate with MongoDB, the chosen datastore for this project
-    \item Has numerous community modules for GO for the purpose of creating an HTTP API
+    \item Is a relatively low language which helps with improving performance.
+    \item Is one of the easier lower-level languages to learn as it is one of the GO core principles to be able to pickup up the language quickly.
+    \item Has the ability to run tasks concurrently (the more domains scanned concurrently the faster the scan of all domains can be completed).
+    \item There are several community modules for GO to communicate with MongoDB (the chosen database for this project).
+    \item Has numerous community modules for GO for the purpose of creating a HTTP API.
 \end{itemize}
 
 \subsubsection{[E] Task Agent}
 
-The task agent obtains tasks from the Task API. A task contains the required information to allow the task agent to conduct scans against domains.
+The task agent obtains tasks from the Task API. A task contains the required information to allow the task agent to conduct scans against a domain.
 
 \vspace{0.6cm} \noindent
 Table \ref{table:task_agent_parameters} details the parameters of a Task Agent.
@@ -1465,29 +1473,29 @@ As with the Task API the Task Agent will use the programming language GO.
 
 \subsubsection{[F] Domain}
 
-This is the target domain of a task being performed by the Task Agent
+This is the target domain of a task being performed by the Task Agent.
 
 \subsubsection{[G] Time Series Database}
 
-The Task Manager will create metrics about tasks and send then to the time series database (InfluxDB). Time series databases are optimise metrics that are time bound which is this type of database was chosen to store the metrics.
+The Task Manager will create metrics about tasks and send then to the time series database. Time series databases are optimised for metrics that are time bound which is the type of metrics that is required to be stored. 
 
 \vspace{0.3cm} \noindent
-Influx DB was chosen as it is relatively modern and found to be quick and easy to setup whilst also having a community (free) version available.
+InfluxDB was the time series database technology implementation chosen as it is is relativity modern, quick to get up and running and has a community version available (free).
 
 \subsubsection{[H] Metric Grapher}
 
-A metric grapher allows the user to create charts to represent data points. In the case of this project a metric grapher was used to generate basic graphs about the state of tasks for monitoring purposes.
+A metric grapher allows the user to create charts to from metrics. In the case of this project a metric grapher was used to generate basic graphs about the state of tasks for monitoring purposes from the metrics stored in the InfluxDB time series database.
 
 \vspace{0.3cm} \noindent
-Grafana was chosen as it is free and offers the ability to create basic alerts.
+Grafana was chosen as it is free, has built in support for communicating with InfluxDB, has an HTTP interface and offers the ability to create basic alerts.
 
 \vspace{0.3cm} \noindent
-Alerts were configured to fire under the following conditions:
+Alerts were configured in Grafana to fire under the following conditions:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-    \item If there were zombie tasks
-    \item If the number of tasks being processed dropped below a certain value over a specific amount of time for a task agent if there were tasks waiting to be processed
+    \item If there were zombie tasks.
+    \item If the number of tasks being processed dropped below a certain value over a specific amount of time for a task agent, if there were tasks waiting to be processed.
 \end{itemize}
 
 \subsubsection{[I] All Tasks Archive}
@@ -1495,7 +1503,7 @@ Alerts were configured to fire under the following conditions:
 Once all tasks have been processed the Task Manager will use the Task API to create a gzip compressed tar file archive containing a json structured representation for each task.
 
 \vspace{0.3cm} \noindent
-This compressed archive is later stored on a file server for later analysis.
+This compressed archive is transferred to archive file server for later analysis.
 
 \subsection{Task Parameters}
 \label{subsection:task_parameters}
@@ -1522,10 +1530,10 @@ A task has up to two parameters.
 \subsection{Task Flow}
 \label{section:task_flow}
 
-This section describes the high level task flow once a task has been obtained from the Task API and is ready to be processed.
+This section describes the high level task flow once a task has been obtained from the Task API and is now to be processed.
 
 \vspace{0.3cm} \noindent
-The following describes the stages that the task processing goes through for the domain \texttt{example.com}. This is shown graphically in figure \ref{fig:task_flow}.
+The following describes the stages that task processing goes through if the task parameter \texttt{fqdn} had a value of \texttt{example.com}. This is shown graphically in figure \ref{fig:task_flow}.
 
 \subsubsection{Stage 0 - Task Parameters}
 
@@ -1557,17 +1565,17 @@ If no IPv4 addresses are returned, a further DNS request to lookup the \texttt{A
 If the DNS request made to \texttt{www.example.com} returns no IPv4 addresses, the task is aborted and no further attempts will be made to process the task.
 
 \vspace{0.3cm} \noindent
-If the DNS request made to \texttt{www.example.com} returns IPv4 addresses, \texttt{www.example.com} is now referred to as the resolvable domain resulting in Stage 2 being complete and processing moves to Stage 3.
+If the DNS request made to \texttt{www.example.com} returns IPv4 addresses, \texttt{www.example.com} is now referred to as the resolved domain resulting in Stage 2 being complete and processing moves to Stage 3.
 
 \vspace{0.3cm} \noindent
-\textbf{NOTE:} For the purpose of describing the task flow, for the further stages, the resolved domain shall from here on out be assumed to have been determined to be \texttt{www.example.com} for the fqdn parameter of \texttt{example.com}.
+\textbf{NOTE:} For the purpose of describing the task flow, for the further stages, the resolved domain shall from here on out be assumed to have been determined to be \texttt{www.example.com} for the \texttt{fqdn} task parameter of \texttt{example.com}.
 
 \subsubsection{Stage 3 - HTTP(S) Request}
 
 A HTTP request is made to the resolved domain \texttt{http://www.example.com}.
 
 \vspace{0.3cm} \noindent
-Following redirects, if the last url in the redirect chain starts with \texttt{https://} (e.g. \texttt{https://www.example.com/index.php}) Stage 3 is deemed complete and processing moves to Stage 4.
+Following redirects, if the last url in the redirect chain starts with \newline \texttt{https://} (e.g. \texttt{https://www.example.com/index.php}) Stage 3 is deemed complete and processing moves to Stage 4.
 
 \vspace{0.3cm} \noindent
 If the previous request did not result in a \texttt{https://} url a HTTPS request is made to the resolvable domain \texttt{https://www.example.com}.
@@ -1576,7 +1584,7 @@ If the previous request did not result in a \texttt{https://} url a HTTPS reques
 Following redirects, if the last url in the redirect chain starts with \texttt{https://} (e.g. \newline \texttt{https://www.example.com/index.php}) Stage 3 is deemed complete and processing moves to Stage 4.
 
 \vspace{0.3cm} \noindent
-If the first request did result in a \texttt{http://} url (e.g. \texttt{http://www.example.com/index.php}), i.e. did not ultimately get redirected to a \texttt{https://} url, Stage 3 is deemed complete and processing moves to Stage 4.
+If the first request did result in a \texttt{http://} url (e.g. \texttt{http://www.example.com/index.php}), i.e. did not ultimately get redirected to a \texttt{https://} url, Stage 3 is deemed complete and processing moves to Stage 6 (skipping Stages 4 and 5 as they are only performed if a request ends in a HTTPS url).
 
 \vspace{0.3cm} \noindent
 If no \texttt{http://} or \texttt{https://} response is obtained from the resolved domain, Stage 3 is deemed to have failed and the task is aborted and no further attempts will be made to process the task.
@@ -1592,7 +1600,8 @@ The TLS version used for the HTTPS connection in Stage 3 is skipped as it has al
 \vspace{0.3cm} \noindent
 Stage 4 is deemed complete and processing moves to Stage 5.
 
-\subsubsection{Stage 5 - HSTS}
+\subsubsection{Stage 5 - HSTS Preload}
+\label{subsection:stage_5_hsts}
 
 This stage gathers the required data, such that a determination can be made at a later stage, if the domain of last url in the redirect chain (e.g. \texttt{http://www.example.com/index.php}) from Stage 3 meets the HSTS Preload requirements.
 
@@ -1600,13 +1609,13 @@ This stage gathers the required data, such that a determination can be made at a
 The HSTS Preload requirements are detailed in section \ref{section:hsts_preload}.
 
 \vspace{0.3cm} \noindent
-The following actions are performed on the base domain of the last url in the redirect chain from Step 3 and the results of which are recorded. The base domain is determined by the use of the golang library ``golang.org/x/net/publicsuffix''. If any of the actions have already been performed in section 3, they are skipped as the results have already been captured:
+The following actions are performed on the base domain of the last url in the redirect chain from Step 3 and the results of which are recorded. The base domain of the url is determined by the use of the golang library ``golang.org/x/net/publicsuffix''. If any of the actions have already been performed in section 3, they are skipped as the results have already been captured:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-    \item If the domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, make a HTTP request to \texttt{example.com} i.e. \texttt{http://example.com}
+    \item If the base domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, make a HTTP request to \texttt{example.com} i.e. \texttt{http://example.com}
     \item If the \texttt{www} subdomain has a DNS (A record) try and establish a TLS connection to the \texttt{www} subdomain \texttt{www.example.com}
-    \item Make a https call to \texttt{https://example.com} and capture the HTTP headers
+    \item Make a https call to the base domain \texttt{https://example.com} and capture the HTTP headers
 \end{itemize}
 
 
@@ -1637,6 +1646,9 @@ A call is made to this url and if the \texttt{Content-Type} header is present wi
 
 \subsection{Deployment}
 
+This section details how the implementation in section \ref{section:Implementation} was deployed.
+
+\vspace{0.3cm} \noindent
 The components as outlined in Section \ref{section:Implementation} were deployed using cloud infrastructure as detailed in Table \ref{table:implmentation_cloud}.
 
 \begin{table}[H]
@@ -1655,7 +1667,7 @@ The components as outlined in Section \ref{section:Implementation} were deployed
       \hline
     \end{tabular}
 %    \captionsetup{width=.75\textwidth}
-    \caption{Cloud Infrastructure}
+    \caption{Cloud Infrastructure Deployment}
     \label{table:implmentation_cloud} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
@@ -1664,7 +1676,7 @@ The components as outlined in Section \ref{section:Implementation} were deployed
 FreeBSD 13.0 was used for the task agents as it was the most recent version available at the time of deployment. There were no performance or security issues identified that required the effort to upgrade the components that remained on FreeBSD 12.2.
 
 \vspace{0.3cm} \noindent
-The number of Task Agents deployed was 5 such that the scanning could be conducted well within 24 hours to allow a reasonable amount of time to rectify issues should they occur. The average time for all 1 million tasks to be completed is approximately 11 hours.
+The number of Task Agents deployed was 5, such that the scanning could be conducted well within 24 hours to allow a reasonable amount of time to rectify issues should they occur. The average time for all 1 million domains to be scanned is approximately 11 hours.
 
 \subsubsection{Automation}
 
@@ -1674,14 +1686,17 @@ The Task Manager is scheduled to obtain the latest Tranco domain list and create
 The Task Manager is scheduled to check if all the tasks have been completed between 1000 UTC to 2300 UTC. Once all tasks have been completed, they are collected to create the ``All Tasks Archive'' and then the tasks are deleted from the MonogDB datastore. Each ``All Tasks Archive'' is approximately 4GB in size.
 
 \vspace{0.3cm} \noindent
-The Task Agents continually look for new tasks to perform and run up to 100 concurrent tasks.
+A Task Agent continually look for new tasks to perform and run up to 100 concurrent tasks.
 
 \subsubsection{Issues Encountered}
 
 \textbf{Zombie Tasks}
 
 \vspace{0.2cm} \noindent
-A zombie task is one where it is started but does not complete within a set amount of time. For this research the duration limit for a task deemed to be a zombie task is 120 minutes (2hours). This occurred less than one task per 10 million tasks performed. When a zombie task was detected it was reset and re-attempted. All reset tasks completed successfully. It was not looked into why zombie tasks occurred as the rate was so low it was not an efficient use of time and would not affect the research results as the tasks were successfully re-attempted.
+A zombie task is one where it is started but does not complete within a set amount of time. For this research the duration limit for a task deemed to be a zombie task is 120 minutes (2hours). This occurred less than one task per 10 million tasks performed. When a zombie task was detected it was reset and re-attempted. All reset tasks completed successfully.
+
+\vspace{0.2cm} \noindent
+It was not looked into why zombie tasks occurred as the rate was so low it was not an efficient use of time and would not affect the research results as the tasks were successfully re-attempted.
 
 \vspace{0.6cm} \noindent
 \textbf{Data Loss}
@@ -1693,7 +1708,7 @@ An unexpected permanent loss of access to the storage location the ``All Tasks A
 \textbf{Programming}
 
 \vspace{0.2cm} \noindent
-Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when there is a non standard  http code is received it will cause golang to panic and the program will terminate. There was a single domain that caused this issue and it was put in the deny list to overcome this issue.
+Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when there is a non standard  http code is received, it will cause golang to panic and the program will terminate. There was a single domain that caused this issue and it was put in the deny list to overcome this issue.
 
 \newpage
 
@@ -1706,7 +1721,7 @@ It is not feasible to request permission to conduct internet measurement scans f
 The ethical considerations as outlined in \cite{Amann2017-co,Partridge2016-ph,Durumeric2015-zq,Kumar2017-qw} were considered for this research.
 
 \vspace{0.3cm} \noindent
-During the literature research, not all research that was of a similar nature contained ethical considerations. One would hope that ethic consideration was performed in the research, but should be outlined if only minimally.
+During the literature research, not all research that was of a similar nature contained ethical consideration statements. One would hope that ethic consideration was performed in the research, but should be outlined if only minimally.
 
 \subsection{Service Degradation}
 
@@ -1716,16 +1731,16 @@ Using a list ``Tranco List'' which is a ``most popular'' type of domain lists re
 For the purpose of obtaining the HTTP headers of a domain the ``Home Page'' of the domains are requested which are more likely to be cached than other pages.
 
 \vspace{0.3cm} \noindent
-To determine the TLS versions supported by a domain, other than that used on the HTTPS request to the home page, raw TLS only connections are attempted which reduces the service impact as HTTP requests will add additional load over raw TLS connections. Additionally raw TLS connections are only attempted if an HTTPS connection was succuessfull to a domain's home page.
+To determine the TLS versions supported by a domain, other than that used on the HTTPS request to the home page, pure TLS connections are attempted which reduces the service impact as HTTP requests will add additional load additional to that of a pure TLS connections. Additionally pure TLS connections are only attempted if an HTTPS connection was successful to a domain's home page.
 
 \vspace{0.3cm} \noindent
-Whilst obtaining if a domain meets the HSTS preload requirements of a domain, it is first checked if a url has already been requested (including redirects) that is needed, to avoid the duplication of requests unnecessarily.
+Whilst obtaining the HSTS preload state of a domain, as detailed in section \ref{subsection:stage_5_hsts}, it is first checked if a url has already been requested. During the processing of a task, including redirects, it is quite possible that the information sought has already been obtained.
 
 \vspace{0.3cm} \noindent
 There is no retry logic for a request to a domain to additionally reduce service degradation of the target domain.
 
 \vspace{0.3cm} \noindent
-Randomisation, as  is another potential tactic however as the research uses a domain list rather than ip addresses and thus for randomisation to be effective the ip addresses would need to be pre resolved which is not being undertaken in this research.
+Randomisation is another potential tactic, however as the research uses a domain list rather than ip addresses. For randomisation to be effective the ip addresses would need to be pre resolved which is not being undertaken in this research.
 
 \subsection{Exploitation}
 
@@ -1741,11 +1756,11 @@ The software used to conduct the research against domains does not attempt to:
 
 \subsection{Information Disclosure}
 
-As this research obtains publicly available information and is not revealing vulnerabilities about any particular domain, there is not a concern of exposing information about domains that may revel vulnerability.
+As this research obtains publicly available information and is not revealing vulnerabilities about any particular domain, there is not a concern of exposing information about domains that may revel vulnerabilities.
 
 \subsection{Abuse Reports}
 
-As the domains being scanned have not given permission for research to be conducted upon them, the ip addresses that conduct the research have rDNS (reverse DNS) entries configures such that complaints/enquires can be submitted.
+As the domains being scanned have not given permission for research to be conducted upon them, the ip addresses that conduct the research have rDNS (reverse DNS) entries configured such that complaints/enquires can be submitted.
 
 \vspace{0.3cm} \noindent
 The cloud service providers for the servers that conduct the research have easy to use interfaces to allow responses to abuse reports should they be submitted.
@@ -1754,7 +1769,7 @@ The cloud service providers for the servers that conduct the research have easy 
 The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an ip address can host more than one domain and a complaint may ask to block an ip address range.
 
 \vspace{0.3cm} \noindent
-There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which state a request for ``assistance in verifying possible malicious activity being hosted on a system registered to you''. The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating the the request was made for the purpose of internet research.
+There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which stated a request for ``assistance in verifying possible malicious activity being hosted on a system registered to you''. The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating the the request was made for the purpose of internet research.
 
 \newpage
 
