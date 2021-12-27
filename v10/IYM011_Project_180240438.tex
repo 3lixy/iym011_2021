@@ -864,13 +864,13 @@ Part II - Why Security Features Exist
 \section{The Need for Security Mechanisms}
 \label{section:need_for_security_mechanisms}
 
-As communication technologies continually improve, it has allowed and attracted an ever-increasing amount of people to interact with services on the internet. Malicious actors and security researches are drawn to this large online user base being interacting with online services such as those that:
+As communication technologies continually improve, it has allowed and attracted an ever-increasing amount of people to interact with services on the internet. Malicious actors and security researches are drawn to this large online user base interacting with online services such as those that:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
 	\item process payments \cite{Herman2019-zb}
 	\item provide online banking \cite{Gezer2019-oy}
 	\item contain confidential information (e.g. medical related data) \cite{Mrdjenovich2020-vz}
-	\item provide communication channels e.g. social networks and forums
+	\item provide communication channels (e.g. social networks and forums)
 \end{itemize}
 
 \vspace{0.3cm} \noindent
@@ -883,7 +883,7 @@ OWASP maintain a Top Ten list, determined using a publicised methodology, which 
 The ``Global Data At Risk State of the Web'' 2020 report \cite{Tala_Security2020-ee} claims that on average, the top 1000 websites in the Alexa top one million website list, rely upon the 32 third party integrations. This gives a great opportunity for attackers to leverage the supply chain attack (detailed in section \ref{subsection:SupplyChain}) to compromise websites that may be harder to compromise directly. One such example of this attack is the 2018 Magecart attack on Ticktmaster \cite{Herman2019-zb} to steal payment information via the compromise of third party resources.
 
 \vspace{0.3cm} \noindent
-Due to the susceptibility of data traversing the internet being intercepted and attacked, its integrity and confidentially needs to be protected. For browser traffic this would achieved by the use of HTTPS, which uses SSL/TLS secure channels, instead of the insure HTTP. Unfortunately not all websites use HTTPS and or redirect to the HTTPS version should it exist. Governments are encouraging the use of HTTPS \cite{noauthor_undated-oz} as well as the community itself \cite{noauthor_undated-xk}. The general advice is that if one is in control of a website, it should be using HTTPS regardless of the websites purpose or content. 
+Due to the susceptibility of data traversing the internet being intercepted and attacked, its integrity and confidentially needs to be protected. For browser traffic this is achieved by the use of HTTPS, which uses SSL/TLS secure channels, instead of the insure HTTP. Unfortunately not all websites use HTTPS and or redirect to the HTTPS version should it exist. Governments are encouraging the use of HTTPS \cite{noauthor_undated-oz} as well as the community itself \cite{noauthor_undated-xk}. The general advice is that if one is in control of a website, it should be using HTTPS regardless of the websites purpose or content. 
 
 \vspace{0.3cm} \noindent
 The following attacks are ones that can be mitigated by one or more of the security mechanisms described in the previous sections of this report.
@@ -891,36 +891,37 @@ The following attacks are ones that can be mitigated by one or more of the secur
 \subsection{Cross Site Scripting (XSS)}
 \label{subsection:XSS}
 
-Cross Site Scripting (XSS) attacks are part of the injection class of attacks where one or more malicious scripts, commonly written in JavaScript, are injected and subsequently executed on a web browser. There are three main categories of XSS attacks:
+Cross Site Scripting (XSS) attacks are part of the injection class of attacks where one or more malicious scripts, commonly written in JavaScript, are injected and subsequently executed on a web browser. There are four main variants of XSS attacks:
 
 \subsubsection{Attack Variants}
 \textbf{Reflected}
 
 \vspace{0.2cm} \noindent
-Stored XSS (also referred to as Non-Persistent Indirect and Type II) occurs as a result of when a request is made to a web application, that contains malicious content, the response contains a malicious script that is executed by the web browser. The malicious script is reflected back to the user, hence the name of this variant \cite{Rodriguez2020-bg}.
+Stored XSS (also referred to as \textit{Non-Persistent}, \textit{Indirect} and \textit{Type II}) occurs as a result of when a request is made to a web application, that contains malicious content, the response contains a malicious script that is executed by the web browser. The malicious script is reflected back to the user, hence the name of this variant \cite{Rodriguez2020-bg}.
 
 \vspace{0.6cm} \noindent
 \textbf{Stored}
 
 \vspace{0.2cm} \noindent
-Stored XSS (also referred to as Persistent, Direct and Type I) is where a malicious actor is able to store a malicious script on a website, by some means such as a forum post or comment section of a website such that the script will be executed, rather than made benign by the web application, when a victim visits the page. The power of this variant is that the script is permeant, until when or even if the script is detected and removed, and has the potential to have many visitors to become victims depending of the traffic of the compromised web page(s) \cite{Rodriguez2020-bg}.
+Stored XSS (also referred to as \textit{Persistent}, \textit{Direct} and \textit{Type I}) is where a malicious actor is able to store a malicious script on a website, by some means such as a forum post or comment section of a website such that the script will be executed, by the web application when a victim visits the page. The power of this variant is that the script is permanent, until when or even if the script is detected and removed. This variant has the potential to have many visitors to become victims depending of the traffic of the compromised web page(s) \cite{Rodriguez2020-bg}.
 
 \vspace{0.6cm} \noindent
 \textbf{DOM-Based}
 
-
 \vspace{0.2cm} \noindent
-DOM-Based XSS (also referred to as Persistent, Direct and Type I) takes place entirely in the DOM. The Document Object Model (DOM) is the web browsers internal representation of an html page as a result of the browser parsing the html. The source (e.g. the url), functionality and destination of the malicious script is all contained within the DOM \cite{Rodriguez2020-bg,Klein2005-hx}.
+DOM-Based XSS (also referred to as \textit{Type 0}) takes place entirely in the DOM. The Document Object Model (DOM) is the web browsers internal representation of an html page as a result of the browser parsing the html. The source (e.g. the parsed html), functionality and destination of the malicious script is all contained within the DOM \cite{Rodriguez2020-bg,Klein2005-hx}.
 
 \vspace{0.6cm} \noindent
 \textbf{Mutation Based}
 
 \vspace{0.2cm} \noindent
-Mutation Based XSS (also referred to as mXSS) is based on the use of the innterHTML functionality, often used to provider web application users to do custom styling, of a browser which allows direct manipulation of the HTML content bypassing the DOM entirely. The malicious actor crafts a “mutated” payload that once processed by the innerHTML functionality allows the script to execute \cite{Heiderich2013-qv}.
+Mutation Based XSS (also referred to as \textit{mXSS}) is based on the use of the \texttt{innterHTML} functionality, often used to provide web application users to do custom styling, of a browser which allows direct manipulation of the HTML content bypassing the DOM entirely. The malicious actor crafts a ``mutated'' payload that once processed by the \texttt{innerHTML} functionality allows the script to execute \cite{Heiderich2013-qv}.
 
 \subsubsection{Historical Example}
-In October of 2005 it was discovered that when users visited an infected MySpace profile the phrase “but most of all, samy is my hero” was appended to the “heroes” section of visiting users profiles. The infected profile contained a stored XSS payload which added itself to the visiting users profile and adding the aforementioned phrase. The attack was initiated by “Samy” infecting their own profile with the XSS payload. Over one million user profiles were reported to have been affected within 20 hours \cite{Lee2019-xf}.
-The attack is known as the “Samy Worm” as it propagated to other myspace profiles just by visiting an infected profile.
+In October of 2005 it was discovered that when users visited an infected MySpace profile the phrase ``but most of all, samy is my hero'' was appended to the ``hero'' section of visiting users profiles. The infected profile contained a stored XSS payload which added itself to the visiting users profile and adding the aforementioned phrase. The attack was initiated by ``Samy'' infecting their own profile with the XSS payload. Over one million user profiles were reported to have been affected within 20 hours \cite{Lee2019-xf}.
+
+\vspace{0.2cm} \noindent
+The attack is known as the ``Samy Worm'' as it propagated to other MySspace profiles just by visiting an infected profile.
 
 \subsubsection{Security Mechanism(s) Providing Mitigation}
 
@@ -935,7 +936,8 @@ The attack is known as the “Samy Worm” as it propagated to other myspace pro
 \subsection{Supply Chain}
 \label{subsection:SupplyChain}
 
-Supply chain attacks are when a malicious entity maliciously alters one or more third party resource(s) (such as a javascript library) that a web application uses, commonly hosted on a third party location such as a CDN. These malicious modifications to such are for several reasons including:
+Supply chain attacks are when a malicious entity maliciously alters one or more third party resource(s) (such as a javascript library) that a web application uses, commonly hosted on a third party location such as a CDN. These malicious modifications are for several reasons including:
+
 \begin{itemize}
 	\setlength\itemsep{0.1em}
 	\item Running a cryptominer \cite{Tekiner2021-sq} on browsers
@@ -962,10 +964,10 @@ A clickjacking attack is in one which a user-initiated attack is hijacked to per
 The Twitter Attack, also referred to as the ``Twitter Bomb'', begins by a user seeing a twitter post that contains the text \texttt{Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and clicking on the link. Visiting the link will present the user with a page seemingly only containing only a single button ladled \texttt{Don't Click}.
 
 \vspace{0.3cm} \noindent
-Unbeknownst to the user, the twitter home page is also rendered on the page but in an invisible iframe. The \texttt{Don't Click} button is directly underneath the invisible “update” button, which posts a tweet, of the twitter home page. The iframe is configure to load the url \texttt{http://www.twitter.com/?status=Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and twitters \texttt{?status=} feature will pre-load the users tweet box with the status message.
+Unbeknownst to the user, the twitter home page is also rendered on the page but in an invisible iframe. The \texttt{Don't Click} button is directly underneath the invisible ``update'' button, which posts a tweet of the twitter home page. The iframe is configure to load the url \texttt{http://www.twitter.com/?status=Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and twitters \texttt{?status=} feature will pre-load the users tweet box with the status message.
 
 \vspace{0.3cm} \noindent
-When the user clicks the \texttt{Don't Click} section of the page they are actually clicking the invisible \texttt{update} button of the twitter home page which posts the text \texttt{Don’t Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} which helps to spread the message. There was no ill intent to this clickjacking attack and as such considered more of a prank.
+When the user clicks the \texttt{Don't Click} section of the page they are actually clicking the invisible \texttt{update} button of the twitter home page which creates a tweet with the text \texttt{Don’t Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} which helps to spread the message. There was no ill intent to this clickjacking attack and as such considered more of a prank.
 \subsubsection{Security Mechanism(s) Providing Mitigation}
 
 \begin{itemize}
@@ -977,7 +979,7 @@ When the user clicks the \texttt{Don't Click} section of the page they are actua
 \subsection{Entity in the Middle}
 \label{subsection:entity_in_the_middle}
 
-Malicious actors are constantly on the lookout for was to obtain sensitive data for a multitude of reasons including: intellectual property theft, stealing money and personal information.
+Malicious actors are constantly on the lookout for ways to obtain sensitive data for a multitude of reasons including: intellectual property theft, stealing money and personal information.
 
 \vspace{0.3cm} \noindent
 One of the ways to help prevent this is to secure the communication traffic over the internet using HTTPS which relies on the SSL/TLS mechanism.
@@ -986,46 +988,51 @@ One of the ways to help prevent this is to secure the communication traffic over
 If a malicious actor is able to intercept and or passively monitor web traffic, the opportunity arises to perform what is known as an Entity in the Middle attack.
 
 \vspace{0.3cm} \noindent
-The Entity in the Middle attack is where an attacker is able to intercept and manipulate traffic between the victim and the target entity such as a website. This can lead to attacks such as victims unknowingly giving their credentials to attackers as well as attackers manipulating the response from the website before being sent to the victim.
+The Entity in the Middle attack is where an attacker is able to intercept and manipulate traffic between the victim and the target entity such as a website. This can lead to attacks such as victims unknowingly giving their credentials to attackers as well as attackers manipulating the response from the website before being sent back to the victim.
 
 \vspace{0.3cm} \noindent
-Over the years there have been several attacks against SSL/TLS mechanism compromising the confidentiality of the information it is meant to secure.
+Over the years there have been several attacks against the SSL/TLS mechanism, compromising the confidentiality and or integrity of the information it is meant to secure.
 
 \subsubsection{Historical Examples}
 \textbf{BEAST (2011)}
 
 \vspace{0.2cm} \noindent
-The BEAT attack, announced in 2011, was for use against TSL 1.0. The attack exploited the TLS 1.0 implementation of the Cipher Block Chaining (CBC) encryption mode in order to be able to decrypt parts of TLS 1.0 data packets to reveal sensitive data such as website cookies that could be used to impersonate a user on a web application \cite{Ristic2017-aj,Levillain2015-os}. Modification of padding in this was is referred to by the term “padding oracle”. The vulnerability was fixed in TLS 1.1.
+The BEAT attack, announced in 2011, was for use against TSL 1.0. The attack exploited the TLS 1.0 implementation of the Cipher Block Chaining (CBC) encryption mode in order to be able to decrypt parts of TLS 1.0 data packets to reveal sensitive data such as website cookies that could be used to impersonate a user on a web application \cite{Ristic2017-aj,Levillain2015-os}. Modification of padding, the primary exploitation vector, used in this attack is referred to by the term ``padding oracle''. The vulnerability was fixed in TLS 1.1.
+
 
 \vspace{0.6cm} \noindent
 \textbf{Lucky 13 (2013)}
 
 
 \vspace{0.2cm} \noindent
-The Lucky 13 attack is where a malicious attacker modifies, in transit, the padding (redundant data to make the data packet a certain size) of TLS data packets, that are using a CBC cipher suite, to analyse how the server reacts. Should the malicious actor be able to determine that the server has reacted to the modifications of padding, then this can lead to information leakage and plaintext recovery \cite{Ristic2017-aj,Al_Fardan2013-sw}. This attack is effective against TLS 1.0 - 1.3 and SSL 3.0 that use CBC mode (or any other that do not have padding oracle countermeasures)
+The Lucky 13 attack is where a malicious attacker modifies, in transit, the padding (redundant data to make the data packet a certain size) of TLS data packets, that are using a CBC cipher suite, to analyse how the server reacts. Should the malicious actor be able to determine that the server has reacted to the modifications of padding, then this can lead to information leakage and plaintext recovery \cite{Ristic2017-aj,Al_Fardan2013-sw}. This attack is effective against TLS 1.0 - 1.3 and SSL 3.0 that use CBC mode (or any other mode that do not have padding oracle countermeasures.)
+
 
 \vspace{0.6cm} \noindent
 \textbf{Poodle (2014)}
 
-
 \vspace{0.2cm} \noindent
-The Poodle attack is similar to the Lucky 13 attack, where unprotected padding is exploited, but restricted to SSL 3.0. In order to force the use of SSL 3.0 the malicious attacker performed a downgrade attack which prevented a TLS handshake for any protocol version higher than SSL 3.0 to be established \cite{Ristic2017-aj,Al_Fardan2013-sw}. The downgrade attack was possible due servers would fall back to SSL 3.0 should higher protocol versions fail.
+The Poodle attack is similar to the Lucky 13 attack, where unprotected padding is exploited, but restricted to SSL 3.0. In order to force the use of SSL 3.0 the malicious attacker performed a downgrade attack which prevented a TLS handshake for any protocol version higher than SSL 3.0 to be established \cite{Ristic2017-aj,Al_Fardan2013-sw}. The downgrade attack was possible as servers would fall back to SSL 3.0 should higher protocol versions fail.
+
 
 \vspace{0.6cm} \noindent
 \textbf{Heartbleed (2014)}
 
+\vspace{0.2cm} \noindent
+The 2014 Heartbleed attack, which gained attention in the mainstream media, exploited an implantation flaw in length of a data bounds check. The flaw was in the rarely used but commonly enabled heartbeat protocol \cite{Durumeric2014-yj} of the TLS mechanism in the OpenSSL library (used by millions of servers).
 
 \vspace{0.2cm} \noindent
-The 2014 Heartbleed attack, which gained attention in mainstream media, exploited an implantation flaw in length of a data bounds check. The flaw was in a rarely used but commonly enabled heartbeat protocol \cite{Durumeric2014-yj} of the TLS mechanism in the OpenSSL library (used by millions of servers). To exploit the vulnerability a malicious actor would send a HeartbeatRequest message, setting the payload length set to a length larger than the actual payload length \cite{Durumeric2014-yj}.
+To exploit the vulnerability, a malicious actor would send a \texttt{HeartbeatRequest} message, setting the payload length set to a length larger than the actual \texttt{HeartbeatRequest} message payload length \cite{Durumeric2014-yj}. This allowed the extraction of private memory on the target which could lead to the ex-filtration of sensitive data such as website private keys and cryptographic secrets.
 
 \vspace{0.3cm} \noindent
-This allowed the extraction of private memory which could lead to the ex-filtration of sensitive data such as website private keys and cryptographic secrets. The maintainers of the OpenSSL library released a fix for the vulnerability alongside the public announcement of the vulnerability \cite{Durumeric2014-yj}.
+The maintainers of the OpenSSL library released a fix for the vulnerability alongside the public announcement of the vulnerability \cite{Durumeric2014-yj}.
+
 
 \vspace{0.6cm} \noindent
 \textbf{FREAK (2015)}
 
 \vspace{0.2cm} \noindent
-The 2015 FREAK shed light that the OpenSSL library would accept weak RSA encryption keys, from the use of export grade cipher suites, during a full-strength RSA TLS handshake. A malicious actor would force the client to use such a weak key by sending a SeverKeyExchange TLS protocol message to the client. If such a weak key was used the malicious actor could capture the traffic, brute force the key within a matter of hours and decrypt the captured traffic. The removal of export grade cipher suites on the server would stop this attack \cite{Ristic2017-aj,Beurdouche2015-ga}.
+The 2015 FREAK attack shed light that the OpenSSL library would accept weak RSA encryption keys, from the use of export grade cipher suites, during a full-strength RSA TLS handshake. A malicious actor would force the client to use such a weak key by sending a texttt{SeverKeyExchange} TLS protocol message to the client. If such a weak key was used the malicious actor could capture the traffic, brute force the key within a matter of hours and decrypt the captured traffic. The removal of export grade cipher suites on the server stops this attack \cite{Ristic2017-aj,Beurdouche2015-ga}.
 
 \subsubsection{General Mitigation Strategies}
 
@@ -1041,6 +1048,7 @@ Part III - Data Acquisition
 \end{center}
 \vspace{\fill}
 
+\clearpage
 \newpage
 
 \section{Data Acquisition}
@@ -1049,24 +1057,33 @@ Part III - Data Acquisition
 In order to be able to analyse HTTP Security Headers, TLS Versions, HSTS Preloading and security.txt adoption, or lack thereof, data on these desired metrics needs to be acquired. There are several overarching ways to acquire the desired data: Active, Passive and Third-Party data sets.
 
 \vspace{0.3cm} \noindent
-Active data collection is the act of establishing TLS connections and or making HTTP requests and storing the resultant connection/request/response data. This method requires the setup of infrastructure and software that can involve the customisation and or development of entire software applications. Active scanning gives great versatility, however care needs to be taken to ensure the data is collected in a known and reportable way in order for the analysis to have meaning.
+Active data collection is the act of establishing TLS connections and or making HTTP requests and storing the resultant connection/request/response data. This method requires the setup of infrastructure and software, which can involve the customisation and or development of entire software applications. Active scanning gives great versatility, however care needs to be taken to ensure the data is collected in a methodical and ideally a reportable way, in order for the analysis to have meaning.
 
 \vspace{0.3cm} \noindent
-Passive data collection is capturing TLS connection data as it flows through network infrastructure. The infrastructure required is likely to be less than that of active collection as it should only require the duplication of pre-existing network traffic to a device that is able to store the data. With any sort of data collection there is the always the ethical consideration to take in to account, however with passive collection privacy is of higher concern than active data collection and needs to be treated as such.
+Passive data collection is capturing data as it flows through network infrastructure. The infrastructure required is likely to be less than that of active collection as it should only require the duplication of pre-existing network traffic to a device that is able to store the data. With any sort of data collection there is the always the ethical consideration to take in to account, however with passive collection privacy is of higher concern than active data collection and needs to be treated as such.
 
 \vspace{0.3cm} \noindent
-Third Party data sets is the use of data collected by another entity that is using passive and or active collection. The only infrastructure that should be needed by the researcher would be that needed to analyse the data. There is great trust that the third party has conducted the data collection in a way that makes the analysis of meaningful use.
+Third Party data sets is the use of data collected by another entity that is using passive and or active collection. The only infrastructure that should be needed by the researcher would be that needed to analyse the data. There is great trust that the third party has conducted the data collection in a way that makes the analysis of it meaningful.
 
 \subsection{Scanning Targets}
-Active data collection, for the purpose of measuring security mechanism adoption, requires a list of entities to collect data from. Generating a list of domains to scan on ones own could be potentially quite an arduous task. Using resources that contain collections of domains is a much easier task assuming the collection is of high relevance to the research that is to be conducted.
+Active data collection, for the purpose of measuring security mechanism adoption, requires a list of entities to collect data from. Generating a list of domains to scan on ones own could be potentially quite an arduous task. Using resources that contain collections of domains is a much easier task, assuming the collection is of high relevance to the research that is to be conducted.
 
 \subsubsection{Pre-complied Lists}
 
-Pre-compiled, often ranked by popularity, domain lists are made available by organisations that claim they are in a position to create such lists such as: Alexa Top 1 Million sites \cite{noauthor_undated-wh}, Cisco Umbrella \cite{noauthor_undated-ku}, Majestic Million \cite{noauthor_undated-sz} and Tranco \cite{noauthor_undated-mt}. These lists are updated regularly, as often as once a day, which allows researchers to have up to date lists that are freely available. The Alexa Top 1 Million site is a favourite among researchers as shown by use in \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}. These lists are primarily used as they are intended to reflect the most popular sites on the internet and thus are assumed to be ones that would use the most up to date security mechanisms.
+Pre-compiled, often ranked by popularity, domain lists are made available by organisations that claim they are in a position to create such lists such as: Alexa Top 1 Million sites \cite{noauthor_undated-wh}, Cisco Umbrella \cite{noauthor_undated-ku}, Majestic Million \cite{noauthor_undated-sz} and Tranco \cite{noauthor_undated-mt}. These lists are updated regularly, as often as once a day, which allows researchers to have up to date lists that are freely available.
+
+\vspace{0.3cm} \noindent
+The Alexa Top 1 Million site is a favourite among researchers as shown by use in \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}. These lists are primarily used as they are intended to reflect the most popular sites on the internet and thus are assumed to be ones that would use the most up to date security mechanisms.
 
 \subsubsection{Zone Lists}
 
-Zone Lists, such as a ccTLD Zone List which is a list of domains for a country, are another source of domains to scan. These are generally used when the researcher’s intent is to gain insight into an entire country or continent such as the EU \cite{Amann2017-co,Chen2016-dl,Van_Goethem2014-ao,Holz2020-ha}. The majority of Zone Lists are not openly available however ICANN has created the Centralised Zone Data Service (CZDS) \cite{noauthor_undated-mm} which allows one to register and request access to Zone Files. The number of domains to scan using Zone Lists can be in the 10s or even 100s of millions of domains which would likely require more infrastructure to scan on a regular basis compared to the use of precompiled lists.
+Zone Lists, such as a country code top level domain (ccTLD) zone lists, which is a list of domains for a country, are another source of domains to scan. These are generally used when the researcher's intent is to gain insight into an entire country or continent such as the EU \cite{Amann2017-co,Chen2016-dl,Van_Goethem2014-ao,Holz2020-ha}.
+
+\vspace{0.3cm} \noindent
+The majority of zone lists are not openly available however ICANN has created the ``Centralised Zone Data Service'' (CZDS) \cite{noauthor_undated-mm} which allows one to register and request access to Zone Files.
+
+\vspace{0.3cm} \noindent
+The number of domains to scan using zone lists can be in the 10s or even 100s of millions of domains which would likely require more infrastructure to scan on a regular basis compared to the use of pre-compiled lists.
 
 \subsubsection{Search Engines}
 
@@ -1074,21 +1091,24 @@ Utilising search engines can allow additional urls for a domain to be acquired t
 
 \subsubsection{IPv4 Address Space}
 
-Scanning the entire IPv4 Address space (i.e. all internet routable IPv4 addresses) is also a source of entities to scan \cite{Kotzias2018-wd}. The major difference is the use of an IP Address rather than a domain which needs to take into account that servers may respond differently if an IP address is used as the website address rather than a domain name (e.g. https://2.45.2.0 vs https://example.com).
+Scanning the entire IPv4 Address space (i.e. all internet  IPv4 addresses) is also a source of entities to scan \cite{Kotzias2018-wd}. The major difference is the use of an IP Address rather than a domain which needs to take into account that servers may respond differently if an IP address is used as the website address rather than a domain name (e.g. \texttt{https://1.2.3.4} vs \texttt{https://example.com}).
 
 \vspace{0.3cm} \noindent
-The number of internet rout-able IP Addresses, i.e. internet rout-able addresses that can be access over the internet, is around \(2^{32}\) total possible addresses minus approximately 288 million non route-able addresses which results in approximately 4 billion addresses. Scanning the entire IP Address range can lead to abuse reports, however these can often be revoked if the researcher works with the operator who raised the complaint to conduct the scan in a manner in which the operator deems acceptable.
+The number of internet rout-able IP Addresses, i.e. ip addresses that can be access over the internet, is around \(2^{32}\) total possible addresses minus approximately 288 million non route-able addresses which results in approximately 4 billion addresses.
+
+\vspace{0.3cm} \noindent
+Scanning the entire IP Address range can lead to abuse reports, however these can often be revoked if the researcher works with the operator who raised the complaint to conduct the scan in a manner in which the operator deems acceptable.
 
 \subsection{Scanning}
 
 
-\subsubsection{Scanner Technology}
+\subsubsection{Scanner Technologies}
 
 TODO
 
 Research uses many different technologies
 
-\subsubsection{Domain Resolution}
+\subsubsection{Domain Resolving}
 
 When a http client makes a request to a URL (e.g. http://example.com) the client needs to lookup the IP Address of the domain (e.g. example.com) in order to send the HTTP request.
 
@@ -1096,17 +1116,20 @@ When a http client makes a request to a URL (e.g. http://example.com) the client
 Scanning a large number of domains can potentially put a strain on the DNS server the client is using to resolve the domain to an IP Address. If there are a sufficiently large number of domains to be resolved at the same time, or over a very short period of time (e.g. a few seconds) it is possible that the DNS resolution will fail when there is an IP Address that can be resolved. There are several ways around this such as pre determining the IP Address for the domain \cite{Amann2017-co}, using more than DNS server and using retries.
 
 \vspace{0.3cm} \noindent
-Precomputing DNS resolutions makes more sense when not following redirects such as for the TLS connection establishment in \cite{Amann2017-co,Holz2020-ha}.
+Precomputing DNS resolutions makes more sense when not following HTTP redirects such as for the TLS connection establishment in \cite{Amann2017-co,Holz2020-ha}.
 
 \subsubsection{Using the WWW subdomain}
 
-When using lists that contain base domains (e.g. example.com) it is not known if the website is actually hosted or available form the base domain. Websites are generally available from the base domain (e.g. example.com) and or its www subdomain (e.g. www.example.com). To give a good chance of being able to obtain a HTTP response from domain it is common to try both the base domain and the www subdomain \cite{Chen2016-dl,Kumar2017-qw,Ying2016-ag,Michael2015-hn}. Some researchers choose not to also try the www subdomain such as in \cite{Buchanan2018-xz,Amann2017-co}, which can lead to unnecessarily reduced data for analysis, but do not necessarily state why they chose not to do so.
+When using lists that contain base domains (e.g. example.com) it is not known if the website is actually hosted or available form the base domain. Websites are generally available from the base domain (e.g. example.com) and or its www subdomain (e.g. www.example.com).
+
+\vspace{0.3cm} \noindent
+To give a good chance of being able to obtain a HTTP response from domain, it is common to try both the base domain and the www subdomain \cite{Chen2016-dl,Kumar2017-qw,Ying2016-ag,Michael2015-hn}. Some researchers choose not to also try the www subdomain such as in \cite{Buchanan2018-xz,Amann2017-co} (but do not necessarily state why they chose not to do so), which can lead to unnecessarily reduced data for analysis.
 
 \subsubsection{HTTP Method}
 In order to obtain HTTP Security Headers, one needs to make an HTTP Request. There are several types of HTTP Request, GET and HEAD being two of them.
 
 \vspace{0.3cm} \noindent
-HEAD HTTP Requests results in only metadata being returned (this includes HTTP Headers) by the server. The main reason researchers choose to use HEAD HTTP Requests \cite{Amann2017-co} is to save compute resources on the server (as the server does not have to generate the response payload such as a html web page) as well reducing the amount of data being sent over the network.
+HTTP HEAD requests result in only metadata being returned (this includes HTTP Headers) by the server. The main reason researchers choose to use HEAD HTTP Requests \cite{Amann2017-co} is to save compute resources on the server (as the server does not have to generate the response payload such as a html web page) as well reducing the amount of data being sent over the network.
 
 \vspace{0.3cm} \noindent
 Whilst using HEAD requests does save server resources, which helps in the ethics of internet research of this kind, browsers perform GET requests which could potentially respond with different headers for the same URL. If the researcher is intending on analysing the response payload from a website then GET requests \cite{Chen2016-dl,Kumar2017-qw} are required.
@@ -1116,57 +1139,63 @@ Certain applications and programming languages, such as go \cite{noauthor_undate
 
 \subsubsection{HTTP Client Headers}
 
-When browsers make HTTP requests to websites, they send several HTTP headers with the request. One of these headers is named “user-agent” and is often used to detect if the client making the request is a browser. When a website detects that a non-browser is making the request it can change the response which could skew the results of research such as analysing HTTP Security Header adoption.
+When browsers make HTTP requests to websites, they send several HTTP headers with the request. One of these headers is named \texttt{user-agent} and is often used to detect if the client making the request is a browser. When a website detects that a non-browser is making the request it can change the response which could skew the results of research such as analysing HTTP security header adoption for web browsers.
 
 \vspace{0.3cm} \noindent
-For the purposes of internet research when attempting to gather data from responses to HTTP requests that would normally be sent to a browser, the use of a browser user-agent is typically used \cite{Buchanan2018-xz, Patil2017-bg,Ying2016-ag,Lavrenovs2018-dl,Poteat2021-zr}. The declaration from researchers of the value for such headers is not always present \cite{Amann2017-co} which could leave readers potentially questioning the meaning of the resultant analysis.
+For the purposes of internet research when attempting to gather data from responses to HTTP requests that would normally be sent to a browser, the use of a browser user-agent is typically used \cite{Buchanan2018-xz, Patil2017-bg,Ying2016-ag,Lavrenovs2018-dl,Poteat2021-zr}. The declaration from researchers of the value for such headers is not always present \cite{Amann2017-co} which could leave readers potentially questioning the reliability of the resultant analysis.
 
 \subsubsection{Redirects}
 
-When an HTTP Request is made the HTTP Protocol has the ability to redirect to a different page. This is quite normal for websites to do this and there are numerous reasons to do so such as redirecting from the base domain e.g. (http://example.com) to the www subdomain e.g. (http://www.example.com) where the website is actually hosted. It is generally good practice to follow redirects as this is what browsers do unless researchers wish to only analyse a response from a specific url such as the base domain in \cite{Amann2017-co}.
+When a HTTP Request is made, the HTTP Protocol has the ability to redirect to a different url. This is quite normal for websites to do this and there are numerous reasons to do so, such as redirecting from the base domain e.g. (http://example.com) to the www subdomain e.g. (http://www.example.com) where the website is actually hosted. It is generally good practice to follow redirects as this is what browsers do unless researchers wish to only analyse a response from a specific url such as the base domain in \cite{Amann2017-co}.
 
 \vspace{0.3cm} \noindent
-Researchers need to be mindful however that redirects can lead to the same resultant domain for different initial domains (e.g. http://example.com and http://mydomain.com could both redirect to http://anotherdomain.com). This phenomenon can potentially skew analysis results if the researchers do not actively take this into account such as duplicate resultant URLs being removed as was done in \cite{Lavrenovs2018-dl}.
+Researchers need to be mindful however that redirects can lead to the same resultant domain for different initial domains (e.g. http://example.com and http://mydomain.com could both redirect to http://anotherdomain.com).
+
+\vspace{0.3cm} \noindent
+This phenomenon can potentially skew analysis results if the researchers do not actively take this into account such as duplicate resultant URLs being removed as was done in \cite{Lavrenovs2018-dl}.
 
 \subsubsection{SSL/TLS Certificate Validation}
 
-When a TLS connection is being established a browser will validate the certificate(s) presented by the server as described in section X.X.X. If the server does not present all the necessary intermediate certificates the TLS connection will fail unless the browser already has the intermediate certificate available, which can be obtained from such means as: the certificate was obtained from a previously visited website, via Authority Information Access (AIA) \cite{Cooper2008-yr} or from preloading \cite{Keeler2020-yj}.
+When a TLS connection is being established a browser will try and verify the claimed identity of the website (e.g. example.com). If the server does not present all the necessary intermediate certificates, in order to be able to validate the websites claimed identity, the TLS connection will fail unless the browser already has the intermediate certificate available.
 
 \vspace{0.3cm} \noindent
-It is quite common to use non browser clients to conduct research which are not guaranteed to use any of the mentioned methods for obtaining missing intermediate corticates not provided by a website. To counteract this issue the TLS/SSL validation can be disabled for the scanning of website and done as an offline step which enables any missing certificates to be obtained at the researcher’s leisure.
+Intermediate certificates can be obtained from such means as: the website being visited, the certificate was obtained from a previously visited website, via Authority Information Access (AIA) \cite{Cooper2008-yr} or from preloading \cite{Keeler2020-yj}. For further details on PKI, including certificates and identity verification, please see \cite{Clark2013-sh,Holz2011-yv}.
 
 \vspace{0.3cm} \noindent
-It is not evident that any of the papers in the literature research conducted used such an approach, possibly assuming that the number of websites that would have this issue would be minimal not to affect the results analysis conducted.
+It is quite common to use non browser clients to conduct research. These clients are not guaranteed to use any of the above mentioned methods for obtaining intermediate certificates not provided by a website in order to validate the websites claimed identity. To counteract this issue, the TLS/SSL validation can be disabled for the scanning of website and done as an offline step which enables any missing certificates to be obtained at the researcher's leisure.
+
+\vspace{0.3cm} \noindent
+It is not evident that any of the papers in the literature research conducted for this project used such an approach, possibly assuming that the number of websites that would have this issue would be minimal enough not to affect the results analysis conducted or not aware of the issue itself.
 
 \subsubsection{Pre-Analysis Filtering}
-It is generally best to collect the rawest form of data for analysis in order to give the greatest possible options, as what and how to analyse can evolve over time. If the data acquisition phase was filtered before it was stored this could restrict further analysis or potentially cause intended analysis not to be possible due to the way the data was filtered before storage.
+It is generally best to collect the rawest form of data for to give the greatest possible freedom and options when conducting any analysis. If the filtering was carried out at the data acquisition phase this could restrict further analysis or potentially cause intended analysis not to be possible due to the way the data was filtered.
 
 \vspace{0.3cm} \noindent
-A potential example of this is where in \cite{Buchanan2018-xz} the researches decided to parse the headers of a HTTP response during the data acquisition phase. HTTP headers are caseless \cite{Berners-Lee1996-ji} and depending on how the filtering is done the some headers could have been missed, however if all the headers were captured this could have been a non issue during analysis.
+A potential example of this is where in \cite{Buchanan2018-xz} the researches decided to parse the headers of a HTTP response during the data acquisition phase. HTTP headers are caseless \cite{Berners-Lee1996-ji} and depending on how the filtering is done, some headers could have been missed, however if all the headers were captured this could have been a non issue during analysis.
 
 \subsection{Scanning Frequency}
 
-The number of times data gathered and how far apart they are, in terms of time, are important in terms of showing trends and having enough data to confidently make statements from the analysis of such data.
+The number of times data gathered and how far apart they are, in terms of time, are important in terms of showing any potential trends and having enough data to confidently make statements from the analysis of such data.
 
 \vspace{0.3cm} \noindent
-Of the research sources that were reviewed for this project, those that conducted active scanning activities make at least two scans such as \cite{Buchanan2018-xz,Amann2017-co,Chen2016-dl,Kumar2017-qw,} and some with daily scans for years \cite{Holz2020-ha}.
+Of the research sources that were reviewed for this project, those that conducted active scanning activities make at least two scans such as \cite{Buchanan2018-xz,Amann2017-co,Chen2016-dl,Kumar2017-qw} and some with daily scans for years \cite{Holz2020-ha}.
 
 \vspace{0.3cm} \noindent
-The more data that is gathered is the same way the higher value that analysis obtains, assuming that the methodology of the acquisition is sound.
+The more data that is gathered in the same way, the higher value that analysis obtains, assuming that the methodology of the acquisition is sound.
 
 \subsection{Monitoring}
 
-Conducting long running data acquisition would greatly benefit from at minimum some basic metrics that show that a data question started, completed and if a critical issue was encountered. This would help to ensure that data acquisition was successful and to alert if not so that it could be investigated and rectified to reduce any potential to the research being conducted.
+Conducting long running data acquisition would greatly benefit from, at minimum, some basic metrics that show that a data acquisition has started, completed and if a critical issue was encountered. This would help to ensure that data acquisition was successful and to alert if not, so that it could be investigated and rectified to reduce any potential issues to the research being conducted.
 
 \vspace{0.3cm} \noindent
-The researchers in \cite{Poteat2021-zr} stated that they had a “measurement outage” however they do not go into detail. It is possible that monitoring could have helped to reduce and or mitigate the outage.
+The researchers in \cite{Poteat2021-zr} stated that they had a ``measurement outage'' however they do not go into detail. It is possible that monitoring could have helped to reduce and or mitigate the outage.
 
 \subsection{Detailed Methodologies}
 
-The majority of research reviewed for this project state the technologies used and high level description of the methodology used to acquire the data later analysed such as in \cite{Amann2017-co,Chen2016-dl,Van_Goethem2014-ao}.
+The majority of research reviewed for this project state the technologies used and the high level description of the methodology used to acquire the data later analysed, such as in \cite{Amann2017-co,Chen2016-dl,Van_Goethem2014-ao}.
 
 \vspace{0.3cm} \noindent
-Whilst this is generally enough for the reader to understand the high-level methodology those who wish or are conducting research could benefit form a more detailed and formal method. To that end it would be of benefit to the community if a more formal method by which methodologies for internet research is detailed such that they can be compared and contrasted more easily and to aid in its evolution.
+Whilst this is generally enough for the reader to understand the high-level methodology, those who wish or are conducting similar or related research could benefit form a more detailed and formal method. To that end it would be of benefit to the community if a more formal method is documented and made available which would allow internet research methodologies to be documented in a standardised form such that they can be compared and contrasted more easily.
 
 \subsection{Literature Review}
 
@@ -1180,36 +1209,36 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
     \caption{Data Acquisition Literature Review} 
     \label{table:data_acquisition_lit_review} \\ % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex 
 \hline
-\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{This Projects Decision} \\
+\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{How Addressed In This Project} \\
 \hline
 \endfirsthead
 \multicolumn{4}{c}%
 {\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
 \hline
-\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{This Projects Decision} \\
+\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{How Addressed In This Project} \\
 \hline
 \endhead
 \hline \multicolumn{4}{r}{\textit{Continued on next page}} \\
 \endfoot
 \hline
 \endlastfoot
-      \textbf{Data Filtering} & If data is filtered during data capture, it could result in unintended data being filtered & The researches in \cite{Buchanan2018-xz} filter headers during data capture, which if not done perfectly (e.g. spelling and case) could produce unintended results. & All http headers, TLS certificates/connection information is captured \\
+      \textbf{Data Filtering} & If data is filtered during data capture, it could result in unintended data being filtered & The researches in \cite{Buchanan2018-xz} filter headers during data capture, which if not done perfectly (e.g. spelling and case) could produce unintended results. & All http headers, TLS certificates/connection information is captured unfiltered\\
       \hline
-      \textbf{www sumdomin} & If using only the base domains for http(s) requests could produce inaccurate results as not all domains serve http on the base domain. The www subdomain is the most common domain to server http requests besides the base domain. & Researchers \cite{Buchanan2018-xz,Amann2017-co} do not state if the www subdomain explicitly added during scanning. & www subdomain is used if base domain does not have a DNS A record \\
+      \textbf{www sumdomin} & If using only the base domains for http(s) requests could produce inaccurate results as not all domains serve http on the base domain. The www subdomain is the most common domain to serve http requests besides the base domain. & Researchers \cite{Buchanan2018-xz,Amann2017-co} do not state if the www subdomain was explicitly added during scanning. & The www subdomain is used if base domain does not have a DNS A record. \\
       \hline
-      \textbf{HTTP method} & Browsers use the http GET method to obtain web pages. A website might behave differently if a non GET http method (e.g. HEAD) was used. Some websites may not even allow the http HEAD method. & Researchers \cite{Amann2017-co} specifically use the HEAD http method to reduce load on target domains & Use the HTTP GET method as browsers would use\\
+      \textbf{HTTP method} & Browsers use the http GET method to obtain web pages. A website might behave differently if a non GET http method (e.g. HEAD) was used. Some websites may not even allow the http HEAD method. & Researchers \cite{Amann2017-co} specifically use the HEAD http method to reduce load on target domains. & The HTTP GET method is used which is what browsers use.\\
       \hline
-      \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in TODO \\
+      \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in TODO. \\
       \hline
       \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have. & None of the research \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Roth2020-hg,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Calzavara2018-xv,Holz2020-ha,Michael2015-hn,} processes SSL/TLS verification at the analysis stage. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or assumed to be not enough sites affected. & SSL/TLS verification is performed at the analysis phase. \\
       \hline
-      \textbf{Monitoring} & When a scanning session is conducted and not monitored one or more sessions could fail without the researcher(s) being aware for an unknown amount of time & It is possible that the outage mentioned in \cite{Poteat2021-zr} could have been avoided or minimised by the use of effective monitoring & Metrics of the status of scanning are crated and alerted upon. \\
+      \textbf{Monitoring} & When a scanning session is conducted and not monitored, one or more sessions could fail without the researcher(s) being aware for an unknown amount of time. & It is possible that the outage mentioned in \cite{Poteat2021-zr} could have been avoided or minimised by the use of effective monitoring. & Metrics of the status of scanning are crated and alerted upon and investigated. \\
 %      \hline
 %      \textbf{Scan frequency} & The more data the better & - & - \\
       \hline
-      \textbf{Scanner Tool Verification} & One cannot assume that the technology used to perform the scanning is doing what one expects or intends without due diligence being performed & None of the research specifically calls out testing of the scanner with manual verification of results & Successfully and unsuccessfully scanned domains were picked at random during the creation of the scanner, manually verifying results and correcting/updating scanner as required. \\
+      \textbf{Scanner Tool Verification} & One cannot assume that the technology used to perform the scanning is doing what one expects or intends without due diligence being performed. & None of the research specifically calls out testing of the scanner with manual verification of results. & Successfully and unsuccessfully scanned domains were picked at random during the creation of the scanner, manually verifying results and correcting/updating scanner as required. \\
       \hline
-      \textbf{Scanner Tool Flow} & The use of a graphical flows allows greater accuracy for research replication and understanding & Whilst most research gives an written overview of scanner methodology \cite{Buchanan2018-xz,Amann2017-co,Patil2017-bg,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Holz2020-ha,Michael2015-hn}, they cary in detail and do not have a graphical counterpart & Includes a graphical representation to enhance the understanding of scanner methodology \\
+      \textbf{Scanner Tool Flow} & The use of a graphical flows allows greater accuracy for research replication and understanding. & Whilst most research gives a written overview of scanner methodology \cite{Buchanan2018-xz,Amann2017-co,Patil2017-bg,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Holz2020-ha,Michael2015-hn}, they vary in detail and do not have a graphical counterpart. & Includes a graphical representation with detailed descriptions to enhance the understanding of scanner methodology. \\
 %       &  &  &  \\
 %      \hline
 \end{longtable}
@@ -1259,7 +1288,7 @@ This section covers the high-level design, represented in Figure \ref{fig:hla_de
       \hline
       1 & A list of domains will be acquired to scan against \\
       \hline
-      2 & For the domains in the domain list a task manager will create a “task”, to be stored in a datastore, representing a domain to be scanned \\
+      2 & For the domains in the domain list a task manager will create a ``task'', to be stored in a datastore, representing a domain to be scanned \\
       \hline
       3 & Metrics on the state of tasks will be sent to a time series database \\
       \hline
@@ -1341,7 +1370,7 @@ As a result of this paper and that the Tranco list uses other top site lists to 
 The datastore is intended to only be an ephemeral store as it will only store the tasks until they have been completed.
 
 \vspace{0.3cm} \noindent
-The data that will be returned by the task agent of arbitrary length and content a relation database is not the optimal choice as it is based on having one or more “tables” that relate to one another.
+The data that will be returned by the task agent of arbitrary length and content a relation database is not the optimal choice as it is based on having one or more ``tables'' that relate to one another.
 
 \vspace{0.3cm} \noindent
 A NOSQL database is designed to store arbitrary length and a non pre-defined content structure.
