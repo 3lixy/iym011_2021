@@ -493,7 +493,7 @@ Specifies which origins (e.g. \texttt{example.com}) the requested resource is pe
 
 \subsubsection{Access-Control-Expose-Headers}
 
-Specifies which headers, other than the deemed to be safe by CORS, from the response can be exposed to scripts.
+Specifies which headers, other than those deemed to be safe by CORS, from the response can be exposed to scripts.
 
 \subsubsection{Access-Control-Max-Age}
 
@@ -763,7 +763,7 @@ The page must not be rendered in any of the following html elements: \texttt{$<$
 The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of page that contains the element is that of the page to be rendered in the element.
 
 \subsubsection{ALLOW-FROM $<$uri$>$}
-Similar to the SAMEORIGIN but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
+Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
 
 \newpage
 
@@ -833,7 +833,7 @@ The following criteria must be met in order for a domain to qualify to be includ
 \end{itemize}
 
 \vspace{0.3cm} \noindent
-If after being present in the preload list the site no longer meets the criteria, it is runs the risk of being removed from the preload list.
+If a domain in the preload list stops meeting the above criteria it runs the risk of being removed from the preload list.
 
 \section{security.txt}
 \label{section:security_txt}
@@ -883,7 +883,7 @@ There are many entities that track trends and malicious activity, one of which i
 OWASP maintain a Top Ten list, determined using a publicised methodology, which state the most important risks to web applications \cite{Kellezi2021-nd,noauthor_undated-kz}. In the 2021 Top Ten Report, Injection attacks (of which Cross Site Scripting (XSS) detailed in section \ref{subsection:XSS} is one variant) was ranked number three and of the 94\% of the applications they tested there was an average incident rate of 3\% and 274k occurrences \cite{noauthor_undated-gt}.
 
 \vspace{0.3cm} \noindent
-The ``Global Data At Risk State of the Web'' 2020 report \cite{Tala_Security2020-ee} claims that on average, the top 1000 websites in the Alexa top one million website list, rely upon the 32 third party integrations. This gives a great opportunity for attackers to leverage the supply chain attack (detailed in section \ref{subsection:SupplyChain}) to compromise websites that may be harder to compromise directly. One such example of this attack is the 2018 Magecart attack on Ticktmaster \cite{Herman2019-zb} to steal payment information via the compromise of third party resources.
+The ``Global Data At Risk State of the Web'' 2020 report \cite{Tala_Security2020-ee} claims that on average, the top 1000 websites in the Alexa top one million website list, rely upon the 32 third party integrations. This gives a great opportunity for attackers to leverage the supply chain attack (detailed in section \ref{subsection:SupplyChain}) to compromise websites that may be harder to compromise directly. One such example of this attack is the 2018 Magecart attack on Ticketmaster \cite{Herman2019-zb} to steal payment information via the compromise of third party resources.
 
 \vspace{0.3cm} \noindent
 Due to the susceptibility of data traversing the internet being intercepted and attacked, its integrity and confidentially needs to be protected. For browser traffic this is achieved by the use of HTTPS, which uses SSL/TLS secure channels, instead of the insure HTTP. Unfortunately not all websites use HTTPS and or redirect to the HTTPS version should it exist. Governments are encouraging the use of HTTPS \cite{noauthor_undated-oz} as well as the community itself \cite{noauthor_undated-xk}. The general advice is that if one is in control of a website, it should be using HTTPS regardless of the websites purpose or content. 
@@ -961,7 +961,7 @@ The 2018 Texthelp breach is one example of this type of attack where a malicious
 
 \subsection{Clickjacking}
 
-A clickjacking attack is in one which a user-initiated attack is hijacked to perform unwanted actions. A user is enticed to click on an element of a page, such as an image, however rather than an action or outcome the user expects to occur one determined by the attacker takes place. To undertake the attack a malicious site renders a web page from the target website within an iframe. The malicious site uses styling to show only what the attack desires of the target website \cite{Jamwal2018-tz}.
+A clickjacking attack is one in which a user-initiated attack is hijacked to perform unwanted actions. A user is enticed to click on an element of a page, such as an image, however rather than an action or outcome the user expects to occur one determined by the attacker takes place. To undertake the attack a malicious site renders a web page from the target website within an iframe. The malicious site uses styling to show only what the attack desires of the target website \cite{Jamwal2018-tz}.
 
 \subsubsection{Historical Example}
 The Twitter Attack, also referred to as the ``Twitter Bomb'', begins by a user seeing a twitter post that contains the text \texttt{Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and clicking on the link. Visiting the link will present the user with a page seemingly only containing only a single button ladled \texttt{Don't Click}.
