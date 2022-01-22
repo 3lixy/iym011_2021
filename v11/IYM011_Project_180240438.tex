@@ -43,6 +43,7 @@
 \newcolumntype{F}{>{\centering\arraybackslash}m{8cm}}
 \newcolumntype{G}{>{\centering\arraybackslash}m{13cm}}
 \newcolumntype{H}{>{\centering\arraybackslash}m{3.6cm}}
+\newcolumntype{I}{>{\centering\arraybackslash}m{4cm}}
 
 
 
@@ -1450,7 +1451,7 @@ Table \ref{table:task_agent_parameters} details the parameters of a Task Agent.
       \hline
       \UScore{max_concurrent_tasks} & int & 100 & The maximum number of tasks that can be running concurrently \\
       \hline
-      \UScore{deny_domains} & array of strings & domains not to be scanned & domains not to be scanned \\
+      \UScore{deny_domains} & array of strings & Domains not to be scanned & domains not to be scanned \\
       \hline
       \UScore{deny_ips} & array of strings & IPv4 addresses not to be scanned & IPv4 addresses not to be scanned \\
       \hline
@@ -1680,6 +1681,21 @@ FreeBSD 13.0 was used for the task agents as it was the most recent version avai
 \vspace{0.3cm} \noindent
 The number of Task Agents deployed was 5, such that the scanning could be conducted well within 24 hours to allow a reasonable amount of time to rectify issues should they occur. The average time for all 1 million domains to be scanned is approximately 11 hours.
 
+
+\subsubsection{Monitoring}
+
+A dashboard was created in grafana to visualise the progress/status of scans. Over time several alerts were configured after issues were encountered. Figure \ref{fig:grafana_screenshot} shows a screenshot of the dashboard representing a time window of 7 days.
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[scale=0.48]{../images/grafana.png} 
+		\caption{Grafana Dashboard}
+		\label{fig:grafana_screenshot}
+	\end{center}
+\end{figure}
+
+\clearpage
+
 \subsubsection{Automation}
 
 The Task Manager is scheduled to obtain the latest Tranco domain list and create tasks to scan each day at 0000 UTC. This will only occur if the previous day was completed successfully.
@@ -1691,11 +1707,14 @@ The Task Manager is scheduled to check if all the tasks have been completed betw
 A Task Agent continually look for new tasks to perform and run up to 100 concurrent tasks.
 
 \subsubsection{Issues Encountered}
+\label{subsection:issues_encountered}
 
 \textbf{Zombie Tasks}
+\vspace{0.2cm} \noindent
+A zombie task is one where it is started but does not complete within a set amount of time. For this research the duration limit for a task deemed to be a zombie task is 120 minutes (2hours). This occurred less than one task per 10 million tasks performed.
 
 \vspace{0.2cm} \noindent
-A zombie task is one where it is started but does not complete within a set amount of time. For this research the duration limit for a task deemed to be a zombie task is 120 minutes (2hours). This occurred less than one task per 10 million tasks performed. When a zombie task was detected it was reset and re-attempted. All reset tasks completed successfully.
+A scan outage for a duration of 27 days was caused by zombie tasks. A single tasks not completing will prevent the archive create process from starting. As a result changes were made such that when a low amount of zombie tasks were detected they were reset and re-attempted. All reset tasks completed successfully. If there were several zombie tasks detected this would raise alert and human intervention would be required to resolve the situation.
 
 \vspace{0.2cm} \noindent
 It was not looked into why zombie tasks occurred as the rate was so low it was not an efficient use of time and would not affect the research results as the tasks were successfully re-attempted.
@@ -1704,13 +1723,43 @@ It was not looked into why zombie tasks occurred as the rate was so low it was n
 \textbf{Data Loss}
 
 \vspace{0.2cm} \noindent
-An unexpected permanent loss of access to the storage location where the ``All Tasks Archives'' were stored, resulting in the permanent loss of several days worth of scan archives. Since this incident, scan archives are stored in more than one location within several hours of a scan archive being created.
+An unexpected permanent loss of access to the storage location where the ``All Tasks Archives'' were stored, resulting in the permanent loss of 17 days worth of scan archives. Since this incident, scan archives are stored in more than one location within several hours of a scan archive being created.
 
 \vspace{0.6cm} \noindent
 \textbf{Programming}
 
 \vspace{0.2cm} \noindent
-Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when a non standard  HTTP code is received, it will cause golang to panic and the program will terminate. There was a single domain that caused this issue and it was put in the deny list to overcome this issue.
+Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when a non standard HTTP code is received, it will cause golang to panic and the program will terminate. There was a single domain that caused this issue and it was put in the deny list to overcome this issue.
+
+\vspace{0.6cm} \noindent
+\textbf{Development Work}
+
+\vspace{0.2cm} \noindent
+An 8 day scan outage was the result of development tasks being created in the same database as the production tasks. The archive creation process will not initiate unless there are the correct amount of tasks present. A procedure was put in place to remove development tasks after use.
+
+\vspace{0.2cm} \noindent
+Table \ref{table:missing_scan_archives} summarises the extent of missing scan archives.
+
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{|D|D|I|I|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Start Date} & \textbf{Duration} & \textbf{Cause} & \textbf{Action Taken}\\
+      \hline
+      24 Jan 2021 & 8 Days & Development tasks not removed after use which prevented scan archive creation & Added procedure to remove development tasks to mitigate further occurrences\\
+      \hline
+      16 March 2021 & 12 Days & Bug in archive creation process & Fixed bug and deployed updated scripts\\
+      \hline
+      31 July 2021 & 27 Days & One or more tasks did not complete preventing future scans to start & Enhanced alerting to detect long running tasks\\
+      \hline
+      17 September 2021 & 17 Days & Archive storage server permanently unavailable & Scan archives stored in multiple locations\\
+      \hline
+    \end{tabular}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Missing Scan Archives}
+    \label{table:missing_scan_archives} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
 
 \newpage
 
@@ -1785,9 +1834,27 @@ Part IV - Security Mechanism Adoption Analysis
 
 \newpage
 
+\section{Scans Overview}
+\label{section:scans_overview}
 
-\section{Analysis}
-\label{section:analysis}
+\subsection{Impact To Available Data For Analysis}
+
+There are several gaps in the available scanning archives summarised in table \ref{table:missing_scan_archives}, detailed in section \ref{subsection:issues_encountered} and listed below:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item 24 Jan 2021 for 8 days
+    \item 16 March 2021 for 12 days
+    \item 31 July 2021 for 27 days
+    \item 17 September 2021 for 17 days
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+In the following sections these date ranges will be visible on certain charts. As the scanning has been for an extended period and any single time period is no longer than 27 days, it is believed it will not have a material impact any trends identified.
+
+
+\section{Analysis Methodology}
+
 
 \newpage
 
