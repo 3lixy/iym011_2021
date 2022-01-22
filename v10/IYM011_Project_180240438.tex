@@ -1000,7 +1000,7 @@ Over the years there have been several attacks against the SSL/TLS mechanism, co
 \textbf{BEAST (2011)}
 
 \vspace{0.2cm} \noindent
-The BEAT attack, announced in 2011, was for use against TSL 1.0. The attack exploited the TLS 1.0 implementation of the Cipher Block Chaining (CBC) encryption mode in order to be able to decrypt parts of TLS 1.0 data packets to reveal sensitive data such as website cookies that could be used to impersonate a user on a web application \cite{Ristic2017-aj,Levillain2015-os}. Modification of padding, the primary exploitation vector, used in this attack is referred to by the term ``padding oracle''. The vulnerability was fixed in TLS 1.1.
+The BEAST attack, announced in 2011, was for use against TSL 1.0. The attack exploited the TLS 1.0 implementation of the Cipher Block Chaining (CBC) encryption mode in order to be able to decrypt parts of TLS 1.0 data packets to reveal sensitive data such as website cookies that could be used to impersonate a user on a web application \cite{Ristic2017-aj,Levillain2015-os}. Modification of padding, the primary exploitation vector, used in this attack is referred to by the term ``padding oracle''. The vulnerability was fixed in TLS 1.1.
 
 
 \vspace{0.6cm} \noindent
@@ -1022,7 +1022,7 @@ The Poodle attack is similar to the Lucky 13 attack, where unprotected padding i
 \textbf{Heartbleed (2014)}
 
 \vspace{0.2cm} \noindent
-The 2014 Heartbleed attack, which gained attention in the mainstream media, exploited an implantation flaw in length of a data bounds check. The flaw was in the rarely used but commonly enabled heartbeat protocol \cite{Durumeric2014-yj} of the TLS mechanism in the OpenSSL library (used by millions of servers).
+The 2014 Heartbleed attack, which gained attention in the mainstream media, exploited an implantation flaw in the length of a data bounds check. The flaw was in the rarely used but commonly enabled heartbeat protocol \cite{Durumeric2014-yj} of the TLS mechanism in the OpenSSL library (used by millions of servers).
 
 \vspace{0.2cm} \noindent
 To exploit the vulnerability, a malicious actor would send a \texttt{HeartbeatRequest} message, setting the payload length set to a length larger than the actual \texttt{HeartbeatRequest} message payload length \cite{Durumeric2014-yj}. This allowed the extraction of private memory on the target which could lead to the ex-filtration of sensitive data such as website private keys and cryptographic secrets.
@@ -1035,7 +1035,7 @@ The maintainers of the OpenSSL library released a fix for the vulnerability alon
 \textbf{FREAK (2015)}
 
 \vspace{0.2cm} \noindent
-The 2015 FREAK attack shed light that the OpenSSL library would accept weak RSA encryption keys, from the use of export grade cipher suites, during a full-strength RSA TLS handshake. A malicious actor would force the client to use such a weak key by sending a texttt{SeverKeyExchange} TLS protocol message to the client. If such a weak key was used the malicious actor could capture the traffic, brute force the key within a matter of hours and decrypt the captured traffic. The removal of export grade cipher suites on the server stops this attack \cite{Ristic2017-aj,Beurdouche2015-ga}.
+The 2015 FREAK attack shed light that the OpenSSL library would accept weak RSA encryption keys, from the use of export grade cipher suites, during a full-strength RSA TLS handshake. A malicious actor would force the client to use such a weak key by sending a \texttt{SeverKeyExchange} TLS protocol message to the client. If such a weak key was used the malicious actor could capture the traffic, brute force the key within a matter of hours and decrypt the captured traffic. The removal of export grade cipher suites on the server stops this attack \cite{Ristic2017-aj,Beurdouche2015-ga}.
 
 \subsubsection{General Mitigation Strategies}
 
@@ -1063,7 +1063,7 @@ In order to be able to analyse HTTP Security Headers, TLS Versions, HSTS Preload
 Active data collection is the act of establishing TLS connections and or making HTTP requests and storing the resultant connection/request/response data. This method requires the setup of infrastructure and software, which can involve the customisation and or development of entire software applications. Active scanning gives great versatility, however care needs to be taken to ensure the data is collected in a methodical and ideally a reportable way, in order for the analysis to have meaning.
 
 \vspace{0.3cm} \noindent
-Passive data collection is capturing data as it flows through network infrastructure. The infrastructure required is likely to be less than that of active collection as it should only require the duplication of pre-existing network traffic to a device that is able to store the data. With any sort of data collection there is the always the ethical consideration to take in to account, however with passive collection privacy is of higher concern than active data collection and needs to be treated as such.
+Passive data collection is capturing data as it flows through network infrastructure. The infrastructure required is likely to be less than that of active collection as it should only require the duplication of pre-existing network traffic to a device that is able to store the data. With any sort of data collection there is the always the ethical consideration to take into account, however with passive collection privacy is of higher concern than active data collection and needs to be treated as such.
 
 \vspace{0.3cm} \noindent
 Third Party data sets is the use of data collected by another entity that is using passive and or active collection. The only infrastructure that should be needed by the researcher would be that needed to analyse the data. There is great trust that the third party has conducted the data collection in a way that makes the analysis of it meaningful.
@@ -1097,7 +1097,7 @@ Utilising search engines can allow additional urls for a domain to be acquired t
 Scanning the entire IPv4 Address space (i.e. all internet  IPv4 addresses) is also a source of entities to scan \cite{Kotzias2018-wd}. The major difference is the use of an IP Address rather than a domain which needs to take into account that servers may respond differently if an IP address is used as the website address rather than a domain name (e.g. \texttt{https://1.2.3.4} vs \texttt{https://example.com}).
 
 \vspace{0.3cm} \noindent
-The number of internet rout-able IP Addresses, i.e. ip addresses that can be access over the internet, is around \(2^{32}\) total possible addresses minus approximately 288 million non route-able addresses which results in approximately 4 billion addresses.
+The number of internet routable IP Addresses, i.e. ip addresses that can be access over the internet, is around \(2^{32}\) total possible addresses minus approximately 288 million non route-able addresses which results in approximately 4 billion addresses.
 
 \vspace{0.3cm} \noindent
 Scanning the entire IP Address range can lead to abuse reports, however these can often be revoked if the researcher works with the operator who raised the complaint to conduct the scan in a manner in which the operator deems acceptable.
@@ -1116,14 +1116,14 @@ Research uses many different technologies
 When a http client makes a request to a URL (e.g. http://example.com) the client needs to lookup the IP Address of the domain (e.g. example.com) in order to send the HTTP request.
 
 \vspace{0.3cm} \noindent
-Scanning a large number of domains can potentially put a strain on the DNS server the client is using to resolve the domain to an IP Address. If there are a sufficiently large number of domains to be resolved at the same time, or over a very short period of time (e.g. a few seconds) it is possible that the DNS resolution will fail when there is an IP Address that can be resolved. There are several ways around this such as pre determining the IP Address for the domain \cite{Amann2017-co}, using more than DNS server and using retries.
+Scanning a large number of domains can potentially put a strain on the DNS server the client is using to resolve the domain to an IP Address. If there are a sufficiently large number of domains to be resolved at the same time, or over a very short period of time (e.g. a few seconds) it is possible that the DNS resolution will fail when there is an IP Address that cannot be resolved. There are several ways around this such as pre determining the IP Address for the domain \cite{Amann2017-co}, using more than DNS server and using retries.
 
 \vspace{0.3cm} \noindent
 Precomputing DNS resolutions makes more sense when not following HTTP redirects such as for the TLS connection establishment in \cite{Amann2017-co,Holz2020-ha}.
 
 \subsubsection{Using the WWW subdomain}
 
-When using lists that contain base domains (e.g. example.com) it is not known if the website is actually hosted or available form the base domain. Websites are generally available from the base domain (e.g. example.com) and or its www subdomain (e.g. www.example.com).
+When using lists that contain base domains (e.g. example.com) it is not known if the website is actually hosted or available from the base domain. Websites are generally available from the base domain (e.g. example.com) and or its www subdomain (e.g. www.example.com).
 
 \vspace{0.3cm} \noindent
 To give a good chance of being able to obtain a HTTP response from domain, it is common to try both the base domain and the www subdomain \cite{Chen2016-dl,Kumar2017-qw,Ying2016-ag,Michael2015-hn}. Some researchers choose not to also try the www subdomain such as in \cite{Buchanan2018-xz,Amann2017-co} (but do not necessarily state why they chose not to do so), which can lead to unnecessarily reduced data for analysis.
@@ -1132,7 +1132,7 @@ To give a good chance of being able to obtain a HTTP response from domain, it is
 In order to obtain HTTP Security Headers, one needs to make an HTTP Request. There are several types of HTTP Request, GET and HEAD being two of them.
 
 \vspace{0.3cm} \noindent
-HTTP HEAD requests result in only metadata being returned (this includes HTTP Headers) by the server. The main reason researchers choose to use HEAD HTTP Requests \cite{Amann2017-co} is to save compute resources on the server (as the server does not have to generate the response payload such as a html web page) as well reducing the amount of data being sent over the network.
+HTTP HEAD requests result in only metadata being returned (this includes HTTP Headers) by the server. The main reason researchers choose to use HEAD HTTP Requests \cite{Amann2017-co} is to save compute resources on the server (as the server does not have to generate the response payload such as a html web page) as well as reducing the amount of data being sent over the network.
 
 \vspace{0.3cm} \noindent
 Whilst using HEAD requests does save server resources, which helps in the ethics of internet research of this kind, browsers perform GET requests which could potentially respond with different headers for the same URL. If the researcher is intending on analysing the response payload from a website then GET requests \cite{Chen2016-dl,Kumar2017-qw} are required.
@@ -1149,7 +1149,7 @@ For the purposes of internet research when attempting to gather data from respon
 
 \subsubsection{Redirects}
 
-When a HTTP Request is made, the HTTP Protocol has the ability to redirect to a different url. This is quite normal for websites to do this and there are numerous reasons to do so, such as redirecting from the base domain e.g. (http://example.com) to the www subdomain e.g. (http://www.example.com) where the website is actually hosted. It is generally good practice to follow redirects as this is what browsers do unless researchers wish to only analyse a response from a specific url such as the base domain in \cite{Amann2017-co}.
+When a HTTP request is made, the HTTP protocol has the ability to redirect to a different url. This is quite normal for websites to do this and there are numerous reasons to do so, such as redirecting from the base domain e.g. (http://example.com) to the www subdomain e.g. (http://www.example.com) where the website is actually hosted. It is generally good practice to follow redirects as this is what browsers do, unless researchers wish to only analyse a response from a specific url such as the base domain in \cite{Amann2017-co}.
 
 \vspace{0.3cm} \noindent
 Researchers need to be mindful however that redirects can lead to the same resultant domain for different initial domains (e.g. http://example.com and http://mydomain.com could both redirect to http://anotherdomain.com).
@@ -1165,7 +1165,7 @@ When a TLS connection is being established a browser will try and verify the cla
 Intermediate certificates can be obtained from such means as: the website being visited, the certificate was obtained from a previously visited website, via Authority Information Access (AIA) \cite{Cooper2008-yr} or from preloading \cite{Keeler2020-yj}. For further details on PKI, including certificates and identity verification, please see \cite{Clark2013-sh,Holz2011-yv}.
 
 \vspace{0.3cm} \noindent
-It is quite common to use non browser clients to conduct research. These clients are not guaranteed to use any of the above mentioned methods for obtaining intermediate certificates not provided by a website in order to validate the websites claimed identity. To counteract this issue, the TLS/SSL validation can be disabled for the scanning of website and done as an offline step which enables any missing certificates to be obtained at the researcher's leisure.
+It is quite common to use non browser clients to conduct research. These clients are not guaranteed to use any of the above mentioned methods for obtaining intermediate certificates not provided by a website in order to validate the websites' claimed identity. To counteract this issue, the TLS/SSL validation can be disabled for the scanning of the website and done as an offline step which enables any missing certificates to be obtained at the researcher's leisure.
 
 \vspace{0.3cm} \noindent
 It is not evident that any of the papers in the literature research conducted for this project used such an approach, possibly assuming that the number of websites that would have this issue would be minimal enough not to affect the results analysis conducted or not aware of the issue itself.
@@ -1241,7 +1241,7 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
       \hline
       \textbf{Scanner Tool Verification} & One cannot assume that the technology used to perform the scanning is doing what one expects or intends without due diligence being performed. & None of the research specifically calls out testing of the scanner with manual verification of results. & Successfully and unsuccessfully scanned domains were picked at random during the creation of the scanner, manually verifying results and correcting/updating scanner as required. \\
       \hline
-      \textbf{Scanner Tool Flow} & The use of a graphical flows allows greater accuracy for research replication and understanding. & Whilst most research gives a written overview of scanner methodology \cite{Buchanan2018-xz,Amann2017-co,Patil2017-bg,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Holz2020-ha,Michael2015-hn}, they vary in detail and do not have a graphical counterpart. & Includes a graphical representation with detailed descriptions to enhance the understanding of scanner methodology. \\
+      \textbf{Scanner Tool Flow} & The use of graphical flows allows greater accuracy for research replication and understanding. & Whilst most research gives a written overview of scanner methodology \cite{Buchanan2018-xz,Amann2017-co,Patil2017-bg,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Holz2020-ha,Michael2015-hn}, they vary in detail and do not have a graphical counterpart. & Includes a graphical representation with detailed descriptions to enhance the understanding of scanner methodology. \\
 %       &  &  &  \\
 %      \hline
 \end{longtable}
@@ -1266,8 +1266,8 @@ A scanner is to obtain the following information from a list of domains:
     \item If the domain redirects from \texttt{https://} to \texttt{http://}.
     \item The TLS version(s) the domain supports.
     \item The TLS version auto negotiated against the domain.
-    \item If the domain meets the HSTS Preload requirements.
-    \item The HTTP headers, including their values, in use by the base domain (or the www subdomain if the base domain does not have an A DNS record.
+    \item If the domain meets the HSTS preload requirements.
+    \item The HTTP headers, including their values, in use by the base domain (or the www subdomain if the base domain does not have a \texttt{DNS A record} (IPv4 IP address).
     \item The content of the security.txt of the domain.
 \end{itemize}
 
@@ -1359,7 +1359,7 @@ The task manager was developed in python as it:
     \item Has many libraries and resources freely available online.
     \item There is a large global community generally willing to help each other.
     \item Being such a popular language, issues that one may come across may have already been encountered and solved already.
-    \item Is cross platform, i.e. will run on any computer than has a python interpretor available to it.
+    \item Is cross platform, i.e. will run on any computer that has a python interpretor available to it.
 \end{itemize}
 
 \subsubsection{[B] Tranco Domains Source List}
@@ -1403,7 +1403,7 @@ The Task API is meant purely as a common interface for the task agent such that 
 The HTTP protocol was chosen as the interface to the API as it is a very well-known and a standard protocol to use for an API.
 
 \vspace{0.3cm} \noindent
-The intended clients of the API is the Task Agent (for running and updating the tasks) and the Task Manager (for creating an offline archive once all tasks have completed for later analysis)
+The intended clients of the API is the Task Agent (for running and updating the tasks) and the Task Manager (for creating an offline archive once all tasks have completed for later analysis).
 
 \vspace{0.3cm} \noindent
 The Task API can perform the following functions:
@@ -1484,7 +1484,7 @@ InfluxDB was the time series database technology implementation chosen as it is 
 
 \subsubsection{[H] Metric Grapher}
 
-A metric grapher allows the user to create charts to from metrics. In the case of this project a metric grapher was used to generate basic graphs about the state of tasks for monitoring purposes from the metrics stored in the InfluxDB time series database.
+A metric grapher allows the user to create charts from metrics. In the case of this project a metric grapher was used to generate basic graphs about the state of tasks for monitoring purposes from the metrics stored in the InfluxDB time series database.
 
 \vspace{0.3cm} \noindent
 Grafana was chosen as it is free, has built in support for communicating with InfluxDB, has an HTTP interface and offers the ability to create basic alerts.
@@ -1500,10 +1500,10 @@ Alerts were configured in Grafana to fire under the following conditions:
 
 \subsubsection{[I] All Tasks Archive}
 
-Once all tasks have been processed the Task Manager will use the Task API to create a gzip compressed tar file archive containing a json structured representation for each task.
+Once all tasks have been processed, the Task Manager will use the Task API to create a gzip compressed tar file archive containing a json structured representation for each task.
 
 \vspace{0.3cm} \noindent
-This compressed archive is transferred to archive file server for later analysis.
+This compressed archive is transferred to an archive file server for later analysis.
 
 \subsection{Task Parameters}
 \label{subsection:task_parameters}
@@ -1615,13 +1615,13 @@ The following actions are performed on the base domain of the last url in the re
 	\setlength\itemsep{0.1em}
     \item If the base domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, make a HTTP request to \texttt{example.com} i.e. \texttt{http://example.com}
     \item If the \texttt{www} subdomain has a DNS (A record) try and establish a TLS connection to the \texttt{www} subdomain \texttt{www.example.com}
-    \item Make a https call to the base domain \texttt{https://example.com} and capture the HTTP headers
+    \item Make a HTTPS call to the base domain \texttt{https://example.com} and capture the HTTP headers
 \end{itemize}
 
 
 \subsubsection{Stage 6 - security.txt}
 
-The path of last url in the redirect chain (e.g. \texttt{http://www.example.com/index.php}) from Stage 3 is replaced with \texttt{.well-known/security.txt} i.e. \newline \texttt{http://www.example.com/.well-known/security.txt}.
+The path of the last url in the redirect chain (e.g. \texttt{http://www.example.com/index.php}) from Stage 3 is replaced with \texttt{.well-known/security.txt} i.e. \newline \texttt{http://www.example.com/.well-known/security.txt}.
 
 \vspace{0.3cm} \noindent
 A call is made to this url and if the \texttt{Content-Type} header is present with the value \texttt{text/plain} the body of the response is captured.
@@ -1702,13 +1702,13 @@ It was not looked into why zombie tasks occurred as the rate was so low it was n
 \textbf{Data Loss}
 
 \vspace{0.2cm} \noindent
-An unexpected permanent loss of access to the storage location the ``All Tasks Archives'' were stored, resulted in the permanent loss of several days worth of scan archives. Since this incident, scan archives are stored in more than one location within several hours of a scan archive being created.
+An unexpected permanent loss of access to the storage location where the ``All Tasks Archives'' were stored, resulting in the permanent loss of several days worth of scan archives. Since this incident, scan archives are stored in more than one location within several hours of a scan archive being created.
 
 \vspace{0.6cm} \noindent
 \textbf{Programming}
 
 \vspace{0.2cm} \noindent
-Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when there is a non standard  http code is received, it will cause golang to panic and the program will terminate. There was a single domain that caused this issue and it was put in the deny list to overcome this issue.
+Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when a non standard  HTTP code is received, it will cause golang to panic and the program will terminate. There was a single domain that caused this issue and it was put in the deny list to overcome this issue.
 
 \newpage
 
@@ -1725,13 +1725,13 @@ During the literature research, not all research that was of a similar nature co
 
 \subsection{Service Degradation}
 
-Using a list ``Tranco List'' which is a ``most popular'' type of domain lists reduces the chance of service degradation as the more popular a domain is the more resources it is likely has which reduces the impact of the measurement analysis
+Using the ``Tranco List'' which is a ``most popular'' type of domain list reduces the chance of service degradation as the more popular a domain is the more resources it is likely has which reduces the impact of the measurement analysis.
 
 \vspace{0.3cm} \noindent
 For the purpose of obtaining the HTTP headers of a domain the ``Home Page'' of the domains are requested which are more likely to be cached than other pages.
 
 \vspace{0.3cm} \noindent
-To determine the TLS versions supported by a domain, other than that used on the HTTPS request to the home page, pure TLS connections are attempted which reduces the service impact as HTTP requests will add additional load additional to that of a pure TLS connections. Additionally pure TLS connections are only attempted if an HTTPS connection was successful to a domain's home page.
+To determine the TLS versions supported by a domain, other than that used on the HTTPS request to the home page, pure TLS connections are attempted which reduces the service impact as HTTP requests will add additional load to that of pure TLS connections. Additionally pure TLS connections are only attempted if an HTTPS connection was successful to a domain's home page.
 
 \vspace{0.3cm} \noindent
 Whilst obtaining the HSTS preload state of a domain, as detailed in section \ref{subsection:stage_5_hsts}, it is first checked if a url has already been requested. During the processing of a task, including redirects, it is quite possible that the information sought has already been obtained.
@@ -1769,7 +1769,7 @@ The cloud service providers for the servers that conduct the research have easy 
 The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an ip address can host more than one domain and a complaint may ask to block an ip address range.
 
 \vspace{0.3cm} \noindent
-There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which stated a request for ``assistance in verifying possible malicious activity being hosted on a system registered to you''. The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating the the request was made for the purpose of internet research.
+There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which stated a request for ``assistance in verifying possible malicious activity being hosted on a system registered to you''. The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating that the request was made for the purpose of internet research.
 
 \newpage
 
