@@ -1,0 +1,70 @@
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%  Include required packages.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\RequirePackage{graphicx}
+\RequirePackage{geometry}
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%  Macro and Variable Definitions
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%Define macros \department, \supervisor, \universitycrestpath and
+%\submitdate for the title page and declaration.
+%\author, \title, \subtitle,  \date are already defined in the report document class.
+
+
+%\def\subtitle#1{\gdef\@subtitle{#1}}
+\def\department#1{\gdef\@department{#1}}
+\def\supervisor#1{\gdef\@supervisor{#1}}
+\def\universitycrestpath#1{\gdef\@universitycrestpath{#1}}
+\def\submitdate#1{\gdef\@submitdate{#1}}
+\def\coursecode#1{\gdef\@coursecode{#1}}
+\def\studentnumber#1{\gdef\@studentnumber{#1}}
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%  Redefine command \maketitle.
+%  Creates the title page for the dissertation and includes the BOSIT
+%  declaration form on the following page.
+%
+%  Requires values for the macros:
+%  \title, \author, \date, \supervisor, \department, \universitycrestpath.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\renewcommand\maketitle{%
+  \begin{titlepage}
+  \let\footnotesize\small
+  \let\footnoterule\relax
+  \let \footnote \thanks
+  %\vfil\null
+  %\vspace*{-40\p@}
+  \vfill
+  \begin{center}%
+     {\fontsize{16pt}{5.5cm}\selectfont\bfseries
+      \@author \par}
+\vspace*{-170\p@}
+     {\fontsize{16pt}{5.5cm}\selectfont\bfseries
+      Nicholas Hitch \par}
+\vspace*{50\p@}   
+ {\Large\bfseries \@title \par}
+    \vfill
+      \vspace*{50\p@}
+    {\large Supervisor: \@supervisor
+      \vspace*{50\p@}
+    }
+
+    \begin{minipage}{\textwidth}
+      \begin{center}
+        \includegraphics[height=5cm]{\@universitycrestpath}
+      \end{center}
+    \end{minipage}
+
+    \vspace*{100\p@}  
+    {\large\itshape Submitted as part of the requirements for the award of the}
+  \vfill
+ {\large\itshape MSc in Information Security at}
+ \vfill
+ {\large\itshape Royal Holloway, University of London.
+ \vspace*{50\p@}}
+  \end{center} \par
+\vfill
+ \end{titlepage}%
+}

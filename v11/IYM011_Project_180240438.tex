@@ -1,0 +1,1822 @@
+\documentclass{mscreport}
+\usepackage{titlePage}
+\usepackage{setspace}
+%\usepackage{dtklogos} % this is just used for typesetting \BibTeX, and may thus be removed
+%\usepackage[acronym]{glossaries}
+\usepackage{longtable}
+\usepackage{csquotes}
+\usepackage{tabulary}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage[normalem]{ulem}
+%\usepackage[clean]{svg}
+\useunder{\uline}{\ul}{}
+\usepackage[title]{appendix}
+\usepackage{tocloft}
+\usepackage{hanging}
+\usepackage{tabularx}
+\usepackage{calc}
+\usepackage{import}
+%\usepackage[nottoc]{tocbibind}
+%\renewcommand{\contentsname}{\centering Contents} 
+%\makeglossaries
+\DeclareUrlCommand\UScore{\urlstyle{rm}}
+%center the table of contents title
+\renewcommand{\contentsname}{\hfill\bfseries\Large Contents\hfill}   
+\renewcommand{\cftaftertoctitle}{\hfill}
+%\newcommand*{\CommonPath}{../images}% 
+%center the table of contents title
+%\setlength{\parindent}{4em}
+%\setlength{\parskip}{1em}
+% abbreviations:
+%\newacronym{os}{OS}{Operating System}
+\newcolumntype{C}{>{\centering\arraybackslash}m{2cm}}
+\newcolumntype{D}{>{\centering\arraybackslash}m{3cm}}
+\newcolumntype{E}{>{\centering\arraybackslash}m{5cm}}
+\newcolumntype{F}{>{\centering\arraybackslash}m{8cm}}
+\newcolumntype{G}{>{\centering\arraybackslash}m{13cm}}
+\newcolumntype{H}{>{\centering\arraybackslash}m{3.6cm}}
+
+
+
+% Options -> Config -> QuickBuild -> PdfLaTex + Bib(la)tex + PdfLaTex x2 + View pdf
+
+\begin{document}
+\pagenumbering{gobble} %diable page numbering until set again
+
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Draft v11
+
+\vspace{3cm}
+\today
+\end{huge}
+\end{center}
+\vspace{\fill}
+
+\newpage
+
+
+\author{Student Number: 180240438	}
+\title{Measuring Adoption of Security Features in the HTTPS Ecosystem}
+%\studentname set from titlePage.sty
+\supervisor{Simon Bell}
+\universitycrestpath{../images/rhuol_logo_2}
+
+\maketitle 
+
+
+\begin{center}
+    {\Large\bfseries Anti-Plagiarism Declaration}
+    \vspace{1cm}
+\begin{enumerate}
+
+I declare that this assignment is all my own work and that I have acknowledged all quotations from published or unpublished work of other people.  I also declare that I have read the statements on plagiarism in Section 1 of the Regulations Governing Examination and Assessment Offences, and in accordance with these regulations I submit this project report as my own work.
+
+\begin{flushleft}
+\includegraphics[scale=0.21]{../images/signature.png} %placeholder for your signature image
+\newline
+  \begingroup
+    \setstretch{2}
+    \noindent\textsf{Student Name} \vspace{0.5cm}\\
+    \noindent\textsf{\today}
+  \endgroup
+  \end{flushleft}
+
+\end{enumerate}
+\end{center}
+
+\newpage
+
+\begin{center}
+\section*{Acknowledgements}
+\end{center}
+
+Thank you coffee.
+
+\newpage
+
+\pagenumbering{roman}
+\setcounter{page}{1}
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Intentionally Blank
+\end{huge}
+\end{center}
+\vspace{\fill}
+
+\newpage
+
+\begin{center}
+\section*{Executive Summary}
+\end{center}
+\addcontentsline{toc}{section}{Executive Summary}
+
+Executive Summary 
+
+\newpage
+\begin{center}
+\section*{Acronyms}
+\end{center}
+\addcontentsline{toc}{section}{Acronyms}
+
+\noindent \textbf{API} Application Programming Interface \par
+\vspace{0.5cm}
+\noindent \textbf{CSS} Cascading Style Sheets \par
+\noindent \textbf{CORS} Cross-Origin-Request-Sharing \par
+\noindent \textbf{CSP} Content Security Policy \par
+\vspace{0.5cm}
+\noindent \textbf{DOM} Document Object Model \par
+\vspace{0.5cm}
+\noindent \textbf{FIPS} Federal Information Processing Standards \par
+\vspace{0.5cm}
+\noindent \textbf{HTML} Hypertext Markup Language \par
+\noindent \textbf{HPKP} HTTP Public Key Pinning \par
+\noindent \textbf{HTTP} Hypertext Transfer Protocol \par
+\vspace{0.5cm}
+\noindent \textbf{MIME} Multipurpose Internet Mail Extensions \par
+\vspace{0.5cm}
+\noindent \textbf{URI} Uniform Resource Identifier \par
+\noindent \textbf{URL} Universal Resource Locator \par
+\vspace{0.5cm}
+\noindent \textbf{SSL} Secure Socket Layer \par
+\vspace{0.5cm}
+\noindent \textbf{TLS} Transport Layer Security \par
+\vspace{0.5cm}
+\noindent \textbf{XSS} Cross-Site Scripting \par
+
+\newpage
+
+\begin{center}
+\section*{Glossary}
+\end{center}
+\addcontentsline{toc}{section}{Glossary}
+
+\begin{hangparas}{.25in}{1}
+\textbf{Application Programming Interface} is an interface intended to be used by a computer program for the purpose of allowing two computer programs to communicate to one another in a structured format. \par
+\vspace{0.5cm}
+\textbf{Cascading Style Sheets} is a mechanism by which a web page can be styled by many different aspects such as fonts, colours and spaces. \par
+\textbf{Cipher Suite} Defines the implementation of cryptographic primitives and addition information referable via a unique identifier such as \UScore{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256} for the use in establishment of SSL/TLS connections \cite{Ristic2017-aj}. \par
+\textbf{Cross Origin-Request-Sharing} Is a web browser mechanism for the purpose of allowing a resource to specify the origins allowed to access the resource via the use of HTTP Headers. \par
+\textbf{Cross Site Scripting} A browser attack whereby a malicious script is inserted into a web page for the purpose of performing wanted actions on a user’s online account and or gaining access to sensitive information (e.g. authentication cookies and session identifiers) usually via a web browser. \par
+\textbf{Content Security Policy} is a HTTP protocol feature to restrict which resources can be fetched and or executed, such as for the purposes of obtaining content e.g. images, whilst on a specific web page in a web browser. The policy details can be specified in either a HTTP Header or in the head section of a web page via the meta tag. \par
+\vspace{0.5cm}
+\textbf{Document Object Model} is the web browsers internal representation of an html page as a result of the browser parsing the html \cite{Apple_undated-ay}. \par
+\vspace{0.5cm}
+\textbf{Federal Information Processing Standards} Standards for federal computer systems which are developed by the National Institute of Standards and Technology (NIST) \par
+\vspace{0.5cm}
+\textbf{Hypertext Markup Language} A standardised language to create documents \cite{Berners-Lee1995-hg} for instructing a web browser how a web page should be rendered/visualised. \par
+\textbf{Hypertext Transfer Protocol} A stateless application level protocol \cite{Berners-Lee1996-ji} for the transmission of data (e.g. HTML) typically between a website and a web browser. \par
+\vspace{0.5cm}
+\textbf{Multi-purpose Internet Mail Extensions} is used to announce the intended format of a resource (e.g document or file) \cite{Freed2013-yn}. \par
+\vspace{0.5cm}
+\textbf{Universal Resource Locator} A specific type of URI that has a scheme (how to access) and a resource (where to access). The most basic form of a URI is as follows \texttt{$<$scheme$>$:$<$scheme-specific-part$>$}. An example URL is \newline \texttt{https://www.example.com} \par
+\vspace{0.5cm}
+\textbf{Secure Socket Layer} A protocol to establish a secure communications channel mainly used by the HTTP protocol \par
+\vspace{0.5cm}
+\textbf{Transport Layer Security} A protocol, successor of the SSL protocol, to establish a secure communications channel mainly used by the HTTP protocol \par
+
+\end{hangparas}
+\clearpage
+\newpage
+
+\addcontentsline{toc}{section}{\listfigurename}
+\listoffigures
+
+\clearpage
+\newpage
+\addcontentsline{toc}{section}{\listtablename}
+\listoftables
+
+\clearpage
+\newpage
+
+%\printglossary[type=\acronymtype,title=List of Abbreviations,nonumberlist]
+%\newpage
+
+
+
+
+\tableofcontents
+
+\newpage
+\pagenumbering{arabic}
+\section{Introduction}
+\label{section:intro}
+
+Describe structure of the introduction
+
+\section{Objectives and Scope}
+
+The objectives of this project are:
+\begin{itemize}
+  \item Objective 1
+  \item Objective 2
+  \item Objective 3
+  \item Objective 4
+  \item Objective 5
+\end{itemize}  
+
+\newpage
+
+\section{Document Structure}
+\label{section:doc_struct}
+
+To aid the reader this report is separated into the following sections:
+
+\vspace{0.3cm} \noindent
+\textbf{Part I - Security Features Primer} provides a technical overview of the following security features and related technologies, the adoption of which will be analysed later in this report: \textit{HTTP}, \textit{SSL/TLS}, \textit{Same Origin Policy}, \textit{Cross Origin Request Sharing}, \textit{Content-Security-Policy}, \textit{Cross-Origin-Embedder-Policy}, \textit{Cross-Origin-Resource-Policy}, \textit{Corss-Origin-Opener-Policy}, \textit{X-Content-Type-Options}, \textit{X-Frame-Options}, \textit{HTTP-Public-Key-Pins}, \textit{Strict-Transport-Security}, \textit{HSTS Preloading} and \textit{security.txt}
+ %\hyperref[section:http]{\textbf{HTTP}}, \hyperref[section:ssl_tls]{\textbf{SSL/TLS}}, \hyperref[section:same_origin_policy]{\textbf{Same Origin Policy}}, \hyperref[section:cors]{\textbf{Cross Origin Request Sharing}}, \hyperref[section:csp]{\textbf{Content-Security-Policy}},  \hyperref[section:coep]{\textbf{Cross-Origin-Embedder-Policy}},  \hyperref[section:corp]{\textbf{Cross-Origin-Resource-Policy}}, \newline \hyperref[section:coop]{\textbf{Corss-Origin-Opener-Policy}}, \hyperref[section:xcto]{\textbf{X-Content-Type-Options}},  \hyperref[section:xfo]{\textbf{X-Frame-Options}}, \hyperref[section:hpkp]{\textbf{HTTP-Public-Key-Pins}}, \hyperref[section:hsts]{\textbf{Strict-Transport-Security}}, \hyperref[section:hsts_preload]{\textbf{HSTS Preloading}} and \hyperref[section:security_txt]{\textbf{security.txt}}
+
+\vspace{0.3cm} \noindent
+\textbf{Part II - Why Security Features Exist} details the need for security mechanisms, focusing on those mentioned in Part I, with the following sections: \textit{Cross Site Scripting (XSS)}, \textit{Supply Chain Attacks}, \textit{Clickjacking} and \textit{Entity in the Middle Attacks}.
+
+\vspace{0.3cm} \noindent
+\textbf{Part III - Data Acquisition} discusses internet scanning, the issues to be aware of and how other similar research has captured their data. This part concludes with detailing how this project carried out the data capture.
+
+\vspace{0.3cm} \noindent
+\textbf{Part IV - Security Mechanism Adoption Analysis} analyses that data captured over an TODO month period from TODO - TODO.
+
+\newpage
+
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Part I - Security Features Primer
+\end{huge}
+\end{center}
+\vspace{\fill}
+
+\newpage
+
+\section{HTTP}
+\label{section:http}
+
+HTTP (Hypertext Transfer Protocol), standardised in 1996 \cite{Berners-Lee1996-ji}, is a stateless protocol used for the transmission of data between a web browser and a website. When one enters an address into the address bar of a web browser or clicks a link on a web page, HTTP is used to send the request to and receive the response from a website.
+
+\subsection{HTTP Headers}
+
+\noindent HTTP Headers make up part of the additional meta-data that accompanies a request and response payloads on the HTTP protocol.
+
+\vspace{0.3cm} \noindent
+Headers are key value pairs delimited by the colon \texttt{:} character \cite{Berners-Lee1996-ji}. The key of a header is case insensitive.
+
+\vspace{0.3cm} \noindent
+An example header would be \texttt{server: nginx} where \texttt{server} is the key and \texttt{nginx} is the value.
+
+\subsection{HTTP Methods}
+
+\noindent HTTP has a number of methods for the purpose of denoting the indented request action that the request initiator is requesting to perform on a resource.
+
+\vspace{0.3cm} \noindent
+The below are relevant methods for this project:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item GET – Requests a specified resource without altering the resource.
+	\item HEAD – Identical to the GET method without the resource being returned (i.e. only metadata such as HTTP Headers)
+\end{itemize}
+
+\subsection{HTTPS}
+
+\noindent The S in HTTPS signifies that the HTTP protocol communication shall be over a secure channel, provided by the SSL/TLS protocols \cite{Rescorla2000-fs}. A URL starting with \texttt{https://} e.g. \texttt{https://exmaple.com} signifies it will be using a SSL/TLS secure channel.
+
+\vspace{0.3cm}
+\noindent Slowly over time HTTPS has seen an ever increasing amount of adoption. There have been several incentives over the years to encourage the use of HTTPS and reduce the barrier to entry:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Lets Encrypt provides free certificates, a prerequisite to enable HTTPS, for websites and is currently able to issue at least 200 million certificates a day as of February 2020 \cite{noauthor_undated-bi}
+	\item Search engines will rank websites higher if they use HTTPS. Google uses HTTPS as a ``very lightweight signal'' \cite{noauthor_undated-im}
+	\item Google Chrome and Mozilla Firefox both start to show warnings in thier browsers in 2017 when users typed in passwords on a site loaded over HTTP \cite{Vyas2017-ds,Google_undated-ws}
+	\item Governments and Community resources on why to use HTTPS \cite{noauthor_undated-oz,noauthor_undated-xk}
+\end{itemize}
+
+\newpage
+
+\section{SSL/TLS}
+\label{section:ssl_tls}
+
+\noindent The SSL (Secure Socket Layer)/TLS (Transport Layer Security) protocols were designed to establish a secure communications channel between two entities e.g. a web browser and a website. Protocols such as HTTP can utilise SSL/TLS to secure its communication.
+
+\vspace{0.3cm}
+\noindent With each new version of SSL/TLS more security features were added in response to attacks against the protocols, weakness identified and the desire to make the protocols more secure.
+
+\vspace{0.3cm}
+\noindent The acronyms SSL and TLS are often used interchangeably to refer to the secure channel they provide, even though none of the SSL versions should be used any more due to the vulnerabilities and weaknesses of SSL 2.0 and SSL 3.0 \cite{Oppliger2016-ig}.
+
+\subsection{Security Services}
+\noindent The SSL/TLS mechanism provides several security services, as of the release of TLS 1.3 the main categories are: Confidentiality, Data Origin Authentication, Entity Authentication and Perfect Forward Secrecy.
+
+\subsubsection{Confidentiality}
+
+Confidentiality is the protection of data such that only those who have been given authorisation can access the data.
+
+\vspace{0.3cm} \noindent
+Two entities should be able to establish a SSL/TLS connection between one another such that only these two entities can access the data data being sent over it. This should result in any third parties that are able capture the traffic from being able to recover the data being sent over the SSL/TLS channel \cite{Martin2017-sx}.
+
+\subsubsection{Data origin authentication}
+
+The purpose of Data origin authentication is to establish the integrity of the SSL/TLS channel data. This is accomplished using message authentication codes (MAC)  or authenticated encryption with associated data (AEAD) algorithms \cite{Ristic2017-aj} which use keys derived from when the SSL/TLS connection was established.
+
+\subsubsection{Entity Authentication}
+
+Entity Authentication provides the ability for an entity to prove their identity using mechanisms such as digital signatures.
+
+\vspace{0.3cm} \noindent
+In SSL/TLS entity authentication is mandatory and used to show that during the establishment of a SSL/TLS channel the client can verify that it really is communicating directly with the website/server they intended to. This is accomplished via the use of PKI (Public Key Infrastructure) with X.509 certificates and root stores. For further details on PKI please see \cite{Clark2013-sh,Holz2011-yv}.
+
+\vspace{0.3cm} \noindent
+It is optional for a client to prove its identity to the server using PKI during the establishment of the SSL/TLS channel.
+
+\subsubsection{Perfect forward secrecy}
+
+Perfect forward secrecy ensures that if the private key that is paired with certificate of a server/website was compromised, any SSL/TLS traffic that was captured being sent to or from this server could not be decrypted with the private key being revealed. This is accomplished via the use of Ephemeral Diffie-Hellman key exchange \cite{Martin2017-sx}.
+
+\vspace{0.3cm} \noindent
+Perfect forward secrecy is mandatory as of TLS 1.3 and as such RSA key exchange was removed in TLS 1.3.
+
+\subsection{SSL/TLS Versions}
+
+\subsubsection{SSL 2.0 [1994]}
+
+Netscape Communications started developing a protocol, named Secure Socket Layer (SSL), for securing HTTP communications in 1993 \cite{Oppliger2016-ig}, due to that fact that when HTTP was first introduced it did not provide a means by which to secure its communications \cite{Oppliger2016-ig}.
+Netscape Communications introduced SSL 2.0 in 1994 \cite{Oppliger2016-ig,Wu2016-nx}.
+
+\subsubsection{SSL 3.0 [1995]}
+
+SSL 3.0 was introduced 1995 \cite{Ristic2017-aj,Oppliger2016-ig} and was a re-write of the SSL protocol, rather than additions/modifications, as many vulnerabilities and weaknesses had been identified in SSL 2.0 \cite{Ristic2017-aj,Wagner1996-fx}.
+
+\vspace{0.3cm}\noindent
+SSL 3.0 was eventually standardised as RFC6101 \cite{Freier2011-pt}.
+
+\subsubsection{TLS 1.0 [1999]}
+
+In 1996 the IETF Transport Layer Security (TLS) Working Group was established \cite{Oppliger2016-ig,Farrell2010-kv} which produced TLS 1.0 as RFC4436 in 1999 \cite{Dierks1999-fn}.
+
+\vspace{0.3cm} \noindent
+TLS 1.0 was based on SSL 3.0 and introduced some enhancements and modifications \cite{Rescorla2001-gg}. Due to the changes made in TLS 1.0, it was allowed to be used by US government as it gained FIPS approval \cite{Ristic2017-aj}.
+
+\subsubsection{TLS 1.1 [2006]}
+
+TLS 1.1 was released as RFC4346 in 2006 \cite{Dierks2006-wu} which included a number of changes from TLS 1.0 some of which are:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item CBC (block mode) has to use explicit IVs which addressed the predictable IV weakness \cite{Ristic2017-aj}.
+	\item \texttt{\UScore{bad_record_mac alert}} required to be used in the response when there are padding problems to protect against padding attacks \cite{Ristic2017-aj}.
+	\item The addition of TLS extensions \cite{Ristic2017-aj} as described in RFC3546 \cite{Blake-Wilson2003-qv}
+\end{itemize}
+
+\subsubsection{TSL 1.2 [2008]}
+
+TLS 1.2 was released as RFC5246 in 2008 \cite{Dierks2008-uy} which included a number of changes from TLS 1.1 some of which are:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item IDEA and DES cipher suites were removed
+	\item Authenticated encryption was added
+	\item The extension \texttt{\UScore{signature_algorithms}} was added
+\end{itemize}
+
+
+\subsubsection{TLS 1.3 [2018]}
+
+TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currently the latest published, as an RFC, TLS version as of 2022 which included a number of changes from TLS 1.2 some of which are:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Removal of RSA for key exchange
+	\item Removal of MD5, SHA-224 and DSA for Signature Algorithms
+	\item Enforcement of Perfect Forward Secrecy
+\end{itemize}
+
+\newpage
+
+\section{Same Origin Policy}
+\label{section:same_origin_policy}
+\vspace{0.3cm} \noindent
+Same-Origin Policy (SOP) is a critical base security mechanism of web browsers that restricts the origin of a resource (e.g. script) to only be able to communicate to resources from the same origin.
+
+\vspace{0.3cm} \noindent
+The concept of SOP started in 1996 with the release of Netscape Navigator 2.0 \cite{Preston2012-cs} and standardised by The Web Hypertext Application Technology Working Group (WHATWG) \cite{Multiple1996-ju}
+
+\vspace{0.3cm} \noindent
+If the scheme (e.g. \texttt{https://}), port (e.g. 443) and host (e.g. images.exmaple.com) are the same for two URLs they are deemed to be in the same origin. The combination of scheme, port and host can be referred to as the origin tuple or triplet.
+
+\vspace{0.3cm} \noindent
+A request is deemed to be ``cross origin'' when the origin triplets of the url of the request being made is different from that of the origin of the request.
+
+\vspace{0.3cm} \noindent
+The path of a URL after the origin triplet is NOT evaluated when origins are being compared, for example the origin triplet of \texttt{https://example.com/index.html} is \newline \texttt{https://exmaple.com}.
+
+\vspace{0.3cm} \noindent
+Table \ref{table:sopviolations1} shows some origin triplets via the comparison of origins to the url \newline \texttt{https://shop.example.com/index.html} which is of the origin \newline \texttt{https://shop.example.com}.
+
+\begin{table}[h!]
+%\tiny
+  \begin{center}
+  \resizebox{\textwidth}{!}{
+    \begin{tabular}{|l|D|E|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \multicolumn{1}{|{c}|}{\textbf{URL}} & \textbf{Same Origin Triplet Violation} & \textbf{Reasoning}\\
+      \hline
+      https://shop.example.com/books.html & No & The difference \newline is after the origin triplet\\
+      \hline
+      https://shop.example.com/music.html & No & The difference is after the origin triplet\\
+      \hline
+      https://blog.example.com/index.html & Yes & The host of the origin triplet, blog.example.com, is different.\\
+      \hline
+      https://shop.example.com:8000/forum.html & Yes & The port of the origin triplet is different (https default port is 443)\\
+      \hline
+      http://shop.example.com/index.html & Yes & The scheme of the origin triplet, http, is different.\\
+      \hline
+    \end{tabular}}
+    \caption{Same Origin triplet example violations}
+    \label{table:sopviolations1} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\subsection{Cross Origin Network Requests}
+A Cross origin request is one that is between two different origins, examples of which are shown as a violation in table \ref{table:sopviolations1}.
+
+\vspace{0.3cm} \noindent
+Cross Origin network requests can be summarised into 3 different categories:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Cross-Origin reads are mostly denied (to prevent attacks such as XSS which is discussed further in section \ref{subsection:XSS}.
+	\item Cross-Origin embedding is mostly allowed (e.g. \texttt{$<$script src="…"$><$/script$>$})
+	\item Cross-Origin writes are mostly allowed (e.g. form submissions, links and redirects)
+\end{itemize}
+
+\subsection{Cross Origin Request Sharing}
+\label{section:Cross-Origin-Request-Sharing}
+Cross-Origin-Request-Sharing (CORS) can be used to override the default SOP behaviour, however it must be used with caution to limit exposure to attacks.
+
+
+\newpage
+
+\section{Cross Origin Request Sharing}
+\label{section:cors}
+
+A request is deemed to be ``cross origin'' when the origin triplets of the url of the request being made is different from that of the origin of the request. For example if a script on the web page \texttt{https://shop.example.com/index.com} which has the origin \texttt{https://shop.example.com} make a request to \texttt{https://www.domain.com/login.html} which has the origin \texttt{https://www.domain.com} the two origins are different thus the request is deemed to be cross-origin.
+
+\vspace{0.3cm} \noindent
+Cross Origin Request Sharing is a web browser mechanism for the purpose of allowing a resource to specify the restrictions to be able to access a resource via one or more of the HTTP Headers \cite{Apple2006-hk} detailed in the following sections.
+
+\vspace{0.3cm} \noindent
+Under certain circumstances a 'preflight', HTTP OPTIONS call, is made to the resource in question to obtain the criteria that must be met for the desired request to be allowed to be made.
+
+\subsection{Response Headers}
+
+\subsubsection{Access-Control-Allow-Credentials}
+
+When a script specifies the value of the \texttt{include} keyword for the request.credentials variable, this results in the browser sending the cookies (which can include session tokens) for the target url along with the request. The default behaviour in this situation is to deny access of the response to the script in case the script has malicious intent to obtain sensitive information.
+
+\vspace{0.3cm} \noindent
+If the response from the target url contains the header Access-Control-Allow-Credentials with a value true the script will be able to access the response.
+
+\subsubsection{Access-Control-Allow-Headers}
+
+This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP headers that are permitted to be used in the intended request.
+
+\subsubsection{Access-Control-Allow-Methods}
+
+This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are permitted to be used in the intended request.
+
+\subsubsection{Access-Control-Allow-Origin}
+
+Specifies which origins (e.g. \texttt{example.com}) the requested resource is permitted to be loaded from.
+
+\subsubsection{Access-Control-Expose-Headers}
+
+Specifies which headers, other than those deemed to be safe by CORS, from the response can be exposed to scripts.
+
+\subsubsection{Access-Control-Max-Age}
+
+The duration for which a preflight response can be cached before another preflight request is required.
+
+\subsection{Request Headers}
+\subsubsection{Access-Control-Request-Headers}
+
+Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP headers that are requested to be used in the intended request.
+
+\subsubsection{Access-Control-Request-Method}
+
+Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are requested to be used in the intended request.
+
+\newpage
+
+\section{Content-Security-Policy}
+\label{section:csp}
+
+Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed be retrieved and or loaded by the browser. CSP is an evolution of the Same-Origin Policy (SOP) browser mechanism.
+
+\vspace{0.3cm} \noindent
+Same Origin Policy is rather restrictive and this is where Content Security Policy gives more control to website maintainers and developers.
+
+\subsection{CSP Development}
+
+CSP is developed and maintained by The World Wide Web Consortium (W3C) \cite{Barth2012-ow}.
+CSP Level 1 initial draft was published in 2012 \cite{Barth2012-ow} and finalised in 2015 \cite{Barth2015-ez}.
+CSP Level 2 had its first draft in 2014 \cite{West2014-oe} and was finalised in 2016 \cite{West2016-ol} which uncluded the following changes:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item base-uri, child-src, form-action, frame-ancestors, plugin-types directives added
+	\item frame-src depreciated
+	\item Inline scripts / stylesheets allowed via nonces
+	\item New fields added to violation reports
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the most recent draft in 2021 \cite{West2021-hi} and is currently in the working draft state which included the following changes:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Spec re-written
+	\item frame-src undepreciated (uses child-src if not present)
+	\item manifest-src, worker-src directives added
+	\item 'strict-dynamic' source expression added
+	\item child-src substantially changed
+	\item deprecation of the report-uri directive in favour of a more recent directive report-to
+\end{itemize}
+
+\subsection{Policy Delivery}
+There CSP policy can be delivered either by the use of one of two HTTP headers (Content-Security-Policy and Content-Security-Policy-Report-Only) or in the \texttt{$<$meta$>$} element in the html body of a web page.
+
+\subsection{CSP Directive}
+A CSP Policy consists of one or more directives which are bound to a specific type of resource. For example, the script-src directive controls the restrictions, or lack thereof, for the location(s) scripts can be obtained, executed or loaded from. A CSP Directive can have of one or more values.
+
+\vspace{0.3cm} \noindent
+Should a directive be absent from a CSP Policy it is deemed to have no values i.e. ``open''. Configuring the default-src directive in a CSP policy cause most directives that are not present to inherit the values of the values of the default-src directive.
+
+\subsection{Selected Directives}
+This project will be analysing the directives in table \ref{table:cpsdirectives1} as these have been identified as the most significant to implement in order to reduce the likelihood of malicious interaction with resources.
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{|l|F|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Directive} & \textbf{Restrictive Context Sources} & \textbf{CSP Level}\\
+      \hline
+      script-src & script sources: e.g. \texttt{$<$script$>$} elements, inline script blocks and XSLT stylesheets & 1 \\
+      \hline
+      connect-src & The URLs being called from scripts e.g. XMLHttpRequest requests & 1 \\
+      \hline
+      style-src & Style sources: e.g. \texttt{$<$style$>$} elements and \texttt{$<$link rel='stylesheet'$>$ elements} & 1\\
+      \hline
+      img-src & Image sources: e.g. \texttt{$<$img$>$} elements & 1\\
+      \hline
+      child-src & web worker sources and child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 2\\
+      \hline
+      frame-src & child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1\\
+      \hline
+      default-src & Fall-back for interactions that are covered by CSP but not specified in other directives & 1\\
+      \hline
+    \end{tabular}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Summary of selected CSP directives}
+    \label{table:cpsdirectives1} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\newpage
+
+\subsection{Directives defined in other standards}
+
+There are several CSP directives defined in other standards.
+
+\subsubsection{upgrade-insecure-requests}
+
+Converts any \texttt{http://} request made by the browser to use \texttt{https://} i.e. all \texttt{http://} requests will be forced to use \texttt{https://}.
+
+\subsubsection{block-all-mixed-content}
+
+Does not allow the browser to make any \texttt{http://} requests for assets if the page was loaded over \texttt{https://}. This directive is processed after the upgrade-insecure-requests is processed, should it be present.
+
+\subsection{Source Lists}
+
+Below are the types of sources for values of CSP directives.
+
+\subsubsection{Keyword}
+The values below are keywords that can be used as values for directives:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item \texttt{none} – does not allow the use of resources that apply to the directive in question.
+	\item \texttt{self} – restricts the resources to the domain of the web page and does not include subdomains.
+	\item \texttt{unsafe-inline} – Permits the resource to be inline, .e.g. a scripts code resides in a \texttt{$<$script$>$} element rather that in a separate file.
+	\item \texttt{unsafe-eval} – Permits the use of mechanisms, such as \texttt{eval()}, which transform plain text into executable code.
+	\item \texttt{unsafe-allow-redirects} – Used with the \texttt{navigate-to} directive. Not currently supported in browsers.
+	\item \texttt{unsafe-hashes} – Allows the use of inline scripts if the script matches a hash in the \texttt{script-src} directive.
+	
+\end{itemize}
+
+Both \texttt{unsafe-inline} and \texttt{unsafe-eval} are deemed to be dangerous as inline resources and the use of mechanisms such as \texttt{eval()} are attack vectors for malicious actors, hence the use of the prefix \texttt{unsafe}.
+
+\subsubsection{Host}
+One or more ``hosts'' can be specified as values for a directive. The following are all valid examples of host values:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item domain.com
+	\item *.domain.com
+	\item https://*.domain.com:81
+	\item domain.com/script.js
+\end{itemize}
+
+\subsubsection{Scheme}
+Scheme values, referring the to protocol via which to access resources, may be used in directives. For example:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item http:
+	\item https:
+	\item data:
+\end{itemize}
+
+
+\subsubsection{Nonce}
+A nonce can be used to allow inline resources to be allowed without the need to use the dangerous \texttt{unsafe-inline} keyword. The nonce would need to be included in both the CSP Policy directive and the inline resource.
+
+\vspace{0.3cm} \noindent
+For example if an in-line script was required, only scripts from the same origin are to be allowed, and the nonce was to be \texttt{MyRandomNonce}, then the CSP Policy would be:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: script-src 'self' 'nonce-MyRandomNonce'}
+
+\vspace{0.3cm} \noindent
+The inline script would also have the nonce:
+
+\vspace{0.3cm} \noindent
+\texttt{$<$script nonce="MyRandomNonce"$>$...$<$/script$>$}
+
+
+\subsubsection{Digest}
+
+A hash (digest) value can be used for scripts, the script-src directive, and non-script elements, such as the style-src directive. An example digest for the script-src directive:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: script-src 'sha256-MyHashDigest='}
+
+\vspace{0.3cm} \noindent
+If a digest value is present, each script element will be hashed and the resultant hash compared to the hash value in the directive and if a match occurs the script is deemed to be allowed.
+
+\vspace{0.3cm} \noindent
+The current hashing functions specified in CSP Level 3 are \texttt{sha256}, \texttt{sha368} and \texttt{sha512}.
+
+\subsection{Reporting Directives}
+
+\subsubsection{report-uri}
+Upon a CSP Policy violation and a value is present for report-uri, the browser will send a report to the location specified for report-uri. The report is in the form of JSON document(s) and sent using the HTTP POST method. An example report-uri configuration can be seen below:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: ...; report-uri https://report.example.com;}
+
+\subsection{Content-Security-Policy-Report-Only}
+
+The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \newline \texttt{Content-Security-Policy} with the exception that violations are only reported and not enforced. One of the main uses of this is when webmasters and developers are creating a CSP Policy and do not want to impact the end user experience until the policy is configured as desired.
+
+\newpage
+
+\section{Cross-Origin-Embedder-Policy}
+\label{section:coep}
+
+The \texttt{Cross-Origin-Embedder-Policy} header provides a mechanism that does not allow any cross-origin resources from being loaded unless explicitly allowed (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
+
+\subsection{Directives}
+\subsubsection{unsafe-none}
+Disables the mechanism allowing resources to be loaded without explicit permission being given. This is the default behaviour.
+
+\subsubsection{require-corp}
+Enables this mechanism only allowing resources being loaded from the same origin or from other origins that explicitly give permissions to do so (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
+
+\newpage
+
+\section{Cross-Origin-Resource-Policy}
+\label{section:corp}
+
+The \texttt{Cross-Origin-Resource-Policy} header provides a mechanism that restricts which origins are permitted to load a resource \cite{Apple_undated-au}.
+
+\subsection{Directives}
+
+\subsubsection{same-site}
+
+If the request initiator's origin and the request destination's origins are of the same site then load the resource. For example, if the request initiator's origin is \newline \texttt{https://account.example.com/index.html} and the request destination is \newline \texttt{https://signin.example.com/script.js}, the resource can be loaded as both are of the same site \texttt{example.com}.
+
+\subsubsection{same-origin}
+
+If the request initiator’s origin and the request destination’s origin are the same then load the resource. For example, if the request initiator’s origin is \texttt{https://blog.example.com} and the request destination is \texttt{https://blog.example.com}, the resource can be loaded as both are of the same origin \texttt{https://blog.example.com}.
+
+\subsubsection{cross-origin}
+
+The resource is allowed to be loaded regardless of the sites/origins involved.
+
+\newpage
+
+\section{Cross-Origin-Opener-Policy}
+\label{section:coop}
+
+The \texttt{Cross-Origin-Opener-Policy} (COOP) header provides a mechanism that prevents the sharing of browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the web page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
+
+\subsection{Directives}
+\subsubsection{unsafe-none}
+Disables the mechanism unless the document (e.g. popup) uses this header with either of the two values: \texttt{same-origin} and \texttt{same-origin-allow-popups}. This is the default behaviour.
+
+\subsubsection{same-origin-allow-popups}
+Allows the communication of a new window or tab (e.g. popup) to the originating page (document) if a COOP header is not present, or has the value \texttt{unsafe-non}, on the new window or tab.
+
+\subsubsection{same-origin}
+Does not allow communication (isolates) from new windows or tab to the originating page (document) unless they are from the same origin. If not from the same origin they are placed in a separate browsing contexts.
+
+\newpage
+
+\section{X-Content-Type-Options}
+\label{section:xcto}
+
+The \texttt{X-Content-Type-Options header} is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
+\texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
+
+\subsection{Directives}
+\subsubsection{nosniff}
+
+Denies requests under either of the two below conditions:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type.
+	\item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not \texttt{text/css}.
+\end{itemize}
+
+\newpage
+
+\section{X-Frame-Options}
+\label{section:xfo}
+
+The \texttt{X-Frame-Options} response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+
+\subsection{Directives}
+\subsubsection{DENY}
+The page must not be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+
+\subsubsection{SAMEORIGIN}
+The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of page that contains the element is that of the page to be rendered in the element.
+
+\subsubsection{ALLOW-FROM $<$uri$>$}
+Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
+
+\newpage
+
+\section{Public-Key-Pins}
+\label{section:hpkp}
+
+The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
+
+\vspace{0.3cm} \noindent
+There have been several issues with HPKP such as HPKP Suicide \cite{Chen2018-ft,Chuat2021-nf} or Ransom PKP \cite{Chuat2021-nf} which are forms of Hostile Pinning \cite{Evans2018-mi}
+
+\vspace{0.3cm} \noindent
+This header is now deprecated by most modern web browsers.
+
+\subsubsection{Public-Key-Pins-Report-Only}
+The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rather only sends violation reports.
+
+\newpage
+
+\section{Strict-Transport Security}
+\label{section:hsts}
+
+The Strict-Transport Security response header is a mechanism that instructs the browser to load the page only over https and never http \cite{Hodges2012-pe}.
+
+\subsection{Directives}
+\subsubsection{max-age}
+The duration, in seconds, the browser will honour the Strict-Transport Security request to only load the page over HTTPS.
+
+\subsubsection{includeSubDomains}
+Instructs the browser to also load any subdomains of the site only over HTTPS.
+
+\subsubsection{preload}
+
+Must be present if the site is to be preloaded via google's HSTS preload service.
+
+\newpage
+
+\section{HSTS Preloading}
+\label{section:hsts_preload}
+
+HSTS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
+
+\vspace{0.3cm} \noindent
+The main reason for HSTS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
+
+\vspace{0.3cm} \noindent
+Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
+
+\vspace{0.3cm} \noindent
+The following criteria must be met in order for a domain to qualify to be included in the preload list:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item The website has a valid certificate trusted by browsers.
+	\item If the domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, it must redirect to the HTTPS on the same domain.
+	\begin{description}
+	\item[e.g.:] if \texttt{http://example.com} is accessible, it must redirect to \texttt{https://example.com}
+	\end{description}
+	\item All subdomains should be served over HTTPS, however only the \texttt{www} subdomain (e.g. \texttt{www.example.com}) is checked if present in DNS.
+	\item An HSTS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
+	\begin{itemize}
+		\item \texttt{max-age} directive must be no less than 31536000 seconds (i.e. 1 year).
+		\item \texttt{includeSubDomains} directive must be present.
+		\item \texttt{preload} directive must be present.
+		\item Should the site redirect away when accessed over HTTPS, the site must have the HSTS header.
+	\end{itemize}	
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+If a domain in the preload list stops meeting the above criteria it runs the risk of being removed from the preload list.
+
+\section{security.txt}
+\label{section:security_txt}
+
+The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on a website \cite{Foudil2021-vh}.
+
+\vspace{0.3cm} \noindent
+A file named ``security.txt'' should be placed in either of the following two locations, with a \texttt{Content-Type} header with the value of \texttt{text/plain}, and served only over HTTPS:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item \texttt{/.well-known/security.txt} (e.g. \newline \texttt{https://example.com/.well-known/security.txt})
+	\item \texttt{/security.txt} (e.g. \texttt{https://example.com/security.txt})
+\end{itemize}
+
+\noindent \vspace{0.3cm}
+The RFC is currently in the draft stage and seeing updates as recently as May 2021.
+
+\newpage
+
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Part II - Why Security Features Exist
+\end{huge}
+\end{center}
+\vspace{\fill}
+
+\newpage
+
+\section{The Need for Security Mechanisms}
+\label{section:need_for_security_mechanisms}
+
+As communication technologies continually improve, it has allowed and attracted an ever-increasing amount of people to interact with services on the internet. Malicious actors and security researches are drawn to this large online user base interacting with online services such as those that:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item process payments \cite{Herman2019-zb}
+	\item provide online banking \cite{Gezer2019-oy}
+	\item contain confidential information (e.g. medical related data) \cite{Mrdjenovich2020-vz}
+	\item provide communication channels (e.g. social networks and forums)
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+There are many entities that track trends and malicious activity, one of which is the non-profit organisation Open Web Application Security Project (OWASP) which works to advance the security of applications \cite{noauthor_undated-ta,Kellezi2021-nd}.
+
+\vspace{0.3cm} \noindent
+OWASP maintain a Top Ten list, determined using a publicised methodology, which state the most important risks to web applications \cite{Kellezi2021-nd,noauthor_undated-kz}. In the 2021 Top Ten Report, Injection attacks (of which Cross Site Scripting (XSS) detailed in section \ref{subsection:XSS} is one variant) was ranked number three and of the 94\% of the applications they tested there was an average incident rate of 3\% and 274k occurrences \cite{noauthor_undated-gt}.
+
+\vspace{0.3cm} \noindent
+The ``Global Data At Risk State of the Web'' 2020 report \cite{Tala_Security2020-ee} claims that on average, the top 1000 websites in the Alexa top one million website list, rely upon the 32 third party integrations. This gives a great opportunity for attackers to leverage the supply chain attack (detailed in section \ref{subsection:SupplyChain}) to compromise websites that may be harder to compromise directly. One such example of this attack is the 2018 Magecart attack on Ticketmaster \cite{Herman2019-zb} to steal payment information via the compromise of third party resources.
+
+\vspace{0.3cm} \noindent
+Due to the susceptibility of data traversing the internet being intercepted and attacked, its integrity and confidentially needs to be protected. For browser traffic this is achieved by the use of HTTPS, which uses SSL/TLS secure channels, instead of the insure HTTP. Unfortunately not all websites use HTTPS and or redirect to the HTTPS version should it exist. Governments are encouraging the use of HTTPS \cite{noauthor_undated-oz} as well as the community itself \cite{noauthor_undated-xk}. The general advice is that if one is in control of a website, it should be using HTTPS regardless of the websites purpose or content. 
+
+\vspace{0.3cm} \noindent
+The following attacks are ones that can be mitigated by one or more of the security mechanisms described in the previous sections of this report.
+
+\subsection{Cross Site Scripting (XSS)}
+\label{subsection:XSS}
+
+Cross Site Scripting (XSS) attacks are part of the injection class of attacks where one or more malicious scripts, commonly written in JavaScript, are injected and subsequently executed on a web browser. There are four main variants of XSS attacks:
+
+\subsubsection{Attack Variants}
+\textbf{Reflected}
+
+\vspace{0.2cm} \noindent
+Stored XSS (also referred to as \textit{Non-Persistent}, \textit{Indirect} and \textit{Type II}) occurs as a result of when a request is made to a web application, that contains malicious content, the response contains a malicious script that is executed by the web browser. The malicious script is reflected back to the user, hence the name of this variant \cite{Rodriguez2020-bg}.
+
+\vspace{0.6cm} \noindent
+\textbf{Stored}
+
+\vspace{0.2cm} \noindent
+Stored XSS (also referred to as \textit{Persistent}, \textit{Direct} and \textit{Type I}) is where a malicious actor is able to store a malicious script on a website, by some means such as a forum post or comment section of a website such that the script will be executed, by the web application when a victim visits the page. The power of this variant is that the script is permanent, until when or even if the script is detected and removed. This variant has the potential to have many visitors to become victims depending of the traffic of the compromised web page(s) \cite{Rodriguez2020-bg}.
+
+\vspace{0.6cm} \noindent
+\textbf{DOM-Based}
+
+\vspace{0.2cm} \noindent
+DOM-Based XSS (also referred to as \textit{Type 0}) takes place entirely in the DOM. The Document Object Model (DOM) is the web browsers internal representation of an html page as a result of the browser parsing the html. The source (e.g. the parsed html), functionality and destination of the malicious script is all contained within the DOM \cite{Rodriguez2020-bg,Klein2005-hx}.
+
+\vspace{0.6cm} \noindent
+\textbf{Mutation Based}
+
+\vspace{0.2cm} \noindent
+Mutation Based XSS (also referred to as \textit{mXSS}) is based on the use of the \texttt{innterHTML} functionality, often used to provide web application users to do custom styling, of a browser which allows direct manipulation of the HTML content bypassing the DOM entirely. The malicious actor crafts a ``mutated'' payload that once processed by the \texttt{innerHTML} functionality allows the script to execute \cite{Heiderich2013-qv}.
+
+\subsubsection{Historical Example}
+In October of 2005 it was discovered that when users visited an infected MySpace profile the phrase ``but most of all, samy is my hero'' was appended to the ``hero'' section of visiting users profiles. The infected profile contained a stored XSS payload which added itself to the visiting users profile and adding the aforementioned phrase. The attack was initiated by ``Samy'' infecting their own profile with the XSS payload. Over one million user profiles were reported to have been affected within 20 hours \cite{Lee2019-xf}.
+
+\vspace{0.2cm} \noindent
+The attack is known as the ``Samy Worm'' as it propagated to other MySspace profiles just by visiting an infected profile.
+
+\subsubsection{Security Mechanism(s) Providing Mitigation}
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Content Security Policy (CSP) – multiple directives
+	\item Cross-Origin-Resource-Policy
+	\item X-Frame-Options
+\end{itemize}
+
+
+\subsection{Supply Chain}
+\label{subsection:SupplyChain}
+
+Supply chain attacks are when a malicious entity maliciously alters one or more third party resource(s) (such as a javascript library) that a web application uses, commonly hosted on a third party location such as a CDN. These malicious modifications are for several reasons including:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Running a cryptominer \cite{Tekiner2021-sq} on browsers
+	\item Capturing Payment Information
+	\item Screen Scraping
+	\item Ad injection
+\end{itemize}
+
+\subsubsection{Historical Example}
+The 2018 Texthelp breach is one example of this type of attack where a malicious entity compromised a JavaScript library and modified it to include a cryptominer. A cryptominer uses computing resources to mine cryptocurrency such as (Bitcoin, Etherium and Monero). This single compromised JavaScript library was reportedly found to be used on 4,000 websites \cite{Billman2018-sq}.
+
+\subsubsection{Security Mechanism(s) Providing Mitigation}
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Content Security Policy (CSP) - sub resource integrity
+\end{itemize}
+
+\subsection{Clickjacking}
+
+A clickjacking attack is one in which a user-initiated attack is hijacked to perform unwanted actions. A user is enticed to click on an element of a page, such as an image, however rather than an action or outcome the user expects to occur one determined by the attacker takes place. To undertake the attack a malicious site renders a web page from the target website within an iframe. The malicious site uses styling to show only what the attack desires of the target website \cite{Jamwal2018-tz}.
+
+\subsubsection{Historical Example}
+The Twitter Attack, also referred to as the ``Twitter Bomb'', begins by a user seeing a twitter post that contains the text \texttt{Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and clicking on the link. Visiting the link will present the user with a page seemingly only containing only a single button ladled \texttt{Don't Click}.
+
+\vspace{0.3cm} \noindent
+Unbeknownst to the user, the twitter home page is also rendered on the page but in an invisible iframe. The \texttt{Don't Click} button is directly underneath the invisible ``update'' button, which posts a tweet of the twitter home page. The iframe is configure to load the url \texttt{http://www.twitter.com/?status=Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and twitters \texttt{?status=} feature will pre-load the users tweet box with the status message.
+
+\vspace{0.3cm} \noindent
+When the user clicks the \texttt{Don't Click} section of the page they are actually clicking the invisible \texttt{update} button of the twitter home page which creates a tweet with the text \texttt{Don’t Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} which helps to spread the message. There was no ill intent to this clickjacking attack and as such considered more of a prank.
+\subsubsection{Security Mechanism(s) Providing Mitigation}
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Content Security Policy (CSP) – frame-ancestors directive
+	\item X-Frame-Options
+\end{itemize}
+
+\subsection{Entity in the Middle}
+\label{subsection:entity_in_the_middle}
+
+Malicious actors are constantly on the lookout for ways to obtain sensitive data for a multitude of reasons including: intellectual property theft, stealing money and personal information.
+
+\vspace{0.3cm} \noindent
+One of the ways to help prevent this is to secure the communication traffic over the internet using HTTPS which relies on the SSL/TLS mechanism.
+
+\vspace{0.3cm} \noindent
+If a malicious actor is able to intercept and or passively monitor web traffic, the opportunity arises to perform what is known as an Entity in the Middle attack.
+
+\vspace{0.3cm} \noindent
+The Entity in the Middle attack is where an attacker is able to intercept and manipulate traffic between the victim and the target entity such as a website. This can lead to attacks such as victims unknowingly giving their credentials to attackers as well as attackers manipulating the response from the website before being sent back to the victim.
+
+\vspace{0.3cm} \noindent
+Over the years there have been several attacks against the SSL/TLS mechanism, compromising the confidentiality and or integrity of the information it is meant to secure.
+
+\subsubsection{Historical Examples}
+\textbf{BEAST (2011)}
+
+\vspace{0.2cm} \noindent
+The BEAST attack, announced in 2011, was for use against TSL 1.0. The attack exploited the TLS 1.0 implementation of the Cipher Block Chaining (CBC) encryption mode in order to be able to decrypt parts of TLS 1.0 data packets to reveal sensitive data such as website cookies that could be used to impersonate a user on a web application \cite{Ristic2017-aj,Levillain2015-os}. Modification of padding, the primary exploitation vector, used in this attack is referred to by the term ``padding oracle''. The vulnerability was fixed in TLS 1.1.
+
+
+\vspace{0.6cm} \noindent
+\textbf{Lucky 13 (2013)}
+
+
+\vspace{0.2cm} \noindent
+The Lucky 13 attack is where a malicious attacker modifies, in transit, the padding (redundant data to make the data packet a certain size) of TLS data packets, that are using a CBC cipher suite, to analyse how the server reacts. Should the malicious actor be able to determine that the server has reacted to the modifications of padding, then this can lead to information leakage and plaintext recovery \cite{Ristic2017-aj,Al_Fardan2013-sw}. This attack is effective against TLS 1.0 - 1.3 and SSL 3.0 that use CBC mode (or any other mode that do not have padding oracle countermeasures.)
+
+
+\vspace{0.6cm} \noindent
+\textbf{Poodle (2014)}
+
+\vspace{0.2cm} \noindent
+The Poodle attack is similar to the Lucky 13 attack, where unprotected padding is exploited, but restricted to SSL 3.0. In order to force the use of SSL 3.0 the malicious attacker performed a downgrade attack which prevented a TLS handshake for any protocol version higher than SSL 3.0 to be established \cite{Ristic2017-aj,Al_Fardan2013-sw}. The downgrade attack was possible as servers would fall back to SSL 3.0 should higher protocol versions fail.
+
+
+\vspace{0.6cm} \noindent
+\textbf{Heartbleed (2014)}
+
+\vspace{0.2cm} \noindent
+The 2014 Heartbleed attack, which gained attention in the mainstream media, exploited an implantation flaw in the length of a data bounds check. The flaw was in the rarely used but commonly enabled heartbeat protocol \cite{Durumeric2014-yj} of the TLS mechanism in the OpenSSL library (used by millions of servers).
+
+\vspace{0.2cm} \noindent
+To exploit the vulnerability, a malicious actor would send a \texttt{HeartbeatRequest} message, setting the payload length set to a length larger than the actual \texttt{HeartbeatRequest} message payload length \cite{Durumeric2014-yj}. This allowed the extraction of private memory on the target which could lead to the ex-filtration of sensitive data such as website private keys and cryptographic secrets.
+
+\vspace{0.3cm} \noindent
+The maintainers of the OpenSSL library released a fix for the vulnerability alongside the public announcement of the vulnerability \cite{Durumeric2014-yj}.
+
+
+\vspace{0.6cm} \noindent
+\textbf{FREAK (2015)}
+
+\vspace{0.2cm} \noindent
+The 2015 FREAK attack shed light that the OpenSSL library would accept weak RSA encryption keys, from the use of export grade cipher suites, during a full-strength RSA TLS handshake. A malicious actor would force the client to use such a weak key by sending a \texttt{SeverKeyExchange} TLS protocol message to the client. If such a weak key was used the malicious actor could capture the traffic, brute force the key within a matter of hours and decrypt the captured traffic. The removal of export grade cipher suites on the server stops this attack \cite{Ristic2017-aj,Beurdouche2015-ga}.
+
+\subsubsection{General Mitigation Strategies}
+
+Organisations should have policies in place to keep up to date with current state of TLS vulnerabilities and best practice recommendations to best mitigate risk to themselves and their users from malicious actors.
+
+\newpage
+
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Part III - Data Acquisition 
+\end{huge}
+\end{center}
+\vspace{\fill}
+
+\clearpage
+\newpage
+
+\section{Data Acquisition}
+\label{section:data_aquisition}
+
+In order to be able to analyse HTTP Security Headers, TLS Versions, HSTS Preloading and security.txt adoption, or lack thereof, data on these desired metrics needs to be acquired. There are several overarching ways to acquire the desired data: Active, Passive and Third-Party data sets.
+
+\vspace{0.3cm} \noindent
+Active data collection is the act of establishing TLS connections and or making HTTP requests and storing the resultant connection/request/response data. This method requires the setup of infrastructure and software, which can involve the customisation and or development of entire software applications. Active scanning gives great versatility, however care needs to be taken to ensure the data is collected in a methodical and ideally a reportable way, in order for the analysis to have meaning.
+
+\vspace{0.3cm} \noindent
+Passive data collection is capturing data as it flows through network infrastructure. The infrastructure required is likely to be less than that of active collection as it should only require the duplication of pre-existing network traffic to a device that is able to store the data. With any sort of data collection there is the always the ethical consideration to take into account, however with passive collection privacy is of higher concern than active data collection and needs to be treated as such.
+
+\vspace{0.3cm} \noindent
+Third Party data sets is the use of data collected by another entity that is using passive and or active collection. The only infrastructure that should be needed by the researcher would be that needed to analyse the data. There is great trust that the third party has conducted the data collection in a way that makes the analysis of it meaningful.
+
+\subsection{Scanning Targets}
+Active data collection, for the purpose of measuring security mechanism adoption, requires a list of entities to collect data from. Generating a list of domains to scan on ones own could be potentially quite an arduous task. Using resources that contain collections of domains is a much easier task, assuming the collection is of high relevance to the research that is to be conducted.
+
+\subsubsection{Pre-complied Lists}
+
+Pre-compiled, often ranked by popularity, domain lists are made available by organisations that claim they are in a position to create such lists such as: Alexa Top 1 Million sites \cite{noauthor_undated-wh}, Cisco Umbrella \cite{noauthor_undated-ku}, Majestic Million \cite{noauthor_undated-sz} and Tranco \cite{noauthor_undated-mt}. These lists are updated regularly, as often as once a day, which allows researchers to have up to date lists that are freely available.
+
+\vspace{0.3cm} \noindent
+The Alexa Top 1 Million site is a favourite among researchers as shown by use in \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}. These lists are primarily used as they are intended to reflect the most popular sites on the internet and thus are assumed to be ones that would use the most up to date security mechanisms.
+
+\subsubsection{Zone Lists}
+
+Zone Lists, such as a country code top level domain (ccTLD) zone lists, which is a list of domains for a country, are another source of domains to scan. These are generally used when the researcher's intent is to gain insight into an entire country or continent such as the EU \cite{Amann2017-co,Chen2016-dl,Van_Goethem2014-ao,Holz2020-ha}.
+
+\vspace{0.3cm} \noindent
+The majority of zone lists are not openly available however ICANN has created the ``Centralised Zone Data Service'' (CZDS) \cite{noauthor_undated-mm} which allows one to register and request access to Zone Files.
+
+\vspace{0.3cm} \noindent
+The number of domains to scan using zone lists can be in the 10s or even 100s of millions of domains which would likely require more infrastructure to scan on a regular basis compared to the use of pre-compiled lists.
+
+\subsubsection{Search Engines}
+
+Utilising search engines can allow additional urls for a domain to be acquired to allow for further insight how responses might change depending on which web page of a domain is requested \cite{Chen2016-dl}.
+
+\subsubsection{IPv4 Address Space}
+
+Scanning the entire IPv4 Address space (i.e. all internet  IPv4 addresses) is also a source of entities to scan \cite{Kotzias2018-wd}. The major difference is the use of an IP Address rather than a domain which needs to take into account that servers may respond differently if an IP address is used as the website address rather than a domain name (e.g. \texttt{https://1.2.3.4} vs \texttt{https://example.com}).
+
+\vspace{0.3cm} \noindent
+The number of internet routable IP Addresses, i.e. ip addresses that can be access over the internet, is around \(2^{32}\) total possible addresses minus approximately 288 million non route-able addresses which results in approximately 4 billion addresses.
+
+\vspace{0.3cm} \noindent
+Scanning the entire IP Address range can lead to abuse reports, however these can often be revoked if the researcher works with the operator who raised the complaint to conduct the scan in a manner in which the operator deems acceptable.
+
+\subsection{Scanning}
+
+
+\subsubsection{Scanner Technologies}
+
+TODO
+
+Research uses many different technologies
+
+\subsubsection{Domain Resolving}
+
+When a http client makes a request to a URL (e.g. http://example.com) the client needs to lookup the IP Address of the domain (e.g. example.com) in order to send the HTTP request.
+
+\vspace{0.3cm} \noindent
+Scanning a large number of domains can potentially put a strain on the DNS server the client is using to resolve the domain to an IP Address. If there are a sufficiently large number of domains to be resolved at the same time, or over a very short period of time (e.g. a few seconds) it is possible that the DNS resolution will fail when there is an IP Address that cannot be resolved. There are several ways around this such as pre determining the IP Address for the domain \cite{Amann2017-co}, using more than DNS server and using retries.
+
+\vspace{0.3cm} \noindent
+Precomputing DNS resolutions makes more sense when not following HTTP redirects such as for the TLS connection establishment in \cite{Amann2017-co,Holz2020-ha}.
+
+\subsubsection{Using the WWW subdomain}
+
+When using lists that contain base domains (e.g. example.com) it is not known if the website is actually hosted or available from the base domain. Websites are generally available from the base domain (e.g. example.com) and or its www subdomain (e.g. www.example.com).
+
+\vspace{0.3cm} \noindent
+To give a good chance of being able to obtain a HTTP response from domain, it is common to try both the base domain and the www subdomain \cite{Chen2016-dl,Kumar2017-qw,Ying2016-ag,Michael2015-hn}. Some researchers choose not to also try the www subdomain such as in \cite{Buchanan2018-xz,Amann2017-co} (but do not necessarily state why they chose not to do so), which can lead to unnecessarily reduced data for analysis.
+
+\subsubsection{HTTP Method}
+In order to obtain HTTP Security Headers, one needs to make an HTTP Request. There are several types of HTTP Request, GET and HEAD being two of them.
+
+\vspace{0.3cm} \noindent
+HTTP HEAD requests result in only metadata being returned (this includes HTTP Headers) by the server. The main reason researchers choose to use HEAD HTTP Requests \cite{Amann2017-co} is to save compute resources on the server (as the server does not have to generate the response payload such as a html web page) as well as reducing the amount of data being sent over the network.
+
+\vspace{0.3cm} \noindent
+Whilst using HEAD requests does save server resources, which helps in the ethics of internet research of this kind, browsers perform GET requests which could potentially respond with different headers for the same URL. If the researcher is intending on analysing the response payload from a website then GET requests \cite{Chen2016-dl,Kumar2017-qw} are required.
+
+\vspace{0.3cm} \noindent
+Certain applications and programming languages, such as go \cite{noauthor_undated-lc}, allow the use of GET request without requesting the actual payload from the server which leaves just the computing resource to generate the payload. If the home page is requested this is more likely to be cached, as it will be one of the most visited pages, than other pages which also help to reduce the compute load on the target resource (e.g. website).
+
+\subsubsection{HTTP Client Headers}
+
+When browsers make HTTP requests to websites, they send several HTTP headers with the request. One of these headers is named \texttt{user-agent} and is often used to detect if the client making the request is a browser. When a website detects that a non-browser is making the request it can change the response which could skew the results of research such as analysing HTTP security header adoption for web browsers.
+
+\vspace{0.3cm} \noindent
+For the purposes of internet research when attempting to gather data from responses to HTTP requests that would normally be sent to a browser, the use of a browser user-agent is typically used \cite{Buchanan2018-xz, Patil2017-bg,Ying2016-ag,Lavrenovs2018-dl,Poteat2021-zr}. The declaration from researchers of the value for such headers is not always present \cite{Amann2017-co} which could leave readers potentially questioning the reliability of the resultant analysis.
+
+\subsubsection{Redirects}
+
+When a HTTP request is made, the HTTP protocol has the ability to redirect to a different url. This is quite normal for websites to do this and there are numerous reasons to do so, such as redirecting from the base domain e.g. (http://example.com) to the www subdomain e.g. (http://www.example.com) where the website is actually hosted. It is generally good practice to follow redirects as this is what browsers do, unless researchers wish to only analyse a response from a specific url such as the base domain in \cite{Amann2017-co}.
+
+\vspace{0.3cm} \noindent
+Researchers need to be mindful however that redirects can lead to the same resultant domain for different initial domains (e.g. http://example.com and http://mydomain.com could both redirect to http://anotherdomain.com).
+
+\vspace{0.3cm} \noindent
+This phenomenon can potentially skew analysis results if the researchers do not actively take this into account such as duplicate resultant URLs being removed as was done in \cite{Lavrenovs2018-dl}.
+
+\subsubsection{SSL/TLS Certificate Validation}
+
+When a TLS connection is being established a browser will try and verify the claimed identity of the website (e.g. example.com). If the server does not present all the necessary intermediate certificates, in order to be able to validate the websites claimed identity, the TLS connection will fail unless the browser already has the intermediate certificate available.
+
+\vspace{0.3cm} \noindent
+Intermediate certificates can be obtained from such means as: the website being visited, the certificate was obtained from a previously visited website, via Authority Information Access (AIA) \cite{Cooper2008-yr} or from preloading \cite{Keeler2020-yj}. For further details on PKI, including certificates and identity verification, please see \cite{Clark2013-sh,Holz2011-yv}.
+
+\vspace{0.3cm} \noindent
+It is quite common to use non browser clients to conduct research. These clients are not guaranteed to use any of the above mentioned methods for obtaining intermediate certificates not provided by a website in order to validate the websites' claimed identity. To counteract this issue, the TLS/SSL validation can be disabled for the scanning of the website and done as an offline step which enables any missing certificates to be obtained at the researcher's leisure.
+
+\vspace{0.3cm} \noindent
+It is not evident that any of the papers in the literature research conducted for this project used such an approach, possibly assuming that the number of websites that would have this issue would be minimal enough not to affect the results analysis conducted or not aware of the issue itself.
+
+\subsubsection{Pre-Analysis Filtering}
+It is generally best to collect the rawest form of data for to give the greatest possible freedom and options when conducting any analysis. If the filtering was carried out at the data acquisition phase this could restrict further analysis or potentially cause intended analysis not to be possible due to the way the data was filtered.
+
+\vspace{0.3cm} \noindent
+A potential example of this is where in \cite{Buchanan2018-xz} the researches decided to parse the headers of a HTTP response during the data acquisition phase. HTTP headers are caseless \cite{Berners-Lee1996-ji} and depending on how the filtering is done, some headers could have been missed, however if all the headers were captured this could have been a non issue during analysis.
+
+\subsection{Scanning Frequency}
+
+The number of times data gathered and how far apart they are, in terms of time, are important in terms of showing any potential trends and having enough data to confidently make statements from the analysis of such data.
+
+\vspace{0.3cm} \noindent
+Of the research sources that were reviewed for this project, those that conducted active scanning activities make at least two scans such as \cite{Buchanan2018-xz,Amann2017-co,Chen2016-dl,Kumar2017-qw} and some with daily scans for years \cite{Holz2020-ha}.
+
+\vspace{0.3cm} \noindent
+The more data that is gathered in the same way, the higher value that analysis obtains, assuming that the methodology of the acquisition is sound.
+
+\subsection{Monitoring}
+
+Conducting long running data acquisition would greatly benefit from, at minimum, some basic metrics that show that a data acquisition has started, completed and if a critical issue was encountered. This would help to ensure that data acquisition was successful and to alert if not, so that it could be investigated and rectified to reduce any potential issues to the research being conducted.
+
+\vspace{0.3cm} \noindent
+The researchers in \cite{Poteat2021-zr} stated that they had a ``measurement outage'' however they do not go into detail. It is possible that monitoring could have helped to reduce and or mitigate the outage.
+
+\subsection{Detailed Methodologies}
+
+The majority of research reviewed for this project state the technologies used and the high level description of the methodology used to acquire the data later analysed, such as in \cite{Amann2017-co,Chen2016-dl,Van_Goethem2014-ao}.
+
+\vspace{0.3cm} \noindent
+Whilst this is generally enough for the reader to understand the high-level methodology, those who wish or are conducting similar or related research could benefit form a more detailed and formal method. To that end it would be of benefit to the community if a more formal method is documented and made available which would allow internet research methodologies to be documented in a standardised form such that they can be compared and contrasted more easily.
+
+\subsection{Literature Review}
+
+Table \ref{table:data_acquisition_lit_review} is a critical review of limitations identified in the literature research and how this project aims to address them.
+
+\begin{center}
+
+\footnotesize
+\begin{longtable}{|C|E|H|H|}
+
+    \caption{Data Acquisition Literature Review} 
+    \label{table:data_acquisition_lit_review} \\ % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex 
+\hline
+\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{How Addressed In This Project} \\
+\hline
+\endfirsthead
+\multicolumn{4}{c}%
+{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+\hline
+\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{How Addressed In This Project} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\textit{Continued on next page}} \\
+\endfoot
+\hline
+\endlastfoot
+      \textbf{Data Filtering} & If data is filtered during data capture, it could result in unintended data being filtered & The researches in \cite{Buchanan2018-xz} filter headers during data capture, which if not done perfectly (e.g. spelling and case) could produce unintended results. & All http headers, TLS certificates/connection information is captured unfiltered\\
+      \hline
+      \textbf{www sumdomin} & If using only the base domains for http(s) requests could produce inaccurate results as not all domains serve http on the base domain. The www subdomain is the most common domain to serve http requests besides the base domain. & Researchers \cite{Buchanan2018-xz,Amann2017-co} do not state if the www subdomain was explicitly added during scanning. & The www subdomain is used if base domain does not have a DNS A record. \\
+      \hline
+      \textbf{HTTP method} & Browsers use the http GET method to obtain web pages. A website might behave differently if a non GET http method (e.g. HEAD) was used. Some websites may not even allow the http HEAD method. & Researchers \cite{Amann2017-co} specifically use the HEAD http method to reduce load on target domains. & The HTTP GET method is used which is what browsers use.\\
+      \hline
+      \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in TODO. \\
+      \hline
+      \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have. & None of the research \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Roth2020-hg,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Calzavara2018-xv,Holz2020-ha,Michael2015-hn,} processes SSL/TLS verification at the analysis stage. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or assumed to be not enough sites affected. & SSL/TLS verification is performed at the analysis phase. \\
+      \hline
+      \textbf{Monitoring} & When a scanning session is conducted and not monitored, one or more sessions could fail without the researcher(s) being aware for an unknown amount of time. & It is possible that the outage mentioned in \cite{Poteat2021-zr} could have been avoided or minimised by the use of effective monitoring. & Metrics of the status of scanning are crated and alerted upon and investigated. \\
+%      \hline
+%      \textbf{Scan frequency} & The more data the better & - & - \\
+      \hline
+      \textbf{Scanner Tool Verification} & One cannot assume that the technology used to perform the scanning is doing what one expects or intends without due diligence being performed. & None of the research specifically calls out testing of the scanner with manual verification of results. & Successfully and unsuccessfully scanned domains were picked at random during the creation of the scanner, manually verifying results and correcting/updating scanner as required. \\
+      \hline
+      \textbf{Scanner Tool Flow} & The use of graphical flows allows greater accuracy for research replication and understanding. & Whilst most research gives a written overview of scanner methodology \cite{Buchanan2018-xz,Amann2017-co,Patil2017-bg,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Holz2020-ha,Michael2015-hn}, they vary in detail and do not have a graphical counterpart. & Includes a graphical representation with detailed descriptions to enhance the understanding of scanner methodology. \\
+%       &  &  &  \\
+%      \hline
+\end{longtable}
+\end{center}
+
+\clearpage
+\newpage
+
+\section{Methodology}
+\label{section:methodology}
+
+This section details the methodology this project used to obtain the data analysed in section \ref{section:analysis}.
+
+\subsection{Requirements}
+\label{subsection:requirements}
+
+A scanner is to obtain the following information from a list of domains:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item If the domain redirects from \texttt{http://} to \texttt{https://}.
+    \item If the domain redirects from \texttt{https://} to \texttt{http://}.
+    \item The TLS version(s) the domain supports.
+    \item The TLS version auto negotiated against the domain.
+    \item If the domain meets the HSTS preload requirements.
+    \item The HTTP headers, including their values, in use by the base domain (or the www subdomain if the base domain does not have a \texttt{DNS A record} (IPv4 IP address).
+    \item The content of the security.txt of the domain.
+\end{itemize}
+
+\subsection{High Level Design}
+\label{subsection:hld}
+
+This section covers the high-level design, represented in Figure \ref{fig:hla_design}, for the scanning of domains to provide the data required as stated in section
+\ref{subsection:requirements}. 
+
+%\clearpage
+
+\begin{figure}[p]
+	\begin{center}
+		\includegraphics[scale=0.5]{../images/HLA_Pre_Implementation_v2.png} 
+		\caption{High Level Design}
+		\label{fig:hla_design}
+	\end{center}
+\end{figure}
+
+\begin{table}[p]
+  \begin{center}
+    \begin{tabular}{|l|G|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{\#} & \textbf{Description}\\
+      \hline
+      1 & A list of domains will be acquired to scan against \\
+      \hline
+      2 & For each of the domains in the domain list, a task manager will create a ``task'', to be stored in a database, representing a domain to be scanned \\
+      \hline
+      3 & Metrics on the state of tasks will be sent to a time series database \\
+      \hline
+      4 & A task agent will poll an API for a new batch of tasks \\
+      \hline
+      5 & A task agent will scan a domain as stated in the task being processed \\
+      \hline
+      6 & A task agent will send the result of a domain scan to an API to be stored in a database \\
+      \hline
+      7 & A task manager, once all tasks are completed, will extract all tasks from the database to an archive file format \\
+      \hline
+      8 & A task manager, once all tasks are completed, will delete all the tasks from the database \\
+      \hline
+    \end{tabular}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Descriptions for Figure \ref{fig:hla_design}}
+    \label{table:hla_design} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\clearpage
+\newpage
+
+\subsection{Implementation}
+\label{section:Implementation}
+
+This section describes the chosen technologies and resources for the implementation, shown in Figure \ref{fig:hla_design_implmementation}, of the design in section \ref{subsection:hld}.
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[scale=0.65]{../images/HLA_Implementation_v1_Entites.png} 
+		\caption{High Level Design - Implementation}
+		\label{fig:hla_design_implmementation}
+	\end{center}
+\end{figure}
+
+\clearpage
+
+\newpage
+
+\subsubsection{[A] Task Manager}
+
+The Task Manager performs the following tasks:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item Obtains the list of domains from the ``Tranco'' domain list source \newline (\texttt{https://tranco-list.eu/top-1m.csv.zip}).
+    \item Create tasks directly in the Datastore (MongoDB).
+    \item Create an archive of the tasks via the Task API.
+    \item Delete tasks from the MongoDB database.
+    \item Identify zombie tasks (tasks that have been marked as started but not complete after a certain amount of time).
+    \item Generate task metrics and store them directly in the time series DB (Influx DB).
+\end{itemize}
+
+\noindent
+The task manager was developed in python as it:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item Is a relatively high-level programming language which aids in being easier to learn than a more low-level language.
+    \item Has many libraries and resources freely available online.
+    \item There is a large global community generally willing to help each other.
+    \item Being such a popular language, issues that one may come across may have already been encountered and solved already.
+    \item Is cross platform, i.e. will run on any computer that has a python interpretor available to it.
+\end{itemize}
+
+\subsubsection{[B] Tranco Domains Source List}
+
+As previously mentioned, similar research to this project have used pre-compiled lists, predominantly using the Alex Top Sites list \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}.
+
+\vspace{0.3cm} \noindent
+The research conducted by the Tranco team \cite{Le_Pochat2018-ql}, who provide the Tranco domain list \cite{noauthor_undated-mt}, compared several of the ``most popular domains'' lists and identified that domains present in the list can vary wildly on a day to day basis and are susceptible to influence by malicious actors.
+
+\vspace{0.3cm} \noindent
+As a result of this paper and that the Tranco list uses other top site lists to influence their list, the Tranco list \cite{noauthor_undated-mt} was chosen as the source for the domains to scan for this project.
+
+\subsubsection{[C] Datastore}
+
+The database is intended to only be an ephemeral store as it will only store the tasks until they have all been completed.
+
+\vspace{0.3cm} \noindent
+The data that will be returned by the task agent will be of arbitrary length and structure. A relational database is not the optimal choice as it is based on having one or more ``tables'' that relate to one another.
+
+\vspace{0.3cm} \noindent
+A NOSQL database is designed to store arbitrary length and a non pre-defined content structure.
+
+\vspace{0.3cm} \noindent
+The MongoDB database technology was chosen as it:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item A NOSQL database.
+    \item Is relatively mature technology implementation.
+    \item Has a community version (i.e. free).
+    \item Many programming languages have pre-existing support (libraries).
+    \item Has native support for unstructured data.
+    \item Has detailed online documentation.
+\end{itemize}
+
+\subsubsection{[D] Task API}
+
+The Task API is meant purely as a common interface for the task agent such that the task database can be changed without the need to modify the task agent.
+
+\vspace{0.3cm} \noindent
+The HTTP protocol was chosen as the interface to the API as it is a very well-known and a standard protocol to use for an API.
+
+\vspace{0.3cm} \noindent
+The intended clients of the API is the Task Agent (for running and updating the tasks) and the Task Manager (for creating an offline archive once all tasks have completed for later analysis).
+
+\vspace{0.3cm} \noindent
+The Task API can perform the following functions:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item Allow a client to retrieve one or more tasks via a HTTP GET request.
+    \item Allow the following task database filtering via url arguments when a HTTP GET request is made:
+    \item Task Status (e.g completed)
+    \item Task Unique ID
+    \item Sort by Unique ID
+    \item Allow a client to update one or more tasks via a HTTP POST request
+\end{itemize}
+
+\vspace{0.6cm} \noindent
+GO (also referred to as Golang) was chosen as the programming language to implement the API as it:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item Is a relatively low language which helps with improving performance.
+    \item Is one of the easier lower-level languages to learn as it is one of the GO core principles to be able to pickup up the language quickly.
+    \item Has the ability to run tasks concurrently (the more domains scanned concurrently the faster the scan of all domains can be completed).
+    \item There are several community modules for GO to communicate with MongoDB (the chosen database for this project).
+    \item Has numerous community modules for GO for the purpose of creating a HTTP API.
+\end{itemize}
+
+\subsubsection{[E] Task Agent}
+
+The task agent obtains tasks from the Task API. A task contains the required information to allow the task agent to conduct scans against a domain.
+
+\vspace{0.6cm} \noindent
+Table \ref{table:task_agent_parameters} details the parameters of a Task Agent.
+\newpage
+
+\begin{table}[H]
+  \begin{center}
+  	\resizebox{\textwidth}{!}{
+    \begin{tabular}{|c|c|D|E|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Parameter} & \textbf{Data Type} & \textbf{Value(s)} & \textbf{Description} \\
+      \hline
+      max http/https redirects & int & 10 (golang default) & The number of http redirects allowed \\
+      \hline
+      \UScore{max_concurrent_tasks} & int & 100 & The maximum number of tasks that can be running concurrently \\
+      \hline
+      \UScore{deny_domains} & array of strings & domains not to be scanned & domains not to be scanned \\
+      \hline
+      \UScore{deny_ips} & array of strings & IPv4 addresses not to be scanned & IPv4 addresses not to be scanned \\
+      \hline
+      \UScore{dns_lookup_nameservers} & array of strings & ``open'' recursive dns servers & A list of recursive DNS servers \\
+      \hline
+    \end{tabular}}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Task Agent Parameters}
+    \label{table:task_agent_parameters} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+Section \ref{subsection:task_parameters} details the parameters of a task. \newline
+Section \ref{section:task_flow} details the high level flow for the process of performing a domain scanning Task.
+
+\vspace{0.3cm} \noindent
+Appendix TODO details the TLS client capabilities of the Task Agent.
+
+\vspace{0.3cm} \noindent
+As with the Task API the Task Agent will use the programming language GO.
+
+\subsubsection{[F] Domain}
+
+This is the target domain of a task being performed by the Task Agent.
+
+\subsubsection{[G] Time Series Database}
+
+The Task Manager will create metrics about tasks and send then to the time series database. Time series databases are optimised for metrics that are time bound which is the type of metrics that is required to be stored. 
+
+\vspace{0.3cm} \noindent
+InfluxDB was the time series database technology implementation chosen as it is is relativity modern, quick to get up and running and has a community version available (free).
+
+\subsubsection{[H] Metric Grapher}
+
+A metric grapher allows the user to create charts from metrics. In the case of this project a metric grapher was used to generate basic graphs about the state of tasks for monitoring purposes from the metrics stored in the InfluxDB time series database.
+
+\vspace{0.3cm} \noindent
+Grafana was chosen as it is free, has built in support for communicating with InfluxDB, has an HTTP interface and offers the ability to create basic alerts.
+
+\vspace{0.3cm} \noindent
+Alerts were configured in Grafana to fire under the following conditions:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item If there were zombie tasks.
+    \item If the number of tasks being processed dropped below a certain value over a specific amount of time for a task agent, if there were tasks waiting to be processed.
+\end{itemize}
+
+\subsubsection{[I] All Tasks Archive}
+
+Once all tasks have been processed, the Task Manager will use the Task API to create a gzip compressed tar file archive containing a json structured representation for each task.
+
+\vspace{0.3cm} \noindent
+This compressed archive is transferred to an archive file server for later analysis.
+
+\subsection{Task Parameters}
+\label{subsection:task_parameters}
+
+A task has up to two parameters.
+
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{|c|c|c|F|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Name} & \textbf{Data Type} & \textbf{Mandatory} & \textbf{Description}\\
+      \hline
+      \textbf{fqdn} & string & Yes & A domain from the domain list provided by tranco-list.eu\\
+      \hline
+      \textbf{headers} & string & No & A JSON string of one or more http client headers and values\\
+      \hline
+    \end{tabular}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Task Parameters}
+    \label{table:task_paramters} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\subsection{Task Flow}
+\label{section:task_flow}
+
+This section describes the high level task flow once a task has been obtained from the Task API and is now to be processed.
+
+\vspace{0.3cm} \noindent
+The following describes the stages that task processing goes through if the task parameter \texttt{fqdn} had a value of \texttt{example.com}. This is shown graphically in figure \ref{fig:task_flow}.
+
+\subsubsection{Stage 0 - Task Parameters}
+
+The task parameters are checked for validity in the following way:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item If the parameter name is not valid for the task, abort the task
+    \item If a mandatory parameter is not present, abort the task
+\end{itemize}
+
+\subsubsection{Stage 1 - Deny List}
+
+The \texttt{fqdn} parameter value \texttt{example.com} is checked to see if it is on the task agents deny list, and if present the task is aborted and no further attempts will be made to process the task.
+
+\subsubsection{Stage 2 - Resolve Domain}
+
+DNS lookups for Stage 2 uses a round robin methodology with the DNS servers specified in the Task Agent parameter \texttt{\UScore{dns_lookup_nameservers}}, to reduce the load on any one DNS resolver.
+
+\vspace{0.3cm} \noindent
+A DNS request to lookup the \texttt{A records} (IPv4 addresses) of the fqdn parameter \texttt{example.com} is made.
+
+\vspace{0.3cm} \noindent
+If IPv4 addresses are returned, \texttt{example.com} is now referred to as the resolved domain resulting in Stage 2 being complete and processing moves to Stage 3.
+
+\vspace{0.3cm} \noindent
+If no IPv4 addresses are returned, a further DNS request to lookup the \texttt{A records} (IPv4 addresses) of the \texttt{www} subdomain of the fqdn parameter i.e. \texttt{www.example.com}.
+
+\vspace{0.3cm} \noindent
+If the DNS request made to \texttt{www.example.com} returns no IPv4 addresses, the task is aborted and no further attempts will be made to process the task.
+
+\vspace{0.3cm} \noindent
+If the DNS request made to \texttt{www.example.com} returns IPv4 addresses, \texttt{www.example.com} is now referred to as the resolved domain resulting in Stage 2 being complete and processing moves to Stage 3.
+
+\vspace{0.3cm} \noindent
+\textbf{NOTE:} For the purpose of describing the task flow, for the further stages, the resolved domain shall from here on out be assumed to have been determined to be \texttt{www.example.com} for the \texttt{fqdn} task parameter of \texttt{example.com}.
+
+\subsubsection{Stage 3 - HTTP(S) Request}
+
+A HTTP request is made to the resolved domain \texttt{http://www.example.com}.
+
+\vspace{0.3cm} \noindent
+Following redirects, if the last url in the redirect chain starts with \newline \texttt{https://} (e.g. \texttt{https://www.example.com/index.php}) Stage 3 is deemed complete and processing moves to Stage 4.
+
+\vspace{0.3cm} \noindent
+If the previous request did not result in a \texttt{https://} url a HTTPS request is made to the resolvable domain \texttt{https://www.example.com}.
+
+\vspace{0.3cm} \noindent
+Following redirects, if the last url in the redirect chain starts with \texttt{https://} (e.g. \newline \texttt{https://www.example.com/index.php}) Stage 3 is deemed complete and processing moves to Stage 4.
+
+\vspace{0.3cm} \noindent
+If the first request did result in a \texttt{http://} url (e.g. \texttt{http://www.example.com/index.php}), i.e. did not ultimately get redirected to a \texttt{https://} url, Stage 3 is deemed complete and processing moves to Stage 6 (skipping Stages 4 and 5 as they are only performed if a request ends in a HTTPS url).
+
+\vspace{0.3cm} \noindent
+If no \texttt{http://} or \texttt{https://} response is obtained from the resolved domain, Stage 3 is deemed to have failed and the task is aborted and no further attempts will be made to process the task.
+
+\subsubsection{Stage 4 - TLS Versions}
+
+TLS 1.0, 1.1, 1.2 and 1.3 connections are attempted against the domain of the last url in the redirect chain (e.g. domain \texttt{www.example.com} from last redirect url \newline \texttt{http://www.example.com/index.php}) from Stage 3.
+
+\vspace{0.3cm} \noindent
+The TLS version used for the HTTPS connection in Stage 3 is skipped as it has already been attempted and was successful.
+
+
+\vspace{0.3cm} \noindent
+Stage 4 is deemed complete and processing moves to Stage 5.
+
+\subsubsection{Stage 5 - HSTS Preload}
+\label{subsection:stage_5_hsts}
+
+This stage gathers the required data, such that a determination can be made at a later stage, if the domain of last url in the redirect chain (e.g. \texttt{http://www.example.com/index.php}) from Stage 3 meets the HSTS Preload requirements.
+
+\vspace{0.3cm} \noindent
+The HSTS Preload requirements are detailed in section \ref{section:hsts_preload}.
+
+\vspace{0.3cm} \noindent
+The following actions are performed on the base domain of the last url in the redirect chain from Step 3 and the results of which are recorded. The base domain of the url is determined by the use of the golang library ``golang.org/x/net/publicsuffix''. If any of the actions have already been performed in section 3, they are skipped as the results have already been captured:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item If the base domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, make a HTTP request to \texttt{example.com} i.e. \texttt{http://example.com}
+    \item If the \texttt{www} subdomain has a DNS (A record) try and establish a TLS connection to the \texttt{www} subdomain \texttt{www.example.com}
+    \item Make a HTTPS call to the base domain \texttt{https://example.com} and capture the HTTP headers
+\end{itemize}
+
+
+\subsubsection{Stage 6 - security.txt}
+
+The path of the last url in the redirect chain (e.g. \texttt{http://www.example.com/index.php}) from Stage 3 is replaced with \texttt{.well-known/security.txt} i.e. \newline \texttt{http://www.example.com/.well-known/security.txt}.
+
+\vspace{0.3cm} \noindent
+A call is made to this url and if the \texttt{Content-Type} header is present with the value \texttt{text/plain} the body of the response is captured.
+
+%\clearpage
+
+%\newgeometry{top=7mm, bottom=0mm}
+\begin{figure}[p]
+	\begin{center}
+%		\includegraphics[scale=0.75]{../images/Task_Flowv2.png}
+%		\includesvg[width=0.75](TaskFlow.svg)
+%		\def\svgscale{0.4}
+        \scalebox{0.47}{\subimport{../images}{task_flow.pdf_tex}}
+		\caption{High Level Task Flow}
+		\label{fig:task_flow}
+	\end{center}
+\end{figure}
+%\restoregeometry
+
+\clearpage
+\newpage
+
+\subsection{Deployment}
+
+This section details how the implementation in section \ref{section:Implementation} was deployed.
+
+\vspace{0.3cm} \noindent
+The components as outlined in Section \ref{section:Implementation} were deployed using cloud infrastructure as detailed in Table \ref{table:implmentation_cloud}.
+
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Components} & \textbf{OS} & \textbf{\# vCPU} & \textbf{RAM} & \textbf{SSD} & \textbf{Qty}\\
+      \hline
+      MongoDB & FreeBSD 12.2 & 2 & 2GB & 25GB SSD & 1 \\
+      \hline
+      InfluxDB$+$Grafana & FreeBSD 12.2 & 1 & 1GB & 25GB SSD & 1 \\
+      \hline
+      Task API & FreeBSD 12.2 & 1 & 1GB & 25GB SSD & 1 \\
+      \hline
+      Task Agent & FreeBSD 13.0 & 1 & 512MB & 60GB SSD & 5 \\
+      \hline
+    \end{tabular}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Cloud Infrastructure Deployment}
+    \label{table:implmentation_cloud} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+FreeBSD 13.0 was used for the task agents as it was the most recent version available at the time of deployment. There were no performance or security issues identified that required the effort to upgrade the components that remained on FreeBSD 12.2.
+
+\vspace{0.3cm} \noindent
+The number of Task Agents deployed was 5, such that the scanning could be conducted well within 24 hours to allow a reasonable amount of time to rectify issues should they occur. The average time for all 1 million domains to be scanned is approximately 11 hours.
+
+\subsubsection{Automation}
+
+The Task Manager is scheduled to obtain the latest Tranco domain list and create tasks to scan each day at 0000 UTC. This will only occur if the previous day was completed successfully.
+
+\vspace{0.3cm} \noindent
+The Task Manager is scheduled to check if all the tasks have been completed between 1000 UTC to 2300 UTC. Once all tasks have been completed, they are collected to create the ``All Tasks Archive'' and then the tasks are deleted from the MonogDB datastore. Each ``All Tasks Archive'' is approximately 4GB in size.
+
+\vspace{0.3cm} \noindent
+A Task Agent continually look for new tasks to perform and run up to 100 concurrent tasks.
+
+\subsubsection{Issues Encountered}
+
+\textbf{Zombie Tasks}
+
+\vspace{0.2cm} \noindent
+A zombie task is one where it is started but does not complete within a set amount of time. For this research the duration limit for a task deemed to be a zombie task is 120 minutes (2hours). This occurred less than one task per 10 million tasks performed. When a zombie task was detected it was reset and re-attempted. All reset tasks completed successfully.
+
+\vspace{0.2cm} \noindent
+It was not looked into why zombie tasks occurred as the rate was so low it was not an efficient use of time and would not affect the research results as the tasks were successfully re-attempted.
+
+\vspace{0.6cm} \noindent
+\textbf{Data Loss}
+
+\vspace{0.2cm} \noindent
+An unexpected permanent loss of access to the storage location where the ``All Tasks Archives'' were stored, resulting in the permanent loss of several days worth of scan archives. Since this incident, scan archives are stored in more than one location within several hours of a scan archive being created.
+
+\vspace{0.6cm} \noindent
+\textbf{Programming}
+
+\vspace{0.2cm} \noindent
+Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when a non standard  HTTP code is received, it will cause golang to panic and the program will terminate. There was a single domain that caused this issue and it was put in the deny list to overcome this issue.
+
+\newpage
+
+\section{Ethical Considerations}
+\label{section:ethics}
+
+It is not feasible to request permission to conduct internet measurement scans from the desired targets. This means that researches should take it upon themselves to evaluate their methodology for ethical considerations in the absence of permission to conduct such research.
+
+\vspace{0.3cm} \noindent
+The ethical considerations as outlined in \cite{Amann2017-co,Partridge2016-ph,Durumeric2015-zq,Kumar2017-qw} were considered for this research.
+
+\vspace{0.3cm} \noindent
+During the literature research, not all research that was of a similar nature contained ethical consideration statements. One would hope that ethic consideration was performed in the research, but should be outlined if only minimally.
+
+\subsection{Service Degradation}
+
+Using the ``Tranco List'' which is a ``most popular'' type of domain list reduces the chance of service degradation as the more popular a domain is the more resources it is likely has which reduces the impact of the measurement analysis.
+
+\vspace{0.3cm} \noindent
+For the purpose of obtaining the HTTP headers of a domain the ``Home Page'' of the domains are requested which are more likely to be cached than other pages.
+
+\vspace{0.3cm} \noindent
+To determine the TLS versions supported by a domain, other than that used on the HTTPS request to the home page, pure TLS connections are attempted which reduces the service impact as HTTP requests will add additional load to that of pure TLS connections. Additionally pure TLS connections are only attempted if an HTTPS connection was successful to a domain's home page.
+
+\vspace{0.3cm} \noindent
+Whilst obtaining the HSTS preload state of a domain, as detailed in section \ref{subsection:stage_5_hsts}, it is first checked if a url has already been requested. During the processing of a task, including redirects, it is quite possible that the information sought has already been obtained.
+
+\vspace{0.3cm} \noindent
+There is no retry logic for a request to a domain to additionally reduce service degradation of the target domain.
+
+\vspace{0.3cm} \noindent
+Randomisation is another potential tactic, however as the research uses a domain list rather than ip addresses. For randomisation to be effective the ip addresses would need to be pre resolved which is not being undertaken in this research.
+
+\subsection{Exploitation}
+
+The software used to conduct the research against domains does not attempt to:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item Send malformed requests
+    \item Login
+    \item Exploit vulnerabilities
+    \item Access hidden/private paths/urls
+\end{itemize}
+
+\subsection{Information Disclosure}
+
+As this research obtains publicly available information and is not revealing vulnerabilities about any particular domain, there is not a concern of exposing information about domains that may revel vulnerabilities.
+
+\subsection{Abuse Reports}
+
+As the domains being scanned have not given permission for research to be conducted upon them, the ip addresses that conduct the research have rDNS (reverse DNS) entries configured such that complaints/enquires can be submitted.
+
+\vspace{0.3cm} \noindent
+The cloud service providers for the servers that conduct the research have easy to use interfaces to allow responses to abuse reports should they be submitted.
+
+\vspace{0.3cm} \noindent
+The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an ip address can host more than one domain and a complaint may ask to block an ip address range.
+
+\vspace{0.3cm} \noindent
+There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which stated a request for ``assistance in verifying possible malicious activity being hosted on a system registered to you''. The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating that the request was made for the purpose of internet research.
+
+\newpage
+
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Part IV - Security Mechanism Adoption Analysis
+\end{huge}
+\end{center}
+\vspace{\fill}
+
+\newpage
+
+
+\section{Analysis}
+\label{section:analysis}
+
+\newpage
+
+\bibliographystyle{IEEEtran}
+
+
+\bibliography{IEEEabrv,library}
+
+\newpage
+
+\begin{appendices}
+\section{Sample Latex Appendix}
+
+\subsubsection{Algorithm}
+
+Sub-subsection 1 of the proposed solution.
+
+\begin{algorithm}
+\caption{Algorithm 1}\label{euclid}
+\begin{algorithmic}
+\If {$A$ intersect with $B$ is $True$}
+	\State {\textit{A intersects}}
+\ElsIf{$A$ = $C$}
+	\State {\textit{A equals C}}
+\Else \State {\textit{A does not intersect with B and is not equal to C}}
+\EndIf   
+\end{algorithmic}
+\end{algorithm}
+
+\end{appendices}
+
+\end{document}
