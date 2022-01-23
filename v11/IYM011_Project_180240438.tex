@@ -24,6 +24,7 @@
 \usepackage{tabularx}
 \usepackage{calc}
 \usepackage{import}
+\usepackage{subfig}
 %\usepackage[nottoc]{tocbibind}
 %\renewcommand{\contentsname}{\centering Contents} 
 %\makeglossaries
@@ -1836,7 +1837,7 @@ Part IV - Security Mechanism Adoption Analysis
 
 \newpage
 
-\section{Scans Analysis Overview}
+\section{Scans Overview}
 \label{section:scans_overview}
 
 \subsection{Impact To Available Data For Analysis}
@@ -1851,7 +1852,7 @@ There are several gaps in the available scanning archives summarised in table \r
     \item 17 September 2021 for 17 days
 \end{itemize}
 
-\vspace{0.3cm} \noindent
+\noindent
 In the following sections these date ranges will be visible on certain charts. As the scanning has been for an extended period and any single time period is no longer than 27 days, it is believed it will not have a material impact any trends identified.
 
 
@@ -1874,37 +1875,80 @@ Each analysis section details how the data was processed.
 As with other research not all of the domains in the list of domains to be scanned were able to have a http or https connection be made to them.
 
 \vspace{0.3cm} \noindent
-On average the scanner was able to obtain a HTTP and or a HTTPS request 95\% of the time from the Tranco list of 1 million domains, shown in figure \ref{fig:domains_scan_status}.
+On average the scanner was able to obtain a HTTP and or a HTTPS request 95\% of the time from the Tranco list of 1 million domains, shown in figure \ref{fig:failed_tasks}.
+
+\begin{figure}[H]
+	\begin{center}
+%		\includegraphics[scale=0.75]{../images/Task_Flowv2.png}
+%		\includesvg[width=0.75](TaskFlow.svg)
+%		\def\svgscale{0.4}
+        \subfloat[\centering Average percentage of task status]{\scalebox{0.80}{\subimport{../images}{domains_not_scanned-status_pie.pdf_tex}}}
+        \subfloat[\centering Average percentage of task failure cause]{\scalebox{0.80}{\subimport{../images}{domains_not_scanned-cannot_retry_pie.pdf_tex}}}
+		\caption{Failed Tasks}
+		\label{fig:failed_tasks}
+	\end{center}
+\end{figure}
 
 \vspace{0.3cm} \noindent
 Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS response 51\% of the time this was due to differing errors, such as timeouts, in the establishment of a HTTP/HTTPS connection and the transmission of data across such a connection. The remaining 49\% was due to not receiving one or more IP addresses from the DNS lookup request.
 
-\begin{figure}[H]
-	\begin{center}
-%		\includegraphics[scale=0.75]{../images/Task_Flowv2.png}
-%		\includesvg[width=0.75](TaskFlow.svg)
-%		\def\svgscale{0.4}
-        \scalebox{0.47}{\subimport{../images}{domains_not_scanned-status_pie.pdf_tex}}
-		\caption{High Level Task Flow}
-		\label{fig:task_flow}
-	\end{center}
-\end{figure}
-
-\begin{figure}[H]
-	\begin{center}
-%		\includegraphics[scale=0.75]{../images/Task_Flowv2.png}
-%		\includesvg[width=0.75](TaskFlow.svg)
-%		\def\svgscale{0.4}
-        \scalebox{0.47}{\subimport{../images}{domains_not_scanned-cannot_retry_pie.pdf_tex}}
-		\caption{High Level Task Flow}
-		\label{fig:task_flow}
-	\end{center}
-\end{figure}
 %\restoregeometry
 
-\clearpage
+\clearpage 
 
 \newpage
+
+\section{HTTP Redirection}
+
+
+\section{TLS}
+
+
+\section{HSTS Preload}
+
+
+\section{Security.txt}
+
+\subsection{Fields}
+
+\subsubsection{Contact}
+
+\subsubsection{Expires}
+
+\subsubsection{Acknowledgements}
+
+\subsubsection{Canonical}
+
+\subsubsection{Encryption}
+
+\subsubsection{Hiring}
+
+\subsubsection{Preferred-Languages}
+
+\subsubsection{Policy}
+
+\subsection{Non Standard Fields}
+
+
+\section{Content Security Policy}
+
+\section{Strict Transport Security}
+
+\section{Cross Origin Request Sharing}
+
+\section{Cross Origin Embedder Policy}
+
+\section{Cross Origin Resource Policy}
+
+\section{Cross Origin Opener Policy}
+
+\section{X Frame Options}
+
+\section{Public Key Pins}
+
+
+
+
 
 \bibliographystyle{IEEEtran}
 
