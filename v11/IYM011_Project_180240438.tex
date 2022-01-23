@@ -1737,7 +1737,9 @@ Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when a n
 \vspace{0.2cm} \noindent
 An 8 day scan outage was the result of development tasks being created in the same database as the production tasks. The archive creation process will not initiate unless there are the correct amount of tasks present. A procedure was put in place to remove development tasks after use.
 
-\vspace{0.2cm} \noindent
+\subsubsection{Missing Scans Overview}
+\label{subsection:missing_scans_overview}
+
 Table \ref{table:missing_scan_archives} summarises the extent of missing scan archives.
 
 \begin{table}[H]
@@ -1834,12 +1836,12 @@ Part IV - Security Mechanism Adoption Analysis
 
 \newpage
 
-\section{Scans Overview}
+\section{Scans Analysis Overview}
 \label{section:scans_overview}
 
 \subsection{Impact To Available Data For Analysis}
 
-There are several gaps in the available scanning archives summarised in table \ref{table:missing_scan_archives}, detailed in section \ref{subsection:issues_encountered} and listed below:
+There are several gaps in the available scanning archives summarised in table \ref{table:missing_scan_archives}, detailed in section \ref{subsection:missing_scans_overview} and listed below:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
@@ -1853,8 +1855,54 @@ There are several gaps in the available scanning archives summarised in table \r
 In the following sections these date ranges will be visible on certain charts. As the scanning has been for an extended period and any single time period is no longer than 27 days, it is believed it will not have a material impact any trends identified.
 
 
-\section{Analysis Methodology}
+\subsection{Analysis Methodology}
 
+Each scan archive was processed grouping related data together, such as all the security.txt files, to produce a JSON file to allow for easier analysis of the data.
+
+\vspace{0.3cm} \noindent
+A python application was created to parse these JSON files to produce further JSON files that were be used for creating charts.
+
+\vspace{0.3cm} \noindent
+A further python application was created to plot charts using the matplotlib charting library \cite{noauthor_undated-po}.
+
+\vspace{0.3cm} \noindent
+Each analysis section details how the data was processed.
+
+
+\subsection{Domains Unable To Be Scanned}
+
+As with other research not all of the domains in the list of domains to be scanned were able to have a http or https connection be made to them.
+
+\vspace{0.3cm} \noindent
+On average the scanner was able to obtain a HTTP and or a HTTPS request 95\% of the time from the Tranco list of 1 million domains, shown in figure \ref{fig:domains_scan_status}.
+
+\vspace{0.3cm} \noindent
+Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS response 51\% of the time this was due to differing errors, such as timeouts, in the establishment of a HTTP/HTTPS connection and the transmission of data across such a connection. The remaining 49\% was due to not receiving one or more IP addresses from the DNS lookup request.
+
+\begin{figure}[H]
+	\begin{center}
+%		\includegraphics[scale=0.75]{../images/Task_Flowv2.png}
+%		\includesvg[width=0.75](TaskFlow.svg)
+%		\def\svgscale{0.4}
+        \scalebox{0.47}{\subimport{../images}{domains_not_scanned-status_pie.pdf_tex}}
+		\caption{High Level Task Flow}
+		\label{fig:task_flow}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+%		\includegraphics[scale=0.75]{../images/Task_Flowv2.png}
+%		\includesvg[width=0.75](TaskFlow.svg)
+%		\def\svgscale{0.4}
+        \scalebox{0.47}{\subimport{../images}{domains_not_scanned-cannot_retry_pie.pdf_tex}}
+		\caption{High Level Task Flow}
+		\label{fig:task_flow}
+	\end{center}
+\end{figure}
+%\restoregeometry
+
+\clearpage
 
 \newpage
 
