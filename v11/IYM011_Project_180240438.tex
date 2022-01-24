@@ -842,18 +842,23 @@ If a domain in the preload list stops meeting the above criteria it runs the ris
 \section{security.txt}
 \label{section:security_txt}
 
-The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on a website \cite{Foudil2021-vh}.
-
-\vspace{0.3cm} \noindent
-A file named ``security.txt'' should be placed in either of the following two locations, with a \texttt{Content-Type} header with the value of \texttt{text/plain}, and served only over HTTPS:
+The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a website \cite{Foudil2021-vh}. The RFC draft mentions two types of systems for where the security.txt should be placed:
 
 \begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item \texttt{/.well-known/security.txt} (e.g. \newline \texttt{https://example.com/.well-known/security.txt})
-	\item \texttt{/security.txt} (e.g. \texttt{https://example.com/security.txt})
+	\item Web-based services
+	\item Filesystems
 \end{itemize}
 
-\noindent \vspace{0.3cm}
+\vspace{0.3cm} \noindent
+For websites a file named ``security.txt'' \textbf{must} be placed in the path \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt}.
+
+\vspace{0.3cm} \noindent
+It is also permitted to store a security.txt at the top level path e.g. \texttt{https://example.com/security.txt} or redirect to the \texttt{/.well-known/security.txt} path.
+
+\vspace{0.3cm} \noindent
+A response to a request of the security.txt file must respond with a \texttt{Content-Type} header with the value of \texttt{text/plain}, and served only over HTTPS.
+
+\vspace{0.3cm} \noindent
 The RFC is currently in the draft stage and seeing updates as recently as May 2021.
 
 \newpage
@@ -1711,6 +1716,7 @@ A Task Agent continually look for new tasks to perform and run up to 100 concurr
 \label{subsection:issues_encountered}
 
 \textbf{Zombie Tasks}
+
 \vspace{0.2cm} \noindent
 A zombie task is one where it is started but does not complete within a set amount of time. For this research the duration limit for a task deemed to be a zombie task is 120 minutes (2hours). This occurred less than one task per 10 million tasks performed.
 
@@ -1879,17 +1885,14 @@ On average the scanner was able to obtain a HTTP and or a HTTPS request 95\% of 
 
 \begin{figure}[H]
 	\begin{center}
-%		\includegraphics[scale=0.75]{../images/Task_Flowv2.png}
-%		\includesvg[width=0.75](TaskFlow.svg)
-%		\def\svgscale{0.4}
-        \subfloat[\centering Average percentage of task status]{\scalebox{0.80}{\subimport{../images}{domains_not_scanned-status_pie.pdf_tex}}}
-        \subfloat[\centering Average percentage of task failure cause]{\scalebox{0.80}{\subimport{../images}{domains_not_scanned-cannot_retry_pie.pdf_tex}}}
+        \subfloat[\centering Average percentage of domain scan final status]{\scalebox{0.80}{\subimport{../images}{domains_not_scanned-status_pie.pdf_tex}}}
+        \subfloat[\centering Average percentage of domain scan failure cause]{\scalebox{0.80}{\subimport{../images}{domains_not_scanned-cannot_retry_pie.pdf_tex}}}
 		\caption{Failed Tasks}
 		\label{fig:failed_tasks}
 	\end{center}
 \end{figure}
 
-\vspace{0.3cm} \noindent
+\noindent
 Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS response 51\% of the time this was due to differing errors, such as timeouts, in the establishment of a HTTP/HTTPS connection and the transmission of data across such a connection. The remaining 49\% was due to not receiving one or more IP addresses from the DNS lookup request.
 
 %\restoregeometry
@@ -1898,18 +1901,116 @@ Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS 
 
 \newpage
 
-\section{HTTP Redirection}
+\section{HTTP(S) Redirection}
+
+
+\newpage
 
 
 \section{TLS}
 
 
+\newpage
+
+
 \section{HSTS Preload}
 
+\clearpage
+\newpage
 
+\clearpage
 \section{Security.txt}
+The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a website \cite{Foudil2021-vh}. Further details are in the in background portion of this report in section \ref{section:security_txt}.
+
+\vspace{0.3cm} \noindent
+As the RFC Draft stated that the security.txt must be placed in the path \newline \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt} the scanner was initially configured to only try and obtain the security.txt from this location.
+
+\vspace{0.3cm} \noindent
+At the end of November 2021 the research paper \textit{Who you gonna call? an empirical evaluation of website security.txt deployment} \cite{Poteat2021-zr} was discovered and found that 18\% of security.txt were found only at the top level path of the domain e.g. \newline \texttt{https://example.com/security.txt}.
+
+\vspace{0.3cm} \noindent
+As a result of this information in December 2021, the scanner was reconfigured to attempt to capture at both paths. Even thought this would only allow a short time of data analysis it would allow, if only at least minimally, a comparison of results from this research to the research from \cite{Poteat2021-zr}.
+
+\subsection{Parser}
+
+A parser was created in python which split each security.txt on new line terminations and proceeded to process each line individually. Lines that started with a hash "\#" (\%x23) were skipped as these are comments as defined in the draft RFC.
+
+\vspace{0.3cm} \noindent
+If the first line was deemed to represent a non security.txt file, such as a html or php file, the entire security.txt file was skipped.
+
+\vspace{0.3cm} \noindent
+All non comment lines that were not able to have a file name determined were not processed any further and checked once all security.txt files had been processed. If any of the apparent non RFC format adhering lines were found to have been skipped, when they should not have been, the logic parser logic was analysed and corrected as needed until there we only non conformant lines skipped.
+
+\vspace{0.3cm} \noindent
+Contact values and expires datetimes had multiple specially crafted regular expressions constructed in order to accurately categorise the field values mainly due to many variants of the following:
+\begin{itemize}
+	\setlength\itemsep{0.01em}
+    \item email obfuscation formats
+    \item phone formats
+    \item datetime formats
+\end{itemize}
+
+
+\subsection{Overview Analysis}
+
+Figure \ref{fig:security_txt_by_rank} shows the percentage of websites that the scanner was able to identify having a valid security.txt at the path \texttt{/.well-known/security.txt} e.g. \newline \texttt{https://example.com/.well-known/security.txt}. The line chart is splint by rank groups using the rank provided in the domains list file from traco-list.eu for that day.
+
+\vspace{0.3cm} \noindent
+Figure \ref{fig:security_txt_by_rank} closly matches that of a similar chart in \cite{Poteat2021-zr}, however with a overall reduced percentage.
+
+\vspace{0.3cm} \noindent
+\textbf{TODO The \% difference found from December on wards was or was not 18\%. find the \% difference per rank}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{security.txt-by_rank.pdf_tex}}
+		\caption{security.txt (only /.well-known path) by rank}
+		\label{fig:security_txt_by_rank}
+	\end{center}
+\end{figure}
+
+\clearpage
+
+\newpage
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{security.txt-by_rank-adjusted.pdf_tex}}
+		\caption{security.txt (only /.well-known path) by rank - Adjusted for the potential shortfall of 18\% security.txt}
+		\label{fig:security_txt_by_rank_adjusted}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:security_txt_by_rank_adjusted} shows the data used for figure \ref{fig:security_txt_by_rank} adjusted for the 18\% more security.txt which much more closely match the related chart in \cite{Poteat2021-zr} which in turn indicates that they validate one another's results. In hindsight the scanner should have have also attempted to obtain the security.txt from the top level path from the beginning. 
+
+\vspace{0.3cm} \noindent
+\textbf{TODO As the RFC states that one could redirect from security.txt to /.well-known/security.txt is that noted in the report.}
+
+
+
+\newpage
+
 
 \subsection{Fields}
+
+There are several defined fields in the RFC:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item Acknowledgments - links to acknowledge security researches for their efforts in reporting security vulnerabilities.
+    \item Canonical - link to a cononical security.txt location.
+    \item Contact - A method by which to use for reporting security vulnerabilities (e.g. email, phone and website urls).
+    \item Encryption - States or links to how to encrypt communication.
+    \item Expires - The datetime after which that data present in the security.txt should not be used.
+    \item Hiring - Link to a page detailing security related positions.
+    \item Policy - Link to the vulnerability disclosure.
+    \item Preferred-Languages - One or more languages, in order of preference, that the security report maybe be submitted in.
+\end{itemize}
+
+\noindent
+\textbf{TODO some or all of the above state "MUST NOT appear more than once". Make a point to detail which have and how many times}
+
+
 
 \subsubsection{Contact}
 
@@ -1927,22 +2028,45 @@ Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS 
 
 \subsubsection{Policy}
 
-\subsection{Non Standard Fields}
+\subsubsection{Non Standard Fields}
+
+\newpage
 
 
 \section{Content Security Policy}
 
+\newpage
+
+
 \section{Strict Transport Security}
+
+\newpage
+
 
 \section{Cross Origin Request Sharing}
 
+\newpage
+
+
 \section{Cross Origin Embedder Policy}
+
+\newpage
+
 
 \section{Cross Origin Resource Policy}
 
+\newpage
+
+
 \section{Cross Origin Opener Policy}
 
+\newpage
+
+
 \section{X Frame Options}
+
+\newpage
+
 
 \section{Public Key Pins}
 
