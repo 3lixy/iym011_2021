@@ -1920,7 +1920,7 @@ Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS 
 
 \clearpage
 \section{Security.txt}
-The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a website \cite{Foudil2021-vh}. Further details are in the in background portion of this report in section \ref{section:security_txt}.
+The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a website \cite{Foudil2021-vh}.
 
 \vspace{0.3cm} \noindent
 As the RFC Draft stated that the security.txt must be placed in the path \newline \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt} the scanner was initially configured to only try and obtain the security.txt from this location.
@@ -1939,10 +1939,17 @@ A parser was created in python which split each security.txt on new line termina
 If the first line was deemed to represent a non security.txt file, such as a html or php file, the entire security.txt file was skipped.
 
 \vspace{0.3cm} \noindent
-All non comment lines that were not able to have a file name determined were not processed any further and checked once all security.txt files had been processed. If any of the apparent non RFC format adhering lines were found to have been skipped, when they should not have been, the logic parser logic was analysed and corrected as needed until there we only non conformant lines skipped.
+All non comment lines that were not able to have a field name determined were not processed any further and checked once all security.txt files had been processed. If any of the apparent non RFC format adhering lines were found to have been skipped, when they should not have been, the logic parser logic was analysed and corrected as needed until there we only non conformant lines skipped.
+
+\vspace{0.3cm} \noindent
+As the scanner followed redirects the parser kept track of the resultant domain of any such redirects and skipped processing a security.txt if the resultant domain had already had a security.txt processed.
+
+\vspace{0.3cm} \noindent
+If after processing a security.txt file no fields were detected, the security.txt was not deemed to be valid and thus not included in the data used to create charts.
 
 \vspace{0.3cm} \noindent
 Contact values and expires datetimes had multiple specially crafted regular expressions constructed in order to accurately categorise the field values mainly due to many variants of the following:
+
 \begin{itemize}
 	\setlength\itemsep{0.01em}
     \item email obfuscation formats
@@ -1950,16 +1957,18 @@ Contact values and expires datetimes had multiple specially crafted regular expr
     \item datetime formats
 \end{itemize}
 
+\vspace{0.3cm} \noindent
+If a security.txt file was deemed to be conformant it was hashed using the SHA256 hashing algorithm to determine how many unique security.txt files were present and how many websites shared the same security.txt file.
 
+\vspace{0.3cm} \noindent
+During the process of creating the parser it was noticed that some security.txt files had a dynamic value set for the Expires field (visiting the file manually one different occasions would show the expires time to be a constant time from the time of request). As this would affect the detection of unique security.txt all Expires field lines were removed before hashing took place.
+
+\vspace{0.3cm} \noindent
+\textbf{TODO Average \% of invalid security.txt files ?.}
+
+\clearpage
+\newpage
 \subsection{Overview Analysis}
-
-Figure \ref{fig:security_txt_by_rank} shows the percentage of websites that the scanner was able to identify having a valid security.txt at the path \texttt{/.well-known/security.txt} e.g. \newline \texttt{https://example.com/.well-known/security.txt}. The line chart is splint by rank groups using the rank provided in the domains list file from traco-list.eu for that day.
-
-\vspace{0.3cm} \noindent
-Figure \ref{fig:security_txt_by_rank} closly matches that of a similar chart in \cite{Poteat2021-zr}, however with a overall reduced percentage.
-
-\vspace{0.3cm} \noindent
-\textbf{TODO The \% difference found from December on wards was or was not 18\%. find the \% difference per rank}
 
 \begin{figure}[H]
 	\begin{center}
@@ -1969,52 +1978,197 @@ Figure \ref{fig:security_txt_by_rank} closly matches that of a similar chart in 
 	\end{center}
 \end{figure}
 
-\clearpage
+\noindent
+Figure \ref{fig:security_txt_by_rank} shows the percentage of websites that the scanner was able to identify having a valid security.txt at the path \texttt{/.well-known/security.txt} e.g. \newline \texttt{https://example.com/.well-known/security.txt}. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
 
+\vspace{0.3cm} \noindent
+Figure \ref{fig:security_txt_by_rank} closely matches, with a uniformly overall reduced percentage of however, that of a figure 1 in \cite{Poteat2021-zr}. It is not clear from \cite{Poteat2021-zr} whether the ranking always starts from 1 or from the previous smaller rank. The ranks ranges in Figure \ref{fig:security_txt_by_rank} in this report are as state in the legend websites from rank 1 to rank 100, rank 101 to 1000 and so on. The last rank is from 100001 to 1 million. In any case the Top 100 and Rank 1-100 should be similar results taking into account the potential 18\% discrepancy.
+
+\vspace{0.3cm} \noindent
+The uniformly overall percentage different is roughly the 18\% of security.txt files that are potentially missing from this reports figure \ref{fig:security_txt_by_rank} due to the finding in \cite{Poteat2021-zr} that 18\% of sites only serve a security.txt at thier top level path.
+
+\clearpage
 \newpage
 
-\begin{figure}[H]
-	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{security.txt-by_rank-adjusted.pdf_tex}}
-		\caption{security.txt (only /.well-known path) by rank - Adjusted for the potential shortfall of 18\% security.txt}
-		\label{fig:security_txt_by_rank_adjusted}
-	\end{center}
-\end{figure}
-
-\noindent
-Figure \ref{fig:security_txt_by_rank_adjusted} shows the data used for figure \ref{fig:security_txt_by_rank} adjusted for the 18\% more security.txt which much more closely match the related chart in \cite{Poteat2021-zr} which in turn indicates that they validate one another's results. In hindsight the scanner should have have also attempted to obtain the security.txt from the top level path from the beginning. 
+\vspace{0.3cm} \noindent
+\textbf{TODO The \% difference found from December on wards was or was not 18\%. find the \% difference per rank}
 
 \vspace{0.3cm} \noindent
 \textbf{TODO As the RFC states that one could redirect from security.txt to /.well-known/security.txt is that noted in the report.}
 
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{security.txt-unique_vs_non_unique.pdf_tex}}
+		\caption{unique security.txt (only /.well-known path) by field use}
+		\label{fig:security_txt_unique_vs_domains}
+	\end{center}
+\end{figure}
 
+\noindent
+Figure \ref{fig:security_txt_unique_vs_domains} shows the number of unique security.txt and the number of all security.txt found on unique domains. The number of unique domains is roughly half of all security.txt found on unique domains. A reason for this could be that one organisation is responsible for multiple domains and uses a common security.txt for most and or all domains under their control.
 
-\newpage
+\vspace{0.3cm} \noindent
+Due to the large difference between the number of unique security.txt and number of unique domains further investigation was conducted to identify any large groupings of domains that used the same security.txt, the results of which are shown in table \ref{table:security_txt_groupings}.
 
+\vspace{0.3cm} \noindent
+Tumbler appears to control the most websites (??), with google coming in second with (??). Whilst this is nice to see that organisations look to be using unified configurations this does give another potential method by which to identify/fingerprint sites that are controlled by large organisations. This gives the opportunity to find sites with potentially weaker security (inherited from an acquisition for example) in order to laterally move to the parent organisations infrastructure.
 
+\clearpage
+\newpage 
 \subsection{Fields}
 
-There are several defined fields in the RFC:
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{security.txt-fields_use_unique_files.pdf_tex}}
+		\caption{unique security.txt (only /.well-known path) by field use}
+		\label{fig:security_txt_by_fields}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:security_txt_by_fields} shows the field use of unique security.txt files. If a field is present more than once in a security.txt it is only counted once for the purposes of only showing if a field is present in a security.txt.
+
+\vspace{0.3cm} \noindent
+There are 8 defined fields in the RFC 2 (shown in bold) of which are mandatory:
+
 \begin{itemize}
 	\setlength\itemsep{0.1em}
     \item Acknowledgments - links to acknowledge security researches for their efforts in reporting security vulnerabilities.
     \item Canonical - link to a cononical security.txt location.
-    \item Contact - A method by which to use for reporting security vulnerabilities (e.g. email, phone and website urls).
+    \item \textbf{Contact} - A method by which to use for reporting security vulnerabilities (e.g. email, phone and website urls).
     \item Encryption - States or links to how to encrypt communication.
-    \item Expires - The datetime after which that data present in the security.txt should not be used.
+    \item \textbf{Expires} - The datetime after which that data present in the security.txt should not be used.
     \item Hiring - Link to a page detailing security related positions.
     \item Policy - Link to the vulnerability disclosure.
     \item Preferred-Languages - One or more languages, in order of preference, that the security report maybe be submitted in.
 \end{itemize}
 
-\noindent
-\textbf{TODO some or all of the above state "MUST NOT appear more than once". Make a point to detail which have and how many times}
-
-
-
 \subsubsection{Contact}
 
+\noindent
+Contact is a mandatory field and as such one would expect to see near 100\% usage and this is the case as can be seen in figure \ref{fig:security_txt_by_fields} which shows only that only 1.5-2\% of security.txt files do not have a \texttt{Contact} field present.
+
+\begin{table}[H]
+%\tiny
+  \begin{center}
+    \begin{tabular}{|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Contact Type} & \textbf{Average Presence}\\
+      \hline
+      Email Address & 88\%\\
+      \hline
+      HTTP Link & 22\%\\
+      \hline
+      Phone Number & 1.6\%\\
+      \hline
+    \end{tabular}
+    \caption{Percentage of unique security.txt that contain a contact type}
+    \label{table:security_txt_by_contact_type} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+Table \ref{table:security_txt_by_contact_type} shows the average presence of the contact types detected in unique security.txt files. Even as the number of unique security.txt files increased over time as shown in figure \ref{fig:security_txt_unique_vs_domains}, the presence percentage deviation was less than 1\% for all contact types.
+
+\begin{table}[H]
+%\tiny
+  \begin{center}
+    \begin{tabular}{|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Email Username} & \textbf{Average Usage}\\
+      \hline
+      security & 48\%\\
+      \hline
+      support & 2.2\%\\
+      \hline
+      info & 2.2\%\\
+      \hline
+      admin & 1.7\\
+      \hline
+      webmaster & 1.7\\
+      \hline
+    \end{tabular}
+    \caption{Top 5 email usernames for security.txt email contacts}
+    \label{table:security_txt_by_email_username} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+The most prevelant email username used was \texttt{security}, as shown in table \ref{table:security_txt_by_email_username} which is of now real surprise due to the purpose of the security.txt.
+
+\vspace{0.3cm} \noindent
+There were several email addresses that were obfuscated which required multiple dedicated regular expressions to be created in order for the parser to detect them as email addresses. Some examples of email obfuscation observed are:
+
+\begin{itemize}
+	\setlength\itemsep{0.01em}
+    \item security [at] example [dot] com
+    \item security [@] example <dot> com
+    \item security [ a t ] example [ d o t ] com
+    \item security[@]example.com
+    \item security($<$remove me...$>$)at($<$remove me...$>$)\UScore{example_dot_com}
+    \item the email address "security" on the domain "example.com"
+\end{itemize}
+
+\noindent
+One reason why email addresses had been obfuscated such as not wanting them to be identified on automated scraping/crawling. This could be a result of organisation policy or the person(s) responsible assumed that a person would be looking at the security.txt file and as such there was not much of a down side.
+
+\begin{table}[H]
+%\tiny
+  \begin{center}
+    \begin{tabular}{|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Contact Count} & \textbf{Average Presence}\\
+      \hline
+      1 & 82.5\%\\
+      \hline
+      2 & 13.2\%\\
+      \hline
+      3 & 2.5\%\\
+      \hline
+      4 & 0.4\%\\
+      \hline
+      5 & 0.05\%\\
+      \hline
+      6 & 0.1\%\\
+      \hline
+    \end{tabular}
+    \caption{Number of contacts present in a unique security.txt}
+    \label{table:security_txt_by_contact_count} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+Of the security.txt files that had one or more contacts the majority contained only 1 contact as shown in table \ref{table:security_txt_by_contact_count}. Interestingly there were double the amount of security.txt files that contained 6 contacts than those that had 5 contacts.
+
+\vspace{0.3cm} \noindent
+Of the 1.5-2\% of security.txt files that did contain one or more fields but did not contain a \texttt{Contact} field several did contain other non RFC contact fields including:
+
+\begin{itemize}
+	\setlength\itemsep{0.01em}
+    \item openbugbounty field - openbugbounty is a not for profit organisation for the reporting of security vulnerabilities.
+    \item email
+    \item mailto
+    \item contact us at
+\end{itemize}
+
+\noindent
+\textbf{- which sec txts provide only email all}
+
+\clearpage
 \subsubsection{Expires}
+
+\noindent
+- Least prevalent moving to 3rd place above Acknowledgements and Hiring. compared to other research which stopped at march 2021.
+
+\noindent
+- Is a mandated field so expected near 100\% use
+
+\noindent
+- How many
+	- in past
+	- future less than or equal to a year
+	- future greater than a year
+
 
 \subsubsection{Acknowledgements}
 
