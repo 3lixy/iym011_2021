@@ -1958,6 +1958,9 @@ Contact values and expires datetimes had multiple specially crafted regular expr
 \end{itemize}
 
 \vspace{0.3cm} \noindent
+Even though \texttt{Acknowledgments} (American spelling) is the spelling used in the RFC \texttt{Acknowledgements} (British spelling) (has an extra e) the parser considered it to be \texttt{Acknowledgments} for the purposes of charting as the two are valid spellings of the same word.
+
+\vspace{0.3cm} \noindent
 If a security.txt file was deemed to be conformant it was hashed using the SHA256 hashing algorithm to determine how many unique security.txt files were present and how many websites shared the same security.txt file.
 
 \vspace{0.3cm} \noindent
@@ -2015,6 +2018,9 @@ Tumbler appears to control the most websites (??), with google coming in second 
 
 \clearpage
 \newpage 
+
+A low amount of security.txt files (17\%) contained signatures which allow the security researcher to verify the legitimacy of the security.txt. It should be noted that the signature should be verified using out of band methods (i.e. not a link in the security.txt itself) such as DNSSEC.
+
 \subsection{Fields}
 
 \begin{figure}[H]
@@ -2151,41 +2157,124 @@ Of the 1.5-2\% of security.txt files that did contain one or more fields but did
     \item contact us at
 \end{itemize}
 
-\noindent
-\textbf{- which sec txts provide only email all}
-
-\clearpage
 \subsubsection{Expires}
 
 \noindent
-- Least prevalent moving to 3rd place above Acknowledgements and Hiring. compared to other research which stopped at march 2021.
+\texttt{Expires} is a mandatory field and has a rather underwhelming presence starting in November 2021 of 0.7\% (the most least used field), going on to reach 4\% in mid March 2021. From March 2021 there is a marked increase in the rate at which \texttt{Expires} is included in security.txt files seen in figure \ref{fig:security_txt_by_fields} reaching 24\% presence at the end of December 2021 becoming the 3rd least used field.
+
+\vspace{0.3cm} \noindent
+There are several possible reasons that websites are not including the expires including:
+\begin{itemize}
+	\setlength\itemsep{0.01em}
+    \item the administrative burden of regularly reviewing the security.txt
+    \item if a static datetime used and it is left to expire, security researches may decide to seek conformation other the using the information in the contact field to verify the correct means of reporting a security vulnerability, thus delaying such reporting. If no expires is included then it cannot expire.
+\end{itemize}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{security.txt-by_when_expires.pdf_tex}}
+		\caption{Percentage of security.txt files (that use expires) by time until expires from scan date}
+		\label{fig:security_txt_by_when_expires}
+	\end{center}
+\end{figure}
 
 \noindent
-- Is a mandated field so expected near 100\% use
+Figure \ref{fig:security_txt_by_when_expires} show there are a minimal amount of expired security.txt files (ranging from 0\% to ~3\%). The number of security.txt files that expire in less than a year is trending down and those that are to expire greater than an year is increasing. This looks to indicate that expires values are being changed to last more than one year against the recommendation of the RFC, which is to have an expire value less than a year to avoid staleness.
 
-\noindent
-- How many
-	- in past
-	- future less than or equal to a year
-	- future greater than a year
-
-
-\subsubsection{Acknowledgements}
-
-\subsubsection{Canonical}
+\vspace{0.3cm} \noindent
+If this trend continues, \texttt{Expires} will likely get close to 100\% use such as is with the \texttt{Contact} field.
 
 \subsubsection{Encryption}
 
-\subsubsection{Hiring}
+\noindent
+The RFC states that keys should not be included in security.txt files, despite this ~0.7\% of unique files do include keys. This looks to indicate either that the majority are conforming to the RFC recommendation and or do not wish to include a key in the security.txt anyway as ~37\% of security.txt do include the \texttt{Encryption} field.
+
+\begin{table}[H]
+%\tiny
+  \begin{center}
+    \begin{tabular}{|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Type} & \textbf{Presence}\\
+      \hline
+      HTTPS & ??.?\%\\
+      \hline
+      OpenPGP4 Fingerprint Reader & ??.?\%\\
+      \hline
+    \end{tabular}
+    \caption{Percentage of encryption field value type of unique security.txt}
+    \label{table:security_txt_encryption_type} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+Table \ref{table:security_txt_encryption_type} shows two types of encryption reference HTTPS and 
+ OpenPGP4 Fingerprint Reader (openpgp4fpr). The RFC states that the \texttt{Encryption} field must being with \texttt{https://}, however despite this OpenPGP4 Fingerprint Reader has a presence of ??\%. A reason for this could be that it was more convenient to use a OpenPGP4 Fingerprint Reader, however this might hinder the use of it if security researchers are not familiar with this scheme type. Should a website operator want to use OpenPGP4 Fingerprint Reader scheme, it is best placed in a separate web page such that instructions can be included on how to use such a scheme.
+
 
 \subsubsection{Preferred-Languages}
 
-\subsubsection{Policy}
+
+
+
+\subsubsection{Other RFC Fields}
+
+The remaining fields defined in the RFC that have not been analysed in this section are of less interest in regards and as such only their relative presence in a security.txt was analysed displayed in table \ref{table:security_txt_by_other_rfc_fields} and figure \ref{fig:security_txt_by_fields}.
+
+\begin{table}[H]
+%\tiny
+  \begin{center}
+    \begin{tabular}{|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Field} & \textbf{Presence}\\
+      \hline
+      Acknowledgements & ~7\%\\
+      \hline
+      Canonical & 30\%-33\%\\
+      \hline
+      Hiring & ~21\%\\
+      \hline
+      Policy & 28\%-31\%\\
+      \hline
+    \end{tabular}
+    \caption{Average field presence of remaining RFC fields in unique security.txt files}
+    \label{table:security_txt_by_other_rfc_fields} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
 
 \subsubsection{Non Standard Fields}
 
-\newpage
+There are a number of fields, many present in only a single security.txt, that appear in security.txt but are not defined in the RFC. Table \ref{table:} details the top 5 most common of these non standard fields.
 
+\begin{table}[H]
+%\tiny
+  \begin{center}
+    \begin{tabular}{|c|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Field} & \textbf{Presence} & \textbf{Inferred Use}\\
+      \hline
+      Signature & ~4.5\% & Link to signature file\\
+      \hline
+      Openbugbounty & ~3.5\% & Link to openbugbounty.org organisation page\\
+      \hline
+      Permission & ~1.5\% & Permission to test vulnerabilities\\
+      \hline
+      Disclosure & ~1\% & Type of public disclosure permitted\\
+      \hline
+      Sitemap & ~1\% & HTTPS link to an XML file of the websites page structure\\
+      \hline
+    \end{tabular}
+    \caption{Average field presence of remaining RFC fields in unique security.txt files}
+    \label{table:security_txt_by_non_rfc_fields} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+All of the \texttt{Permission} values appear to be set to \texttt{none} which would seed to indicate that permission is not given to perform testing of known vulnerabilities against the site.
+
+\vspace{0.3cm} \noindent
+The \texttt{Disclosure} values were seen to be a HTTPS link, \texttt{Full}, \texttt{Partial} or \texttt{None} which would seem to indicate that if a security vulnerability were to be submitted the security researcher would act in good faith and adhere to this value in regards to the public disclosure of the security vulnerability found.
+
+\newpage
 
 \section{Content Security Policy}
 
