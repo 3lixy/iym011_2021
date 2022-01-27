@@ -2213,7 +2213,30 @@ Table \ref{table:security_txt_encryption_type} shows two types of encryption ref
 
 \subsubsection{Preferred-Languages}
 
+As one may expect there were many different languages (over 50) represented in the \texttt{Preferred-Languages} field. Table \ref{table:security_txt_preferred_languages} shows the presence of the top 5 languages for unique security.txt files.
 
+\begin{table}[H]
+%\tiny
+  \begin{center}
+    \begin{tabular}{|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Language} & \textbf{Presence}\\
+      \hline
+      English & 99\%\\
+      \hline
+      German & 13\%\\
+      \hline
+      French & 11\%\\
+      \hline
+      Czech  & 13\%\\
+      \hline
+      Dutch & 4\%\\
+      \hline
+    \end{tabular}
+    \caption{Percentage of encryption field value type of unique security.txt}
+    \label{table:security_txt_preferred_languages} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
 
 
 \subsubsection{Other RFC Fields}
