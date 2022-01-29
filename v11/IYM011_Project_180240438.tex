@@ -45,6 +45,7 @@
 \newcolumntype{G}{>{\centering\arraybackslash}m{13cm}}
 \newcolumntype{H}{>{\centering\arraybackslash}m{3.6cm}}
 \newcolumntype{I}{>{\centering\arraybackslash}m{4cm}}
+\newcolumntype{J}{>{\centering\arraybackslash}m{10cm}}
 
 
 
@@ -547,6 +548,7 @@ CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the mo
 	\item deprecation of the report-uri directive in favour of a more recent directive report-to
 \end{itemize}
 
+
 \subsection{Policy Delivery}
 There CSP policy can be delivered either by the use of one of two HTTP headers (Content-Security-Policy and Content-Security-Policy-Report-Only) or in the \texttt{$<$meta$>$} element in the html body of a web page.
 
@@ -556,37 +558,75 @@ A CSP Policy consists of one or more directives which are bound to a specific ty
 \vspace{0.3cm} \noindent
 Should a directive be absent from a CSP Policy it is deemed to have no values i.e. ``open''. Configuring the default-src directive in a CSP policy cause most directives that are not present to inherit the values of the values of the default-src directive.
 
-\subsection{Selected Directives}
-This project will be analysing the directives in table \ref{table:cpsdirectives1} as these have been identified as the most significant to implement in order to reduce the likelihood of malicious interaction with resources.
+\vspace{0.3cm} \noindent
+Table \ref{table:cpsdirectives1} details the directives from CSP Level 1 until CSP Level 3 29 June 2021. CSP Level 3 is still a working draft and as such until CSP Level 3 is finalised the data within table \ref{table:cpsdirectives1} may become inaccurate should there be any changes before CSP Level 3 is finalised.
 
 \begin{table}[h!]
   \begin{center}
-    \begin{tabular}{|l|F|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+    \begin{tabular}{|l|J|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
       \hline
       \textbf{Directive} & \textbf{Restrictive Context Sources} & \textbf{CSP Level}\\
       \hline
+      default-src & Fall-back for interactions that are covered by CSP but not specified in other directives & 1\\
+      \hline
       script-src & script sources: e.g. \texttt{$<$script$>$} elements, inline script blocks and XSLT stylesheets & 1 \\
       \hline
-      connect-src & The URLs being called from scripts e.g. XMLHttpRequest requests & 1 \\
+      object-src & Restricts the source of plugin requests/content & 1 \\
       \hline
       style-src & Style sources: e.g. \texttt{$<$style$>$} elements and \texttt{$<$link rel='stylesheet'$>$ elements} & 1\\
       \hline
+      connect-src & The URLs being called from scripts e.g. XMLHttpRequest requests & 1 \\
+      \hline
       img-src & Image sources: e.g. \texttt{$<$img$>$} elements & 1\\
       \hline
-      child-src & web worker sources and child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 2\\
+      media-src & Restricts the source of video/audio and related metadata & 1\\
       \hline
-      frame-src & child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1\\
+      frame-src & Restrict the source of loading resources into child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1\\
       \hline
-      default-src & Fall-back for interactions that are covered by CSP but not specified in other directives & 1\\
+      font-src & Restricts the source of font resources & 1\\
+      \hline
+      connect-src & Restricts source of script interface requests & 1\\
+      \hline
+      report-uri & Destination URI for sending CSP violates reports. Deprecated as of CSP Level 3 in favour of \texttt{report-to} & 1\\
+      \hline
+      base-uri & Restrict URIs for a document's base element & 1.1\\
+      \hline
+      child-src & web worker sources and child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1.1\\
+      \hline
+      form-action & Restrict URIs for Form action target & 1.1\\
+      \hline
+      frame-ancestors & Restrict source of embedded child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1.1\\
+      \hline
+      plugin-types & Restricts the media type of plugins. No longer present as of \texttt{W3C Working Draft, 10 March 2021} \cite{noauthor_undated-xf} & 1.1\\
+      \hline
+      sandbox & Apply sandbox policy to a resource & 1.1\\
+      \hline
+      manifest & Restricts source of application manifests & 3 \\
+      \hline
+      prefetch-src & Restricts source of pre-fetched/pre-rendered resources & 3 \\
+      \hline
+      script-src-elem & Restricts source of $<$script$>$ elements only & 3 \\
+      \hline
+      script-src-attr & Restricts source of inline scripts (e.g. onclick) (not $<$script$>$ elements) & 3 \\
+      \hline
+      style-src-elem & Restricts source of $<$style$>$ and $<$link$>$ elements containing \texttt{rel="stylesheet"} only & 3 \\
+      \hline
+      style-src-attr & Restricts source of inline style & 3 \\
+      \hline
+      worker-src-attr & Restricts source of resources loaded as Worker, SharedWorker, or ServiceWorker & 3 \\
+      \hline
+      navigate-to & Restricts source of any navigations & 3 \\
+      \hline
+      report-to & Reporting group for sending CSP violates reports & 3 \\
       \hline
     \end{tabular}
 %    \captionsetup{width=.75\textwidth}
-    \caption{Summary of selected CSP directives}
+    \caption{Summary of CSP directives}
     \label{table:cpsdirectives1} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
 
-\newpage
+\clearpage
 
 \subsection{Directives defined in other standards}
 
@@ -672,10 +712,25 @@ The current hashing functions specified in CSP Level 3 are \texttt{sha256}, \tex
 \subsection{Reporting Directives}
 
 \subsubsection{report-uri}
-Upon a CSP Policy violation and a value is present for report-uri, the browser will send a report to the location specified for report-uri. The report is in the form of JSON document(s) and sent using the HTTP POST method. An example report-uri configuration can be seen below:
+Upon a CSP Policy violation and a value is present for report-uri, the browser will send a report to the location specified for report-uri. The report is in the form of JSON document(s) and sent using the HTTP POST method.
+
+\vspace{0.3cm} \noindent
+As of the most recent CSP Level 3 working Draft (29 June 2021), report-uri is deprecated in favour of \texttt{report-to}.
+
+\vspace{0.3cm} \noindent
+An example report-uri configuration can be seen below:
 
 \vspace{0.3cm} \noindent
 \texttt{Content-Security-Policy: ...; report-uri https://report.example.com;}
+
+\subsubsection{report-to}
+Upon a CSP Policy violation and a value is present for report-to and the group is defined in the header \texttt{Report-To}, the browser will send a report to the location specified in the group configuration. The report is in the form of JSON document(s) and sent using the HTTP POST method.
+
+\vspace{0.3cm} \noindent
+An example report-to configuration can be seen below:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: ...; report-to <group name>}
 
 \subsection{Content-Security-Policy-Report-Only}
 
