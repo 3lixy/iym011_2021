@@ -518,223 +518,7 @@ Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) r
 \section{Content-Security-Policy}
 \label{section:csp}
 
-Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed be retrieved and or loaded by the browser. CSP is an evolution of the Same-Origin Policy (SOP) browser mechanism.
 
-\vspace{0.3cm} \noindent
-Same Origin Policy is rather restrictive and this is where Content Security Policy gives more control to website maintainers and developers.
-
-\subsection{CSP Development}
-
-CSP is developed and maintained by The World Wide Web Consortium (W3C) \cite{Barth2012-ow}.
-CSP Level 1 initial draft was published in 2012 \cite{Barth2012-ow} and finalised in 2015 \cite{Barth2015-ez}.
-CSP Level 2 had its first draft in 2014 \cite{West2014-oe} and was finalised in 2016 \cite{West2016-ol} which uncluded the following changes:
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item base-uri, child-src, form-action, frame-ancestors, plugin-types directives added
-	\item frame-src depreciated
-	\item Inline scripts / stylesheets allowed via nonces
-	\item New fields added to violation reports
-\end{itemize}
-
-\vspace{0.3cm} \noindent
-CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the most recent draft in 2021 \cite{West2021-hi} and is currently in the working draft state which included the following changes:
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item Spec re-written
-	\item frame-src undepreciated (uses child-src if not present)
-	\item manifest-src, worker-src directives added
-	\item 'strict-dynamic' source expression added
-	\item child-src substantially changed
-	\item deprecation of the report-uri directive in favour of a more recent directive report-to
-\end{itemize}
-
-
-\subsection{Policy Delivery}
-There CSP policy can be delivered either by the use of one of two HTTP headers (Content-Security-Policy and Content-Security-Policy-Report-Only) or in the \texttt{$<$meta$>$} element in the html body of a web page.
-
-\subsection{CSP Directive}
-A CSP Policy consists of one or more directives which are bound to a specific type of resource. For example, the script-src directive controls the restrictions, or lack thereof, for the location(s) scripts can be obtained, executed or loaded from. A CSP Directive can have of one or more values.
-
-\vspace{0.3cm} \noindent
-Should a directive be absent from a CSP Policy it is deemed to have no values i.e. ``open''. Configuring the default-src directive in a CSP policy cause most directives that are not present to inherit the values of the values of the default-src directive.
-
-\vspace{0.3cm} \noindent
-Table \ref{table:cpsdirectives1} details the directives from CSP Level 1 until CSP Level 3 29 June 2021. CSP Level 3 is still a working draft and as such until CSP Level 3 is finalised the data within table \ref{table:cpsdirectives1} may become inaccurate should there be any changes before CSP Level 3 is finalised.
-
-\begin{table}[h!]
-  \begin{center}
-    \begin{tabular}{|l|J|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-      \hline
-      \textbf{Directive} & \textbf{Restrictive Context Sources} & \textbf{CSP Level}\\
-      \hline
-      default-src & Fall-back for interactions that are covered by CSP but not specified in other directives & 1\\
-      \hline
-      script-src & script sources: e.g. \texttt{$<$script$>$} elements, inline script blocks and XSLT stylesheets & 1 \\
-      \hline
-      object-src & Restricts the source of plugin requests/content & 1 \\
-      \hline
-      style-src & Style sources: e.g. \texttt{$<$style$>$} elements and \texttt{$<$link rel='stylesheet'$>$ elements} & 1\\
-      \hline
-      connect-src & The URLs being called from scripts e.g. XMLHttpRequest requests & 1 \\
-      \hline
-      img-src & Image sources: e.g. \texttt{$<$img$>$} elements & 1\\
-      \hline
-      media-src & Restricts the source of video/audio and related metadata & 1\\
-      \hline
-      frame-src & Restrict the source of loading resources into child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1\\
-      \hline
-      font-src & Restricts the source of font resources & 1\\
-      \hline
-      connect-src & Restricts source of script interface requests & 1\\
-      \hline
-      report-uri & Destination URI for sending CSP violates reports. Deprecated as of CSP Level 3 in favour of \texttt{report-to} & 1\\
-      \hline
-      base-uri & Restrict URIs for a document's base element & 1.1\\
-      \hline
-      child-src & web worker sources and child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1.1\\
-      \hline
-      form-action & Restrict URIs for Form action target & 1.1\\
-      \hline
-      frame-ancestors & Restrict source of embedded child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1.1\\
-      \hline
-      plugin-types & Restricts the media type of plugins. No longer present as of \texttt{W3C Working Draft, 10 March 2021} \cite{noauthor_undated-xf} & 1.1\\
-      \hline
-      sandbox & Apply sandbox policy to a resource & 1.1\\
-      \hline
-      manifest & Restricts source of application manifests & 3 \\
-      \hline
-      prefetch-src & Restricts source of pre-fetched/pre-rendered resources & 3 \\
-      \hline
-      script-src-elem & Restricts source of $<$script$>$ elements only & 3 \\
-      \hline
-      script-src-attr & Restricts source of inline scripts (e.g. onclick) (not $<$script$>$ elements) & 3 \\
-      \hline
-      style-src-elem & Restricts source of $<$style$>$ and $<$link$>$ elements containing \texttt{rel="stylesheet"} only & 3 \\
-      \hline
-      style-src-attr & Restricts source of inline style & 3 \\
-      \hline
-      worker-src-attr & Restricts source of resources loaded as Worker, SharedWorker, or ServiceWorker & 3 \\
-      \hline
-      navigate-to & Restricts source of any navigations & 3 \\
-      \hline
-      report-to & Reporting group for sending CSP violates reports & 3 \\
-      \hline
-    \end{tabular}
-%    \captionsetup{width=.75\textwidth}
-    \caption{Summary of CSP directives}
-    \label{table:cpsdirectives1} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
-  \end{center}
-\end{table}
-
-\clearpage
-
-\subsection{Directives defined in other standards}
-
-There are several CSP directives defined in other standards.
-
-\subsubsection{upgrade-insecure-requests}
-
-Converts any \texttt{http://} request made by the browser to use \texttt{https://} i.e. all \texttt{http://} requests will be forced to use \texttt{https://}.
-
-\subsubsection{block-all-mixed-content}
-
-Does not allow the browser to make any \texttt{http://} requests for assets if the page was loaded over \texttt{https://}. This directive is processed after the upgrade-insecure-requests is processed, should it be present.
-
-\subsection{Source Lists}
-
-Below are the types of sources for values of CSP directives.
-
-\subsubsection{Keyword}
-The values below are keywords that can be used as values for directives:
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item \texttt{none} – does not allow the use of resources that apply to the directive in question.
-	\item \texttt{self} – restricts the resources to the domain of the web page and does not include subdomains.
-	\item \texttt{unsafe-inline} – Permits the resource to be inline, .e.g. a scripts code resides in a \texttt{$<$script$>$} element rather that in a separate file.
-	\item \texttt{unsafe-eval} – Permits the use of mechanisms, such as \texttt{eval()}, which transform plain text into executable code.
-	\item \texttt{unsafe-allow-redirects} – Used with the \texttt{navigate-to} directive. Not currently supported in browsers.
-	\item \texttt{unsafe-hashes} – Allows the use of inline scripts if the script matches a hash in the \texttt{script-src} directive.
-	
-\end{itemize}
-
-Both \texttt{unsafe-inline} and \texttt{unsafe-eval} are deemed to be dangerous as inline resources and the use of mechanisms such as \texttt{eval()} are attack vectors for malicious actors, hence the use of the prefix \texttt{unsafe}.
-
-\subsubsection{Host}
-One or more ``hosts'' can be specified as values for a directive. The following are all valid examples of host values:
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item domain.com
-	\item *.domain.com
-	\item https://*.domain.com:81
-	\item domain.com/script.js
-\end{itemize}
-
-\subsubsection{Scheme}
-Scheme values, referring the to protocol via which to access resources, may be used in directives. For example:
-
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item http:
-	\item https:
-	\item data:
-\end{itemize}
-
-
-\subsubsection{Nonce}
-A nonce can be used to allow inline resources to be allowed without the need to use the dangerous \texttt{unsafe-inline} keyword. The nonce would need to be included in both the CSP Policy directive and the inline resource.
-
-\vspace{0.3cm} \noindent
-For example if an in-line script was required, only scripts from the same origin are to be allowed, and the nonce was to be \texttt{MyRandomNonce}, then the CSP Policy would be:
-
-\vspace{0.3cm} \noindent
-\texttt{Content-Security-Policy: script-src 'self' 'nonce-MyRandomNonce'}
-
-\vspace{0.3cm} \noindent
-The inline script would also have the nonce:
-
-\vspace{0.3cm} \noindent
-\texttt{$<$script nonce="MyRandomNonce"$>$...$<$/script$>$}
-
-
-\subsubsection{Digest}
-
-A hash (digest) value can be used for scripts, the script-src directive, and non-script elements, such as the style-src directive. An example digest for the script-src directive:
-
-\vspace{0.3cm} \noindent
-\texttt{Content-Security-Policy: script-src 'sha256-MyHashDigest='}
-
-\vspace{0.3cm} \noindent
-If a digest value is present, each script element will be hashed and the resultant hash compared to the hash value in the directive and if a match occurs the script is deemed to be allowed.
-
-\vspace{0.3cm} \noindent
-The current hashing functions specified in CSP Level 3 are \texttt{sha256}, \texttt{sha368} and \texttt{sha512}.
-
-\subsection{Reporting Directives}
-
-\subsubsection{report-uri}
-Upon a CSP Policy violation and a value is present for report-uri, the browser will send a report to the location specified for report-uri. The report is in the form of JSON document(s) and sent using the HTTP POST method.
-
-\vspace{0.3cm} \noindent
-As of the most recent CSP Level 3 working Draft (29 June 2021), report-uri is deprecated in favour of \texttt{report-to}.
-
-\vspace{0.3cm} \noindent
-An example report-uri configuration can be seen below:
-
-\vspace{0.3cm} \noindent
-\texttt{Content-Security-Policy: ...; report-uri https://report.example.com;}
-
-\subsubsection{report-to}
-Upon a CSP Policy violation and a value is present for report-to and the group is defined in the header \texttt{Report-To}, the browser will send a report to the location specified in the group configuration. The report is in the form of JSON document(s) and sent using the HTTP POST method.
-
-\vspace{0.3cm} \noindent
-An example report-to configuration can be seen below:
-
-\vspace{0.3cm} \noindent
-\texttt{Content-Security-Policy: ...; report-to <group name>}
-
-\subsection{Content-Security-Policy-Report-Only}
-
-The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \newline \texttt{Content-Security-Policy} with the exception that violations are only reported and not enforced. One of the main uses of this is when webmasters and developers are creating a CSP Policy and do not want to impact the end user experience until the policy is configured as desired.
 
 \newpage
 
@@ -2069,7 +1853,8 @@ Figure \ref{fig:security_txt_unique_vs_domains} shows the number of unique secur
 Due to the large difference between the number of unique security.txt and number of unique domains further investigation was conducted to identify any large groupings of domains that used the same security.txt, the results of which are shown in table \ref{table:security_txt_groupings}.
 
 \vspace{0.3cm} \noindent
-Tumbler appears to control the most websites (??), with google coming in second with (??). Whilst this is nice to see that organisations look to be using unified configurations this does give another potential method by which to identify/fingerprint sites that are controlled by large organisations. This gives the opportunity to find sites with potentially weaker security (inherited from an acquisition for example) in order to laterally move to the parent organisations infrastructure.
+\texttt{TODO}
+Tumblr appears to control the most websites (??), with google coming in second with (??). Whilst this is nice to see that organisations look to be using unified configurations this does give another potential method by which to identify/fingerprint sites that are controlled by large organisations. This gives the opportunity to find sites with potentially weaker security (inherited from an acquisition for example) in order to laterally move to the parent organisations infrastructure.
 
 \clearpage
 \newpage 
@@ -2244,6 +2029,8 @@ If this trend continues, \texttt{Expires} will likely get close to 100\% use suc
 \noindent
 The RFC states that keys should not be included in security.txt files, despite this ~0.7\% of unique files do include keys. This looks to indicate either that the majority are conforming to the RFC recommendation and or do not wish to include a key in the security.txt anyway as ~37\% of security.txt do include the \texttt{Encryption} field.
 
+\texttt{TODO}
+
 \begin{table}[H]
 %\tiny
   \begin{center}
@@ -2356,6 +2143,357 @@ The \texttt{Disclosure} values were seen to be a HTTPS link, \texttt{Full}, \tex
 
 \section{Content Security Policy}
 
+The Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed be retrieved and or loaded by the browser. CSP is an evolution of the \textit{Same-Origin Policy (SOP)} browser mechanism.
+
+\vspace{0.3cm} \noindent
+Same Origin Policy is rather restrictive and this is where Content Security Policy gives more control to website maintainers and developers.
+
+\subsection{Background}
+\subsubsection{Development}
+
+CSP is developed and maintained by The World Wide Web Consortium (W3C) \cite{Barth2012-ow}.
+CSP Level 1 initial draft was published in 2012 \cite{Barth2012-ow} and finalised in 2015 \cite{Barth2015-ez}.
+CSP Level 2 had its first draft in 2014 \cite{West2014-oe} and was finalised in 2016 \cite{West2016-ol} which uncluded the following changes:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item base-uri, child-src, form-action, frame-ancestors, plugin-types directives added
+	\item frame-src depreciated
+	\item Inline scripts / stylesheets allowed via nonces
+	\item New fields added to violation reports
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the most recent draft in 2021 \cite{West2021-hi} and is currently in the working draft state which included the following changes:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Spec re-written
+	\item frame-src undepreciated (uses child-src if not present)
+	\item manifest-src, worker-src directives added
+	\item 'strict-dynamic' source expression added
+	\item child-src substantially changed
+	\item deprecation of the report-uri directive in favour of a more recent directive report-to
+\end{itemize}
+
+
+\subsubsection{Policy Delivery}
+There CSP policy can be delivered either by the use of one of two HTTP headers (Content-Security-Policy and Content-Security-Policy-Report-Only) or in the \texttt{$<$meta$>$} element in the html body of a web page.
+
+\subsubsection{CSP Directive}
+A CSP Policy consists of one or more directives which are bound to a specific type of resource. For example, the script-src directive controls the restrictions, or lack thereof, for the location(s) scripts can be obtained, executed or loaded from. A CSP Directive can have of one or more values.
+
+\vspace{0.3cm} \noindent
+Should a directive be absent from a CSP Policy it is deemed to have no values i.e. ``open''. Configuring the default-src directive in a CSP policy cause most directives that are not present to inherit the values of the values of the default-src directive.
+
+\vspace{0.3cm} \noindent
+Table \ref{table:cpsdirectives1} details the directives from CSP Level 1 until CSP Level 3 29 June 2021. CSP Level 3 is still a working draft and as such until CSP Level 3 is finalised the data within table \ref{table:cpsdirectives1} may become inaccurate should there be any changes before CSP Level 3 is finalised.
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{|l|J|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Directive} & \textbf{Restrictive Context Sources} & \textbf{CSP Level}\\
+      \hline
+      default-src & Fall-back for interactions that are covered by CSP but not specified in other directives & 1\\
+      \hline
+      script-src & script sources: e.g. \texttt{$<$script$>$} elements, inline script blocks and XSLT stylesheets & 1 \\
+      \hline
+      object-src & Restricts the source of plugin requests/content & 1 \\
+      \hline
+      style-src & Style sources: e.g. \texttt{$<$style$>$} elements and \texttt{$<$link rel='stylesheet'$>$ elements} & 1\\
+      \hline
+      connect-src & The URLs being called from scripts e.g. XMLHttpRequest requests & 1 \\
+      \hline
+      img-src & Image sources: e.g. \texttt{$<$img$>$} elements & 1\\
+      \hline
+      media-src & Restricts the source of video/audio and related metadata & 1\\
+      \hline
+      frame-src & Restrict the source of loading resources into child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1\\
+      \hline
+      font-src & Restricts the source of font resources & 1\\
+      \hline
+      connect-src & Restricts source of script interface requests & 1\\
+      \hline
+      report-uri & Destination URI for sending CSP violates reports. Deprecated as of CSP Level 3 in favour of \texttt{report-to} & 1\\
+      \hline
+      base-uri & Restrict URIs for a document's base element & 1.1\\
+      \hline
+      child-src & web worker sources and child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1.1\\
+      \hline
+      form-action & Restrict URIs for Form action target & 1.1\\
+      \hline
+      frame-ancestors & Restrict source of embedded child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1.1\\
+      \hline
+      plugin-types & Restricts the media type of plugins. No longer present as of \texttt{W3C Working Draft, 10 March 2021} \cite{noauthor_undated-xf} & 1.1\\
+      \hline
+      sandbox & Apply sandbox policy to a resource & 1.1\\
+      \hline
+      manifest & Restricts source of application manifests & 3 \\
+      \hline
+      prefetch-src & Restricts source of pre-fetched/pre-rendered resources & 3 \\
+      \hline
+      script-src-elem & Restricts source of $<$script$>$ elements only & 3 \\
+      \hline
+      script-src-attr & Restricts source of inline scripts (e.g. onclick) (not $<$script$>$ elements) & 3 \\
+      \hline
+      style-src-elem & Restricts source of $<$style$>$ and $<$link$>$ elements containing \texttt{rel="stylesheet"} only & 3 \\
+      \hline
+      style-src-attr & Restricts source of inline style & 3 \\
+      \hline
+      worker-src-attr & Restricts source of resources loaded as Worker, SharedWorker, or ServiceWorker & 3 \\
+      \hline
+      navigate-to & Restricts source of any navigations & 3 \\
+      \hline
+      report-to & Reporting group for sending CSP violates reports & 3 \\
+      \hline
+    \end{tabular}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Summary of CSP directives}
+    \label{table:cpsdirectives1} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\clearpage
+
+\subsubsection{Directives defined in other standards}
+
+There are several CSP directives defined in other standards.
+
+\vspace{0.7cm} \noindent
+\textbf{upgrade-insecure-requests}
+
+\vspace{0.3cm} \noindent
+Converts any \texttt{http://} request made by the browser to use \texttt{https://} i.e. all \texttt{http://} requests will be forced to use \texttt{https://}.
+
+\vspace{0.7cm} \noindent
+\textbf{block-all-mixed-content}
+
+\vspace{0.3cm} \noindent
+Does not allow the browser to make any \texttt{http://} requests for assets if the page was loaded over \texttt{https://}. This directive is processed after the upgrade-insecure-requests is processed, should it be present.
+
+\subsubsection{Source Lists}
+
+Below are the types of sources for values of CSP directives.
+
+
+\vspace{0.7cm} \noindent
+\textbf{Keyword}
+
+\vspace{0.3cm} \noindent
+The values below are keywords that can be used as values for directives:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item \texttt{none} – does not allow the use of resources that apply to the directive in question.
+	\item \texttt{self} – restricts the resources to the domain of the web page and does not include subdomains.
+	\item \texttt{unsafe-inline} – Permits the resource to be inline, .e.g. a scripts code resides in a \texttt{$<$script$>$} element rather that in a separate file.
+	\item \texttt{unsafe-eval} – Permits the use of mechanisms, such as \texttt{eval()}, which transform plain text into executable code.
+	\item \texttt{unsafe-allow-redirects} – Used with the \texttt{navigate-to} directive. Not currently supported in browsers.
+	\item \texttt{unsafe-hashes} – Allows the use of inline scripts if the script matches a hash in the \texttt{script-src} directive.
+	
+\end{itemize}
+
+\noindent
+Both \texttt{unsafe-inline} and \texttt{unsafe-eval} are deemed to be dangerous as inline resources and the use of mechanisms such as \texttt{eval()} are attack vectors for malicious actors, hence the use of the prefix \texttt{unsafe}.
+
+\vspace{0.7cm} \noindent
+\textbf{Host}
+
+\vspace{0.3cm} \noindent
+One or more ``hosts'' can be specified as values for a directive. The following are all valid examples of host values:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item domain.com
+	\item *.domain.com
+	\item https://*.domain.com:81
+	\item domain.com/script.js
+\end{itemize}
+
+\vspace{0.5cm} \noindent
+\textbf{Scheme}
+
+\vspace{0.3cm} \noindent
+Scheme values, referring the to protocol via which to access resources, may be used in directives. For example:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item http:
+	\item https:
+	\item data:
+\end{itemize}
+
+\vspace{0.5cm} \noindent
+\textbf{Nonce}
+
+\vspace{0.3cm} \noindent
+A nonce can be used to allow inline resources to be allowed without the need to use the dangerous \texttt{unsafe-inline} keyword. The nonce would need to be included in both the CSP Policy directive and the inline resource.
+
+\vspace{0.3cm} \noindent
+For example if an in-line script was required, only scripts from the same origin are to be allowed, and the nonce was to be \texttt{MyRandomNonce}, then the CSP Policy would be:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: script-src 'self' 'nonce-MyRandomNonce'}
+
+\vspace{0.3cm} \noindent
+The inline script would also have the nonce:
+
+\vspace{0.3cm} \noindent
+\texttt{$<$script nonce="MyRandomNonce"$>$...$<$/script$>$}
+
+
+
+\vspace{0.7cm} \noindent
+\textbf{Digest}
+
+\vspace{0.3cm} \noindent
+A hash (digest) value can be used for scripts, the script-src directive, and non-script elements, such as the style-src directive. An example digest for the script-src directive:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: script-src 'sha256-MyHashDigest='}
+
+\vspace{0.3cm} \noindent
+If a digest value is present, each script element will be hashed and the resultant hash compared to the hash value in the directive and if a match occurs the script is deemed to be allowed.
+
+\vspace{0.3cm} \noindent
+The current hashing functions specified in CSP Level 3 are \texttt{sha256}, \texttt{sha368} and \texttt{sha512}.
+
+\subsubsection{Reporting Directives}
+
+\textbf{report-uri}
+
+\vspace{0.3cm} \noindent
+Upon a CSP Policy violation and a value is present for report-uri, the browser will send a report to the location specified for report-uri. The report is in the form of JSON document(s) and sent using the HTTP POST method.
+
+\vspace{0.3cm} \noindent
+As of the most recent CSP Level 3 working Draft (29 June 2021), report-uri is deprecated in favour of \texttt{report-to}.
+
+\vspace{0.3cm} \noindent
+An example report-uri configuration can be seen below:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: ...; report-uri https://report.example.com;}
+
+\vspace{0.7cm} \noindent
+\textbf{report-to}
+
+\vspace{0.3cm} \noindent
+Upon a CSP Policy violation and a value is present for report-to and the group is defined in the header \texttt{Report-To}, the browser will send a report to the location specified in the group configuration. The report is in the form of JSON document(s) and sent using the HTTP POST method.
+
+\vspace{0.3cm} \noindent
+An example report-to configuration can be seen below:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: ...; report-to <group name>}
+
+\subsubsection{CSP Headers}
+
+There are a number of CSP headers, shown below, that have been created leading up to the current \texttt{Content-Security-Policy} and \texttt{Content-Security-Policy-Report=Only} headers.
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Content-Security-Policy
+	\item Content-Security-Policy-Report-Only
+	\item X-Content-Security-Policy
+	\item X-Webkit-CSP
+\end{itemize}
+
+
+\subsubsection{Content-Security-Policy-Report-Only}
+
+The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \newline \texttt{Content-Security-Policy} with the exception that violations are only reported and not enforced. One of the main uses of this is when webmasters and developers are creating a CSP Policy and do not want to impact the end user experience until the policy is configured as desiredb
+
+\vspace{0.3cm} \noindent
+\textbf{TODO: General purpose of CSP and common use cases: allow-listings, prevent inline script execution, data:URIs, text>JS functions, redirects}
+
+\vspace{0.3cm} \noindent
+\textbf{TODO: Keep up to date with CSP Bypass Techniques}
+
+\subsection{Parser}
+
+A parser was created in python which processed the value for a content security header. The parser checked all of the below headers of a scan result for the presence of a CSP header.
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Content-Security-Policy
+	\item Content-Security-Policy-Report-Only
+	\item X-Content-Security-Policy
+	\item X-Webkit-CSP
+\end{itemize}
+
+\noindent
+The CSP text was split on the \texttt{;} character which denotes that a directive configuration has ended. Each directive configuration was split on the space character which is the separator between directive configuration values.
+
+\vspace{0.3cm} \noindent
+A number of regular expressions were created to place each directive into one of the following categories as described in table \ref{table:directive_categories}.
+
+\begin{table}[H]
+%\tiny
+  \begin{center}
+    \begin{tabular}{|c|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Category} & \textbf{Description}\\
+      \hline
+      Allow All & The value \texttt{*}\\
+      \hline
+      Keyword & Any keyword value e.g. \texttt{self}\\
+      \hline
+      Scheme & Any scheme value e.g. \texttt{blob:}\\
+      \hline
+      Nonce & Any nonce value e.g. \texttt{nonce-MyRandomNonce}\\
+      \hline
+      Digest & Any digest value e.g. \texttt{sha256-MyHashDigest=}\\
+      \hline
+      Host & Any host value e.g. \texttt{*.exmaple.com}\\
+      \hline
+    \end{tabular}
+    \caption{CSP Directive Categories}
+    \label{table:directive_categories} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\vspace{0.3cm} \noindent
+As the scanner followed redirects the parser kept track of the resultant domain of any such redirects and skipped processing a CSP if the resultant domain had already had a CSP processed.
+
+\clearpage
+
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{csp-by_rank.pdf_tex}}
+		\caption{CSP headers use by rank for unique domains}
+		\label{fig:csp_by_rank}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:csp_by_rank} shows the percentage of websites that the scanner was able to identify having a CSP header. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
+
+\vspace{0.3cm} \noindent
+Each group shows a steady rise in the use of a CSP headers which is an encouraging sign. There is a long way to go however to have the majority of sites using a CSP policy.
+
+\vspace{0.3cm} \noindent
+
+\begin{table}[H]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|l|I|D|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{HTTP Header} & \textbf{Weissbacher et al} \cite{Weissbacher2014-vm} March 2014 & \textbf{Ying et al} \cite{Ying2016-ag} June 2015 & Jan 2022 \\
+      \hline
+      Content-Security-Policy & 815 & 1241 & 59098\\
+      \hline
+      Content-Security-Policy-Report-Only & 35 & 180 & 15280\\
+      \hline
+      X-Content-Security-Policy & N/A & 111 & 1808\\
+      \hline
+      X-Webkit-CSP & N/A & 194 & 728\\
+      \hline
+    \end{tabular}
+    \caption{CSP Directive Categories}
+    \label{table:directive_categories} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\clearpage
 \newpage
 
 
