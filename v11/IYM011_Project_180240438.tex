@@ -2391,8 +2391,8 @@ There are a number of CSP headers, shown below, that have been created leading u
 	\setlength\itemsep{0.1em}
 	\item Content-Security-Policy
 	\item Content-Security-Policy-Report-Only
-	\item X-Content-Security-Policy
-	\item X-Webkit-CSP
+	\item X-Content-Security-Policy (Used by and now deprecated by Firefox browser)
+	\item X-Webkit-CSP (Introduced and now deprecated by the chromium project since 2013 \cite{Google_undated-ct})
 \end{itemize}
 
 
@@ -2408,7 +2408,7 @@ The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \new
 
 \subsection{Parser}
 
-A parser was created in python which processed the value for a content security header. The parser checked all of the below headers of a scan result for the presence of a CSP header.
+A parser was created in python which processed the value for a content security header. The parser checked all of the below headers of a scan result for the presence of a CSP header. deprecated.
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
@@ -2468,7 +2468,7 @@ As the scanner followed redirects the parser kept track of the resultant domain 
 Figure \ref{fig:csp_by_rank} shows the percentage of websites that the scanner was able to identify having a CSP header. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
 
 \vspace{0.3cm} \noindent
-Each group shows a steady rise in the use of a CSP headers which is an encouraging sign. There is a long way to go however to have the majority of sites using a CSP policy.
+Each rank group shows a steady rise in the use of a CSP headers which is an encouraging sign. There is a long way to go however to have the majority of sites using a CSP policy.
 
 \vspace{0.3cm} \noindent
 
@@ -2488,10 +2488,53 @@ Each group shows a steady rise in the use of a CSP headers which is an encouragi
       X-Webkit-CSP & N/A & 194 & 728\\
       \hline
     \end{tabular}
-    \caption{CSP Directive Categories}
-    \label{table:directive_categories} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+    \caption{Historical CSP Header Use}
+    \label{table:csp_header_count} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
+
+
+\vspace{0.3cm} \noindent
+Even though the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} CSP headers are now deprecated, there is still an increase in use from the \texttt{Ying et al} study \cite{Ying2016-ag} in June 2015 as shown in table \ref{table:csp_header_count}. The current (Jan 2022) overall percentage of use for these two headers however, is less that 4\% of all the CSP headers combined. Of the 4\% of domains that utalise the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} headers, only 13\% of them use only one or both of them. The remaining 87\% of domains also use the \texttt{Content-Security-Policy} and or \texttt{Content-Security-Policy-Report-Only} headers.
+
+
+\vspace{0.3cm} \noindent
+The presumed reason that websites use both deprecated and current CSP headers is backwards comparability for older browsers. Other possible reasons could be that legacy configurations that have been added to rather than removing the deprecated headers, or tooling in use automatically configures the deprecated headers.
+
+\subsection{Directives}
+
+blah text
+
+\vspace{0.3cm} \noindent
+Table keyword use
+
+\begin{table}[H]
+%\footnotesize
+  \begin{center}
+    \begin{tabular}{|l|D|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Keyword} & \textbf{Ying et al} \cite{Ying2016-ag} June 2015 & Jan 2022 \\
+      \hline
+      \texttt{*} & ? & ?\\
+      \hline
+      \texttt{none} & ? & ?\\
+      \hline
+      \texttt{self} & ? & ?\\
+      \hline
+      \texttt{unsafe-inline} & ? & ?\\
+      \hline
+      \texttt{unsafe-eval} & ? & ?\\
+      \hline
+      \texttt{unsafe-hashes} & N/A & ?\\
+      \hline
+    \end{tabular}
+    \caption{Keywords in default-source directive}
+    \label{table:csp_header_count} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+
+
 
 \clearpage
 \newpage
