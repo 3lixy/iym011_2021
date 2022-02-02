@@ -2503,10 +2503,20 @@ The presumed reason that websites use both deprecated and current CSP headers is
 
 \subsection{Directives}
 
-blah text
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{csp-content-security-policy-directive_use.pdf_tex}}
+		\caption{Percentage of directives present in the \texttt{Content-Security-Policy}}
+		\label{fig:csp_csp_by_directives}
+	\end{center}
+\end{figure}
 
-\vspace{0.3cm} \noindent
-Table keyword use
+Figure \ref{fig:csp_csp_by_directives} show the percentage of directives present in the \texttt{Content-Security-Policy}. The reason to single out \texttt{Content-Security-Policy} is that it is the only non deprecated header that is available for enforcing a CSP Policy as \texttt{Content-Security-Policy-Report-Only} merely reports on CSP violations.
+
+\clearpage
+\newpage
+
+\subsubsection{default-src}
 
 \begin{table}[H]
 %\footnotesize
@@ -2515,26 +2525,70 @@ Table keyword use
       \hline
       \textbf{Keyword} & \textbf{Ying et al} \cite{Ying2016-ag} June 2015 & Jan 2022 \\
       \hline
-      \texttt{*} & ? & ?\\
+      \texttt{*} & 14.10\% & 4.40\%\\
       \hline
-      \texttt{none} & ? & ?\\
+      \texttt{none} & 2.74\% & 9.3\%\\
       \hline
-      \texttt{self} & ? & ?\\
+      \texttt{self} & 42.55\% & 72.76\%\\
       \hline
-      \texttt{unsafe-inline} & ? & ?\\
+      \texttt{unsafe-inline} & 5.80\% & 37.56\%\\
       \hline
-      \texttt{unsafe-eval} & ? & ?\\
+      \texttt{unsafe-eval} & 6.69\% & 31.14\%\\
       \hline
-      \texttt{unsafe-hashes} & N/A & ?\\
+      \texttt{unsafe-hashes} & N/A & 8.38\%\\
       \hline
     \end{tabular}
-    \caption{Keywords in default-source directive}
-    \label{table:csp_header_count} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+    \caption{Percentage of keyword use in default-src directive for unique CSP Policies}
+    \label{table:csp_default-src-keyword} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
 
+\noindent
+The use of keywords has changed quite significantly since the study by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015. It should be noted that there are also significantly more websites utilising CSP as well as the understanding of CSP will have increased which could very well had an effect of keyword distribution change seen.
 
+\vspace{0.3cm} \noindent
+It is good to see that keyword \texttt{*} (essentially providing no protections) proportionally has reduced significantly from 14\% to 4\%. Unfortunately the proportional use of both \texttt{unsafe-inline} and \texttt{unsafe-eval} has over doubled.
 
+\vspace{0.3cm} \noindent
+The \texttt{self} keyword (restricting resources to the domain of the web page) sees a decent proportional increase from 43\% to 73\%. \texttt{unsafe-hashes} does not see that much use which is not surprising as it is a relatively new (2018) keyword.
+
+\clearpage
+\newpage
+
+\subsubsection{script-src}
+
+\begin{table}[H]
+%\footnotesize
+  \begin{center}
+    \begin{tabular}{|l|D|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Keyword} & \textbf{Ying et al} \cite{Ying2016-ag} June 2015 & Jan 2022 \\
+      \hline
+      \texttt{*} & 14.34\% & 6.99\%\\
+      \hline
+      \texttt{none} & 0.00\% & 0.12\%\\
+      \hline
+      \texttt{self} & 51.09\% & 83.70\%\\
+      \hline
+      \texttt{unsafe-inline} & 58.66\% & 86.83\%\\
+      \hline
+      \texttt{unsafe-eval} & 62.61\% & 79.17\%\\
+      \hline
+      \texttt{unsafe-hashes} & N/A & 1.41\%\\
+      \hline
+    \end{tabular}
+    \caption{Percentage of keyword use in script-src directive for unique CSP Policies}
+    \label{table:csp_script-src-keyword}  % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+It can be seen from table \ref{table:csp_default-src-keyword} that \texttt{self} has had a marked increase in proportional use from \texttt{Ying et al} \cite{Ying2016-ag} in June 2015. The use of keywords \texttt{unsafe-inline} and \texttt{unsafe-eval} have unfortunately significantly increased to over 87\% and 79\% respectively.
+
+\vspace{0.3cm} \noindent
+It is quite disappointing that the use of \texttt{unsafe-inline} and \texttt{unsafe-eval} is still so prevalent. This indicates that website maintainers are struggling to be able to create CSP policies that are more restrictive but also do not impact the users experience, some may have event given up on the prospect.
+
+\subsubsection{report-uri}
 
 \clearpage
 \newpage
