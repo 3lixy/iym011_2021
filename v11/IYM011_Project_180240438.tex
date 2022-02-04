@@ -303,8 +303,6 @@ The below are relevant methods for this project:
 	\item Governments and Community resources on why to use HTTPS \cite{noauthor_undated-oz,noauthor_undated-xk}
 \end{itemize}
 
-\section{SSL/TLS}
-
 \section{Same Origin Policy}
 \label{section:same_origin_policy}
 \vspace{0.3cm} \noindent
@@ -367,27 +365,74 @@ Cross-Origin-Request-Sharing (CORS) can be used to override the default SOP beha
 
 \section{Chosen Security Mechanisms}
 
+
+\section{SSL/TLS}
+- Confidentiality
+- Data Origin Authentication
+- Entity Authentication
+
 \subsection{Cross Origin Request Sharing}
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+- enables controlled access to resources located outside of a given domain (default is restriction by SOP)
+- It extends and adds flexibility to the same-origin policy
+- not protection against cross-domain attacks
 
 \subsection{Content-Security-Policy}
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+- added layer of security that helps to detect and mitigate certain types of attacks, including Cross-Site Scripting (XSS) and data injection attacks
 
-\subsection{Cross-Origin-Embedder-Policy}
 
 \subsection{Cross-Origin-Resource-Policy}
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Cross-Origin_Resource_Policy_(CORP)
+- lets web sites and applications opt in to protection against certain requests from other origins (such as those issued with elements like <script> and <img>), to mitigate speculative side-channel attacks, like Spectre, as well as Cross-Site Script Inclusion attacks.
+- https://fetch.spec.whatwg.org/#http-cross-origin-resource-policy
+
+
+\subsection{Cross-Origin-Embedder-Policy}
+- https://wicg.github.io/cross-origin-embedder-policy/
+- prevents a document from loading any cross-origin resources that don't explicitly grant the document permission
+- The same-origin policy’s restrictions against direct access to another origin’s resources is, unfortunately, insufficient in the face of speculative execution attacks like [spectre]. Merely _loading_ another origins' resource may be enough to bring its content into a memory space which may be probed by an attacker, even if the browser would otherwise prevent access to the resource through explicit channels.
+- The approach sketched out in this document tackles one piece of the broader problem by giving developers the ability to require an explicit opt-in from any resource which would be embedded in a given context. User agents can make that requirement a precondition for some APIs that might otherwise leak data about cross-origin resources, which goes some way towards ensuring that any leakage is voluntary, not accidental.
+- To that end, this proposal does three things:
+
+It introduces a new cross-origin value for the Cross-Origin-Resource-Policy HTTP response header, which constitutes an explicit declaration that a given resource may be embedded in cross-origin contexts.
+
+It introduces a new Cross-Origin-Embedder-Policy header which shifts the default behavior for resources loaded in a given context to an opt-in model, in which cross-origin responses must either assert a Cross-Origin-Resource-Policy header which allows the embedding, or pass a CORS check.
+
+It extends Cross-Origin-Resource-Policy to handle some navigation requests in order to deal reasonably with iframe embeddings and window.open().
 
 \subsection{Cross-Origin-Opener-Policy}
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy
+- allows you to ensure a top-level document does not share a browsing context group with cross-origin documents.
+- COOP will process-isolate your document and potential attackers can't access your global object if they were to open it in a popup, preventing a set of cross-origin attacks dubbed XS-Leaks.
 
 \subsection{X-Content-Type-Options}
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+- The X-Content-Type-Options response HTTP header is a marker used by the server to indicate that the MIME types advertised in the Content-Type headers should be followed and not be changed. The header allows you to avoid MIME type sniffing by saying that the MIME types are deliberately configured.
+- This header was introduced by Microsoft in IE 8 as a way for webmasters to block content sniffing that was happening and could transform non-executable MIME types into executable MIME types. Since then, other browsers have introduced it, even if their MIME sniffing algorithms were less aggressive.
+- Starting with Firefox 72, top-level documents also avoid MIME sniffing (if Content-type is provided). This can cause HTML web pages to be downloaded instead of being rendered when they are served with a MIME type other than text/html. Make sure to set both headers correctly.
 
 \subsection{X-Frame-Options}
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+- The X-Frame-Options HTTP response header can be used to indicate whether or not a browser should be allowed to render a page in a <frame>, <iframe>, <embed> or <object>. Sites can use this to avoid click-jacking attacks, by ensuring that their content is not embedded into other sites.
+- The added security is provided only if the user accessing the document is using a browser that supports X-Frame-Options.
 
 \subsection{Public-Key-Pins}
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Public-Key-Pins
+- The HTTP Public-Key-Pins response header used to associate a specific cryptographic public key with a certain web server to decrease the risk of MITM attacks with forged certificates. However, it has been removed from modern browsers and is no longer supported. Use Certificate Transparency and Expect-CT header instead.
 
 \subsection{Strict-Transport Security}
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
+- The HTTP Strict-Transport-Security response header (often abbreviated as HSTS) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS.
+- Note: This is more secure than simply configuring a HTTP to HTTPS (301) redirect on your server, where the initial HTTP connection is still vulnerable to a man-in-the-middle attack.
+
 
 \subsection{HSTS Preloading}
+- https://blog.mozilla.org/security/2012/11/01/preloading-hsts/
+
 
 \subsection{security.txt}
+- https://securitytxt.org/
 
 \newpage
 
@@ -1442,11 +1487,11 @@ Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS 
 \subsection{Background}
 \noindent The SSL (Secure Socket Layer)/TLS (Transport Layer Security) protocols were designed to establish a secure communications channel between two entities e.g. a web browser and a website. Protocols such as HTTP can utilise SSL/TLS to secure its communication.
 
-\vspace{0.3cm}
-\noindent With each new version of SSL/TLS more security features were added in response to attacks against the protocols, weakness identified and the desire to make the protocols more secure.
+\vspace{0.3cm} \noindent
+With each new version of SSL/TLS more security features were added in response to attacks against the protocols, weakness identified and the desire to make the protocols more secure.
 
-\vspace{0.3cm}
-\noindent The acronyms SSL and TLS are often used interchangeably to refer to the secure channel they provide, even though none of the SSL versions should be used any more due to the vulnerabilities and weaknesses of SSL 2.0 and SSL 3.0 \cite{Oppliger2016-ig}.
+\vspace{0.3cm} \noindent
+The acronyms SSL and TLS are often used interchangeably to refer to the secure channel they provide, even though none of the SSL versions should be used any more due to the vulnerabilities and weaknesses of SSL 2.0 and SSL 3.0 \cite{Oppliger2016-ig}.
 
 \subsubsection{Security Services}
 \noindent The SSL/TLS mechanism provides several security services, as of the release of TLS 1.3 the main categories are: Confidentiality, Data Origin Authentication, Entity Authentication and Perfect Forward Secrecy.
@@ -1454,6 +1499,7 @@ Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS 
 \vspace{0.7cm} \noindent
 \textbf{Confidentiality}
 
+\noindent
 Confidentiality is the protection of data such that only those who have been given authorisation can access the data.
 
 \vspace{0.3cm} \noindent
@@ -1462,11 +1508,13 @@ Two entities should be able to establish a SSL/TLS connection between one anothe
 \vspace{0.7cm} \noindent
 \textbf{Data origin authentication}
 
+\noindent
 The purpose of Data origin authentication is to establish the integrity of the SSL/TLS channel data. This is accomplished using message authentication codes (MAC)  or authenticated encryption with associated data (AEAD) algorithms \cite{Ristic2017-aj} which use keys derived from when the SSL/TLS connection was established.
 
 \vspace{0.7cm} \noindent
 \textbf{Entity Authentication}
 
+\noindent
 Entity Authentication provides the ability for an entity to prove their identity using mechanisms such as digital signatures.
 
 \vspace{0.3cm} \noindent
@@ -1478,22 +1526,23 @@ It is optional for a client to prove its identity to the server using PKI during
 \vspace{0.7cm} \noindent
 \textbf{Perfect forward secrecy}
 
+\noindent
 Perfect forward secrecy ensures that if the private key that is paired with certificate of a server/website was compromised, any SSL/TLS traffic that was captured being sent to or from this server could not be decrypted with the private key being revealed. This is accomplished via the use of Ephemeral Diffie-Hellman key exchange \cite{Martin2017-sx}.
 
 \vspace{0.3cm} \noindent
 Perfect forward secrecy is mandatory as of TLS 1.3 and as such RSA key exchange was removed in TLS 1.3.
 
 \subsubsection{SSL/TLS Versions}
-
-\vspace{0.7cm} \noindent
 \textbf{SSL 2.0 [1994]}
 
+\noindent
 Netscape Communications started developing a protocol, named Secure Socket Layer (SSL), for securing HTTP communications in 1993 \cite{Oppliger2016-ig}, due to that fact that when HTTP was first introduced it did not provide a means by which to secure its communications \cite{Oppliger2016-ig}.
 Netscape Communications introduced SSL 2.0 in 1994 \cite{Oppliger2016-ig,Wu2016-nx}.
 
 \vspace{0.7cm} \noindent
 \textbf{SSL 3.0 [1995]}
 
+\noindent
 SSL 3.0 was introduced 1995 \cite{Ristic2017-aj,Oppliger2016-ig} and was a re-write of the SSL protocol, rather than additions/modifications, as many vulnerabilities and weaknesses had been identified in SSL 2.0 \cite{Ristic2017-aj,Wagner1996-fx}.
 
 \vspace{0.3cm}\noindent
@@ -1502,6 +1551,7 @@ SSL 3.0 was eventually standardised as RFC6101 \cite{Freier2011-pt}.
 \vspace{0.7cm} \noindent
 \textbf{TLS 1.0 [1999]}
 
+\noindent
 In 1996 the IETF Transport Layer Security (TLS) Working Group was established \cite{Oppliger2016-ig,Farrell2010-kv} which produced TLS 1.0 as RFC4436 in 1999 \cite{Dierks1999-fn}.
 
 \vspace{0.3cm} \noindent
@@ -1510,6 +1560,7 @@ TLS 1.0 was based on SSL 3.0 and introduced some enhancements and modifications 
 \vspace{0.7cm} \noindent
 \textbf{TLS 1.1 [2006]}
 
+\noindent
 TLS 1.1 was released as RFC4346 in 2006 \cite{Dierks2006-wu} which included a number of changes from TLS 1.0 some of which are:
 \begin{itemize}
   \setlength\itemsep{0.1em}
@@ -1521,6 +1572,7 @@ TLS 1.1 was released as RFC4346 in 2006 \cite{Dierks2006-wu} which included a nu
 \vspace{0.7cm} \noindent
 \textbf{TSL 1.2 [2008]}
 
+\noindent
 TLS 1.2 was released as RFC5246 in 2008 \cite{Dierks2008-uy} which included a number of changes from TLS 1.1 some of which are:
 \begin{itemize}
   \setlength\itemsep{0.1em}
@@ -1529,10 +1581,10 @@ TLS 1.2 was released as RFC5246 in 2008 \cite{Dierks2008-uy} which included a nu
   \item The extension \texttt{\UScore{signature_algorithms}} was added
 \end{itemize}
 
-
 \vspace{0.7cm} \noindent
 \textbf{TLS 1.3 [2018]}
 
+\noindent
 TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currently the latest published, as an RFC, TLS version as of 2022 which included a number of changes from TLS 1.2 some of which are:
 \begin{itemize}
   \setlength\itemsep{0.1em}
