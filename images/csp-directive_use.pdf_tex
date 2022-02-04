@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{507.15911574bp}%
+    \setlength{\unitlength}{507.15913151bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,7 +48,7 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.469056)%
+  \begin{picture}(1,0.46191543)%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{csp-directive_use.pdf}}%
   \end{picture}%
 \endgroup%

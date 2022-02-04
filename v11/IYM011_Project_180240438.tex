@@ -303,103 +303,7 @@ The below are relevant methods for this project:
 	\item Governments and Community resources on why to use HTTPS \cite{noauthor_undated-oz,noauthor_undated-xk}
 \end{itemize}
 
-\newpage
-
 \section{SSL/TLS}
-\label{section:ssl_tls}
-
-\noindent The SSL (Secure Socket Layer)/TLS (Transport Layer Security) protocols were designed to establish a secure communications channel between two entities e.g. a web browser and a website. Protocols such as HTTP can utilise SSL/TLS to secure its communication.
-
-\vspace{0.3cm}
-\noindent With each new version of SSL/TLS more security features were added in response to attacks against the protocols, weakness identified and the desire to make the protocols more secure.
-
-\vspace{0.3cm}
-\noindent The acronyms SSL and TLS are often used interchangeably to refer to the secure channel they provide, even though none of the SSL versions should be used any more due to the vulnerabilities and weaknesses of SSL 2.0 and SSL 3.0 \cite{Oppliger2016-ig}.
-
-\subsection{Security Services}
-\noindent The SSL/TLS mechanism provides several security services, as of the release of TLS 1.3 the main categories are: Confidentiality, Data Origin Authentication, Entity Authentication and Perfect Forward Secrecy.
-
-\subsubsection{Confidentiality}
-
-Confidentiality is the protection of data such that only those who have been given authorisation can access the data.
-
-\vspace{0.3cm} \noindent
-Two entities should be able to establish a SSL/TLS connection between one another such that only these two entities can access the data data being sent over it. This should result in any third parties that are able capture the traffic from being able to recover the data being sent over the SSL/TLS channel \cite{Martin2017-sx}.
-
-\subsubsection{Data origin authentication}
-
-The purpose of Data origin authentication is to establish the integrity of the SSL/TLS channel data. This is accomplished using message authentication codes (MAC)  or authenticated encryption with associated data (AEAD) algorithms \cite{Ristic2017-aj} which use keys derived from when the SSL/TLS connection was established.
-
-\subsubsection{Entity Authentication}
-
-Entity Authentication provides the ability for an entity to prove their identity using mechanisms such as digital signatures.
-
-\vspace{0.3cm} \noindent
-In SSL/TLS entity authentication is mandatory and used to show that during the establishment of a SSL/TLS channel the client can verify that it really is communicating directly with the website/server they intended to. This is accomplished via the use of PKI (Public Key Infrastructure) with X.509 certificates and root stores. For further details on PKI please see \cite{Clark2013-sh,Holz2011-yv}.
-
-\vspace{0.3cm} \noindent
-It is optional for a client to prove its identity to the server using PKI during the establishment of the SSL/TLS channel.
-
-\subsubsection{Perfect forward secrecy}
-
-Perfect forward secrecy ensures that if the private key that is paired with certificate of a server/website was compromised, any SSL/TLS traffic that was captured being sent to or from this server could not be decrypted with the private key being revealed. This is accomplished via the use of Ephemeral Diffie-Hellman key exchange \cite{Martin2017-sx}.
-
-\vspace{0.3cm} \noindent
-Perfect forward secrecy is mandatory as of TLS 1.3 and as such RSA key exchange was removed in TLS 1.3.
-
-\subsection{SSL/TLS Versions}
-
-\subsubsection{SSL 2.0 [1994]}
-
-Netscape Communications started developing a protocol, named Secure Socket Layer (SSL), for securing HTTP communications in 1993 \cite{Oppliger2016-ig}, due to that fact that when HTTP was first introduced it did not provide a means by which to secure its communications \cite{Oppliger2016-ig}.
-Netscape Communications introduced SSL 2.0 in 1994 \cite{Oppliger2016-ig,Wu2016-nx}.
-
-\subsubsection{SSL 3.0 [1995]}
-
-SSL 3.0 was introduced 1995 \cite{Ristic2017-aj,Oppliger2016-ig} and was a re-write of the SSL protocol, rather than additions/modifications, as many vulnerabilities and weaknesses had been identified in SSL 2.0 \cite{Ristic2017-aj,Wagner1996-fx}.
-
-\vspace{0.3cm}\noindent
-SSL 3.0 was eventually standardised as RFC6101 \cite{Freier2011-pt}.
-
-\subsubsection{TLS 1.0 [1999]}
-
-In 1996 the IETF Transport Layer Security (TLS) Working Group was established \cite{Oppliger2016-ig,Farrell2010-kv} which produced TLS 1.0 as RFC4436 in 1999 \cite{Dierks1999-fn}.
-
-\vspace{0.3cm} \noindent
-TLS 1.0 was based on SSL 3.0 and introduced some enhancements and modifications \cite{Rescorla2001-gg}. Due to the changes made in TLS 1.0, it was allowed to be used by US government as it gained FIPS approval \cite{Ristic2017-aj}.
-
-\subsubsection{TLS 1.1 [2006]}
-
-TLS 1.1 was released as RFC4346 in 2006 \cite{Dierks2006-wu} which included a number of changes from TLS 1.0 some of which are:
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item CBC (block mode) has to use explicit IVs which addressed the predictable IV weakness \cite{Ristic2017-aj}.
-	\item \texttt{\UScore{bad_record_mac alert}} required to be used in the response when there are padding problems to protect against padding attacks \cite{Ristic2017-aj}.
-	\item The addition of TLS extensions \cite{Ristic2017-aj} as described in RFC3546 \cite{Blake-Wilson2003-qv}
-\end{itemize}
-
-\subsubsection{TSL 1.2 [2008]}
-
-TLS 1.2 was released as RFC5246 in 2008 \cite{Dierks2008-uy} which included a number of changes from TLS 1.1 some of which are:
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item IDEA and DES cipher suites were removed
-	\item Authenticated encryption was added
-	\item The extension \texttt{\UScore{signature_algorithms}} was added
-\end{itemize}
-
-
-\subsubsection{TLS 1.3 [2018]}
-
-TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currently the latest published, as an RFC, TLS version as of 2022 which included a number of changes from TLS 1.2 some of which are:
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item Removal of RSA for key exchange
-	\item Removal of MD5, SHA-224 and DSA for Signature Algorithms
-	\item Enforcement of Perfect Forward Secrecy
-\end{itemize}
-
-\newpage
 
 \section{Same Origin Policy}
 \label{section:same_origin_policy}
@@ -461,244 +365,29 @@ Cross Origin network requests can be summarised into 3 different categories:
 \label{section:Cross-Origin-Request-Sharing}
 Cross-Origin-Request-Sharing (CORS) can be used to override the default SOP behaviour, however it must be used with caution to limit exposure to attacks.
 
+\section{Chosen Security Mechanisms}
 
-\newpage
+\subsection{Cross Origin Request Sharing}
 
-\section{Cross Origin Request Sharing}
-\label{section:cors}
+\subsection{Content-Security-Policy}
 
-A request is deemed to be ``cross origin'' when the origin triplets of the url of the request being made is different from that of the origin of the request. For example if a script on the web page \texttt{https://shop.example.com/index.com} which has the origin \texttt{https://shop.example.com} make a request to \texttt{https://www.domain.com/login.html} which has the origin \texttt{https://www.domain.com} the two origins are different thus the request is deemed to be cross-origin.
+\subsection{Cross-Origin-Embedder-Policy}
 
-\vspace{0.3cm} \noindent
-Cross Origin Request Sharing is a web browser mechanism for the purpose of allowing a resource to specify the restrictions to be able to access a resource via one or more of the HTTP Headers \cite{Apple2006-hk} detailed in the following sections.
+\subsection{Cross-Origin-Resource-Policy}
 
-\vspace{0.3cm} \noindent
-Under certain circumstances a 'preflight', HTTP OPTIONS call, is made to the resource in question to obtain the criteria that must be met for the desired request to be allowed to be made.
+\subsection{Cross-Origin-Opener-Policy}
 
-\subsection{Response Headers}
+\subsection{X-Content-Type-Options}
 
-\subsubsection{Access-Control-Allow-Credentials}
+\subsection{X-Frame-Options}
 
-When a script specifies the value of the \texttt{include} keyword for the request.credentials variable, this results in the browser sending the cookies (which can include session tokens) for the target url along with the request. The default behaviour in this situation is to deny access of the response to the script in case the script has malicious intent to obtain sensitive information.
+\subsection{Public-Key-Pins}
 
-\vspace{0.3cm} \noindent
-If the response from the target url contains the header Access-Control-Allow-Credentials with a value true the script will be able to access the response.
+\subsection{Strict-Transport Security}
 
-\subsubsection{Access-Control-Allow-Headers}
+\subsection{HSTS Preloading}
 
-This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP headers that are permitted to be used in the intended request.
-
-\subsubsection{Access-Control-Allow-Methods}
-
-This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are permitted to be used in the intended request.
-
-\subsubsection{Access-Control-Allow-Origin}
-
-Specifies which origins (e.g. \texttt{example.com}) the requested resource is permitted to be loaded from.
-
-\subsubsection{Access-Control-Expose-Headers}
-
-Specifies which headers, other than those deemed to be safe by CORS, from the response can be exposed to scripts.
-
-\subsubsection{Access-Control-Max-Age}
-
-The duration for which a preflight response can be cached before another preflight request is required.
-
-\subsection{Request Headers}
-\subsubsection{Access-Control-Request-Headers}
-
-Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP headers that are requested to be used in the intended request.
-
-\subsubsection{Access-Control-Request-Method}
-
-Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are requested to be used in the intended request.
-
-\newpage
-
-\section{Content-Security-Policy}
-\label{section:csp}
-
-
-
-\newpage
-
-\section{Cross-Origin-Embedder-Policy}
-\label{section:coep}
-
-The \texttt{Cross-Origin-Embedder-Policy} header provides a mechanism that does not allow any cross-origin resources from being loaded unless explicitly allowed (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
-
-\subsection{Directives}
-\subsubsection{unsafe-none}
-Disables the mechanism allowing resources to be loaded without explicit permission being given. This is the default behaviour.
-
-\subsubsection{require-corp}
-Enables this mechanism only allowing resources being loaded from the same origin or from other origins that explicitly give permissions to do so (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
-
-\newpage
-
-\section{Cross-Origin-Resource-Policy}
-\label{section:corp}
-
-The \texttt{Cross-Origin-Resource-Policy} header provides a mechanism that restricts which origins are permitted to load a resource \cite{Apple_undated-au}.
-
-\subsection{Directives}
-
-\subsubsection{same-site}
-
-If the request initiator's origin and the request destination's origins are of the same site then load the resource. For example, if the request initiator's origin is \newline \texttt{https://account.example.com/index.html} and the request destination is \newline \texttt{https://signin.example.com/script.js}, the resource can be loaded as both are of the same site \texttt{example.com}.
-
-\subsubsection{same-origin}
-
-If the request initiator’s origin and the request destination’s origin are the same then load the resource. For example, if the request initiator’s origin is \texttt{https://blog.example.com} and the request destination is \texttt{https://blog.example.com}, the resource can be loaded as both are of the same origin \texttt{https://blog.example.com}.
-
-\subsubsection{cross-origin}
-
-The resource is allowed to be loaded regardless of the sites/origins involved.
-
-\newpage
-
-\section{Cross-Origin-Opener-Policy}
-\label{section:coop}
-
-The \texttt{Cross-Origin-Opener-Policy} (COOP) header provides a mechanism that prevents the sharing of browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the web page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
-
-\subsection{Directives}
-\subsubsection{unsafe-none}
-Disables the mechanism unless the document (e.g. popup) uses this header with either of the two values: \texttt{same-origin} and \texttt{same-origin-allow-popups}. This is the default behaviour.
-
-\subsubsection{same-origin-allow-popups}
-Allows the communication of a new window or tab (e.g. popup) to the originating page (document) if a COOP header is not present, or has the value \texttt{unsafe-non}, on the new window or tab.
-
-\subsubsection{same-origin}
-Does not allow communication (isolates) from new windows or tab to the originating page (document) unless they are from the same origin. If not from the same origin they are placed in a separate browsing contexts.
-
-\newpage
-
-\section{X-Content-Type-Options}
-\label{section:xcto}
-
-The \texttt{X-Content-Type-Options header} is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
-\texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
-
-\subsection{Directives}
-\subsubsection{nosniff}
-
-Denies requests under either of the two below conditions:
-
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type.
-	\item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not \texttt{text/css}.
-\end{itemize}
-
-\newpage
-
-\section{X-Frame-Options}
-\label{section:xfo}
-
-The \texttt{X-Frame-Options} response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
-
-\subsection{Directives}
-\subsubsection{DENY}
-The page must not be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
-
-\subsubsection{SAMEORIGIN}
-The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of page that contains the element is that of the page to be rendered in the element.
-
-\subsubsection{ALLOW-FROM $<$uri$>$}
-Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
-
-\newpage
-
-\section{Public-Key-Pins}
-\label{section:hpkp}
-
-The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
-
-\vspace{0.3cm} \noindent
-There have been several issues with HPKP such as HPKP Suicide \cite{Chen2018-ft,Chuat2021-nf} or Ransom PKP \cite{Chuat2021-nf} which are forms of Hostile Pinning \cite{Evans2018-mi}
-
-\vspace{0.3cm} \noindent
-This header is now deprecated by most modern web browsers.
-
-\subsubsection{Public-Key-Pins-Report-Only}
-The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rather only sends violation reports.
-
-\newpage
-
-\section{Strict-Transport Security}
-\label{section:hsts}
-
-The Strict-Transport Security response header is a mechanism that instructs the browser to load the page only over https and never http \cite{Hodges2012-pe}.
-
-\subsection{Directives}
-\subsubsection{max-age}
-The duration, in seconds, the browser will honour the Strict-Transport Security request to only load the page over HTTPS.
-
-\subsubsection{includeSubDomains}
-Instructs the browser to also load any subdomains of the site only over HTTPS.
-
-\subsubsection{preload}
-
-Must be present if the site is to be preloaded via google's HSTS preload service.
-
-\newpage
-
-\section{HSTS Preloading}
-\label{section:hsts_preload}
-
-HSTS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
-
-\vspace{0.3cm} \noindent
-The main reason for HSTS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
-
-\vspace{0.3cm} \noindent
-Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
-
-\vspace{0.3cm} \noindent
-The following criteria must be met in order for a domain to qualify to be included in the preload list:
-
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item The website has a valid certificate trusted by browsers.
-	\item If the domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, it must redirect to the HTTPS on the same domain.
-	\begin{description}
-	\item[e.g.:] if \texttt{http://example.com} is accessible, it must redirect to \texttt{https://example.com}
-	\end{description}
-	\item All subdomains should be served over HTTPS, however only the \texttt{www} subdomain (e.g. \texttt{www.example.com}) is checked if present in DNS.
-	\item An HSTS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
-	\begin{itemize}
-		\item \texttt{max-age} directive must be no less than 31536000 seconds (i.e. 1 year).
-		\item \texttt{includeSubDomains} directive must be present.
-		\item \texttt{preload} directive must be present.
-		\item Should the site redirect away when accessed over HTTPS, the site must have the HSTS header.
-	\end{itemize}	
-\end{itemize}
-
-\vspace{0.3cm} \noindent
-If a domain in the preload list stops meeting the above criteria it runs the risk of being removed from the preload list.
-
-\section{security.txt}
-\label{section:security_txt}
-
-The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a website \cite{Foudil2021-vh}. The RFC draft mentions two types of systems for where the security.txt should be placed:
-
-\begin{itemize}
-	\item Web-based services
-	\item Filesystems
-\end{itemize}
-
-\vspace{0.3cm} \noindent
-For websites a file named ``security.txt'' \textbf{must} be placed in the path \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt}.
-
-\vspace{0.3cm} \noindent
-It is also permitted to store a security.txt at the top level path e.g. \texttt{https://example.com/security.txt} or redirect to the \texttt{/.well-known/security.txt} path.
-
-\vspace{0.3cm} \noindent
-A response to a request of the security.txt file must respond with a \texttt{Content-Type} header with the value of \texttt{text/plain}, and served only over HTTPS.
-
-\vspace{0.3cm} \noindent
-The RFC is currently in the draft stage and seeing updates as recently as May 2021.
+\subsection{security.txt}
 
 \newpage
 
@@ -1743,23 +1432,182 @@ Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS 
 \section{HTTP(S) Redirection}
 
 
+
 \newpage
 
 
 \section{TLS}
+\label{section:ssl_tls}
 
+\subsection{Background}
+\noindent The SSL (Secure Socket Layer)/TLS (Transport Layer Security) protocols were designed to establish a secure communications channel between two entities e.g. a web browser and a website. Protocols such as HTTP can utilise SSL/TLS to secure its communication.
+
+\vspace{0.3cm}
+\noindent With each new version of SSL/TLS more security features were added in response to attacks against the protocols, weakness identified and the desire to make the protocols more secure.
+
+\vspace{0.3cm}
+\noindent The acronyms SSL and TLS are often used interchangeably to refer to the secure channel they provide, even though none of the SSL versions should be used any more due to the vulnerabilities and weaknesses of SSL 2.0 and SSL 3.0 \cite{Oppliger2016-ig}.
+
+\subsubsection{Security Services}
+\noindent The SSL/TLS mechanism provides several security services, as of the release of TLS 1.3 the main categories are: Confidentiality, Data Origin Authentication, Entity Authentication and Perfect Forward Secrecy.
+
+\vspace{0.7cm} \noindent
+\textbf{Confidentiality}
+
+Confidentiality is the protection of data such that only those who have been given authorisation can access the data.
+
+\vspace{0.3cm} \noindent
+Two entities should be able to establish a SSL/TLS connection between one another such that only these two entities can access the data data being sent over it. This should result in any third parties that are able capture the traffic from being able to recover the data being sent over the SSL/TLS channel \cite{Martin2017-sx}.
+
+\vspace{0.7cm} \noindent
+\textbf{Data origin authentication}
+
+The purpose of Data origin authentication is to establish the integrity of the SSL/TLS channel data. This is accomplished using message authentication codes (MAC)  or authenticated encryption with associated data (AEAD) algorithms \cite{Ristic2017-aj} which use keys derived from when the SSL/TLS connection was established.
+
+\vspace{0.7cm} \noindent
+\textbf{Entity Authentication}
+
+Entity Authentication provides the ability for an entity to prove their identity using mechanisms such as digital signatures.
+
+\vspace{0.3cm} \noindent
+In SSL/TLS entity authentication is mandatory and used to show that during the establishment of a SSL/TLS channel the client can verify that it really is communicating directly with the website/server they intended to. This is accomplished via the use of PKI (Public Key Infrastructure) with X.509 certificates and root stores. For further details on PKI please see \cite{Clark2013-sh,Holz2011-yv}.
+
+\vspace{0.3cm} \noindent
+It is optional for a client to prove its identity to the server using PKI during the establishment of the SSL/TLS channel.
+
+\vspace{0.7cm} \noindent
+\textbf{Perfect forward secrecy}
+
+Perfect forward secrecy ensures that if the private key that is paired with certificate of a server/website was compromised, any SSL/TLS traffic that was captured being sent to or from this server could not be decrypted with the private key being revealed. This is accomplished via the use of Ephemeral Diffie-Hellman key exchange \cite{Martin2017-sx}.
+
+\vspace{0.3cm} \noindent
+Perfect forward secrecy is mandatory as of TLS 1.3 and as such RSA key exchange was removed in TLS 1.3.
+
+\subsubsection{SSL/TLS Versions}
+
+\vspace{0.7cm} \noindent
+\textbf{SSL 2.0 [1994]}
+
+Netscape Communications started developing a protocol, named Secure Socket Layer (SSL), for securing HTTP communications in 1993 \cite{Oppliger2016-ig}, due to that fact that when HTTP was first introduced it did not provide a means by which to secure its communications \cite{Oppliger2016-ig}.
+Netscape Communications introduced SSL 2.0 in 1994 \cite{Oppliger2016-ig,Wu2016-nx}.
+
+\vspace{0.7cm} \noindent
+\textbf{SSL 3.0 [1995]}
+
+SSL 3.0 was introduced 1995 \cite{Ristic2017-aj,Oppliger2016-ig} and was a re-write of the SSL protocol, rather than additions/modifications, as many vulnerabilities and weaknesses had been identified in SSL 2.0 \cite{Ristic2017-aj,Wagner1996-fx}.
+
+\vspace{0.3cm}\noindent
+SSL 3.0 was eventually standardised as RFC6101 \cite{Freier2011-pt}.
+
+\vspace{0.7cm} \noindent
+\textbf{TLS 1.0 [1999]}
+
+In 1996 the IETF Transport Layer Security (TLS) Working Group was established \cite{Oppliger2016-ig,Farrell2010-kv} which produced TLS 1.0 as RFC4436 in 1999 \cite{Dierks1999-fn}.
+
+\vspace{0.3cm} \noindent
+TLS 1.0 was based on SSL 3.0 and introduced some enhancements and modifications \cite{Rescorla2001-gg}. Due to the changes made in TLS 1.0, it was allowed to be used by US government as it gained FIPS approval \cite{Ristic2017-aj}.
+
+\vspace{0.7cm} \noindent
+\textbf{TLS 1.1 [2006]}
+
+TLS 1.1 was released as RFC4346 in 2006 \cite{Dierks2006-wu} which included a number of changes from TLS 1.0 some of which are:
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item CBC (block mode) has to use explicit IVs which addressed the predictable IV weakness \cite{Ristic2017-aj}.
+  \item \texttt{\UScore{bad_record_mac alert}} required to be used in the response when there are padding problems to protect against padding attacks \cite{Ristic2017-aj}.
+  \item The addition of TLS extensions \cite{Ristic2017-aj} as described in RFC3546 \cite{Blake-Wilson2003-qv}
+\end{itemize}
+
+\vspace{0.7cm} \noindent
+\textbf{TSL 1.2 [2008]}
+
+TLS 1.2 was released as RFC5246 in 2008 \cite{Dierks2008-uy} which included a number of changes from TLS 1.1 some of which are:
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item IDEA and DES cipher suites were removed
+  \item Authenticated encryption was added
+  \item The extension \texttt{\UScore{signature_algorithms}} was added
+\end{itemize}
+
+
+\vspace{0.7cm} \noindent
+\textbf{TLS 1.3 [2018]}
+
+TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currently the latest published, as an RFC, TLS version as of 2022 which included a number of changes from TLS 1.2 some of which are:
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item Removal of RSA for key exchange
+  \item Removal of MD5, SHA-224 and DSA for Signature Algorithms
+  \item Enforcement of Perfect Forward Secrecy
+\end{itemize}
 
 \newpage
 
 
 \section{HSTS Preload}
+\label{section:hsts_preload}
+
+\subsection{Background}
+
+HSTS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
+
+\vspace{0.3cm} \noindent
+The main reason for HSTS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
+
+\vspace{0.3cm} \noindent
+Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
+
+\vspace{0.3cm} \noindent
+The following criteria must be met in order for a domain to qualify to be included in the preload list:
+
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item The website has a valid certificate trusted by browsers.
+  \item If the domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, it must redirect to the HTTPS on the same domain.
+  \begin{description}
+  \item[e.g.:] if \texttt{http://example.com} is accessible, it must redirect to \texttt{https://example.com}
+  \end{description}
+  \item All subdomains should be served over HTTPS, however only the \texttt{www} subdomain (e.g. \texttt{www.example.com}) is checked if present in DNS.
+  \item An HSTS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
+  \begin{itemize}
+    \item \texttt{max-age} directive must be no less than 31536000 seconds (i.e. 1 year).
+    \item \texttt{includeSubDomains} directive must be present.
+    \item \texttt{preload} directive must be present.
+    \item Should the site redirect away when accessed over HTTPS, the site must have the HSTS header.
+  \end{itemize} 
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+If a domain in the preload list stops meeting the above criteria it runs the risk of being removed from the preload list.
 
 \clearpage
 \newpage
 
 \clearpage
 \section{Security.txt}
-The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a website \cite{Foudil2021-vh}.
+\label{section:security_txt}
+
+\subsection{Background}
+The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a website \cite{Foudil2021-vh}. The RFC draft mentions two types of systems for where the security.txt should be placed:
+
+\begin{itemize}
+  \item Web-based services
+  \item Filesystems
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+For websites a file named ``security.txt'' \textbf{must} be placed in the path \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt}.
+
+\vspace{0.3cm} \noindent
+It is also permitted to store a security.txt at the top level path e.g. \texttt{https://example.com/security.txt} or redirect to the \texttt{/.well-known/security.txt} path.
+
+\vspace{0.3cm} \noindent
+A response to a request of the security.txt file must respond with a \texttt{Content-Type} header with the value of \texttt{text/plain}, and served only over HTTPS.
+
+\vspace{0.3cm} \noindent
+The RFC is currently in the draft stage and seeing updates as recently as May 2021.
+
+\subsection{Scanning}
 
 \vspace{0.3cm} \noindent
 As the RFC Draft stated that the security.txt must be placed in the path \newline \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt} the scanner was initially configured to only try and obtain the security.txt from this location.
@@ -2142,6 +1990,7 @@ The \texttt{Disclosure} values were seen to be a HTTPS link, \texttt{Full}, \tex
 \newpage
 
 \section{Content Security Policy}
+\label{section:csp}
 
 The Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed be retrieved and or loaded by the browser. CSP is an evolution of the \textit{Same-Origin Policy (SOP)} browser mechanism.
 
@@ -2595,38 +2444,249 @@ It is quite disappointing that the use of \texttt{unsafe-inline} and \texttt{uns
 
 
 \section{Strict Transport Security}
+\label{section:hsts}
+
+\subsection{Background}
+
+The Strict-Transport Security response header is a mechanism that instructs the browser to load the page only over https and never http \cite{Hodges2012-pe}.
+
+\subsubsection{Directives}
+
+\textbf{max-age}
+
+\noindent
+The duration, in seconds, the browser will honour the Strict-Transport Security request to only load the page over HTTPS.
+
+\vspace{0.7cm} \noindent
+\textbf{includeSubDomains}
+
+\vspace{0.3cm} \noindent
+Instructs the browser to also load any subdomains of the site only over HTTPS.
+
+\vspace{0.7cm} \noindent
+\textbf{preload}
+
+\vspace{0.3cm} \noindent
+Must be present if the site is to be preloaded via google's HSTS preload service.
 
 \newpage
 
-
 \section{Cross Origin Request Sharing}
+\label{section:cors}
+
+\subsection{Background}
+
+A request is deemed to be ``cross origin'' when the origin triplets of the url of the request being made is different from that of the origin of the request. For example if a script on the web page \texttt{https://shop.example.com/index.com} which has the origin \texttt{https://shop.example.com} make a request to \texttt{https://www.domain.com/login.html} which has the origin \texttt{https://www.domain.com} the two origins are different thus the request is deemed to be cross-origin.
+
+\vspace{0.3cm} \noindent
+Cross Origin Request Sharing is a web browser mechanism for the purpose of allowing a resource to specify the restrictions to be able to access a resource via one or more of the HTTP Headers \cite{Apple2006-hk} detailed in the following sections.
+
+\vspace{0.3cm} \noindent
+Under certain circumstances a 'preflight', HTTP OPTIONS call, is made to the resource in question to obtain the criteria that must be met for the desired request to be allowed to be made.
+
+\subsubsection{Response Headers}
+
+\textbf{Access-Control-Allow-Credentials}
+
+\vspace{0.3cm} \noindent
+When a script specifies the value of the \texttt{include} keyword for the request.credentials variable, this results in the browser sending the cookies (which can include session tokens) for the target url along with the request. The default behaviour in this situation is to deny access of the response to the script in case the script has malicious intent to obtain sensitive information.
+
+\vspace{0.3cm} \noindent
+If the response from the target url contains the header Access-Control-Allow-Credentials with a value true the script will be able to access the response.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Allow-Headers}
+
+\vspace{0.3cm} \noindent
+This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP headers that are permitted to be used in the intended request.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Allow-Methods}
+
+\vspace{0.3cm} \noindent
+This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are permitted to be used in the intended request.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Allow-Origin}
+
+\vspace{0.3cm} \noindent
+Specifies which origins (e.g. \texttt{example.com}) the requested resource is permitted to be loaded from.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Expose-Headers}
+
+\vspace{0.3cm} \noindent
+Specifies which headers, other than those deemed to be safe by CORS, from the response can be exposed to scripts.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Max-Age}
+
+\vspace{0.3cm} \noindent
+The duration for which a preflight response can be cached before another preflight request is required.
+
+\subsubsection{Request Headers}
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Request-Headers}
+
+\vspace{0.3cm} \noindent
+Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP headers that are requested to be used in the intended request.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Request-Method}
+
+\vspace{0.3cm} \noindent
+Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are requested to be used in the intended request.
 
 \newpage
 
 
 \section{Cross Origin Embedder Policy}
+\label{section:coep}
+
+\subsection{Background}
+
+The \texttt{Cross-Origin-Embedder-Policy} header provides a mechanism that does not allow any cross-origin resources from being loaded unless explicitly allowed (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
+
+\subsubsection{Directives}
+\textbf{unsafe-none}
+Disables the mechanism allowing resources to be loaded without explicit permission being given. This is the default behaviour.
+
+\vspace{0.7cm} \noindent
+\textbf{require-corp}
+
+\vspace{0.3cm} \noindent
+Enables this mechanism only allowing resources being loaded from the same origin or from other origins that explicitly give permissions to do so (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
 
 \newpage
 
 
 \section{Cross Origin Resource Policy}
+\label{section:corp}
+
+\subsection{Background}
+
+The \texttt{Cross-Origin-Resource-Policy} header provides a mechanism that restricts which origins are permitted to load a resource \cite{Apple_undated-au}.
+
+\subsubsection{Directives}
+\textbf{same-site}
+
+\vspace{0.3cm} \noindent
+If the request initiator's origin and the request destination's origins are of the same site then load the resource. For example, if the request initiator's origin is \newline \texttt{https://account.example.com/index.html} and the request destination is \newline \texttt{https://signin.example.com/script.js}, the resource can be loaded as both are of the same site \texttt{example.com}.
+
+\vspace{0.7cm} \noindent
+\textbf{same-origin}
+
+\vspace{0.3cm} \noindent
+If the request initiator’s origin and the request destination’s origin are the same then load the resource. For example, if the request initiator’s origin is \texttt{https://blog.example.com} and the request destination is \texttt{https://blog.example.com}, the resource can be loaded as both are of the same origin \texttt{https://blog.example.com}.
+
+\vspace{0.7cm} \noindent
+\textbf{cross-origin}
+
+\vspace{0.3cm} \noindent
+The resource is allowed to be loaded regardless of the sites/origins involved.
 
 \newpage
 
 
 \section{Cross Origin Opener Policy}
+\label{section:coop}
+
+\subsection{Background}
+
+The \texttt{Cross-Origin-Opener-Policy} (COOP) header provides a mechanism that prevents the sharing of browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the web page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
+
+\subsubsection{Directives}
+\textbf{unsafe-none}
+
+\vspace{0.3cm} \noindent
+Disables the mechanism unless the document (e.g. popup) uses this header with either of the two values: \texttt{same-origin} and \texttt{same-origin-allow-popups}. This is the default behaviour.
+
+\vspace{0.7cm} \noindent
+\textbf{same-origin-allow-popups}
+
+\vspace{0.3cm} \noindent
+Allows the communication of a new window or tab (e.g. popup) to the originating page (document) if a COOP header is not present, or has the value \texttt{unsafe-non}, on the new window or tab.
+
+\vspace{0.7cm} \noindent
+\textbf{same-origin}
+
+\vspace{0.3cm} \noindent
+Does not allow communication (isolates) from new windows or tab to the originating page (document) unless they are from the same origin. If not from the same origin they are placed in a separate browsing contexts.
 
 \newpage
 
 
+\section{X-Content-Type-Options}
+\label{section:xcto}
+
+\subsection{Background}
+
+The \texttt{X-Content-Type-Options header} is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
+\texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
+
+\subsubsection{Directives}
+
+\textbf{nosniff}
+
+\vspace{0.3cm} \noindent
+Denies requests under either of the two below conditions:
+
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type.
+  \item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not \texttt{text/css}.
+\end{itemize}
+
+\clearpage
+\newpage
+
 \section{X Frame Options}
+\label{section:xfo}
+
+\subsection{Background}
+
+The \texttt{X-Frame-Options} response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+
+\subsubsection{Directives}
+
+\textbf{DENY}
+
+\vspace{0.3cm} \noindent
+The page must not be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+
+\vspace{0.7cm} \noindent
+\textbf{SAMEORIGIN}
+
+\vspace{0.3cm} \noindent
+The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of page that contains the element is that of the page to be rendered in the element.
+
+\vspace{0.7cm} \noindent
+\textbf{ALLOW-FROM $<$uri$>$}
+
+\vspace{0.3cm} \noindent
+Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
 
 \newpage
 
 
 \section{Public Key Pins}
+\label{section:hpkp}
 
+\subsection{Background}
 
+The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
+
+\vspace{0.3cm} \noindent
+There have been several issues with HPKP such as HPKP Suicide \cite{Chen2018-ft,Chuat2021-nf} or Ransom PKP \cite{Chuat2021-nf} which are forms of Hostile Pinning \cite{Evans2018-mi}
+
+\vspace{0.3cm} \noindent
+This header is now deprecated by most modern web browsers.
+
+\subsubsection{Public-Key-Pins-Report-Only}
+The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rather only sends violation reports.
+
+\clearpage
+\newpage
 
 
 
