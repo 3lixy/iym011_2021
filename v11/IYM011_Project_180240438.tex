@@ -383,15 +383,15 @@ Cross-Origin-Request-Sharing (CORS) can be used to override the default SOP beha
 
 
 \subsection{Cross-Origin-Resource-Policy}
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Cross-Origin_Resource_Policy_(CORP)
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Cross-Origin Resource Policy (CORP)
 - lets web sites and applications opt in to protection against certain requests from other origins (such as those issued with elements like <script> and <img>), to mitigate speculative side-channel attacks, like Spectre, as well as Cross-Site Script Inclusion attacks.
-- https://fetch.spec.whatwg.org/#http-cross-origin-resource-policy
+- https://fetch.spec.whatwg.org/\#http-cross-origin-resource-policy
 
 
 \subsection{Cross-Origin-Embedder-Policy}
 - https://wicg.github.io/cross-origin-embedder-policy/
 - prevents a document from loading any cross-origin resources that don't explicitly grant the document permission
-- The same-origin policy’s restrictions against direct access to another origin’s resources is, unfortunately, insufficient in the face of speculative execution attacks like [spectre]. Merely _loading_ another origins' resource may be enough to bring its content into a memory space which may be probed by an attacker, even if the browser would otherwise prevent access to the resource through explicit channels.
+- The same-origin policy’s restrictions against direct access to another origin’s resources is, unfortunately, insufficient in the face of speculative execution attacks like [spectre]. Merely loading another origins' resource may be enough to bring its content into a memory space which may be probed by an attacker, even if the browser would otherwise prevent access to the resource through explicit channels.
 - The approach sketched out in this document tackles one piece of the broader problem by giving developers the ability to require an explicit opt-in from any resource which would be embedded in a given context. User agents can make that requirement a precondition for some APIs that might otherwise leak data about cross-origin resources, which goes some way towards ensuring that any leakage is voluntary, not accidental.
 - To that end, this proposal does three things:
 
@@ -1476,6 +1476,53 @@ Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS 
 
 \section{HTTP(S) Redirection}
 
+\subsection{Background}
+
+\noindent
+The S in HTTPS signifies that the HTTP protocol communication shall be over a secure channel, provided by the SSL/TLS protocols \cite{Rescorla2000-fs}. A URL starting with \texttt{https://} e.g. \texttt{https://exmaple.com} signifies it will be using a SSL/TLS secure channel.
+
+\vspace{0.3cm} \noindent
+It has become quite common for websites to automatic redirect a user to a HTTPS url if the user enters or follows a HTTP url e.g. the URL \texttt{http://example.com} redirecting to \texttt{https://example.com}. This helps to enable the use of the HTTP protocol over a secure channel without the user having to actively seek out the HTTPS URL of a website (which most users are unlikely to do).
+
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{http-https_redirects.pdf_tex}}
+		\caption{Percentage of HTTP(S) Redirections for Top 1 Million Domains}
+		\label{fig:http_redirection}
+	\end{center}
+\end{figure}
+
+
+\noindent
+The research by \texttt{Buchanan et al} \cite{Buchanan2018-xz} found that in August 2015 only 6.7\% of sites when accessed over HTTP redirected to HTTPS and increased to 24.78\% in May 2017. In November this research finds that in November 2020 the number of sites further increased to 56\% and continued this trend to reach 64.5\% in January 2022 as shown in table \ref{table:http_redirection} and figure \ref{fig:http_redirection}.
+
+\newpage
+
+\vspace{0.3cm} \noindent
+This upward trend of HTTP to HTTPS redirection is slowing however it is hoped that more sites continue to implement redirection such that future research does not show a plateau before nearly all sites in the top 1 Million redirect to HTTPS.
+
+\vspace{0.3cm} \noindent
+To some surprise there are a number of sites that redirect from HTTPS to HTTP, 3.5\% in November 2020 and  down to 1.7\% in January 2022. It is assumed that this is done on purpose, and that as the trend is on the decline that the reasons for implementing HTTPS to HTTP redirection are being overcome or not relevant any more.
+
+
+\begin{table}[t]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|l|D|D|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Redirection} & \textbf{Buchanan et al} \cite{Buchanan2018-xz} August 2015 & \textbf{Buchanan et al} \cite{Buchanan2018-xz} May 2017 & November 2020 & January 2022 \\
+      \hline
+	  HTTP $>$ HTTP\textbf{S} & 6.7\% & 24.78\% & 56\% & 64.5\%\\
+	  \hline
+ 	  HTTP\textbf{S} $>$ HTTP & NA & NA & 3.5\% & 1.7\%\\
+      \hline
+    \end{tabular}
+    \caption{HTTP(S) Redirection}
+    \label{table:http_redirection} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
 
 
 \newpage
@@ -2369,11 +2416,12 @@ As the scanner followed redirects the parser kept track of the resultant domain 
 Figure \ref{fig:csp_by_rank} shows the percentage of websites that the scanner was able to identify having a CSP header. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
 
 \vspace{0.3cm} \noindent
-Each rank group shows a steady rise in the use of a CSP headers which is an encouraging sign. There is a long way to go however to have the majority of sites using a CSP policy.
+Each rank group shows a steady rise in the use of a CSP headers, with website in the Rank of 1-100 group seeing the most use, which is an encouraging sign. There is a long way to go however to have the majority of sites using a CSP policy.
 
 \vspace{0.3cm} \noindent
+In the research by \texttt{Weissbacher et al} \cite{Weissbacher2014-vm} in March 2014 showed only 2\% of the sites in the top 100 use CSP, this increased to 7\% in the research by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015 and in January it is 37\% which is a marked increase.
 
-\begin{table}[H]
+\begin{table}[t]
 \footnotesize
   \begin{center}
     \begin{tabular}{|l|I|D|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
@@ -2395,6 +2443,7 @@ Each rank group shows a steady rise in the use of a CSP headers which is an enco
 \end{table}
 
 
+
 \vspace{0.3cm} \noindent
 Even though the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} CSP headers are now deprecated, there is still an increase in use from the \texttt{Ying et al} study \cite{Ying2016-ag} in June 2015 as shown in table \ref{table:csp_header_count}. The current (Jan 2022) overall percentage of use for these two headers however, is less that 4\% of all the CSP headers combined. Of the 4\% of domains that utalise the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} headers, only 13\% of them use only one or both of them. The remaining 87\% of domains also use the \texttt{Content-Security-Policy} and or \texttt{Content-Security-Policy-Report-Only} headers.
 
@@ -2413,9 +2462,6 @@ The presumed reason that websites use both deprecated and current CSP headers is
 \end{figure}
 
 Figure \ref{fig:csp_csp_by_directives} show the percentage of directives present in the \texttt{Content-Security-Policy}. The reason to single out \texttt{Content-Security-Policy} is that it is the only non deprecated header that is available for enforcing a CSP Policy as \texttt{Content-Security-Policy-Report-Only} merely reports on CSP violations.
-
-\clearpage
-\newpage
 
 \subsubsection{default-src}
 
@@ -2443,7 +2489,6 @@ Figure \ref{fig:csp_csp_by_directives} show the percentage of directives present
     \label{table:csp_default-src-keyword} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
-
 \noindent
 The use of keywords has changed quite significantly since the study by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015. It should be noted that there are also significantly more websites utilising CSP as well as the understanding of CSP will have increased which could very well had an effect of keyword distribution change seen.
 
@@ -2452,6 +2497,7 @@ It is good to see that keyword \texttt{*} (essentially providing no protections)
 
 \vspace{0.3cm} \noindent
 The \texttt{self} keyword (restricting resources to the domain of the web page) sees a decent proportional increase from 43\% to 73\%. \texttt{unsafe-hashes} does not see that much use which is not surprising as it is a relatively new (2018) keyword.
+
 
 \clearpage
 \newpage
@@ -2741,6 +2787,11 @@ The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rat
 \newpage
 
 
+\section{Overall Use of Security Headers}
+
+
+
+\newpage
 
 \bibliographystyle{IEEEtran}
 
