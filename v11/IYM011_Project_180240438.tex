@@ -1774,6 +1774,53 @@ The following criteria must be met in order for a domain to qualify to be includ
 \vspace{0.3cm} \noindent
 If a domain in the preload list stops meeting the above criteria it runs the risk of being removed from the preload list.
 
+\subsection{Parser}
+
+\noindent
+The parser was configured to only analyse domains that were specifically added to the preload list. This is due to entire TLDs (e.g. .app, bank and .dev) being configured in the HSTS preload list and thus domains of these TLDs were not necessarily setup to meet the preload list criteria.
+
+\vspace{0.3cm} \noindent
+In the most recent preload list commit (Tue Nov 09 22:54:06 2021) there are 34 TLDs configured. This means that any site that is of one of these preload lists is preloaded (i.e. the domain itself is not in the preload list only the TLD)
+
+\vspace{0.3cm} \noindent
+All of the HSTS preload lists were obtained from chromium.googlesource.com and the most recent list preceding the time of a scan was used to identify if a domains was preloaded or not.
+
+\vspace{0.3cm} \noindent
+A random selection of domains that the parser identified as both meeting the preload criteria and not meeting the preload criteria were checked on the https://hstspreload.org/ website for verification that the parser was working as intended.
+
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{hsts_preload-overview.pdf_tex}}
+		\caption{HSTS Preload Overview}
+		\label{fig:hsts_preloaded_overview}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:hsts_preloaded_overview} shows an overal summary of the current state of top 1 million domains that are in the preload list managed by Google. The number of preloaded domains is quite a low percentage, as of January 2022 only 0.72\% of the top 1 million domains were preloaded. In the most recent HSTS preload list there are 157192 entries which would seem to indicate that most of the preloaded domains are not in the top 1 million most popular.
+
+\vspace{0.3cm} \noindent
+As of January 2022 38\% of domains preloaded that do not meet the preload requirements anymore. This is a rather high percentage and these domains are at risk of being remove as per the message dispalyed on hstspreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: <domain> is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}. Any data/publications detailing actual removal of domains due to them no longer meeting the requirements was unable to be identified.
+
+\vspace{0.3cm} \noindent
+Figure \ref{fig:hsts_preloaded_criteria_not_met} shows, for the domains that no longer meet the preload criteria, the percentage of domains that no longer met each criteria. The most prevalent criteria not met  was the lack of presence of the HSTS header followed by not redirecting from HTTP to HTTPS on the base domain.
+
+\begin{figure}[t]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{hsts_preload-preloaded-not_all_criteria_met.pdf_tex}}
+		\caption{Criteria not met for preloaded domains}
+		\label{fig:hsts_preloaded_criteria_not_met}
+	\end{center}
+\end{figure}
+
+\newpage
+\clearpage
+
+\vspace{0.3cm} \noindent
+It is somewhat puzzling that so many domains no longer meet the criteria. One possible reason is that an issue was identified after the domain had been preloaded and the domain was requested to be removed from the preload list and thus HSTS headers for example were disabled/removed.
+
 \clearpage
 \newpage
 
