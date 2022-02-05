@@ -1489,7 +1489,7 @@ It has become quite common for websites to automatic redirect a user to a HTTPS 
 \begin{figure}[H]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{http-https_redirects.pdf_tex}}
-		\caption{Percentage of HTTP(S) Redirections for Top 1 Million Domains}
+		\caption{HTTP(S) Redirections for Top 1 Million Domains}
 		\label{fig:http_redirection}
 	\end{center}
 \end{figure}
@@ -1639,6 +1639,55 @@ TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currentl
   \item Removal of MD5, SHA-224 and DSA for Signature Algorithms
   \item Enforcement of Perfect Forward Secrecy
 \end{itemize}
+
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{tls-tls_negotiated.pdf_tex}}
+		\caption{TLS version negotiated for Top 1 Million Domains}
+		\label{fig:tls_negotiated}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:tls_negotiated} shows the negotiated TLS version of websites that ended with HTTPS urls after HTTP direction was completed. The scanner supported the following TLS versions when attempting to connect to a wesite with a HTTPS url:
+
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item TLS 1.0
+  \item TLS 1.1
+  \item TLS 1.2
+  \item TLS 1.3
+\end{itemize}
+
+\noindent
+No version of the not leagcy SSL is supported by the builtin http client in Go (the programming language used to create the scanner used to gather the data for analysis). The lack of support of SSL is not of concern as the use of SSLv3 (the last version of SSL that was widely used) currently is essentially 0\% as shown by the research by \texttt{Kotzias et al} \cite{Kotzias2018-wd} which showed that analysing passively collected TLS usage, SSLv3 usage was 0.01\% of all TLS/SSL connections in February 2018.
+
+\begin{table}[H]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|l|D|D|D|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{TLS Version} & \textbf{Kotzias et al} \cite{Kotzias2018-wd} July 2013 & \textbf{Kotzias et al} \cite{Kotzias2018-wd} August 2014 & \textbf{Holz et al} \cite{Holz2020-ha} November 2019 & January 2022 \\
+      \hline
+	  TLS 1.0 & $\sim$73\% & $\sim$48\% & $<$1\% & <1\%\\
+	  \hline
+	  TLS 1.1 & $\sim$17\% & $<$1\% & $<$1\% & $<$1\%\\
+	  \hline
+	  TLS 1.2 & $\sim$1\% & $\sim$48\% & $\sim$79\% & 27.6\%\\
+	  \hline
+	  TLS 1.3 & NA & NA & $\sim$19\% & 48.4\%\\
+	  \hline
+    \end{tabular}
+    \caption{Negotiated TLS Versions}
+    \label{table:tls_negotiated} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+In November 2020 appears to show that it was just before this time that TLS 1.3 started to become the dominant TLS version negotiated replacing TLS 1.2 as the dominant version. This assumption is enhanced by the research of \texttt{Holz et al} \cite{Holz2020-ha} which showed that in November 2019 form the analysis of passively collected TLS connection details, $\sim$79\% of connections were using TLS 1.2 with a downward trend and $\sim$19\% of connections using TLS 1.3 with an upward trend.
+
 
 \newpage
 
@@ -1966,7 +2015,7 @@ There are several possible reasons that websites are not including the expires i
 \end{figure}
 
 \noindent
-Figure \ref{fig:security_txt_by_when_expires} show there are a minimal amount of expired security.txt files (ranging from 0\% to ~3\%). The number of security.txt files that expire in less than a year is trending down and those that are to expire greater than an year is increasing. This looks to indicate that expires values are being changed to last more than one year against the recommendation of the RFC, which is to have an expire value less than a year to avoid staleness.
+Figure \ref{fig:security_txt_by_when_expires} show there are a minimal amount of expired security.txt files (ranging from 0\% to $\sim$3\%). The number of security.txt files that expire in less than a year is trending down and those that are to expire greater than an year is increasing. This looks to indicate that expires values are being changed to last more than one year against the recommendation of the RFC, which is to have an expire value less than a year to avoid staleness.
 
 \vspace{0.3cm} \noindent
 If this trend continues, \texttt{Expires} will likely get close to 100\% use such as is with the \texttt{Contact} field.
@@ -1974,7 +2023,7 @@ If this trend continues, \texttt{Expires} will likely get close to 100\% use suc
 \subsubsection{Encryption}
 
 \noindent
-The RFC states that keys should not be included in security.txt files, despite this ~0.7\% of unique files do include keys. This looks to indicate either that the majority are conforming to the RFC recommendation and or do not wish to include a key in the security.txt anyway as ~37\% of security.txt do include the \texttt{Encryption} field.
+The RFC states that keys should not be included in security.txt files, despite this $\sim$0.7\% of unique files do include keys. This looks to indicate either that the majority are conforming to the RFC recommendation and or do not wish to include a key in the security.txt anyway as $\sim$37\% of security.txt do include the \texttt{Encryption} field.
 
 \texttt{TODO}
 
@@ -2039,11 +2088,11 @@ The remaining fields defined in the RFC that have not been analysed in this sect
       \hline
       \textbf{Field} & \textbf{Presence}\\
       \hline
-      Acknowledgements & ~7\%\\
+      Acknowledgements & $\sim$7\%\\
       \hline
       Canonical & 30\%-33\%\\
       \hline
-      Hiring & ~21\%\\
+      Hiring & $\sim$21\%\\
       \hline
       Policy & 28\%-31\%\\
       \hline
@@ -2064,15 +2113,15 @@ There are a number of fields, many present in only a single security.txt, that a
       \hline
       \textbf{Field} & \textbf{Presence} & \textbf{Inferred Use}\\
       \hline
-      Signature & ~4.5\% & Link to signature file\\
+      Signature & $\sim$4.5\% & Link to signature file\\
       \hline
-      Openbugbounty & ~3.5\% & Link to openbugbounty.org organisation page\\
+      Openbugbounty & $\sim$3.5\% & Link to openbugbounty.org organisation page\\
       \hline
-      Permission & ~1.5\% & Permission to test vulnerabilities\\
+      Permission & $\sim$1.5\% & Permission to test vulnerabilities\\
       \hline
-      Disclosure & ~1\% & Type of public disclosure permitted\\
+      Disclosure & $\sim$1\% & Type of public disclosure permitted\\
       \hline
-      Sitemap & ~1\% & HTTPS link to an XML file of the websites page structure\\
+      Sitemap & $\sim$1\% & HTTPS link to an XML file of the websites page structure\\
       \hline
     \end{tabular}
     \caption{Average field presence of remaining RFC fields in unique security.txt files}
