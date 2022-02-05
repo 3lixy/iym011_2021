@@ -1689,6 +1689,52 @@ No version of the not leagcy SSL is supported by the builtin http client in Go (
 In November 2020 appears to show that it was just before this time that TLS 1.3 started to become the dominant TLS version negotiated replacing TLS 1.2 as the dominant version. This assumption is enhanced by the research of \texttt{Holz et al} \cite{Holz2020-ha} which showed that in November 2019 form the analysis of passively collected TLS connection details, $\sim$79\% of connections were using TLS 1.2 with a downward trend and $\sim$19\% of connections using TLS 1.3 with an upward trend.
 
 
+\subsection{Website Supported TLS Versions}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{tls-tls_supported.pdf_tex}}
+		\caption{TLS Versions Supported}
+		\label{fig:tls_verions_supported}
+	\end{center}
+\end{figure}
+
+\noindent
+For each website that did support HTTPS, it was also checked to see which of the 4 TLS versions it supported. Figure \ref{fig:tls_verions_supported} shows how many domains supported the 4 TLS versions.
+
+\vspace{0.3cm} \noindent
+TLS 1.2 holds fairly steady ranging between 72\% and 75\%. The reason for this is likely due to TLS 1.2 the most recent TLS versions supprted by legacy devices and is likely to remain like this for many years to come. As one might expect, TLS 1.3 is on an upward trend going from 37\% in November 2020 and reaching 48.5\% in January 2022.
+
+\vspace{0.3cm} \noindent
+Both TLS 1.0 and TLS 1.1 look to follow the same downward trend with 34.3\% and 36.8\% in January 2022 respectively. As they follow the same trend it is likely due to when libraries and or applications are upgraded rather than manually configuration changes to remove support TLS 1.0 and TLS 1.1.
+
+\vspace{0.3cm} \noindent
+With less than 1\% of negotiated versions utilising either TLS 1.0 or TLS 1.1 perhaps this should be a diver for website maintainers to remove support for them. However as the usage of TLS 1.0 and TLS 1.1 has be very low for many years there may still be a significant enough reason that support for these outdated TLS versions are still in use.
+
+\vspace{0.3cm} \noindent
+It is also possible that websites are running old/outdated versions of applications serving these websites and the maintainers are unaware or the updating these older systems are of low priority.
+
+\begin{table}[H]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|l|c|c|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{\# Domains} & \textbf{TLS 1.0} & \textbf{TLS 1.1} & \textbf{TLS 1.2} & \textbf{TLS 1.3} \\
+      \hline
+      ? & • & • & • & •\\
+	  \hline
+      ? &  & • & • & •\\
+	  \hline
+      ? &  &  & • & •\\
+	  \hline
+      ? &  &  &  & •\\
+	  \hline
+    \end{tabular}
+    \caption{TLS Versions Supported}
+    \label{table:tls_negotiated} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
 \newpage
 
 
