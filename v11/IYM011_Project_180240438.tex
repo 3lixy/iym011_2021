@@ -363,19 +363,76 @@ Cross Origin network requests can be summarised into 3 different categories:
 \label{section:Cross-Origin-Request-Sharing}
 Cross-Origin-Request-Sharing (CORS) can be used to override the default SOP behaviour, however it must be used with caution to limit exposure to attacks.
 
+\vspace{0.3cm} \noindent
+A request is deemed to be ``cross origin'' when the origin triplets of the url of the request being made is different from that of the origin of the request. For example if a script on the web page \texttt{https://shop.example.com/index.com} which has the origin \texttt{https://shop.example.com} make a request to \texttt{https://www.domain.com/login.html} which has the origin \texttt{https://www.domain.com} the two origins are different thus the request is deemed to be cross-origin.
+
+\vspace{0.3cm} \noindent
+Cross Origin Request Sharing is a web browser mechanism for the purpose of allowing a resource to specify the restrictions to be able to access a resource via one or more of the HTTP Headers \cite{Apple2006-hk} detailed in the following sections.
+
+\vspace{0.3cm} \noindent
+Under certain circumstances a 'preflight', HTTP OPTIONS call, is made to the resource in question to obtain the criteria that must be met for the desired request to be allowed to be made.
+
+\subsubsection{Response Headers}
+
+\textbf{Access-Control-Allow-Credentials}
+
+\vspace{0.3cm} \noindent
+When a script specifies the value of the \texttt{include} keyword for the request.credentials variable, this results in the browser sending the cookies (which can include session tokens) for the target url along with the request. The default behaviour in this situation is to deny access of the response to the script in case the script has malicious intent to obtain sensitive information.
+
+\vspace{0.3cm} \noindent
+If the response from the target url contains the header Access-Control-Allow-Credentials with a value true the script will be able to access the response.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Allow-Headers}
+
+\vspace{0.3cm} \noindent
+This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP headers that are permitted to be used in the intended request.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Allow-Methods}
+
+\vspace{0.3cm} \noindent
+This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are permitted to be used in the intended request.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Allow-Origin}
+
+\vspace{0.3cm} \noindent
+Specifies which origins (e.g. \texttt{example.com}) the requested resource is permitted to be loaded from.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Expose-Headers}
+
+\vspace{0.3cm} \noindent
+Specifies which headers, other than those deemed to be safe by CORS, from the response can be exposed to scripts.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Max-Age}
+
+\vspace{0.3cm} \noindent
+The duration for which a preflight response can be cached before another preflight request is required.
+
+\subsubsection{Request Headers}
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Request-Headers}
+
+\vspace{0.3cm} \noindent
+Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP headers that are requested to be used in the intended request.
+
+\vspace{0.7cm} \noindent
+\textbf{Access-Control-Request-Method}
+
+\vspace{0.3cm} \noindent
+Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are requested to be used in the intended request.
+
+\newpage
+
 \section{Chosen Security Mechanisms}
 
-
-\section{SSL/TLS}
+\subsection{SSL/TLS}
 - Confidentiality
 - Data Origin Authentication
 - Entity Authentication
-
-\subsection{Cross Origin Request Sharing}
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-- enables controlled access to resources located outside of a given domain (default is restriction by SOP)
-- It extends and adds flexibility to the same-origin policy
-- not protection against cross-domain attacks
 
 \subsection{Content-Security-Policy}
 - https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
@@ -1821,6 +1878,9 @@ Figure \ref{fig:hsts_preloaded_criteria_not_met} shows, for the domains that no 
 \vspace{0.3cm} \noindent
 It is somewhat puzzling that so many domains no longer meet the criteria. One possible reason is that an issue was identified after the domain had been preloaded and the domain was requested to be removed from the preload list and thus HSTS headers for example were disabled/removed.
 
+\vspace{0.3cm} \noindent
+The firefox browser generates their own preload list, https://hg.mozilla.org/mozilla-central/raw-file/tip/security/manager/ssl/nsSTSPreloadList.inc, which is the output of a process, https://hg.mozilla.org/mozilla-central/raw-file/tip/taskcluster/docker/periodic-updates/scripts/getHSTSPreloadList.js, which uses the preload list provided by google and checks each domain before including it, such as to only include domains that still meet the criteria.
+
 \clearpage
 \newpage
 
@@ -2711,84 +2771,18 @@ Must be present if the site is to be preloaded via google's HSTS preload service
 
 \newpage
 
-\section{Cross Origin Request Sharing}
-\label{section:cors}
-
-\subsection{Background}
-
-A request is deemed to be ``cross origin'' when the origin triplets of the url of the request being made is different from that of the origin of the request. For example if a script on the web page \texttt{https://shop.example.com/index.com} which has the origin \texttt{https://shop.example.com} make a request to \texttt{https://www.domain.com/login.html} which has the origin \texttt{https://www.domain.com} the two origins are different thus the request is deemed to be cross-origin.
-
-\vspace{0.3cm} \noindent
-Cross Origin Request Sharing is a web browser mechanism for the purpose of allowing a resource to specify the restrictions to be able to access a resource via one or more of the HTTP Headers \cite{Apple2006-hk} detailed in the following sections.
-
-\vspace{0.3cm} \noindent
-Under certain circumstances a 'preflight', HTTP OPTIONS call, is made to the resource in question to obtain the criteria that must be met for the desired request to be allowed to be made.
-
-\subsubsection{Response Headers}
-
-\textbf{Access-Control-Allow-Credentials}
-
-\vspace{0.3cm} \noindent
-When a script specifies the value of the \texttt{include} keyword for the request.credentials variable, this results in the browser sending the cookies (which can include session tokens) for the target url along with the request. The default behaviour in this situation is to deny access of the response to the script in case the script has malicious intent to obtain sensitive information.
-
-\vspace{0.3cm} \noindent
-If the response from the target url contains the header Access-Control-Allow-Credentials with a value true the script will be able to access the response.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Allow-Headers}
-
-\vspace{0.3cm} \noindent
-This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP headers that are permitted to be used in the intended request.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Allow-Methods}
-
-\vspace{0.3cm} \noindent
-This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are permitted to be used in the intended request.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Allow-Origin}
-
-\vspace{0.3cm} \noindent
-Specifies which origins (e.g. \texttt{example.com}) the requested resource is permitted to be loaded from.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Expose-Headers}
-
-\vspace{0.3cm} \noindent
-Specifies which headers, other than those deemed to be safe by CORS, from the response can be exposed to scripts.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Max-Age}
-
-\vspace{0.3cm} \noindent
-The duration for which a preflight response can be cached before another preflight request is required.
-
-\subsubsection{Request Headers}
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Request-Headers}
-
-\vspace{0.3cm} \noindent
-Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP headers that are requested to be used in the intended request.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Request-Method}
-
-\vspace{0.3cm} \noindent
-Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are requested to be used in the intended request.
-
-\newpage
-
 
 \section{Cross Origin Embedder Policy}
 \label{section:coep}
 
 \subsection{Background}
 
-The \texttt{Cross-Origin-Embedder-Policy} header provides a mechanism that does not allow any cross-origin resources from being loaded unless explicitly allowed (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
+The \texttt{Cross-Origin-Embedder-Policy} (COEP) header provides a mechanism that does not allow any cross-origin resources from being loaded unless explicitly allowed (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
 
 \subsubsection{Directives}
 \textbf{unsafe-none}
+
+\vspace{0.3cm} \noindent
 Disables the mechanism allowing resources to be loaded without explicit permission being given. This is the default behaviour.
 
 \vspace{0.7cm} \noindent
@@ -2797,6 +2791,32 @@ Disables the mechanism allowing resources to be loaded without explicit permissi
 \vspace{0.3cm} \noindent
 Enables this mechanism only allowing resources being loaded from the same origin or from other origins that explicitly give permissions to do so (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
 
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-cross-origin-embedder-policy-overview.pdf_tex}}
+		\caption{Number of Domains using the COEP header and its directives}
+		\label{fig:coep_overview}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:coep_overview} shows the usage of the COEP header and its directives \texttt{unsafe-none} and \texttt{require-corp}. The usage of the COEP header is rather low and as of January 2022 only 353 domains in the top 1 million most popular use it and of those only 15\% of them use the \texttt{require-corp} directive (the only directive that imposes restrictions).
+
+\vspace{0.3cm} \noindent
+There is a sharp rise of its use in March 2021 with the directive of \texttt{unsafe-none} which indicated that the header was added perhaps for the purposes of an audit or similar that suggested its use as \texttt{unsafe-none} is the default behaviour (i.e. the same as not specifying the header at all).
+
+\vspace{0.3cm} \noindent
+Alternatively the sharp rise could be due to preparation of changing the headers directive to \texttt{require-corp} at a later date however the directive appears to have remained set to \texttt{unsafe-none} for 9 months now.
+
+\vspace{0.3cm} \noindent
+The use of the \texttt{require-corp} directive is very low and as of January 2022.
+
+\vspace{0.3cm} \noindent
+\textbf{TODO are the domains in the spike related to one another in some way?}
+
+\clearpage
 \newpage
 
 
@@ -2805,7 +2825,7 @@ Enables this mechanism only allowing resources being loaded from the same origin
 
 \subsection{Background}
 
-The \texttt{Cross-Origin-Resource-Policy} header provides a mechanism that restricts which origins are permitted to load a resource \cite{Apple_undated-au}.
+The \texttt{Cross-Origin-Resource-Policy} (CORP) header provides a mechanism that restricts which origins are permitted to load a resource \cite{Apple_undated-au}.
 
 \subsubsection{Directives}
 \textbf{same-site}
@@ -2825,6 +2845,38 @@ If the request initiator’s origin and the request destination’s origin are t
 \vspace{0.3cm} \noindent
 The resource is allowed to be loaded regardless of the sites/origins involved.
 
+\clearpage
+\newpage
+
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-cross-origin-resource-policy-overview.pdf_tex}}
+		\caption{Number of Domains using the CORP header and its directives}
+		\label{fig:corp_overview}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:corp_overview} shows the usage of the CORP header and its directives \texttt{same-site}, \texttt{same-origin} and \texttt{cross-origin}. The usage of the CORP header almost double that of the COEP header in January 2022, but is still rather low.
+
+\vspace{0.3cm} \noindent
+The most common directive used is \texttt{same-origin},  63\% of all directives (387 domains) in January 2022, which the most restrictive of the available directives which is great to see.
+
+\vspace{0.3cm} \noindent
+The use of \texttt{cross-origin}, being the least restrictive allows resources to be loaded from any source is the second most used being 157 domains and 25\% of all directives used in January 2022. This would indicate the there are one or more resources that that are not from the same site as the website being visited or that website maintainers have added the header with the least restrictive directive or a combination of both.
+
+\vspace{0.3cm} \noindent
+Lastly \texttt{same-site} which allows resources to be loaded from any site whos origin matches the origin of the current website being visited is in use by 63 sites.
+
+\vspace{0.3cm} \noindent
+There are a couple of spikes one in April 2021 and another in July 2021 for the use of \texttt{same-origin} directive.
+
+\vspace{0.3cm} \noindent
+\textbf{TODO are the domains in the spike related to one another in some way?}
+
+\clearpage
 \newpage
 
 
@@ -2839,19 +2891,41 @@ The \texttt{Cross-Origin-Opener-Policy} (COOP) header provides a mechanism that 
 \textbf{unsafe-none}
 
 \vspace{0.3cm} \noindent
-Disables the mechanism unless the document (e.g. popup) uses this header with either of the two values: \texttt{same-origin} and \texttt{same-origin-allow-popups}. This is the default behaviour.
+Disables the mechanism unless the document (e.g. popup) uses this header with either of the two directives: \texttt{same-origin} and \texttt{same-origin-allow-popups}. This is the default behaviour.
 
 \vspace{0.7cm} \noindent
 \textbf{same-origin-allow-popups}
 
 \vspace{0.3cm} \noindent
-Allows the communication of a new window or tab (e.g. popup) to the originating page (document) if a COOP header is not present, or has the value \texttt{unsafe-non}, on the new window or tab.
+Allows the communication of a new window or tab (e.g. popup) to the originating page (document) if a COOP header is not present, or has the directive \texttt{unsafe-none}, on the new window or tab.
 
 \vspace{0.7cm} \noindent
 \textbf{same-origin}
 
 \vspace{0.3cm} \noindent
 Does not allow communication (isolates) from new windows or tab to the originating page (document) unless they are from the same origin. If not from the same origin they are placed in a separate browsing contexts.
+
+\clearpage
+\newpage
+
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-cross-origin-opener-policy-overview.pdf_tex}}
+		\caption{Number of Domains using the COOP header and its directives}
+		\label{fig:coop_overview}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:coop_overview} shows the usage of the COOP header and its directives \texttt{unsafe-none}, \texttt{same-origin-allow-popups} and \texttt{same-origin}. The usage of the COOP header almost double that of the CORP header and quadruple that of the COEP header in January 2022, but is still rather low.
+
+\vspace{0.3cm} \noindent
+The most common directive used by far is \texttt{same-origin}, with 84\% of all directives (1029 domains) in January 2022, which the most restrictive of the available directives which is great to see. It is of no real surprise that this is the case and it is relatively safe to assume that most websites would not want isolation between windows or tabs as most functionality required would be within the same tab/window.
+
+\vspace{0.3cm} \noindent
+The \texttt{unsafe-none} directive has the second most usage being 193 domains and 15\% of all directives used in January 2022. Lastly the \texttt{same-origin-allow-popups} directive is hardly used with ?? domains and ??\% of all directives used in January 2022.
 
 \newpage
 
@@ -2926,13 +3000,6 @@ This header is now deprecated by most modern web browsers.
 The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rather only sends violation reports.
 
 \clearpage
-\newpage
-
-
-\section{Overall Use of Security Headers}
-
-
-
 \newpage
 
 \bibliographystyle{IEEEtran}
