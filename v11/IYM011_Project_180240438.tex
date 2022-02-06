@@ -1792,99 +1792,10 @@ It is also possible that websites are running old/outdated versions of applicati
   \end{center}
 \end{table}
 
-\newpage
-
-
-\section{HSTS Preload}
-\label{section:hsts_preload}
-
-\subsection{Background}
-
-HSTS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
-
-\vspace{0.3cm} \noindent
-The main reason for HSTS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
-
-\vspace{0.3cm} \noindent
-Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
-
-\vspace{0.3cm} \noindent
-The following criteria must be met in order for a domain to qualify to be included in the preload list:
-
-\begin{itemize}
-  \setlength\itemsep{0.1em}
-  \item The website has a valid certificate trusted by browsers.
-  \item If the domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, it must redirect to the HTTPS on the same domain.
-  \begin{description}
-  \item[e.g.:] if \texttt{http://example.com} is accessible, it must redirect to \texttt{https://example.com}
-  \end{description}
-  \item All subdomains should be served over HTTPS, however only the \texttt{www} subdomain (e.g. \texttt{www.example.com}) is checked if present in DNS.
-  \item An HSTS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
-  \begin{itemize}
-    \item \texttt{max-age} directive must be no less than 31536000 seconds (i.e. 1 year).
-    \item \texttt{includeSubDomains} directive must be present.
-    \item \texttt{preload} directive must be present.
-    \item Should the site redirect away when accessed over HTTPS, the site must have the HSTS header.
-  \end{itemize} 
-\end{itemize}
-
-\vspace{0.3cm} \noindent
-If a domain in the preload list stops meeting the above criteria it runs the risk of being removed from the preload list.
-
-\subsection{Parser}
-
-\noindent
-The parser was configured to only analyse domains that were specifically added to the preload list. This is due to entire TLDs (e.g. .app, bank and .dev) being configured in the HSTS preload list and thus domains of these TLDs were not necessarily setup to meet the preload list criteria.
-
-\vspace{0.3cm} \noindent
-In the most recent preload list commit (Tue Nov 09 22:54:06 2021) there are 34 TLDs configured. This means that any site that is of one of these preload lists is preloaded (i.e. the domain itself is not in the preload list only the TLD)
-
-\vspace{0.3cm} \noindent
-All of the HSTS preload lists were obtained from chromium.googlesource.com and the most recent list preceding the time of a scan was used to identify if a domains was preloaded or not.
-
-\vspace{0.3cm} \noindent
-A random selection of domains that the parser identified as both meeting the preload criteria and not meeting the preload criteria were checked on the https://hstspreload.org/ website for verification that the parser was working as intended.
-
-\subsection{Overview Analysis}
-
-\begin{figure}[H]
-	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{hsts_preload-overview.pdf_tex}}
-		\caption{HSTS Preload Overview}
-		\label{fig:hsts_preloaded_overview}
-	\end{center}
-\end{figure}
-
-\noindent
-Figure \ref{fig:hsts_preloaded_overview} shows an overal summary of the current state of top 1 million domains that are in the preload list managed by Google. The number of preloaded domains is quite a low percentage, as of January 2022 only 0.72\% of the top 1 million domains were preloaded. In the most recent HSTS preload list there are 157192 entries which would seem to indicate that most of the preloaded domains are not in the top 1 million most popular.
-
-\vspace{0.3cm} \noindent
-As of January 2022 38\% of domains preloaded that do not meet the preload requirements anymore. This is a rather high percentage and these domains are at risk of being remove as per the message dispalyed on hstspreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: <domain> is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}. Any data/publications detailing actual removal of domains due to them no longer meeting the requirements was unable to be identified.
-
-\vspace{0.3cm} \noindent
-Figure \ref{fig:hsts_preloaded_criteria_not_met} shows, for the domains that no longer meet the preload criteria, the percentage of domains that no longer met each criteria. The most prevalent criteria not met  was the lack of presence of the HSTS header followed by not redirecting from HTTP to HTTPS on the base domain.
-
-\begin{figure}[t]
-	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{hsts_preload-preloaded-not_all_criteria_met.pdf_tex}}
-		\caption{Criteria not met for preloaded domains}
-		\label{fig:hsts_preloaded_criteria_not_met}
-	\end{center}
-\end{figure}
-
-\newpage
-\clearpage
-
-\vspace{0.3cm} \noindent
-It is somewhat puzzling that so many domains no longer meet the criteria. One possible reason is that an issue was identified after the domain had been preloaded and the domain was requested to be removed from the preload list and thus HSTS headers for example were disabled/removed.
-
-\vspace{0.3cm} \noindent
-The firefox browser generates their own preload list, https://hg.mozilla.org/mozilla-central/raw-file/tip/security/manager/ssl/nsSTSPreloadList.inc, which is the output of a process, https://hg.mozilla.org/mozilla-central/raw-file/tip/taskcluster/docker/periodic-updates/scripts/getHSTSPreloadList.js, which uses the preload list provided by google and checks each domain before including it, such as to only include domains that still meet the criteria.
-
 \clearpage
 \newpage
 
-\clearpage
+
 \section{Security.txt}
 \label{section:security_txt}
 
@@ -2743,12 +2654,104 @@ It is quite disappointing that the use of \texttt{unsafe-inline} and \texttt{uns
 \newpage
 
 
+\section{HSTS Preload}
+\label{section:hsts_preload}
+
+\subsection{Background}
+
+HSTS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
+
+\vspace{0.3cm} \noindent
+The main reason for HSTS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
+
+\vspace{0.3cm} \noindent
+Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
+
+\vspace{0.3cm} \noindent
+The following criteria must be met in order for a domain to qualify to be included in the preload list:
+
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item The website has a valid certificate trusted by browsers.
+  \item If the domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, it must redirect to the HTTPS on the same domain.
+  \begin{description}
+  \item[e.g.:] if \texttt{http://example.com} is accessible, it must redirect to \texttt{https://example.com}
+  \end{description}
+  \item All subdomains should be served over HTTPS, however only the \texttt{www} subdomain (e.g. \texttt{www.example.com}) is checked if present in DNS.
+  \item An HSTS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
+  \begin{itemize}
+    \item \texttt{max-age} directive must be no less than 31536000 seconds (i.e. 1 year).
+    \item \texttt{includeSubDomains} directive must be present.
+    \item \texttt{preload} directive must be present.
+    \item Should the site redirect away when accessed over HTTPS, the site must have the HSTS header.
+  \end{itemize} 
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+If a domain in the preload list stops meeting the above criteria it runs the risk of being removed from the preload list.
+
+\subsection{Parser}
+
+\noindent
+The parser was configured to only analyse domains that were specifically added to the preload list. This is due to entire TLDs (e.g. .app, bank and .dev) being configured in the HSTS preload list and thus domains of these TLDs were not necessarily setup to meet the preload list criteria.
+
+\vspace{0.3cm} \noindent
+In the most recent preload list commit (Tue Nov 09 22:54:06 2021) there are 34 TLDs configured. This means that any site that is of one of these preload lists is preloaded (i.e. the domain itself is not in the preload list only the TLD)
+
+\vspace{0.3cm} \noindent
+All of the HSTS preload lists were obtained from chromium.googlesource.com and the most recent list preceding the time of a scan was used to identify if a domains was preloaded or not.
+
+\vspace{0.3cm} \noindent
+A random selection of domains that the parser identified as both meeting the preload criteria and not meeting the preload criteria were checked on the https://hstspreload.org/ website for verification that the parser was working as intended.
+
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{hsts_preload-overview.pdf_tex}}
+		\caption{HSTS Preload Overview}
+		\label{fig:hsts_preloaded_overview}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:hsts_preloaded_overview} shows an overal summary of the current state of top 1 million domains that are in the preload list managed by Google. The number of preloaded domains is quite a low percentage, as of January 2022 only 0.72\% of the top 1 million domains were preloaded. In the most recent HSTS preload list there are 157192 entries which would seem to indicate that most of the preloaded domains are not in the top 1 million most popular.
+
+\vspace{0.3cm} \noindent
+As of January 2022 38\% of domains preloaded that do not meet the preload requirements anymore. This is a rather high percentage and these domains are at risk of being remove as per the message dispalyed on hstspreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: <domain> is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}. Any data/publications detailing actual removal of domains due to them no longer meeting the requirements was unable to be identified.
+
+\vspace{0.3cm} \noindent
+Figure \ref{fig:hsts_preloaded_criteria_not_met} shows, for the domains that no longer meet the preload criteria, the percentage of domains that no longer met each criteria. The most prevalent criteria not met  was the lack of presence of the HSTS header followed by not redirecting from HTTP to HTTPS on the base domain.
+
+\begin{figure}[t]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{hsts_preload-preloaded-not_all_criteria_met.pdf_tex}}
+		\caption{Criteria not met for preloaded domains}
+		\label{fig:hsts_preloaded_criteria_not_met}
+	\end{center}
+\end{figure}
+
+\newpage
+\clearpage
+
+\vspace{0.3cm} \noindent
+It is somewhat puzzling that so many domains no longer meet the criteria. One possible reason is that an issue was identified after the domain had been preloaded and the domain was requested to be removed from the preload list and thus HSTS headers for example were disabled/removed.
+
+\vspace{0.3cm} \noindent
+The firefox browser generates their own preload list, https://hg.mozilla.org/mozilla-central/raw-file/tip/security/manager/ssl/nsSTSPreloadList.inc, which is the output of a process, https://hg.mozilla.org/mozilla-central/raw-file/tip/taskcluster/docker/periodic-updates/scripts/getHSTSPreloadList.js, which uses the preload list provided by google and checks each domain before including it, such as to only include domains that still meet the criteria.
+
+\clearpage
+\newpage
+
 \section{Strict Transport Security}
 \label{section:hsts}
 
 \subsection{Background}
 
-The Strict-Transport Security response header is a mechanism that instructs the browser to load the page only over https and never http \cite{Hodges2012-pe}.
+The \texttt{Strict-Transport Security} response header (HSTS) is a mechanism that instructs the browser to load the website only over https and never http \cite{Hodges2012-pe}.
+
+\vspace{0.3cm} \noindent
+There is an issue with this header such that a browser can only know to load over https when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the HSTS header. To overcome this preloading is required which was discussed in the previous section.
 
 \subsubsection{Directives}
 
@@ -2769,6 +2772,40 @@ Instructs the browser to also load any subdomains of the site only over HTTPS.
 \vspace{0.3cm} \noindent
 Must be present if the site is to be preloaded via google's HSTS preload service.
 
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-hsts_overview.pdf_tex}}
+		\caption{Number of Domains using the HSTS header and its directives}
+		\label{fig:hsts_overview}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:hsts_overview} shows the usage of the HSTS header and its directives \texttt{max-age},  \texttt{includeSubDomains} and \texttt{preload}. It is difficult to see, however the usage of the directive \texttt{max-age} is almost constantly present in every HSTS header.
+
+\vspace{0.3cm} \noindent
+The usage of the directive \texttt{includeSubDomains} is consistently 40\% of all directives used. Modern websites and applications can have a vast amount of sub-domains which and as such will take time to make them all HTTPS if not already. This can be a major factor in the relatively low use of this directive.
+
+\clearpage
+\newpage
+
+\begin{figure}[t]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-hsts_max_age.pdf_tex}}
+		\caption{Duration groupings of the \texttt{max-age} directive}
+		\label{fig:hsts_max-age}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:hsts_max-age} shows groups of the duration of the \texttt{max-age} directive. The most common duration is 3-5 years which shows confidence that website maintainers are intending to keep their websites HTTPS for the foreseeable future.
+
+\vspace{0.3cm} \noindent
+Interestingly both the ranged 0-3 Months and 1-3 years have very similar usage.
+
+\clearpage
 \newpage
 
 
@@ -2919,7 +2956,7 @@ Does not allow communication (isolates) from new windows or tab to the originati
 \end{figure}
 
 \noindent
-Figure \ref{fig:coop_overview} shows the usage of the COOP header and its directives \texttt{unsafe-none}, \texttt{same-origin-allow-popups} and \texttt{same-origin}. The usage of the COOP header almost double that of the CORP header and quadruple that of the COEP header in January 2022, but is still rather low.
+Figure \ref{fig:coop_overview} shows the usage of the COOP header and its directives \texttt{unsafe-none}, \newline \texttt{same-origin-allow-popups} and \texttt{same-origin}. The usage of the COOP header almost double that of the CORP header and quadruple that of the COEP header in January 2022, but is still rather low.
 
 \vspace{0.3cm} \noindent
 The most common directive used by far is \texttt{same-origin}, with 84\% of all directives (1029 domains) in January 2022, which the most restrictive of the available directives which is great to see. It is of no real surprise that this is the case and it is relatively safe to assume that most websites would not want isolation between windows or tabs as most functionality required would be within the same tab/window.
@@ -2927,6 +2964,7 @@ The most common directive used by far is \texttt{same-origin}, with 84\% of all 
 \vspace{0.3cm} \noindent
 The \texttt{unsafe-none} directive has the second most usage being 193 domains and 15\% of all directives used in January 2022. Lastly the \texttt{same-origin-allow-popups} directive is hardly used with ?? domains and ??\% of all directives used in January 2022.
 
+\clearpage
 \newpage
 
 
@@ -2935,7 +2973,7 @@ The \texttt{unsafe-none} directive has the second most usage being 193 domains a
 
 \subsection{Background}
 
-The \texttt{X-Content-Type-Options header} is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
+The \texttt{X-Content-Type-Options header} (XCTO) is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
 \texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
 
 \subsubsection{Directives}
@@ -2951,6 +2989,26 @@ Denies requests under either of the two below conditions:
   \item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not \texttt{text/css}.
 \end{itemize}
 
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-x-content-type-options-overview.pdf_tex}}
+		\caption{Number of Domains using the XCTO header and its directives}
+		\label{fig:xcto_overview}
+	\end{center}
+\end{figure}
+
+\clearpage
+\newpage
+
+\noindent
+Figure \ref{fig:xcto_overview} shows the usage of the XCTO header and its single directive \texttt{nosniff}. As there is only one directive for XCTO, the number domains using it and those using the directive \texttt{nosniff} are identical.
+
+\vspace{0.3cm} \noindent
+There is a somewhat linear increase in usage over the measurement period (November 2020 - January 2022) which is encouraging to see.
+
+
 \clearpage
 \newpage
 
@@ -2959,7 +3017,7 @@ Denies requests under either of the two below conditions:
 
 \subsection{Background}
 
-The \texttt{X-Frame-Options} response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+The \texttt{X-Frame-Options} (XFO) response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
 
 \subsubsection{Directives}
 
@@ -2980,6 +3038,26 @@ The page is allowed to be rendered in any of the following html elements: \textt
 \vspace{0.3cm} \noindent
 Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
 
+\clearpage
+\newpage
+
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-x-frame-options-overview.pdf_tex}}
+		\caption{Number of Domains using the XFO header and its directives}
+		\label{fig:xfo_overview}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:xfo_overview} shows the usage of the XCTO header and its single directive \texttt{nosniff}. As there is only one directive for XCTO, the number domains using it and those using the directive \texttt{nosniff} are identical.
+
+\vspace{0.3cm} \noindent
+There is a somewhat linear increase in usage over the measurement period (November 2020 - January 2022) which is encouraging to see.
+
+\clearpage
 \newpage
 
 
@@ -2998,6 +3076,40 @@ This header is now deprecated by most modern web browsers.
 
 \subsubsection{Public-Key-Pins-Report-Only}
 The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rather only sends violation reports.
+
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-pkp_overview.pdf_tex}}
+		\caption{Number of Domains using the HPKP header}
+		\label{fig:pkp_overview}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:pkp_overview} shows the usage of the HPKP header. As the header is deprecated by most modern browsers only the domains that used the header was analysed.
+
+\vspace{0.3cm} \noindent
+From November 2020 to mid March 2021 there was a steady decline, however since then usage as slightly fluctuated and the use in January 2022 is that of Mid March 2021. This indicates that there are a number of domains that have as yet to deprecate the HPKP header.
+
+\begin{table}[t]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|D|D|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Buchanan et al} \cite{Buchanan2018-xz} August 2015 & \textbf{Buchanan et al} \cite{Buchanan2018-xz} May 2017 & November 2020 & January 2022 \\
+      \hline
+	  148 & 6624 & 624 & 526\\
+      \hline
+    \end{tabular}
+    \caption{Number of Domains using the HPKP header}
+    \label{table:hpkp_use} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+Table \ref{table:hpkp_use} shows that since May 2017 there has been a big drop in the use of the HPKP from 6624 to 526 in January 2022.
 
 \clearpage
 \newpage
