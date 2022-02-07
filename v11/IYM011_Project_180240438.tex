@@ -427,69 +427,104 @@ Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) r
 
 \newpage
 
-\section{Chosen Security Mechanisms}
+\section{Selected Security Mechanisms}
+
+The following security mechanisms are those that have been selected for their adoption to be analysed. They are briefly summarised here and detailed more in depth in the analysis section for ease of reference.
+
 
 \subsection{SSL/TLS}
-- Confidentiality
-- Data Origin Authentication
-- Entity Authentication
+For the context of this research, SSL/TLS provides the secure channel used to send HTTP protocol traffic securely. This is more widely known as HTTPS.
+
+\vspace{0.3cm} \noindent
+SSL/TLS provides the following security services:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Confidentiality - the protection of data such that only those who have been given authorisation can access the data
+	\item Data Origin Authentication - establishes the integrity of the SSL/TLS channel data, i.e. to be able to verify the data was sent, and not altered in transit, by the corresponding party with whom the SSL/TLS channel was established with.
+	\item Entity Authentication - the ability for an entity to prove their identity using mechanisms such as digital signatures.
+
+\end{itemize}
+
 
 \subsection{Content-Security-Policy}
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-- added layer of security that helps to detect and mitigate certain types of attacks, including Cross-Site Scripting (XSS) and data injection attacks
+The Content Security Policy (CSP) mechanism allows restrictions to be specified, in either a header or HTTP meta tag, via the use of a policy.
 
+\vspace{0.3cm} \noindent
+A policy can consist of a number of directives targeted at restricting the loading/executing of resources on a web page in a browser, such as only allowing scripts to be loaded from a specific list of domains.
 
-\subsection{Cross-Origin-Resource-Policy}
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Cross-Origin Resource Policy (CORP)
-- lets web sites and applications opt in to protection against certain requests from other origins (such as those issued with elements like <script> and <img>), to mitigate speculative side-channel attacks, like Spectre, as well as Cross-Site Script Inclusion attacks.
-- https://fetch.spec.whatwg.org/\#http-cross-origin-resource-policy
+\vspace{0.3cm} \noindent
+The main attacks that are intended to be mitigated include Cross Site Scripting (XSS), data injection attacks and packet sniffing attacks.
 
-
-\subsection{Cross-Origin-Embedder-Policy}
-- https://wicg.github.io/cross-origin-embedder-policy/
-- prevents a document from loading any cross-origin resources that don't explicitly grant the document permission
-- The same-origin policy’s restrictions against direct access to another origin’s resources is, unfortunately, insufficient in the face of speculative execution attacks like [spectre]. Merely loading another origins' resource may be enough to bring its content into a memory space which may be probed by an attacker, even if the browser would otherwise prevent access to the resource through explicit channels.
-- The approach sketched out in this document tackles one piece of the broader problem by giving developers the ability to require an explicit opt-in from any resource which would be embedded in a given context. User agents can make that requirement a precondition for some APIs that might otherwise leak data about cross-origin resources, which goes some way towards ensuring that any leakage is voluntary, not accidental.
-- To that end, this proposal does three things:
-
-It introduces a new cross-origin value for the Cross-Origin-Resource-Policy HTTP response header, which constitutes an explicit declaration that a given resource may be embedded in cross-origin contexts.
-
-It introduces a new Cross-Origin-Embedder-Policy header which shifts the default behavior for resources loaded in a given context to an opt-in model, in which cross-origin responses must either assert a Cross-Origin-Resource-Policy header which allows the embedding, or pass a CORS check.
-
-It extends Cross-Origin-Resource-Policy to handle some navigation requests in order to deal reasonably with iframe embeddings and window.open().
-
-\subsection{Cross-Origin-Opener-Policy}
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy
-- allows you to ensure a top-level document does not share a browsing context group with cross-origin documents.
-- COOP will process-isolate your document and potential attackers can't access your global object if they were to open it in a popup, preventing a set of cross-origin attacks dubbed XS-Leaks.
-
-\subsection{X-Content-Type-Options}
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-- The X-Content-Type-Options response HTTP header is a marker used by the server to indicate that the MIME types advertised in the Content-Type headers should be followed and not be changed. The header allows you to avoid MIME type sniffing by saying that the MIME types are deliberately configured.
-- This header was introduced by Microsoft in IE 8 as a way for webmasters to block content sniffing that was happening and could transform non-executable MIME types into executable MIME types. Since then, other browsers have introduced it, even if their MIME sniffing algorithms were less aggressive.
-- Starting with Firefox 72, top-level documents also avoid MIME sniffing (if Content-type is provided). This can cause HTML web pages to be downloaded instead of being rendered when they are served with a MIME type other than text/html. Make sure to set both headers correctly.
-
-\subsection{X-Frame-Options}
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-- The X-Frame-Options HTTP response header can be used to indicate whether or not a browser should be allowed to render a page in a <frame>, <iframe>, <embed> or <object>. Sites can use this to avoid click-jacking attacks, by ensuring that their content is not embedded into other sites.
-- The added security is provided only if the user accessing the document is using a browser that supports X-Frame-Options.
-
-\subsection{Public-Key-Pins}
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Public-Key-Pins
-- The HTTP Public-Key-Pins response header used to associate a specific cryptographic public key with a certain web server to decrease the risk of MITM attacks with forged certificates. However, it has been removed from modern browsers and is no longer supported. Use Certificate Transparency and Expect-CT header instead.
 
 \subsection{Strict-Transport Security}
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
-- The HTTP Strict-Transport-Security response header (often abbreviated as HSTS) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS.
-- Note: This is more secure than simply configuring a HTTP to HTTPS (301) redirect on your server, where the initial HTTP connection is still vulnerable to a man-in-the-middle attack.
+The \texttt{Strict-Transport Security} response header (HSTS) is a mechanism that instructs the browser to load the website only over https and never http \cite{Hodges2012-pe}. This prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them impersonate the user or just capture sensitive information to name only a few possibilities.
+
+\vspace{0.3cm} \noindent
+There is an issue with this header such that a browser can only know to load over https when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the HSTS header. To overcome this preloading is required which was discussed in the previous section.
 
 
 \subsection{HSTS Preloading}
-- https://blog.mozilla.org/security/2012/11/01/preloading-hsts/
+HSTS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
+
+\vspace{0.3cm} \noindent
+The main reason for HSTS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
+
+\vspace{0.3cm} \noindent
+Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
+
+
+\subsection{Cross-Origin-Resource-Policy}
+The Cross Origin Resource Policy is used to restrict which origins are allowed to read resource(s), such as scripts and images, protected by this mechanism.
+
+\vspace{0.3cm} \noindent
+A primary class of attacks that this mitigates against are speculative side-channel attacks. The Spectre attack \cite{Kocher2019-gv} is one such attack which was publicly announced in 2018.
+
+
+\subsection{Cross-Origin-Embedder-Policy}
+The Cross Origin Resource Policy allows a website maintainer to require that any cross-origin resources are only allowed to be loaded if the resource is explicitly permitted to do so via a Cross Origin Resource Policy (CORP) or a Access Control Allow Origin CORS header or meta tag.
+
+\vspace{0.3cm} \noindent
+A driving factor for this header being introduced was that some developers may implement CORS in minimal way, such as setting the requesters origin in the Access-Control-Allow-Origin header \cite{noauthor_undated-cr}. This may have the undesired affect of allowing potentially sensitive data to be accessed advertisement data of users.
+
+\vspace{0.3cm} \noindent
+CORP has a lower risk than CORS of a similar situation form occurring as it is a lower privilege than CORS.
+
+
+\subsection{Cross-Origin-Opener-Policy}
+The \texttt{Cross-Origin-Opener-Policy} (COOP) header provides a mechanism that prevents the sharing of browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the web page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
+
+\vspace{0.3cm} \noindent
+This is also known as a process-isolation mechanism, preventing attackers from gaining access to a global object that created a popup window/tab for example.
+
+
+\subsection{X-Content-Type-Options}
+The \texttt{X-Content-Type-Options} (XCTO) mechanism is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
+\texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
+
+\vspace{0.3cm} \noindent
+This mechanism is intended to mitigate against such attacks as drive by downloads and untrusted user content being treated as an executable.
+
+
+\subsection{X-Frame-Options}
+The \texttt{X-Frame-Options} (XFO) response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+
+\vspace{0.3cm} \noindent
+This mechanism is intended to mitigate against such attacks as clickjacking where an attacker invisibly embeds another site on top of theirs tricking users, via the use of enticing offers such as free electronics, into clicking a harmless link which actually triggers a function on the embedded site such as transferring money via one's banking website to the attacker.
+
+
+\subsection{Public-Key-Pins}
+The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
+
+\vspace{0.3cm} \noindent
+This header was intended to protect websites in the event a CA provider was compromised, such as DigiNotar in 2011 \cite{Amann2017-co}, and unauthorised certificates being issued to an attacker for the purposes of impersonating websites. The HPKP mechanism would prevent the unauthorised certificate from being trusted by visitors that had previously visited the website i.e. preventing an entity in the middle attack.
 
 
 \subsection{security.txt}
-- https://securitytxt.org/
+The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a website \cite{Foudil2021-vh}.
+
+\vspace{0.3cm} \noindent
+The specification specifies a number of locations where a ``security.txt'' file should be placed thus allowing security researchers to know where to look to find disclosure/reporting information should a site support the security.txt mechanism.
 
 \newpage
 
@@ -2973,7 +3008,7 @@ The \texttt{unsafe-none} directive has the second most usage being 193 domains a
 
 \subsection{Background}
 
-The \texttt{X-Content-Type-Options header} (XCTO) is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
+The \texttt{X-Content-Type-Options} header (XCTO) is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
 \texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
 
 \subsubsection{Directives}
