@@ -69,7 +69,7 @@ Draft v11
 
 
 \author{Student Number: 180240438	}
-\title{Measuring Adoption of Security Features in the HTTPS Ecosystem}
+\title{Measuring Adoption of Security Mechanisms in the HTTPS Ecosystem}
 %\studentname set from titlePage.sty
 \supervisor{Simon Bell}
 \universitycrestpath{../images/rhuol_logo_2}
@@ -216,18 +216,59 @@ Executive Summary
 \section{Introduction}
 \label{section:intro}
 
+\noindent
 Describe structure of the introduction
+
+\noindent
+Short paragraph leading up to the below question
+
+How far has website security come since Sir Tim Berners-Lee invented the world wide web ?
+It is becoming increasingly difficult to go abouts one’s life without the need to access online services such as websites to shop, share our experiences and bank, amongst many others.
+In 1995 SSL was proposed [HK01] to make interactions with websites more secure. As time has moved on, more improved secure channel protocols, TLS 1.3 [RE01] being the most recent, have been introduced as well as enhancements to HTTP through security headers such as HTTP Strict Transport Security [HJ01]. 
+What improvements have been made since and how widespread is their use ?
+
+The world revolves around internet communication and websites are a big part of it. There have been many security improvements to the technology that powers the http ecosystem and as such, analysing how these are or are not being utilised is of great interest and value to the community.
+
+\noindent
+\texttt{What is the current adoption of Security Mechanisms in the HTTPS Ecosystem ?}
+
+\noindent
+Short paragraph about
+- ever changing ecosystem
+- new features added all the time
+- best practices change
+- security features can turn to do more harm than good
+- using security mechanisms for maliciously
+
+\clearpage
+\newpage
 
 \section{Objectives and Scope}
 
-The objectives of this project are:
-\begin{itemize}
-  \item Objective 1
-  \item Objective 2
-  \item Objective 3
-  \item Objective 4
-  \item Objective 5
-\end{itemize}  
+In order to conduct research to answer the question stated in the introduction in an constructive manner, one must set out a list of objectives to be completed:
+
+\textit{
+\begin{enumerate}
+  \item Identify security mechanisms of which to measure the adoption
+  \item Analyse previous related measurement research for data capture methodology
+  \item Scan services in the HTTPS ecosystem to obtain the required data to be able to measure adoption of the chosen security mechanisms
+  \item Analyse the adoption of chosen security mechanisms
+  \item Compare and contrast the analysis outcomes to related research
+\end{enumerate}
+}
+
+\vspace{0.3cm} \noindent
+There are many services in the HTTPS ecosystem such as websites and API interfaces and as such the target(s) of measurement will be restricted otherwise the research could take a very long time if not endless. The research will be scoped by the following criteria:
+
+\textit{
+\begin{enumerate}
+  \item The measurements will be restricted to websites as they are interacted with by a large proportion of people today, thus providing a useful analysis target.
+  \item Scan websites no more than once a day for a period of at least 12 months
+  \item Restrict the websites scanned to the top 1 million most popular
+  \item Only metadata, i.e. headers and connection details, will be captured and not the body content of websites
+\end{enumerate}
+}
+
 
 \newpage
 
