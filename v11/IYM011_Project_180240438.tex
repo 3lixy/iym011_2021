@@ -241,11 +241,11 @@ In order to conduct research to answer the question stated in the introduction i
 
 \textit{
 \begin{enumerate}
-  \item Identify security mechanisms of which to measure the adoption
-  \item Analyse previous related measurement research for data capture methodology
-  \item Scan services in the HTTPS ecosystem to obtain the required data to be able to measure adoption of the chosen security mechanisms
-  \item Analyse the adoption of chosen security mechanisms
-  \item Compare and contrast the analysis outcomes to related research
+  \item Identify security mechanisms of which to measure the adoption.
+  \item Analyse previous related measurement research for data capture methodology.
+  \item Scan services in the HTTPS ecosystem to obtain the required data to be able to measure adoption of the chosen security mechanisms.
+  \item Analyse the adoption of chosen security mechanisms.
+  \item Compare and contrast the analysis outcomes to related research.
 \end{enumerate}
 }
 
@@ -255,9 +255,9 @@ There are many services in the HTTPS ecosystem such as websites and API interfac
 \textit{
 \begin{enumerate}
   \item The measurements will be restricted to websites as they are interacted with by a large proportion of people today, thus providing a useful analysis target.
-  \item Scan websites no more than once a day for a period of at least 12 months
-  \item Restrict the websites scanned to the top 1 million most popular
-  \item Only metadata, i.e. headers and connection details, will be captured and not the body content of websites
+  \item Scan websites no more than once a day for a period of at least 12 months.
+  \item Restrict the websites scanned to the top 1 million most popular.
+  \item Only metadata, i.e. headers and connection details, will be captured and not the body content of websites.
 \end{enumerate}
 }
 
@@ -954,8 +954,6 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
 \end{longtable}
 \end{center}
 
-\clearpage
-\newpage
 
 \section{Methodology}
 \label{section:methodology}
@@ -1811,10 +1809,10 @@ No version of the not leagcy SSL is supported by the builtin http client in Go (
 \end{table}
 
 \noindent
-In November 2020 appears to show that it was just before this time that TLS 1.3 started to become the dominant TLS version negotiated replacing TLS 1.2 as the dominant version. This assumption is enhanced by the research of \texttt{Holz et al} \cite{Holz2020-ha} which showed that in November 2019 form the analysis of passively collected TLS connection details, $\sim$79\% of connections were using TLS 1.2 with a downward trend and $\sim$19\% of connections using TLS 1.3 with an upward trend.
+November 2020 appears to show that it was just before this time that TLS 1.3 started to become the dominant TLS version negotiated replacing TLS 1.2 as the dominant version. This assumption is enhanced by the research of \texttt{Holz et al} \cite{Holz2020-ha} which showed that in November 2019 form the analysis of passively collected TLS connection details, $\sim$79\% of connections were using TLS 1.2 with a downward trend and $\sim$19\% of connections using TLS 1.3 with an upward trend.
 
 
-\subsection{Website Supported TLS Versions}
+\subsection{Supported TLS Versions}
 
 \begin{figure}[H]
 	\begin{center}
@@ -1834,10 +1832,10 @@ TLS 1.2 holds fairly steady ranging between 72\% and 75\%. The reason for this i
 Both TLS 1.0 and TLS 1.1 look to follow the same downward trend with 34.3\% and 36.8\% in January 2022 respectively. As they follow the same trend it is likely due to when libraries and or applications are upgraded rather than manually configuration changes to remove support TLS 1.0 and TLS 1.1.
 
 \vspace{0.3cm} \noindent
-With less than 1\% of negotiated versions utilising either TLS 1.0 or TLS 1.1 perhaps this should be a diver for website maintainers to remove support for them. However as the usage of TLS 1.0 and TLS 1.1 has be very low for many years there may still be a significant enough reason that support for these outdated TLS versions are still in use.
+For the 0.2\% of websites that negotiate with wither TLS 1.0 or TLS 1.1 they did not support any version higher than they negotiated with. There should be not be a significant reason that TLS 1.2 and TLS 1.3 can be supported whilst also supporting TLS 1.0 and or TLS 1.1 for legacy reasons. 
 
 \vspace{0.3cm} \noindent
-It is also possible that websites are running old/outdated versions of applications serving these websites and the maintainers are unaware or the updating these older systems are of low priority.
+It is possible that websites are running old/outdated versions of applications, supporting only TLS 1.0 and or TLS 1.1, serving these websites and the maintainers are unaware or the updating of these older systems are of low priority. A reverse proxy would at least allow the public endpoint of such websites to use TLS 1.2 and TLS 1.3.
 
 \begin{table}[H]
 \footnotesize
@@ -1846,19 +1844,40 @@ It is also possible that websites are running old/outdated versions of applicati
       \hline
       \textbf{\# Domains} & \textbf{TLS 1.0} & \textbf{TLS 1.1} & \textbf{TLS 1.2} & \textbf{TLS 1.3} \\
       \hline
-      ? & • & • & • & •\\
+      9      & • & • &  & \\
 	  \hline
-      ? &  & • & • & •\\
+      23     & • &  &  & •\\
 	  \hline
-      ? &  &  & • & •\\
+      32     &   & • &   & •\\
 	  \hline
-      ? &  &  &  & •\\
+      69     & • & • &   & •\\
+	  \hline
+      75     & • &   & • & •\\
+	  \hline
+      1579   & • &   &   & •\\
+	  \hline
+      2305   & • &   &   &  \\
+	  \hline
+      4888   &   &   &   & •\\
+	  \hline
+      12898  &   & • & • &  \\
+	  \hline
+      15954  &   & • & • & •\\
+	  \hline
+      137501 & • & • & • &  \\
+	  \hline
+      201151 & • & • & • & •\\
+	  \hline
+      261762 &   &   & • & •\\
 	  \hline
     \end{tabular}
-    \caption{TLS Versions Supported}
-    \label{table:tls_negotiated} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+    \caption{Supported TLS Version matrix for 02 Jan 2022}
+    \label{table:tls_supported_matrix} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
+
+\noindent
+Table \ref{table:tls_supported_matrix} is a matrix for the different combinations of TLS versions supported by domains on 02 Jan 2022. The highest concentration of domains is for supporting both TLS 1.2 and TLS 1.3 which is quite encouraging. As with state previously TLS 1.0 has a significant presence over TLS 1.1 shown as 2305 domains supporting TLS 1.0 alone.
 
 \clearpage
 \newpage
@@ -1868,7 +1887,7 @@ It is also possible that websites are running old/outdated versions of applicati
 \label{section:security_txt}
 
 \subsection{Background}
-The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a website \cite{Foudil2021-vh}. The RFC draft mentions two types of systems for where the security.txt should be placed:
+The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a domain hosting a http(s) sever \cite{Foudil2021-vh}. The RFC draft mentions two types of systems for where the security.txt should be placed:
 
 \begin{itemize}
   \item Web-based services
@@ -1876,7 +1895,7 @@ The ``security.txt'' mechanism is to aid in informing security researchers how t
 \end{itemize}
 
 \vspace{0.3cm} \noindent
-For websites a file named ``security.txt'' \textbf{must} be placed in the path \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt}.
+For websites, a file named ``security.txt'' \textbf{must} be placed in the path \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt}.
 
 \vspace{0.3cm} \noindent
 It is also permitted to store a security.txt at the top level path e.g. \texttt{https://example.com/security.txt} or redirect to the \texttt{/.well-known/security.txt} path.
@@ -1906,16 +1925,16 @@ A parser was created in python which split each security.txt on new line termina
 If the first line was deemed to represent a non security.txt file, such as a html or php file, the entire security.txt file was skipped.
 
 \vspace{0.3cm} \noindent
-All non comment lines that were not able to have a field name determined were not processed any further and checked once all security.txt files had been processed. If any of the apparent non RFC format adhering lines were found to have been skipped, when they should not have been, the logic parser logic was analysed and corrected as needed until there we only non conformant lines skipped.
+All non comment lines that were not able to have a field name determined were not processed any further and checked once all security.txt files had been processed. If any of the apparent non RFC format adhering lines were found to have been skipped, when they should not have been, the parser logic was analysed and corrected as needed until there we only non conformant lines skipped.
 
 \vspace{0.3cm} \noindent
-As the scanner followed redirects the parser kept track of the resultant domain of any such redirects and skipped processing a security.txt if the resultant domain had already had a security.txt processed.
+As the scanner followed redirects, the parser kept track of the resultant domain of any such redirects and skipped processing a security.txt if the resultant domain had already had a security.txt processed.
 
 \vspace{0.3cm} \noindent
-If after processing a security.txt file no fields were detected, the security.txt was not deemed to be valid and thus not included in the data used to create charts.
+If after processing a security.txt file no fields were detected, the security.txt was not deemed to be valid and thus not included in the data used for analysis.
 
 \vspace{0.3cm} \noindent
-Contact values and expires datetimes had multiple specially crafted regular expressions constructed in order to accurately categorise the field values mainly due to many variants of the following:
+Contact values and expires datetimes had multiple specially crafted regular expressions constructed in order to accurately categorise the field values, mainly due to many variants of the following:
 
 \begin{itemize}
 	\setlength\itemsep{0.01em}
@@ -1925,13 +1944,13 @@ Contact values and expires datetimes had multiple specially crafted regular expr
 \end{itemize}
 
 \vspace{0.3cm} \noindent
-Even though \texttt{Acknowledgments} (American spelling) is the spelling used in the RFC \texttt{Acknowledgements} (British spelling) (has an extra e) the parser considered it to be \texttt{Acknowledgments} for the purposes of charting as the two are valid spellings of the same word.
+Even though \texttt{Acknowledgments} (American spelling) is the spelling used in the RFC \newline  \texttt{Acknowledg\textbf{e}ments} (British spelling - has an extra e) the parser considered it to be \newline \texttt{Acknowledgments} for the purposes of charting as the two are valid spellings of the same word.
 
 \vspace{0.3cm} \noindent
-If a security.txt file was deemed to be conformant it was hashed using the SHA256 hashing algorithm to determine how many unique security.txt files were present and how many websites shared the same security.txt file.
+If a security.txt file was deemed to be conformant it was hashed using the SHA256 hashing algorithm to determine how many unique security.txt files were present and how many domains shared the same security.txt file.
 
 \vspace{0.3cm} \noindent
-During the process of creating the parser it was noticed that some security.txt files had a dynamic value set for the Expires field (visiting the file manually one different occasions would show the expires time to be a constant time from the time of request). As this would affect the detection of unique security.txt all Expires field lines were removed before hashing took place.
+During the process of creating the parser it was noticed that some security.txt files had a dynamic value set for the Expires field (visiting the file manually on different occasions would show the expires time to be a constant time from the time of request). As this would affect the detection of unique security.txt, all Expires field lines were removed before hashing took place.
 
 \vspace{0.3cm} \noindent
 \textbf{TODO Average \% of invalid security.txt files ?.}
@@ -1949,13 +1968,16 @@ During the process of creating the parser it was noticed that some security.txt 
 \end{figure}
 
 \noindent
-Figure \ref{fig:security_txt_by_rank} shows the percentage of websites that the scanner was able to identify having a valid security.txt at the path \texttt{/.well-known/security.txt} e.g. \newline \texttt{https://example.com/.well-known/security.txt}. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
+Figure \ref{fig:security_txt_by_rank} shows the percentage of domains that the scanner was able to identify having a valid security.txt at the path \texttt{/.well-known/security.txt} e.g. \newline \texttt{https://example.com/.well-known/security.txt}. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
 
 \vspace{0.3cm} \noindent
-Figure \ref{fig:security_txt_by_rank} closely matches, with a uniformly overall reduced percentage of however, that of a figure 1 in \cite{Poteat2021-zr}. It is not clear from \cite{Poteat2021-zr} whether the ranking always starts from 1 or from the previous smaller rank. The ranks ranges in Figure \ref{fig:security_txt_by_rank} in this report are as state in the legend websites from rank 1 to rank 100, rank 101 to 1000 and so on. The last rank is from 100001 to 1 million. In any case the Top 100 and Rank 1-100 should be similar results taking into account the potential 18\% discrepancy.
+Figure \ref{fig:security_txt_by_rank} closely matches, with a uniformly overall reduced percentage of however, that of a figure 1 in \cite{Poteat2021-zr}. It is not clear from \cite{Poteat2021-zr} whether the ranking always starts from 1 or from the previous smaller rank.
 
 \vspace{0.3cm} \noindent
-The uniformly overall percentage different is roughly the 18\% of security.txt files that are potentially missing from this reports figure \ref{fig:security_txt_by_rank} due to the finding in \cite{Poteat2021-zr} that 18\% of sites only serve a security.txt at thier top level path.
+The ranks ranges in Figure \ref{fig:security_txt_by_rank} in this report are as stated in the legend domains from rank 1 to rank 100, rank 101 to 1000 and so on. The last rank is from 100001 to 1 million. Rank 1-100 from figure \ref{fig:security_txt_by_rank} should be comparative to that of the Top 100 of figure 1 in \cite{Poteat2021-zr} while taking into account the potential 18\% discrepancy.
+
+\vspace{0.3cm} \noindent
+The uniformly overall percentage difference is roughly the 18\% of security.txt files that are potentially missing from this reports figure \ref{fig:security_txt_by_rank} due to the finding in \cite{Poteat2021-zr} that 18\% of sites only serve a security.txt at their top level path.
 
 \clearpage
 \newpage
@@ -1975,19 +1997,20 @@ The uniformly overall percentage different is roughly the 18\% of security.txt f
 \end{figure}
 
 \noindent
-Figure \ref{fig:security_txt_unique_vs_domains} shows the number of unique security.txt and the number of all security.txt found on unique domains. The number of unique domains is roughly half of all security.txt found on unique domains. A reason for this could be that one organisation is responsible for multiple domains and uses a common security.txt for most and or all domains under their control.
+Figure \ref{fig:security_txt_unique_vs_domains} shows the number of unique security.txt files and the number of all the security.txt files found on unique domains. The number of unique security.txt files is roughly half of all security.txt files found on unique domains. A reason for this could be that one organisation is responsible for multiple domains and uses a common security.txt for most and or all domains under their control.
 
 \vspace{0.3cm} \noindent
 Due to the large difference between the number of unique security.txt and number of unique domains further investigation was conducted to identify any large groupings of domains that used the same security.txt, the results of which are shown in table \ref{table:security_txt_groupings}.
 
 \vspace{0.3cm} \noindent
 \texttt{TODO}
-Tumblr appears to control the most websites (??), with google coming in second with (??). Whilst this is nice to see that organisations look to be using unified configurations this does give another potential method by which to identify/fingerprint sites that are controlled by large organisations. This gives the opportunity to find sites with potentially weaker security (inherited from an acquisition for example) in order to laterally move to the parent organisations infrastructure.
+Tumblr appears to control the most domains (??), with google coming in second with (??). Whilst this is nice to see that organisations look to be using unified configurations this does give another potential method by which to identify/fingerprint sites that are controlled by large organisations. This gives the opportunity to find sites with potentially weaker security (inherited from an acquisition for example) in order to laterally move to the parent organisations infrastructure.
 
 \clearpage
 \newpage 
 
-A low amount of security.txt files (17\%) contained signatures which allow the security researcher to verify the legitimacy of the security.txt. It should be noted that the signature should be verified using out of band methods (i.e. not a link in the security.txt itself) such as DNSSEC.
+\noindent
+A low amount of security.txt files (17\%) contained signatures which allow the security researcher to verify the legitimacy of the security.txt. It should be noted that the signature should be allowed to be verified using out of band methods (i.e. not a link in the security.txt itself) such as DNSSEC.
 
 \subsection{Fields}
 
@@ -2003,14 +2026,14 @@ A low amount of security.txt files (17\%) contained signatures which allow the s
 Figure \ref{fig:security_txt_by_fields} shows the field use of unique security.txt files. If a field is present more than once in a security.txt it is only counted once for the purposes of only showing if a field is present in a security.txt.
 
 \vspace{0.3cm} \noindent
-There are 8 defined fields in the RFC 2 (shown in bold) of which are mandatory:
+There are 8 defined fields in the RFC 2 of which are mandatory (Contact and Expires shown in bold):
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
     \item Acknowledgments - links to acknowledge security researches for their efforts in reporting security vulnerabilities.
     \item Canonical - link to a cononical security.txt location.
-    \item \textbf{Contact} - A method by which to use for reporting security vulnerabilities (e.g. email, phone and website urls).
-    \item Encryption - States or links to how to encrypt communication.
+    \item \textbf{Contact} - A method to use for reporting security vulnerabilities (e.g. email, phone and website urls).
+    \item Encryption - States or links on how to encrypt communication.
     \item \textbf{Expires} - The datetime after which that data present in the security.txt should not be used.
     \item Hiring - Link to a page detailing security related positions.
     \item Policy - Link to the vulnerability disclosure.
@@ -2036,7 +2059,7 @@ Contact is a mandatory field and as such one would expect to see near 100\% usag
       Phone Number & 1.6\%\\
       \hline
     \end{tabular}
-    \caption{Percentage of unique security.txt that contain a contact type}
+    \caption{Presence of contact types from unique security.txts that contain a contact type}
     \label{table:security_txt_by_contact_type} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
@@ -2068,7 +2091,7 @@ Table \ref{table:security_txt_by_contact_type} shows the average presence of the
 \end{table}
 
 \noindent
-The most prevelant email username used was \texttt{security}, as shown in table \ref{table:security_txt_by_email_username} which is of now real surprise due to the purpose of the security.txt.
+The most prevelant email username used was \texttt{security}, as shown in table \ref{table:security_txt_by_email_username} which is of no real surprise due to the purpose of the security.txt.
 
 \vspace{0.3cm} \noindent
 There were several email addresses that were obfuscated which required multiple dedicated regular expressions to be created in order for the parser to detect them as email addresses. Some examples of email obfuscation observed are:
@@ -2076,7 +2099,7 @@ There were several email addresses that were obfuscated which required multiple 
 \begin{itemize}
 	\setlength\itemsep{0.01em}
     \item security [at] example [dot] com
-    \item security [@] example <dot> com
+    \item security [@] example $<$do$t>$ com
     \item security [ a t ] example [ d o t ] com
     \item security[@]example.com
     \item security($<$remove me...$>$)at($<$remove me...$>$)\UScore{example_dot_com}
@@ -2084,7 +2107,7 @@ There were several email addresses that were obfuscated which required multiple 
 \end{itemize}
 
 \noindent
-One reason why email addresses had been obfuscated such as not wanting them to be identified on automated scraping/crawling. This could be a result of organisation policy or the person(s) responsible assumed that a person would be looking at the security.txt file and as such there was not much of a down side.
+One reason why email addresses have been obfuscated is not wanting them to be identified on automated scraping/crawling. This could be a result of organisational policy or the person(s) responsible assumed that a person would be looking at the security.txt file and as such there was not much of a down side.
 
 \begin{table}[H]
 %\tiny
@@ -2117,6 +2140,9 @@ Of the security.txt files that had one or more contacts the majority contained o
 \vspace{0.3cm} \noindent
 Of the 1.5-2\% of security.txt files that did contain one or more fields but did not contain a \texttt{Contact} field several did contain other non RFC contact fields including:
 
+\clearpage
+\newpage
+
 \begin{itemize}
 	\setlength\itemsep{0.01em}
     \item openbugbounty field - openbugbounty is a not for profit organisation for the reporting of security vulnerabilities.
@@ -2131,14 +2157,21 @@ Of the 1.5-2\% of security.txt files that did contain one or more fields but did
 \texttt{Expires} is a mandatory field and has a rather underwhelming presence starting in November 2021 of 0.7\% (the most least used field), going on to reach 4\% in mid March 2021. From March 2021 there is a marked increase in the rate at which \texttt{Expires} is included in security.txt files seen in figure \ref{fig:security_txt_by_fields} reaching 24\% presence at the end of December 2021 becoming the 3rd least used field.
 
 \vspace{0.3cm} \noindent
-There are several possible reasons that websites are not including the expires including:
+If this trend continues, \texttt{Expires} will likely get close to 100\% use such as is with the \texttt{Contact} field.
+
+\vspace{0.3cm} \noindent
+There are several possible reasons that domains are not including the expires including:
 \begin{itemize}
 	\setlength\itemsep{0.01em}
     \item the administrative burden of regularly reviewing the security.txt
-    \item if a static datetime used and it is left to expire, security researches may decide to seek conformation other the using the information in the contact field to verify the correct means of reporting a security vulnerability, thus delaying such reporting. If no expires is included then it cannot expire.
+    \item if a static datetime is used and it is left to expire, security researches may decide to seek conformation other than using the information in the contact field to verify the correct means of reporting a security vulnerability, thus delaying such reporting. If no expires is included then it cannot expire.
 \end{itemize}
 
-\begin{figure}[H]
+
+\clearpage
+\newpage
+
+\begin{figure}[t]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{security.txt-by_when_expires.pdf_tex}}
 		\caption{Percentage of security.txt files (that use expires) by time until expires from scan date}
@@ -2146,11 +2179,12 @@ There are several possible reasons that websites are not including the expires i
 	\end{center}
 \end{figure}
 
-\noindent
-Figure \ref{fig:security_txt_by_when_expires} show there are a minimal amount of expired security.txt files (ranging from 0\% to $\sim$3\%). The number of security.txt files that expire in less than a year is trending down and those that are to expire greater than an year is increasing. This looks to indicate that expires values are being changed to last more than one year against the recommendation of the RFC, which is to have an expire value less than a year to avoid staleness.
 
-\vspace{0.3cm} \noindent
-If this trend continues, \texttt{Expires} will likely get close to 100\% use such as is with the \texttt{Contact} field.
+\noindent
+Figure \ref{fig:security_txt_by_when_expires} shows that there are a minimal amount of security.txt files that have an expires value in the past (ranging from 0\% to $\sim$3\%). The number of security.txt files that expire in less than a year is trending down and those that are to expire greater than an year is increasing. This looks to indicate that expires values are being changed to last more than one year against the recommendation of the RFC, which is to have an expire value less than a year to avoid staleness.
+
+\clearpage
+\newpage
 
 \subsubsection{Encryption}
 
@@ -2175,6 +2209,9 @@ The RFC states that keys should not be included in security.txt files, despite t
     \label{table:security_txt_encryption_type} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
+
+
+
 
 \noindent
 Table \ref{table:security_txt_encryption_type} shows two types of encryption reference HTTPS and 
@@ -2211,7 +2248,7 @@ As one may expect there were many different languages (over 50) represented in t
 
 \subsubsection{Other RFC Fields}
 
-The remaining fields defined in the RFC that have not been analysed in this section are of less interest in regards and as such only their relative presence in a security.txt was analysed displayed in table \ref{table:security_txt_by_other_rfc_fields} and figure \ref{fig:security_txt_by_fields}.
+The remaining fields defined in the RFC that have not been analysed in this section are of less interest and as such only their relative presence in a security.txt was analysed displayed in table \ref{table:security_txt_by_other_rfc_fields} and figure \ref{fig:security_txt_by_fields}.
 
 \begin{table}[H]
 %\tiny
@@ -2236,7 +2273,7 @@ The remaining fields defined in the RFC that have not been analysed in this sect
 
 \subsubsection{Non Standard Fields}
 
-There are a number of fields, many present in only a single security.txt, that appear in security.txt but are not defined in the RFC. Table \ref{table:} details the top 5 most common of these non standard fields.
+There are a number of fields, many present in only a single security.txt, that appear in security.txt but are not defined in the RFC. Table \ref{table:security_txt_by_non_rfc_fields} details the top 5 most common of these non standard fields.
 
 \begin{table}[H]
 %\tiny
@@ -2262,7 +2299,7 @@ There are a number of fields, many present in only a single security.txt, that a
 \end{table}
 
 \noindent
-All of the \texttt{Permission} values appear to be set to \texttt{none} which would seed to indicate that permission is not given to perform testing of known vulnerabilities against the site.
+All of the \texttt{Permission} values appear to be set to \texttt{none} which would seed to indicate that permission is not given to perform testing for vulnerabilities against the site.
 
 \vspace{0.3cm} \noindent
 The \texttt{Disclosure} values were seen to be a HTTPS link, \texttt{Full}, \texttt{Partial} or \texttt{None} which would seem to indicate that if a security vulnerability were to be submitted the security researcher would act in good faith and adhere to this value in regards to the public disclosure of the security vulnerability found.
@@ -2594,10 +2631,10 @@ As the scanner followed redirects the parser kept track of the resultant domain 
 \end{figure}
 
 \noindent
-Figure \ref{fig:csp_by_rank} shows the percentage of websites that the scanner was able to identify having a CSP header. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
+Figure \ref{fig:csp_by_rank} shows the percentage of domains that the scanner was able to identify having a CSP header. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
 
 \vspace{0.3cm} \noindent
-Each rank group shows a steady rise in the use of a CSP headers, with website in the Rank of 1-100 group seeing the most use, which is an encouraging sign. There is a long way to go however to have the majority of sites using a CSP policy.
+Each rank group shows a steady rise in the use of a CSP headers, with domain in the Rank of 1-100 group seeing the most use, which is an encouraging sign. There is a long way to go however to have the majority of sites using a CSP policy.
 
 \vspace{0.3cm} \noindent
 In the research by \texttt{Weissbacher et al} \cite{Weissbacher2014-vm} in March 2014 showed only 2\% of the sites in the top 100 use CSP, this increased to 7\% in the research by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015 and in January it is 37\% which is a marked increase.
@@ -2630,7 +2667,7 @@ Even though the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} CSP
 
 
 \vspace{0.3cm} \noindent
-The presumed reason that websites use both deprecated and current CSP headers is backwards comparability for older browsers. Other possible reasons could be that legacy configurations that have been added to rather than removing the deprecated headers, or tooling in use automatically configures the deprecated headers.
+The presumed reason that domains use both deprecated and current CSP headers is backwards comparability for older browsers. Other possible reasons could be that legacy configurations that have been added to rather than removing the deprecated headers, or tooling in use automatically configures the deprecated headers.
 
 \subsection{Directives}
 
@@ -2671,7 +2708,7 @@ Figure \ref{fig:csp_csp_by_directives} show the percentage of directives present
   \end{center}
 \end{table}
 \noindent
-The use of keywords has changed quite significantly since the study by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015. It should be noted that there are also significantly more websites utilising CSP as well as the understanding of CSP will have increased which could very well had an effect of keyword distribution change seen.
+The use of keywords has changed quite significantly since the study by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015. It should be noted that there are also significantly more domains utilising CSP as well as the understanding of CSP will have increased which could very well had an effect of keyword distribution change seen.
 
 \vspace{0.3cm} \noindent
 It is good to see that keyword \texttt{*} (essentially providing no protections) proportionally has reduced significantly from 14\% to 4\%. Unfortunately the proportional use of both \texttt{unsafe-inline} and \texttt{unsafe-eval} has over doubled.
