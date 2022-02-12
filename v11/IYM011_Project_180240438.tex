@@ -267,20 +267,22 @@ There are many services in the HTTPS ecosystem such as websites and API interfac
 \section{Document Structure}
 \label{section:doc_struct}
 
-To aid the reader this report is separated into the following sections:
+This report going forward is structured as follows:
 
 \vspace{0.3cm} \noindent
-\textbf{Part I - Security Features Primer} provides a technical overview of the following security features and related technologies, the adoption of which will be analysed later in this report: \textit{HTTP}, \textit{SSL/TLS}, \textit{Same Origin Policy}, \textit{Cross Origin Request Sharing}, \textit{Content-Security-Policy}, \textit{Cross-Origin-Embedder-Policy}, \textit{Cross-Origin-Resource-Policy}, \textit{Corss-Origin-Opener-Policy}, \textit{X-Content-Type-Options}, \textit{X-Frame-Options}, \textit{HTTP-Public-Key-Pins}, \textit{Strict-Transport-Security}, \textit{HSTS Preloading} and \textit{security.txt}
- %\hyperref[section:http]{\textbf{HTTP}}, \hyperref[section:ssl_tls]{\textbf{SSL/TLS}}, \hyperref[section:same_origin_policy]{\textbf{Same Origin Policy}}, \hyperref[section:cors]{\textbf{Cross Origin Request Sharing}}, \hyperref[section:csp]{\textbf{Content-Security-Policy}},  \hyperref[section:coep]{\textbf{Cross-Origin-Embedder-Policy}},  \hyperref[section:corp]{\textbf{Cross-Origin-Resource-Policy}}, \newline \hyperref[section:coop]{\textbf{Corss-Origin-Opener-Policy}}, \hyperref[section:xcto]{\textbf{X-Content-Type-Options}},  \hyperref[section:xfo]{\textbf{X-Frame-Options}}, \hyperref[section:hpkp]{\textbf{HTTP-Public-Key-Pins}}, \hyperref[section:hsts]{\textbf{Strict-Transport-Security}}, \hyperref[section:hsts_preload]{\textbf{HSTS Preloading}} and \hyperref[section:security_txt]{\textbf{security.txt}}
+\textbf{Part I - Security Features Primer} provides a technical background of relevant technologies related to the security mechanisms to be analysed. The chosen security mechanisms to be analysed are given a brief overview along with any attacks they are designed to mitigate.
 
 \vspace{0.3cm} \noindent
-\textbf{Part II - Why Security Features Exist} details the need for security mechanisms, focusing on those mentioned in Part I, with the following sections: \textit{Cross Site Scripting (XSS)}, \textit{Supply Chain Attacks}, \textit{Clickjacking} and \textit{Entity in the Middle Attacks}.
+\textbf{Part II - Why Security Features Exist} details the need for security mechanisms, focusing on those mentioned in Part I, including the following attacks: \textit{Cross Site Scripting (XSS)}, \textit{Supply Chain Attacks}, \textit{Clickjacking} and \textit{Entity in the Middle Attacks}.
 
 \vspace{0.3cm} \noindent
 \textbf{Part III - Data Acquisition} discusses internet scanning, the issues to be aware of and how other similar research has captured their data. This part concludes with detailing how this project carried out the data capture.
 
 \vspace{0.3cm} \noindent
-\textbf{Part IV - Security Mechanism Adoption Analysis} analyses that data captured over an TODO month period from TODO - TODO.
+\textbf{Part IV - Security Mechanism Adoption Analysis} analyses the chosen security mechanisms described in Part I from the data captured, over a 16 month period from November 2020 to February 2022, as detailed in Part III.
+
+\vspace{0.3cm} \noindent
+\textbf{Part V - Conclusions and Closing Remarks} brings the report to an end, \textbf{TODO}.
 
 \newpage
 
@@ -814,9 +816,43 @@ Scanning the entire IP Address range can lead to abuse reports, however these ca
 
 \subsubsection{Scanner Technologies}
 
-TODO
+\noindent
+There are quite a number of scanning technologies used in measurement research and as such there does not seem to be a proffered technology overall but what the researcher(s) are comfortable with. This does makes sense in regards to if a particular technology has worked for researcher in a previous study then using it in a future study, where applicable, as they are familiar with its capabilities giving more time for other activities.
 
-Research uses many different technologies
+\vspace{0.3cm} \noindent
+Table \ref{table:measurement_technologies} details a number of measurement technologies found to be used in previous measure during the literature research.
+
+\clearpage
+\newpage
+
+\begin{table}[H]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|l|E|E|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Technology} & \textbf{Description} & \textbf{Use Case} \\
+      \hline
+      PHP with Curl \cite{Buchanan2018-xz} & PHP is a web programming language. Curl provides a client library for communicated to web services such as http web servers & Make HTTP calls to websites and capture the response body and metadata \\
+      \hline
+      Goscanner \cite{Amann2017-co} & Tool for large scale TLS and SSH scans & Obtain TLS connection information ip addreses / domains \\
+      \hline
+      Bro \cite{Amann2017-co,Kotzias2018-wd} & A network security monitor & Passive network packet capture for TLS connection analysis \\
+      \hline
+      PhantomJS \cite{Chen2016-dl,Van_Goethem2014-ao} & A headless scriptable browser & A browser that can be easily used by scripts for obtaining body of website with JavaScript execution \\
+      \hline
+      Chrome \cite{Kumar2017-qw} & A modern desktop website browser & In headless mode, can be used to capture a page rendered as an ender user would see it \\
+      \hline
+      Scrapy \cite{Patil2017-bg} & A scriptable tool for extracting data from websites & Extract HTTP headers from response to a request made to a website \\
+      \hline
+      Java with Apache \cite{Ying2016-ag} & Java is a programming language, Apache provides a http client for Java & Make HTTP calls to websites and capture the response body and metadata \\
+      \hline
+      Zmap / Zgrab \cite{Michael2015-hn,Holz2020-ha,Kotzias2018-wd} & Zmap is a single packet network scanner. ZGrab is an application layer scanner. & Zmap can be used to identify ip address with open ports. ZGrab could then be use to capture the body and metadata from HTTP requests to the open port(s). \\
+      \hline
+    \end{tabular}
+    \caption{Technologies used in previous measurement studies}
+    \label{table:measurement_technologies} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
 
 \subsubsection{Domain Resolving}
 
@@ -958,7 +994,7 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
 \section{Methodology}
 \label{section:methodology}
 
-This section details the methodology this project used to obtain the data analysed in section \ref{section:analysis}.
+This section details the methodology this project used to obtain the data analysed in part IV.
 
 \subsection{Requirements}
 \label{subsection:requirements}
@@ -980,7 +1016,10 @@ A scanner is to obtain the following information from a list of domains:
 \label{subsection:hld}
 
 This section covers the high-level design, represented in Figure \ref{fig:hla_design}, for the scanning of domains to provide the data required as stated in section
-\ref{subsection:requirements}. 
+\ref{subsection:requirements}.
+
+\vspace{0.3cm} \noindent
+Existing technologies were evaluated, however a tool that met all the data capture requirements was not met. In particular obtaining the if HSTS Preload requirements were met was not found to be in a current tool.
 
 %\clearpage
 
@@ -1823,7 +1862,7 @@ November 2020 appears to show that it was just before this time that TLS 1.3 sta
 \end{figure}
 
 \noindent
-For each website that did support HTTPS, it was also checked to see which of the 4 TLS versions it supported. Figure \ref{fig:tls_verions_supported} shows how many domains supported the 4 TLS versions.
+For each website that did support HTTPS, it was also checked to see which of the 4 TLS versions it supported. Figure \ref{fig:tls_verions_supported} shows how many domains supported the 4 TLS versions. The measurement of supported TLS versions was not observed in the research consulted for this project, indicating that it could be uncommon and as such this report may be one of only a handful that has conducted these measurements.
 
 \vspace{0.3cm} \noindent
 TLS 1.2 holds fairly steady ranging between 72\% and 75\%. The reason for this is likely due to TLS 1.2 the most recent TLS versions supprted by legacy devices and is likely to remain like this for many years to come. As one might expect, TLS 1.3 is on an upward trend going from 37\% in November 2020 and reaching 48.5\% in January 2022.
@@ -1919,7 +1958,7 @@ As a result of this information in December 2021, the scanner was reconfigured t
 
 \subsection{Parser}
 
-A parser was created in python which split each security.txt on new line terminations and proceeded to process each line individually. Lines that started with a hash "\#" (\%x23) were skipped as these are comments as defined in the draft RFC.
+A parser was created in python that processed security.txt request responses that had HTTP 2xx status codes, split each security.txt on new line terminations and proceeded to process each line individually. Lines that started with a hash "\#" (\%x23) were skipped as these are comments as defined in the draft RFC.
 
 \vspace{0.3cm} \noindent
 If the first line was deemed to represent a non security.txt file, such as a html or php file, the entire security.txt file was skipped.
@@ -2003,14 +2042,16 @@ Figure \ref{fig:security_txt_unique_vs_domains} shows the number of unique secur
 Due to the large difference between the number of unique security.txt and number of unique domains further investigation was conducted to identify any large groupings of domains that used the same security.txt, the results of which are shown in table \ref{table:security_txt_groupings}.
 
 \vspace{0.3cm} \noindent
-\texttt{TODO}
-Tumblr appears to control the most domains (??), with google coming in second with (??). Whilst this is nice to see that organisations look to be using unified configurations this does give another potential method by which to identify/fingerprint sites that are controlled by large organisations. This gives the opportunity to find sites with potentially weaker security (inherited from an acquisition for example) in order to laterally move to the parent organisations infrastructure.
+From the 02 January 2022 scan, Google has the highest number of domains (198) with tumblr having (189) coming in a close second. The domains were grouped by the hash of the security.txt file. As one might expect the domains associated with Google predominantly started with \texttt{google.} e.g. \texttt{google.com}. The domains associated with tumblr had ``\textit{Please report abusive content (including spam, privacy violations, etc) at https://www.tumblr.com/abuse}'' in their security.txt file and did not appear to have a particular naming format, however the hackerone link revealed that an organisation named ``Automatic'' manage the hackerone representation.
+
+\vspace{0.3cm} \noindent
+Whilst this is nice to see that organisations look to be using unified configurations this does give another potential method by which to identify/fingerprint sites that are controlled by large organisations. This gives the opportunity to find sites with potentially weaker security (inherited from an acquisition for example) in order to laterally move to the parent organisations infrastructure.
+
+\vspace{0.3cm} \noindent
+A low amount of security.txt files (17\%) contained signatures which allow the security researcher to verify the legitimacy of the security.txt. It should be noted that the signature should be allowed to be verified using out of band methods (i.e. not a link in the security.txt itself) such as DNSSEC.
 
 \clearpage
-\newpage 
-
-\noindent
-A low amount of security.txt files (17\%) contained signatures which allow the security researcher to verify the legitimacy of the security.txt. It should be noted that the signature should be allowed to be verified using out of band methods (i.e. not a link in the security.txt itself) such as DNSSEC.
+\newpage
 
 \subsection{Fields}
 
@@ -2168,6 +2209,9 @@ There are several possible reasons that domains are not including the expires in
 \end{itemize}
 
 
+\noindent
+Figure \ref{fig:security_txt_by_when_expires} shows that there are a minimal amount of security.txt files that have an expires value in the past (ranging from 0\% to $\sim$3\%). The number of security.txt files that expire in less than a year is trending down and those that are to expire greater than an year is increasing. This looks to indicate that expires values are being changed to last more than one year against the recommendation of the RFC, which is to have an expire value less than a year to avoid staleness.
+
 \clearpage
 \newpage
 
@@ -2179,9 +2223,6 @@ There are several possible reasons that domains are not including the expires in
 	\end{center}
 \end{figure}
 
-
-\noindent
-Figure \ref{fig:security_txt_by_when_expires} shows that there are a minimal amount of security.txt files that have an expires value in the past (ranging from 0\% to $\sim$3\%). The number of security.txt files that expire in less than a year is trending down and those that are to expire greater than an year is increasing. This looks to indicate that expires values are being changed to last more than one year against the recommendation of the RFC, which is to have an expire value less than a year to avoid staleness.
 
 \clearpage
 \newpage
@@ -2770,7 +2811,10 @@ HSTS Preloading is a mechanism where a browser checks to see if the requested si
 The main reason for HSTS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
 
 \vspace{0.3cm} \noindent
-Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
+Google maintains a predefined list, launched in 2010 \cite{Michael2015-hn}, of websites where the website owners/maintainers have requested to be added and required an email to be sent to a google  engineer to be included in the list \cite{Langley_undated-dm}. This service later gained a web portal in mid-2014 \cite{Michael2015-hn} for the request to be included in the preload list.
+
+\vspace{0.3cm} \noindent
+The firefox browser generates their own preload list, which is the output of a process that uses the preload list provided as maintained by google and checks each domainy discards any that no loger meets the preload criteria.
 
 \vspace{0.3cm} \noindent
 The following criteria must be met in order for a domain to qualify to be included in the preload list:
@@ -2809,9 +2853,14 @@ All of the HSTS preload lists were obtained from chromium.googlesource.com and t
 \vspace{0.3cm} \noindent
 A random selection of domains that the parser identified as both meeting the preload criteria and not meeting the preload criteria were checked on the https://hstspreload.org/ website for verification that the parser was working as intended.
 
+
+\clearpage
+\newpage
+
+
 \subsection{Overview Analysis}
 
-\begin{figure}[H]
+\begin{figure}[t]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{hsts_preload-overview.pdf_tex}}
 		\caption{HSTS Preload Overview}
@@ -2820,13 +2869,18 @@ A random selection of domains that the parser identified as both meeting the pre
 \end{figure}
 
 \noindent
-Figure \ref{fig:hsts_preloaded_overview} shows an overal summary of the current state of top 1 million domains that are in the preload list managed by Google. The number of preloaded domains is quite a low percentage, as of January 2022 only 0.72\% of the top 1 million domains were preloaded. In the most recent HSTS preload list there are 157192 entries which would seem to indicate that most of the preloaded domains are not in the top 1 million most popular.
+Figure \ref{fig:hsts_preloaded_overview} shows an overal summary of the current state of top 1 million domains that are in the preload list managed by Google. The number of preloaded domains is quite a low percentage, as of January 2022 only 0.72\% of the top 1 million domains were preloaded. The most recent HSTS preload list is from December 2021, as of as of January 2022, which contains 157192 (up from 1258 in 2010 \cite{Michael2015-hn}) entries which would seem to indicate that most of the preloaded domains are not in the top 1 million most popular domains.
 
 \vspace{0.3cm} \noindent
-As of January 2022 38\% of domains preloaded that do not meet the preload requirements anymore. This is a rather high percentage and these domains are at risk of being remove as per the message dispalyed on hstspreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: <domain> is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}. Any data/publications detailing actual removal of domains due to them no longer meeting the requirements was unable to be identified.
+The low amount of site that are preloaded in the top 1 million most popular domains could be due to that the majority of sites are maintained by individuals with an interest in security and thus not likely to be a very popular domain compared to all the site on the internet.
 
 \vspace{0.3cm} \noindent
-Figure \ref{fig:hsts_preloaded_criteria_not_met} shows, for the domains that no longer meet the preload criteria, the percentage of domains that no longer met each criteria. The most prevalent criteria not met  was the lack of presence of the HSTS header followed by not redirecting from HTTP to HTTPS on the base domain.
+As of January 2022 38\% of domains preloaded do not meet the preload requirements anymore. This is a rather high percentage and these domains are at risk of being remove as per the message dispalyed on hstspreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: $<$domain$>$ is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}. Domains in the preload list that no longer meet the critera and were in the preload list before the requirements were formally documented and the web portal rolled out in 2014, are not subject for removal from the preload list however.
+
+\vspace{0.3cm} \noindent
+Any data/publications detailing actual removal of domains due to them no longer meeting the requirements was unable to be identified.
+
+\subsubsection{Criteria Not Met}
 
 \begin{figure}[t]
 	\begin{center}
@@ -2836,14 +2890,46 @@ Figure \ref{fig:hsts_preloaded_criteria_not_met} shows, for the domains that no 
 	\end{center}
 \end{figure}
 
+%\vspace{0.3cm} \noindent
+%\cite{Michael2015-hn} Upgrading HTTPS in Mid-Air
+
+\vspace{0.3cm} \noindent
+Figure \ref{fig:hsts_preloaded_criteria_not_met} shows, for the domains that no longer meet the preload criteria, the percentage of domains that no longer met each criteria. The most prevalent criteria not met  was the lack of presence of the HSTS header followed by not redirecting from HTTP to HTTPS on the base domain.
+
+\vspace{0.5cm} \noindent
+\textbf{No Base Redirect}
+
+\vspace{0.3cm} \noindent
+blah
+
+\vspace{0.5cm} \noindent
+\textbf{Subdomain not HTTPS}
+
+\vspace{0.3cm} \noindent
+blah
+
+\vspace{0.5cm} \noindent
+\textbf{HSTS Header}
+
+\vspace{0.3cm} \noindent
+- no hsts header
+- max-age too short
+- missing preload
+- missing include subdomains
+
+
+
 \newpage
 \clearpage
 
 \vspace{0.3cm} \noindent
 It is somewhat puzzling that so many domains no longer meet the criteria. One possible reason is that an issue was identified after the domain had been preloaded and the domain was requested to be removed from the preload list and thus HSTS headers for example were disabled/removed.
 
+
+
 \vspace{0.3cm} \noindent
-The firefox browser generates their own preload list, https://hg.mozilla.org/mozilla-central/raw-file/tip/security/manager/ssl/nsSTSPreloadList.inc, which is the output of a process, https://hg.mozilla.org/mozilla-central/raw-file/tip/taskcluster/docker/periodic-updates/scripts/getHSTSPreloadList.js, which uses the preload list provided by google and checks each domain before including it, such as to only include domains that still meet the criteria.
+\textbf{TODO max-age chart}
+
 
 \clearpage
 \newpage
@@ -2912,6 +2998,9 @@ Figure \ref{fig:hsts_max-age} shows groups of the duration of the \texttt{max-ag
 
 \vspace{0.3cm} \noindent
 Interestingly both the ranged 0-3 Months and 1-3 years have very similar usage.
+
+\vspace{0.3cm} \noindent
+\textbf{TODO max-age chart}
 
 \clearpage
 \newpage
