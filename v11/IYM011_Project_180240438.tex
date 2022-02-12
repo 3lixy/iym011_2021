@@ -2875,7 +2875,10 @@ Figure \ref{fig:hsts_preloaded_overview} shows an overal summary of the current 
 The low amount of site that are preloaded in the top 1 million most popular domains could be due to that the majority of sites are maintained by individuals with an interest in security and thus not likely to be a very popular domain compared to all the site on the internet.
 
 \vspace{0.3cm} \noindent
-As of January 2022 38\% of domains preloaded do not meet the preload requirements anymore. This is a rather high percentage and these domains are at risk of being remove as per the message dispalyed on hstspreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: $<$domain$>$ is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}. Domains in the preload list that no longer meet the critera and were in the preload list before the requirements were formally documented and the web portal rolled out in 2014, are not subject for removal from the preload list however.
+As of January 2022 38\% of domains preloaded do not meet the preload requirements anymore. This is a rather high percentage and these domains are at risk of being remove as per the message dispalyed on hstspreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: $<$domain$>$ is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}.
+
+\vspace{0.3cm} \noindent
+Domains in the preload list that no longer meet the critera and were in the preload list before the requirements were formally documented and the web portal rolled out in 2014, are not subject for removal from the preload list however.
 
 \vspace{0.3cm} \noindent
 Any data/publications detailing actual removal of domains due to them no longer meeting the requirements was unable to be identified.
@@ -2894,41 +2897,55 @@ Any data/publications detailing actual removal of domains due to them no longer 
 %\cite{Michael2015-hn} Upgrading HTTPS in Mid-Air
 
 \vspace{0.3cm} \noindent
-Figure \ref{fig:hsts_preloaded_criteria_not_met} shows, for the domains that no longer meet the preload criteria, the percentage of domains that no longer met each criteria. The most prevalent criteria not met  was the lack of presence of the HSTS header followed by not redirecting from HTTP to HTTPS on the base domain.
+Figure \ref{fig:hsts_preloaded_criteria_not_met} shows the percentage of each criteria not met for domains that are preloaded from those that were scanned. The most prevalent criteria not met  was the lack of presence of the HSTS header followed by not redirecting from HTTP to HTTPS on the base domain.
 
 \vspace{0.5cm} \noindent
 \textbf{No Base Redirect}
 
 \vspace{0.3cm} \noindent
-blah
+If a website is running a HTTP server on its base domain on port 80 it must redirect to must redirect to HTTPS on the same domain. For example of the base domain of \texttt{https://blog.example.com} is \texttt{example.com}. If a http connection was able to be made to \texttt{http://example.com} it must then redirect to \texttt{https://exmaple.com}.
+
+\vspace{0.3cm} \noindent
+As of January 2022 12.6\% of preloaded domains not longer redirect correctly from the base domain. A reason for this could be that the redirect was changed from redirecting to the base domain over HTTPS e.g. \texttt{https://exmaple.xom} but to the main url of the website such as \texttt{https://wwww.example.com} to save a redirect to the desired main website url for the end user.
 
 \vspace{0.5cm} \noindent
 \textbf{Subdomain not HTTPS}
 
 \vspace{0.3cm} \noindent
-blah
+The \texttt{includeSubdomains} parameter must be included on the HSTS header, meaning that all subdomains of the base domain will be forced to load over HTTPS. Only the www subdomain is checked to see if it has a DNS entry and subsequently checked if the domain supports HTTPS on the www subdomain e.g. \texttt{https://www.exmaple.com}.
+
+\vspace{0.3cm} \noindent
+As of January 2022 0.37\% of preloaded domains no longer use HTTPS on the www subdomain. This is rather surprising as going as far to preloading the domain to then not support HTTPS on the www subdomain at a later date is rather counter intuitive. It is possible that this was a configuration mistake on the web server.
 
 \vspace{0.5cm} \noindent
 \textbf{HSTS Header}
 
 \vspace{0.3cm} \noindent
-- no hsts header
-- max-age too short
-- missing preload
-- missing include subdomains
-
-
-
-\newpage
-\clearpage
+\textit{- No HSTS Header}
 
 \vspace{0.3cm} \noindent
-It is somewhat puzzling that so many domains no longer meet the criteria. One possible reason is that an issue was identified after the domain had been preloaded and the domain was requested to be removed from the preload list and thus HSTS headers for example were disabled/removed.
-
-
+By far the most prevalent reason that a domain no longer met the preload critera was a missing HSTS header. Many websites have numerous subdomains and it can be hard to keep track of all that are in use.Those managing the security aspect may not be aware of all the subdomains and by preloading the base domain caused would have caused issues if one or more subdomains were configured with only HTTP or invalid HTTPS configurations. This would lead to the request to have the base domain removed from the preload list.
 
 \vspace{0.3cm} \noindent
-\textbf{TODO max-age chart}
+\textit{- Max Age too short}
+
+\vspace{0.3cm} \noindent
+4.2\% of preloaded domains that presented a HSTS header, have a \texttt{max-age} directive value of less than one year (31,536,000 seconds). This also happens to be the value given in the HSTS rfc \cite{Hodges2012-pe}.
+
+\vspace{0.3cm} \noindent
+For 02 January 2022 the most common duration under a year was 180 days (6 months). There were also 3 domains that presented a max-age of 31104000 which is only 5 days below the required 365 days. 20 domains used a value of 0, essentially ``opting out'' of both the preloading and HSTS mechanism itself.
+
+\vspace{0.3cm} \noindent
+\textit{- Missing preload}
+
+\vspace{0.3cm} \noindent
+1.6\% of preloaded domains did not provide the directive \texttt{preload} in the HSTS header. As this directive is only used for the purpose of preloading, one might assume that this was done on purpose such that preloading was not longer desired.
+
+\vspace{0.3cm} \noindent
+\textit{- Missing includeSubdomains}
+
+\vspace{0.3cm} \noindent
+1.8\% of preloaded domains do not include the \texttt{includeSubdomains} directive and 0.8\% are missing both the \texttt{includeSubdomains} directive and the \texttt{preload} directive.
 
 
 \clearpage
@@ -3000,7 +3017,9 @@ Figure \ref{fig:hsts_max-age} shows groups of the duration of the \texttt{max-ag
 Interestingly both the ranged 0-3 Months and 1-3 years have very similar usage.
 
 \vspace{0.3cm} \noindent
-\textbf{TODO max-age chart}
+\textbf{TODO very short max-age undermines the purpose of HSTS as users may not visit before the max-age has expired}
+
+\textbf{TODO max-age 0 opt out number of domains}
 
 \clearpage
 \newpage
