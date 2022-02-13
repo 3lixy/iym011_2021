@@ -1837,6 +1837,10 @@ TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currentl
   \item Enforcement of Perfect Forward Secrecy
 \end{itemize}
 
+\subsection{Purpose Overview}
+
+\textbf{TODO}
+
 \subsection{Overview Analysis}
 
 \begin{figure}[H]
@@ -1979,6 +1983,10 @@ A response to a request of the security.txt file must respond with a \texttt{Con
 
 \vspace{0.3cm} \noindent
 The RFC is currently in the draft stage and seeing updates as recently as May 2021.
+
+\subsection{Purpose Overview}
+
+\textbf{TODO}
 
 \subsection{Scanning}
 
@@ -2656,11 +2664,34 @@ There are a number of CSP headers, shown below, that have been created leading u
 
 The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \newline \texttt{Content-Security-Policy} with the exception that violations are only reported and not enforced. One of the main uses of this is when webmasters and developers are creating a CSP Policy and do not want to impact the end user experience until the policy is configured as desiredb
 
-\vspace{0.3cm} \noindent
-\textbf{TODO: General purpose of CSP and common use cases: allow-listings, prevent inline script execution, data:URIs, text>JS functions, redirects}
+
+\subsection{Purpose Overview}
+
+CSP mainly provides mitigations for web applications against XSS Cross Site Scripting (XSS), data injection attacks and packet sniffing attacks. There are several basic policy settings that can utilised for protection against such attacks.
+
+\vspace{0.5cm} \noindent
+\textbf{Restrict locations resources can be loaded from}
 
 \vspace{0.3cm} \noindent
-\textbf{TODO: Keep up to date with CSP Bypass Techniques}
+Using the script-src directive to only allow resources to be loaded from trusted sources is a great first step to preventing attacks from loading scripts. The additional use of sub resource integrity can be used to prevent supply chain attacks where the attacker takes control of a trusted source script.
+
+\vspace{0.5cm} \noindent
+\textbf{Remove the need to use unsafe directives}
+
+\vspace{0.3cm} \noindent
+Both \texttt{unsafe-inline} and \texttt{unsafe-eval} should be avoided especially with the  \texttt{script-src} and \texttt{style-src} directive to prevent attackers from injecting malicious script code into a website. Inline scripting is one of the biggest attack vectors for attackers trying to run scripts in the browser. An alternative to removing inline scripting is the use of the \texttt{Digest} keyword or the \texttt{Nonce} keyword to allow only specified inline scripts to run.
+
+\vspace{0.5cm} \noindent
+\textbf{Avoid using the data scheme}
+
+\vspace{0.3cm} \noindent
+Relatively tiny amounts of information can be used with the \texttt{data} schema and can be utilised for the purpose of triggering the download of malicious resources by attackers. A malicious script could be converted and placed into a \texttt{data} schema, injecting it into a page, leading to it being executed.
+
+\vspace{0.5cm} \noindent
+\textbf{Keep up to date with CSP Bypass Techniques}
+
+\vspace{0.3cm} \noindent
+CSP policy maintainers should keep up to date with CSP bypass techniques such as those described in  ``\textit{Complex Security Policy? A Longitudinal Analysis of Deployed Content Security Policies}'' \ref{Roth2020-hg}.
 
 \subsection{Parser}
 
@@ -2680,7 +2711,9 @@ The CSP text was split on the \texttt{;} character which denotes that a directiv
 \vspace{0.3cm} \noindent
 A number of regular expressions were created to place each directive into one of the following categories as described in table \ref{table:directive_categories}.
 
-\begin{table}[H]
+\newpage
+
+\begin{table}[t]
 %\tiny
   \begin{center}
     \begin{tabular}{|c|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
@@ -2708,7 +2741,6 @@ A number of regular expressions were created to place each directive into one of
 \vspace{0.3cm} \noindent
 As the scanner followed redirects the parser kept track of the resultant domain of any such redirects and skipped processing a CSP if the resultant domain had already had a CSP processed.
 
-\clearpage
 
 \subsection{Overview Analysis}
 
@@ -2719,6 +2751,7 @@ As the scanner followed redirects the parser kept track of the resultant domain 
 		\label{fig:csp_by_rank}
 	\end{center}
 \end{figure}
+
 
 \noindent
 Figure \ref{fig:csp_by_rank} shows the percentage of domains that the scanner was able to identify having a CSP header. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
@@ -2759,6 +2792,9 @@ Even though the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} CSP
 \vspace{0.3cm} \noindent
 The presumed reason that domains use both deprecated and current CSP headers is backwards comparability for older browsers. Other possible reasons could be that legacy configurations that have been added to rather than removing the deprecated headers, or tooling in use automatically configures the deprecated headers.
 
+\clearpage
+\newpage
+
 \subsection{Directives}
 
 \begin{figure}[H]
@@ -2797,6 +2833,10 @@ Figure \ref{fig:csp_csp_by_directives} show the percentage of directives present
     \label{table:csp_default-src-keyword} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
+
+\clearpage
+\newpage
+
 \noindent
 The use of keywords has changed quite significantly since the study by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015. It should be noted that there are also significantly more domains utilising CSP as well as the understanding of CSP will have increased which could very well had an effect of keyword distribution change seen.
 
@@ -2805,10 +2845,6 @@ It is good to see that keyword \texttt{*} (essentially providing no protections)
 
 \vspace{0.3cm} \noindent
 The \texttt{self} keyword (restricting resources to the domain of the web page) sees a decent proportional increase from 43\% to 73\%. \texttt{unsafe-hashes} does not see that much use which is not surprising as it is a relatively new (2018) keyword.
-
-
-\clearpage
-\newpage
 
 \subsubsection{script-src}
 
@@ -2844,6 +2880,8 @@ It can be seen from table \ref{table:csp_default-src-keyword} that \texttt{self}
 It is quite disappointing that the use of \texttt{unsafe-inline} and \texttt{unsafe-eval} is still so prevalent. This indicates that website maintainers are struggling to be able to create CSP policies that are more restrictive but also do not impact the users experience, some may have event given up on the prospect.
 
 \subsubsection{report-uri}
+
+\textbf{TODO}
 
 \clearpage
 \newpage
@@ -2887,6 +2925,10 @@ The following criteria must be met in order for a domain to qualify to be includ
 
 \vspace{0.3cm} \noindent
 If a domain in the preload list stops meeting the above criteria it runs the risk of being removed from the preload list.
+
+\subsection{Purpose Overview}
+
+\textbf{TODO}
 
 \subsection{Parser}
 
@@ -3032,6 +3074,10 @@ Instructs the browser to also load any subdomains of the site only over HTTPS.
 \vspace{0.3cm} \noindent
 Must be present if the site is to be preloaded via google's HSTS preload service.
 
+\subsection{Purpose Overview}
+
+\textbf{TODO}
+
 \clearpage
 \newpage
 
@@ -3117,6 +3163,10 @@ Denies requests under either of the two below conditions:
   \item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not \texttt{text/css}.
 \end{itemize}
 
+\subsection{Purpose Overview}
+
+\textbf{TODO}
+
 \subsection{Overview Analysis}
 
 \begin{figure}[H]
@@ -3183,6 +3233,10 @@ The page is allowed to be rendered in any of the following html elements: \textt
 \vspace{0.3cm} \noindent
 Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
 
+\subsection{Purpose Overview}
+
+\textbf{TODO}
+
 \clearpage
 \newpage
 
@@ -3246,6 +3300,10 @@ Disables the mechanism allowing resources to be loaded without explicit permissi
 \vspace{0.3cm} \noindent
 Enables this mechanism only allowing resources being loaded from the same origin or from other origins that explicitly give permissions to do so (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
 
+\subsection{Purpose Overview}
+
+\textbf{TODO}
+
 \subsection{Overview Analysis}
 
 \begin{figure}[H]
@@ -3299,6 +3357,10 @@ If the request initiator’s origin and the request destination’s origin are t
 
 \vspace{0.3cm} \noindent
 The resource is allowed to be loaded regardless of the sites/origins involved.
+
+\subsection{Purpose Overview}
+
+\textbf{TODO}
 
 \clearpage
 \newpage
@@ -3360,6 +3422,10 @@ Allows the communication of a new window or tab (e.g. popup) to the originating 
 \vspace{0.3cm} \noindent
 Does not allow communication (isolates) from new windows or tab to the originating page (document) unless they are from the same origin. If not from the same origin they are placed in a separate browsing contexts.
 
+\subsection{Purpose Overview}
+
+\textbf{TODO}
+
 \clearpage
 \newpage
 
@@ -3401,6 +3467,10 @@ This header is now deprecated by most modern web browsers.
 
 \subsubsection{Public-Key-Pins-Report-Only}
 The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rather only sends violation reports.
+
+\subsection{Purpose Overview}
+
+\textbf{TODO}
 
 \subsection{Overview Analysis}
 
