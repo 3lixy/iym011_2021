@@ -974,7 +974,7 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
       \hline
       \textbf{HTTP method} & Browsers use the http GET method to obtain web pages. A website might behave differently if a non GET http method (e.g. HEAD) was used. Some websites may not even allow the http HEAD method. & Researchers \cite{Amann2017-co} specifically use the HEAD http method to reduce load on target domains. & The HTTP GET method is used which is what browsers use.\\
       \hline
-      \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in \textbf{TODO}. \\
+      \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in table \ref{table:task_paramters_headers}. \\
       \hline
       \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have. & None of the research \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Roth2020-hg,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Calzavara2018-xv,Holz2020-ha,Michael2015-hn,} processes SSL/TLS verification at the analysis stage. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or assumed to be not enough sites affected. & SSL/TLS verification is performed at the analysis phase. \\
       \hline
@@ -1252,7 +1252,7 @@ This compressed archive is transferred to an archive file server for later analy
 \subsection{Task Parameters}
 \label{subsection:task_parameters}
 
-A task has up to two parameters.
+A task has up to two parameters as shown in table \ref{task_paramters}.
 
 \begin{table}[H]
   \begin{center}
@@ -1268,6 +1268,41 @@ A task has up to two parameters.
 %    \captionsetup{width=.75\textwidth}
     \caption{Task Parameters}
     \label{table:task_paramters} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\noindent
+All tasks will be using the same request headers as shown in table \ref{}. The header names and values were those present in the http request from visiting the url \texttt{https://www.google.com} and were captured using chrome's browser developer tools. This was done to best represent the standard request headers a browser would send to domain to thus have the best representation of response headers a user browsing the internet, would receive from a domain.
+
+\begin{table}[H]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|c|E|E|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Name} & \textbf{Value} & \textbf{Description}\\
+      \hline
+      accept & text/html, application/xhtml+xml, application/xml; q=0.9,image/webp, image/apng, */*;q=0.8, application/signed-exchange; v=b3;q=0.9 & The accepted content types e.g html page.\\
+      \hline
+      accept-encoding & gzip, deflate, br & The accepted content encoding(s) e.g. gzip\\
+      \hline
+      accept-language & en-US,en;q=0.9 & The accepted languages e.g. en-US\\
+      \hline
+      sec-fetch-dest & document & Requested destination e.g. document\\
+      \hline
+      sec-fetch-mode & navigate & Differentiator for request type e.g. navigation or websocket\\
+      \hline
+      sec-fetch-site & none & If the request is coming from the same origin e.g. none (user-originated operation)\\
+      \hline
+      sec-fetch-user & ?1 & Sent for requests initiated by user activation\\
+      \hline
+      upgrade-insecure-requests & 1 & Signal to the server that an authenticated and encrypted response is preferred e.g. redirect to secure version of the site\\
+      \hline
+      user-agent & Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36 & Identification of requests application e.g. browser identification\\
+      \hline
+    \end{tabular}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Task Parameters - Headers}
+    \label{table:task_paramters_headers} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
 
@@ -3172,7 +3207,7 @@ That being said with only a 21\% usage of the XFO header as of January 2022, man
 The \texttt{deny} directive has a fairly constant presence in domains with 14.3\% use in January 2022. \texttt{deny} gives the most protection by not allowing the website to be embedded in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
 
 \vspace{0.3cm} \noindent
-The deprecated directive \texttt{allow-from} has a very low usage but constant usage of 1.5\%. The low usage reflects its deprecation status and is likely present due to configurations that have either not been changed in a while or not removed when configurations changes have been made.
+The deprecated directive \texttt{allow-from} has a very low but constant usage of 1.5\%. The low usage reflects its deprecation status and is likely present due to configurations that have either not been changed in a while or not removed when configurations changes have been made.
 
 \clearpage
 \newpage
