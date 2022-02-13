@@ -1210,7 +1210,7 @@ Section \ref{subsection:task_parameters} details the parameters of a task. \newl
 Section \ref{section:task_flow} details the high level flow for the process of performing a domain scanning Task.
 
 \vspace{0.3cm} \noindent
-Appendix TODO details the TLS client capabilities of the Task Agent.
+Appendix \textbf{TODO} detail the TLS client capabilities of the Task Agent.
 
 \vspace{0.3cm} \noindent
 As with the Task API the Task Agent will use the programming language GO.
@@ -2026,14 +2026,11 @@ If a security.txt file was deemed to be conformant it was hashed using the SHA25
 \vspace{0.3cm} \noindent
 During the process of creating the parser it was noticed that some security.txt files had a dynamic value set for the Expires field (visiting the file manually on different occasions would show the expires time to be a constant time from the time of request). As this would affect the detection of unique security.txt, all Expires field lines were removed before hashing took place.
 
-\vspace{0.3cm} \noindent
-\textbf{TODO Average \% of invalid security.txt files ?.}
-
 \clearpage
 \newpage
 \subsection{Overview Analysis}
 
-\begin{figure}[H]
+\begin{figure}[t]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{security.txt-by_rank.pdf_tex}}
 		\caption{security.txt (only /.well-known path) by rank}
@@ -2056,13 +2053,16 @@ The uniformly overall percentage difference is roughly the 18\% of security.txt 
 \clearpage
 \newpage
 
-\vspace{0.3cm} \noindent
-\textbf{TODO The \% difference found from December on wards was or was not 18\%. find the \% difference per rank}
+\begin{figure}[t]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{security.txt-by_root_vs_non_root.pdf_tex}}
+		\caption{security.txt file locations}
+		\label{fig:security_txt_by_root_vs_non_root}
+	\end{center}
+\end{figure}
 
-\vspace{0.3cm} \noindent
-\textbf{TODO As the RFC states that one could redirect from security.txt to /.well-known/security.txt is that noted in the report.}
 
-\begin{figure}[H]
+\begin{figure}[t]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{security.txt-unique_vs_non_unique.pdf_tex}}
 		\caption{security.txt (only /.well-known path) Unique Domains vs Unique Files}
@@ -2071,7 +2071,13 @@ The uniformly overall percentage difference is roughly the 18\% of security.txt 
 \end{figure}
 
 \noindent
-Figure \ref{fig:security_txt_unique_vs_domains} shows the number of unique security.txt files and the number of all the security.txt files found on unique domains. The number of unique security.txt files is roughly half of all security.txt files found on unique domains. A reason for this could be that one organisation is responsible for multiple domains and uses a common security.txt for most and or all domains under their control.
+As noted in the scanning section above, the scanner was initially configured to only scan for security.txt at the \texttt{/.well-known} location. Figure \ref{fig:security_txt_by_root_vs_non_root} shows (from December 2021) onwards, that there are a significant about of security.txt only hosted at the top level path of the domain e.g. \newline \texttt{https://example.com/security.txt}. As of January 2022 46\% of security.txt are hosted at the top level path only.
+
+\vspace{0.3cm} \noindent
+Figure \ref{fig:security_txt_unique_vs_domains} shows the number of unique security.txt files and the number of all the security.txt files found on unique domains (seperated by whether they are valid or not). The number of invalid security.txt are a small percentage of all security.txt and the majority of them are html documents unrelated to the security.txt mechanism.
+
+\vspace{0.3cm} \noindent
+The number of unique security.txt files is roughly half of all security.txt files found on unique domains. A reason for this could be that one organisation is responsible for multiple domains and uses a common security.txt for most and or all domains under their control.
 
 \vspace{0.3cm} \noindent
 Due to the large difference between the number of unique security.txt and number of unique domains further investigation was conducted to identify any large groupings of domains that used the same security.txt, the results of which are shown in table \ref{table:security_txt_groupings}.
@@ -2090,16 +2096,27 @@ A low amount of security.txt files (17\%) contained signatures which allow the s
 
 \subsection{Fields}
 
-\begin{figure}[H]
+\begin{figure}[t]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{security.txt-fields_use_unique_files.pdf_tex}}
+		\caption{unique security.txt (only /.root path) by field use}
+		\label{fig:security_txt_by_fields}
+	\end{center}
+\end{figure}
+
+\begin{figure}[t]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{security.txt-fields_use_unique_files.pdf_tex}}
 		\caption{unique security.txt (only /.well-known path) by field use}
-		\label{fig:security_txt_by_fields}
+		\label{fig:security_txt_by_fields_root_only}
 	\end{center}
 \end{figure}
 
 \noindent
 Figure \ref{fig:security_txt_by_fields} shows the field use of unique security.txt files. If a field is present more than once in a security.txt it is only counted once for the purposes of only showing if a field is present in a security.txt.
+
+\vspace{0.3cm} \noindent
+Figure \ref{fig:security_txt_by_fields_root_only} \textbf{TODO} hopefully top level domains show same trend if not just say only evaluating well-known as that has the largest longitudinal set of results.
 
 \vspace{0.3cm} \noindent
 There are 8 defined fields in the RFC 2 of which are mandatory (Contact and Expires shown in bold):
@@ -2265,9 +2282,7 @@ Figure \ref{fig:security_txt_by_when_expires} shows that there are a minimal amo
 \subsubsection{Encryption}
 
 \noindent
-The RFC states that keys should not be included in security.txt files, despite this $\sim$0.7\% of unique files do include keys. This looks to indicate either that the majority are conforming to the RFC recommendation and or do not wish to include a key in the security.txt anyway as $\sim$37\% of security.txt do include the \texttt{Encryption} field.
-
-\texttt{TODO}
+The RFC states that keys should not be included in security.txt files, despite this $\sim$0.7\% of unique files do include keys. This looks to indicate either that the majority are conforming to the RFC recommendation and or do not wish to include a key in the security.txt.
 
 \begin{table}[H]
 %\tiny
@@ -2276,9 +2291,11 @@ The RFC states that keys should not be included in security.txt files, despite t
       \hline
       \textbf{Type} & \textbf{Presence}\\
       \hline
-      HTTPS & ??.?\%\\
+      HTTPS & $\sim$93.5\%\\
       \hline
-      OpenPGP4 Fingerprint Reader & ??.?\%\\
+      HTTP & $\sim$2\%\\
+      \hline
+      OpenPGP4 Fingerprint Reader & $\sim$3.0\%\\
       \hline
     \end{tabular}
     \caption{Percentage of encryption field value type of unique security.txt}
@@ -2287,11 +2304,8 @@ The RFC states that keys should not be included in security.txt files, despite t
 \end{table}
 
 
-
-
 \noindent
-Table \ref{table:security_txt_encryption_type} shows two types of encryption reference HTTPS and 
- OpenPGP4 Fingerprint Reader (openpgp4fpr). The RFC states that the \texttt{Encryption} field must being with \texttt{https://}, however despite this OpenPGP4 Fingerprint Reader has a presence of ??\%. A reason for this could be that it was more convenient to use a OpenPGP4 Fingerprint Reader, however this might hinder the use of it if security researchers are not familiar with this scheme type. Should a website operator want to use OpenPGP4 Fingerprint Reader scheme, it is best placed in a separate web page such that instructions can be included on how to use such a scheme.
+Table \ref{table:security_txt_encryption_type} shows three types of encryption reference HTTPS, HTTP and OpenPGP4 Fingerprint Reader (openpgp4fpr). The RFC states that the \texttt{Encryption} field must being with \texttt{https://}, however despite this OpenPGP4 Fingerprint Reader has a presence of $\sim$3.0. A reason for this could be that it was more convenient to use a OpenPGP4 Fingerprint Reader, however this might hinder the use of it if security researchers are not familiar with this scheme type. Should a website operator want to use OpenPGP4 Fingerprint Reader scheme, it is best placed in a separate web page such that instructions can be included on how to use such a scheme.
 
 
 \subsubsection{Preferred-Languages}

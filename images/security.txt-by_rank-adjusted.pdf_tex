@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{507.1591382bp}%
+    \setlength{\unitlength}{506.73291131bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,7 +48,7 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.49748427)%
+  \begin{picture}(1,0.49790272)%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{security.txt-by_rank-adjusted.pdf}}%
   \end{picture}%
 \endgroup%

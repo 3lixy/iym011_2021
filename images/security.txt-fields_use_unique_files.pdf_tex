@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{507.15911729bp}%
+    \setlength{\unitlength}{506.73289042bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,7 +48,7 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.50140008)%
+  \begin{picture}(1,0.50182182)%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{security.txt-fields_use_unique_files.pdf}}%
   \end{picture}%
 \endgroup%
