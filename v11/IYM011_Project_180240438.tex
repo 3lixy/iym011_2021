@@ -1948,7 +1948,7 @@ The RFC is currently in the draft stage and seeing updates as recently as May 20
 \subsection{Scanning}
 
 \vspace{0.3cm} \noindent
-As the RFC Draft stated that the security.txt must be placed in the path \newline \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt} the scanner was initially configured to only try and obtain the security.txt from this location.
+As the RFC Draft stated that ``\textit{For web-based services, organizations MUST place the "security.txt" file under the "/.well-known/" path}'' e.g. \texttt{https://example.com/.well-known/security.txt} the scanner was initially configured to only try and obtain the security.txt from this location.
 
 \vspace{0.3cm} \noindent
 At the end of November 2021 the research paper \textit{Who you gonna call? an empirical evaluation of website security.txt deployment} \cite{Poteat2021-zr} was discovered and found that 18\% of security.txt were found only at the top level path of the domain e.g. \newline \texttt{https://example.com/security.txt}.
@@ -3019,6 +3019,7 @@ Interestingly both the ranged 0-3 Months and 1-3 years have very similar usage.
 \vspace{0.3cm} \noindent
 \textbf{TODO very short max-age undermines the purpose of HSTS as users may not visit before the max-age has expired}
 
+\vspace{0.3cm} \noindent
 \textbf{TODO max-age 0 opt out number of domains}
 
 \clearpage
@@ -3328,6 +3329,86 @@ From November 2020 to mid March 2021 there was a steady decline, however since t
 Table \ref{table:hpkp_use} shows that since May 2017 there has been a big drop in the use of the HPKP from 6624 to 526 in January 2022.
 
 \clearpage
+\newpage
+
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Part V - Conclusion and Closing Remarks
+\end{huge}
+\end{center}
+\vspace{\fill}
+
+\newpage
+
+\section{Conclusions}
+
+
+
+
+\newpage
+
+\section{Future Work}
+
+\vspace{0.3cm} \noindent
+- 
+
+\vspace{0.3cm} \noindent
+SSL/TLS
+- why sites use TLS 1.0 and TLS 1.1 as the max version / still support them - survey may be needed but may not get very many willing/avail to part of survey. 
+
+
+\vspace{0.3cm} \noindent
+HSTS Preload
+- 
+
+\vspace{0.3cm} \noindent
+COOP
+- Look into what the need is for unsafe-none (maybe just a general one)
+
+
+\vspace{0.3cm} \noindent
+HSTS Preload
+- 
+
+\vspace{0.3cm} \noindent
+CSP
+- Check if inline scripts actually used when unsafe-inline used
+- Check to see how much nonce used in html
+- keep track of how csp polices change over time for the same sites
+- Keep track of when CSP 3 is finalised and browser uptake of full CSP 3 specification
+- use of nonce in web page
+- unsafes and trend of how much unsafe on webistes
+
+\vspace{0.3cm} \noindent
+Effectiveness of the security mechanisms
+
+\vspace{0.3cm} \noindent
+more in depth look at a couple of specific and closley related security mechanisms
+
+\vspace{0.3cm} \noindent
+Security.txt
+- Continue to measure adoption over time
+- Is there an uptick on usage over time and any significant change in usage when RFC no longer draft
+- 
+
+
+\newpage
+
+\section{Closing Remarks}
+
+\newpage
+
+\pagenumbering{roman}
+\setcounter{page}{1}
+\vspace*{\fill}
+\begin{center}
+\begin{huge}
+Intentionally Blank
+\end{huge}
+\end{center}
+\vspace{\fill}
+
 \newpage
 
 \bibliographystyle{IEEEtran}
