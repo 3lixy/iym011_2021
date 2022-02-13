@@ -2030,7 +2030,7 @@ The uniformly overall percentage difference is roughly the 18\% of security.txt 
 \begin{figure}[H]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{security.txt-unique_vs_non_unique.pdf_tex}}
-		\caption{unique security.txt (only /.well-known path) by field use}
+		\caption{security.txt (only /.well-known path) Unique Domains vs Unique Files}
 		\label{fig:security_txt_unique_vs_domains}
 	\end{center}
 \end{figure}
@@ -3043,12 +3043,11 @@ As of January 2022 5\% of the \texttt{max-age} directive values are set to a val
 \vspace{0.3cm} \noindent
 In table \ref{table:sts_header_count} it can be seen that there has been a near 5 fold increase in the use of the STS header from May 2017.
 
-
 \clearpage
 \newpage
 
 
-\section{X-Content-Type-Options}
+\section{X Content Type Options}
 \label{section:xcto}
 
 \subsection{Background}
@@ -3140,7 +3139,7 @@ Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame
 
 \subsection{Overview Analysis}
 
-\begin{figure}[H]
+\begin{figure}[t]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{misc_headers-x-frame-options-overview.pdf_tex}}
 		\caption{Number of Domains using the XFO header and its directives}
@@ -3148,11 +3147,32 @@ Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame
 	\end{center}
 \end{figure}
 
+\begin{table}[t]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|I|D|H|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Weissbacher et al} \cite{Weissbacher2014-vm} March 2014 & \textbf{Ying et al} \cite{Ying2016-ag} June 2015 & \textbf{Buchanan et al} \cite{Buchanan2018-xz} May 2017 & Jan 2022 \\
+      \hline
+      25,282 ($\sim$ 2.5\% ) & 40,848 ($\sim$ 4.0\%) & 93,601 (11.1\%) & 207,522 (21.8\%)\\
+      \hline
+    \end{tabular}
+    \caption{Historical XFO Header Use}
+    \label{table:xfo_header_count} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
 \noindent
-Figure \ref{fig:xfo_overview} shows the usage of the XCTO header and its single directive \texttt{nosniff}. As there is only one directive for XCTO, the number domains using it and those using the directive \texttt{nosniff} are identical.
+Figure \ref{fig:xfo_overview} shows the usage of the XFO header and its directives \texttt{deny}, \texttt{sameorigin} and the deprecated \texttt{allow-from}. The \texttt{sameorigin} directive has a near constant usage of 84\% this is great to see and not all that unsurprising as it is not all that common for the need to embed foreign origins into ones website or the need for foreign origins to embed ones website.
 
 \vspace{0.3cm} \noindent
-There is a somewhat linear increase in usage over the measurement period (November 2020 - January 2022) which is encouraging to see.
+That being said with only a 21\% usage of the XFO header as of January 2022, many more websites should be able to use the header with the \texttt{sameorigin}, or the more secure \texttt{deny}, directive without affecting the user experience and in turn protect the users from attacks such as clickjacking.
+
+\vspace{0.3cm} \noindent
+The \texttt{deny} directive has a fairly constant presence in domains with 14.3\% use in January 2022. \texttt{deny} gives the most protection by not allowing the website to be embedded in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+
+\vspace{0.3cm} \noindent
+The deprecated directive \texttt{allow-from} has a very low usage but constant usage of 1.5\%. The low usage reflects its deprecation status and is likely present due to configurations that have either not been changed in a while or not removed when configurations changes have been made.
 
 \clearpage
 \newpage
