@@ -974,7 +974,7 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
       \hline
       \textbf{HTTP method} & Browsers use the http GET method to obtain web pages. A website might behave differently if a non GET http method (e.g. HEAD) was used. Some websites may not even allow the http HEAD method. & Researchers \cite{Amann2017-co} specifically use the HEAD http method to reduce load on target domains. & The HTTP GET method is used which is what browsers use.\\
       \hline
-      \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in TODO. \\
+      \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in \textbf{TODO}. \\
       \hline
       \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have. & None of the research \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Roth2020-hg,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Calzavara2018-xv,Holz2020-ha,Michael2015-hn,} processes SSL/TLS verification at the analysis stage. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or assumed to be not enough sites affected. & SSL/TLS verification is performed at the analysis phase. \\
       \hline
@@ -1948,7 +1948,7 @@ The RFC is currently in the draft stage and seeing updates as recently as May 20
 \subsection{Scanning}
 
 \vspace{0.3cm} \noindent
-As the RFC Draft stated that ``\textit{For web-based services, organizations MUST place the "security.txt" file under the "/.well-known/" path}'' e.g. \texttt{https://example.com/.well-known/security.txt} the scanner was initially configured to only try and obtain the security.txt from this location.
+As the RFC Draft stated that ``\textit{For web-based services, organizations MUST place the "security.txt" file under the "/.well-known/" path}'' e.g. \texttt{https://example.com/.well-known/security.txt} the scanner was initially configured to only try and obtain the security.txt from this location. The statement regarding an exception for legacy devices was was missed when creating the scanner.
 
 \vspace{0.3cm} \noindent
 At the end of November 2021 the research paper \textit{Who you gonna call? an empirical evaluation of website security.txt deployment} \cite{Poteat2021-zr} was discovered and found that 18\% of security.txt were found only at the top level path of the domain e.g. \newline \texttt{https://example.com/security.txt}.
@@ -2842,6 +2842,9 @@ If a domain in the preload list stops meeting the above criteria it runs the ris
 \subsection{Parser}
 
 \noindent
+The scanner was not initially configured to capture all the required information to be able to evaluate the conformance to the preload requirements. In March 2021 the base redirect and www subdomain check were added to the scanner.
+
+\vspace{0.3cm} \noindent
 The parser was configured to only analyse domains that were specifically added to the preload list. This is due to entire TLDs (e.g. .app, bank and .dev) being configured in the HSTS preload list and thus domains of these TLDs were not necessarily setup to meet the preload list criteria.
 
 \vspace{0.3cm} \noindent
@@ -2872,7 +2875,7 @@ A random selection of domains that the parser identified as both meeting the pre
 Figure \ref{fig:hsts_preloaded_overview} shows an overal summary of the current state of top 1 million domains that are in the preload list managed by Google. The number of preloaded domains is quite a low percentage, as of January 2022 only 0.72\% of the top 1 million domains were preloaded. The most recent HSTS preload list is from December 2021, as of as of January 2022, which contains 157192 (up from 1258 in 2010 \cite{Michael2015-hn}) entries which would seem to indicate that most of the preloaded domains are not in the top 1 million most popular domains.
 
 \vspace{0.3cm} \noindent
-The low amount of site that are preloaded in the top 1 million most popular domains could be due to that the majority of sites are maintained by individuals with an interest in security and thus not likely to be a very popular domain compared to all the site on the internet.
+The low amount of sites that are preloaded in the top 1 million most popular domains could be due to that the majority of sites are maintained by individuals with an interest in security and thus not likely to be a very popular domain compared to all the site on the internet.
 
 \vspace{0.3cm} \noindent
 As of January 2022 38\% of domains preloaded do not meet the preload requirements anymore. This is a rather high percentage and these domains are at risk of being remove as per the message dispalyed on hstspreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: $<$domain$>$ is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}.
@@ -2985,7 +2988,7 @@ Must be present if the site is to be preloaded via google's HSTS preload service
 
 \subsection{Overview Analysis}
 
-\begin{figure}[H]
+\begin{figure}[t]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{misc_headers-hsts_overview.pdf_tex}}
 		\caption{Number of Domains using the HSTS header and its directives}
@@ -2993,11 +2996,29 @@ Must be present if the site is to be preloaded via google's HSTS preload service
 	\end{center}
 \end{figure}
 
+\begin{table}[t]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|I|D|H|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Weissbacher et al} \cite{Weissbacher2014-vm} March 2014 & \textbf{Ying et al} \cite{Ying2016-ag} June 2015 & \textbf{Buchanan et al} \cite{Buchanan2018-xz} May 2017 & Jan 2022 \\
+      \hline
+      3,005 ($\sim$ 0.3\%) & 9,795 ($\sim$ 0.9\%) & 45,527 (5.4\%) & 200493 (21.1\%)\\
+      \hline
+    \end{tabular}
+    \caption{Historical STS Header Use}
+    \label{table:sts_header_count} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
 \noindent
-Figure \ref{fig:hsts_overview} shows the usage of the HSTS header and its directives \texttt{max-age},  \texttt{includeSubDomains} and \texttt{preload}. It is difficult to see, however the usage of the directive \texttt{max-age} is almost constantly present in every HSTS header.
+Figure \ref{fig:hsts_overview} shows the usage of the STS header and its directives \texttt{max-age},  \texttt{includeSubDomains} and \texttt{preload}. It is difficult to see, however, the usage of the STS Header as directive \texttt{max-age} is present in almost every STS Header.
 
 \vspace{0.3cm} \noindent
-The usage of the directive \texttt{includeSubDomains} is consistently 40\% of all directives used. Modern websites and applications can have a vast amount of sub-domains which and as such will take time to make them all HTTPS if not already. This can be a major factor in the relatively low use of this directive.
+The usage of the directive \texttt{includeSubDomains} is consistently 40\% of all directives used. Modern websites and applications can have a vast amount of sub-domains and as such will take time to make them all HTTPS if not already. This can be a major factor in the relatively l1	ow use of this directive.
+
+\vspace{0.3cm} \noindent
+There are many more sites that have the \texttt{preload} directive set (21.5\%) than are in Google's preload list (3.5\% - shown in figure \ref{fig:hsts_overview} as ``Preloaded Domains''). This could be websites preparing to be added to the preload list but as yet are not ready to meet the preload requirements. Currently there is no known use for using the \texttt{preload} directive other than being included in Google's preload list.
 
 \clearpage
 \newpage
@@ -3011,16 +3032,127 @@ The usage of the directive \texttt{includeSubDomains} is consistently 40\% of al
 \end{figure}
 
 \noindent
-Figure \ref{fig:hsts_max-age} shows groups of the duration of the \texttt{max-age} directive. The most common duration is 3-5 years which shows confidence that website maintainers are intending to keep their websites HTTPS for the foreseeable future.
+Figure \ref{fig:hsts_max-age} shows groups of the duration of the \texttt{max-age} directive. The most common duration is 1-3 which is not unsurprising as the RFC states a vlaue of 1 year. The upward trend is in the 1-3 year bracket which indicates that as sites add a STS header they are doing so with at least a year for the \texttt{max-age} directive.
 
 \vspace{0.3cm} \noindent
-Interestingly both the ranged 0-3 Months and 1-3 years have very similar usage.
+This shows confidence that website maintainers are intending to keep their websites HTTPS for the foreseeable future.
 
 \vspace{0.3cm} \noindent
-\textbf{TODO very short max-age undermines the purpose of HSTS as users may not visit before the max-age has expired}
+As of January 2022 5\% of the \texttt{max-age} directive values are set to a value of 0, down from 6\% in November 2020. This essentially is ``opting out'' of both the HSTS mechanism itself.
 
 \vspace{0.3cm} \noindent
-\textbf{TODO max-age 0 opt out number of domains}
+In table \ref{table:sts_header_count} it can be seen that there has been a near 5 fold increase in the use of the STS header from May 2017.
+
+
+\clearpage
+\newpage
+
+
+\section{X-Content-Type-Options}
+\label{section:xcto}
+
+\subsection{Background}
+
+The \texttt{X-Content-Type-Options} header (XCTO) is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
+\texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
+
+\subsubsection{Directives}
+
+\textbf{nosniff}
+
+\vspace{0.3cm} \noindent
+Denies requests under either of the two below conditions:
+
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type.
+  \item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not \texttt{text/css}.
+\end{itemize}
+
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-x-content-type-options-overview.pdf_tex}}
+		\caption{Number of Domains using the XCTO header and its directives}
+		\label{fig:xcto_overview}
+	\end{center}
+\end{figure}
+
+\clearpage
+\newpage
+
+\noindent
+Figure \ref{fig:xcto_overview} shows the usage of the XCTO header and its single directive \texttt{nosniff}. As there is only one directive for XCTO, the number domains using it and those using the directive \texttt{nosniff} are identical.
+
+\vspace{0.3cm} \noindent
+There is a somewhat linear increase in usage over the measurement period (November 2020 - January 2022) which is encouraging to see.
+
+\begin{table}[t]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|I|D|H|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Weissbacher et al} \cite{Weissbacher2014-vm} March 2014 & \textbf{Ying et al} \cite{Ying2016-ag} June 2015 & \textbf{Buchanan et al} \cite{Buchanan2018-xz} May 2017 & Jan 2022 \\
+      \hline
+      44,954  ($\sim$ 4.5\% ) & 46,405 ($\sim$ 4.6\%) & 89,053 (10\%) & 205,679 (21.5\%)\\
+      \hline
+    \end{tabular}
+    \caption{Historical XCTO Header Use}
+    \label{table:xcto_header_count} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\vspace{0.3cm} \noindent
+In table \ref{table:xcto_header_count} it can be seen that there has been a near 5 fold increase in the use of the XTCO header from 2015 and just over a 2 fold increase since May 2017. As of January 2022 the XCTO header is in use buy only 21\% of scanned domains. Whilst the trend is on a linear increase trend, more awareness and guidance is needed to get a faster adoption of XCTO and the other security headers analysed in this report.
+
+\clearpage
+\newpage
+
+\section{X Frame Options}
+\label{section:xfo}
+
+\subsection{Background}
+
+The \texttt{X-Frame-Options} (XFO) response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+
+\subsubsection{Directives}
+
+\textbf{DENY}
+
+\vspace{0.3cm} \noindent
+The page must not be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+
+\vspace{0.7cm} \noindent
+\textbf{SAMEORIGIN}
+
+\vspace{0.3cm} \noindent
+The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of page that contains the element is that of the page to be rendered in the element.
+
+\vspace{0.7cm} \noindent
+\textbf{ALLOW-FROM $<$uri$>$}
+
+\vspace{0.3cm} \noindent
+Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
+
+\clearpage
+\newpage
+
+\subsection{Overview Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-x-frame-options-overview.pdf_tex}}
+		\caption{Number of Domains using the XFO header and its directives}
+		\label{fig:xfo_overview}
+	\end{center}
+\end{figure}
+
+\noindent
+Figure \ref{fig:xfo_overview} shows the usage of the XCTO header and its single directive \texttt{nosniff}. As there is only one directive for XCTO, the number domains using it and those using the directive \texttt{nosniff} are identical.
+
+\vspace{0.3cm} \noindent
+There is a somewhat linear increase in usage over the measurement period (November 2020 - January 2022) which is encouraging to see.
 
 \clearpage
 \newpage
@@ -3185,99 +3317,6 @@ The \texttt{unsafe-none} directive has the second most usage being 193 domains a
 \newpage
 
 
-\section{X-Content-Type-Options}
-\label{section:xcto}
-
-\subsection{Background}
-
-The \texttt{X-Content-Type-Options} header (XCTO) is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
-\texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
-
-\subsubsection{Directives}
-
-\textbf{nosniff}
-
-\vspace{0.3cm} \noindent
-Denies requests under either of the two below conditions:
-
-\begin{itemize}
-  \setlength\itemsep{0.1em}
-  \item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type.
-  \item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not \texttt{text/css}.
-\end{itemize}
-
-\subsection{Overview Analysis}
-
-\begin{figure}[H]
-	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{misc_headers-x-content-type-options-overview.pdf_tex}}
-		\caption{Number of Domains using the XCTO header and its directives}
-		\label{fig:xcto_overview}
-	\end{center}
-\end{figure}
-
-\clearpage
-\newpage
-
-\noindent
-Figure \ref{fig:xcto_overview} shows the usage of the XCTO header and its single directive \texttt{nosniff}. As there is only one directive for XCTO, the number domains using it and those using the directive \texttt{nosniff} are identical.
-
-\vspace{0.3cm} \noindent
-There is a somewhat linear increase in usage over the measurement period (November 2020 - January 2022) which is encouraging to see.
-
-
-\clearpage
-\newpage
-
-\section{X Frame Options}
-\label{section:xfo}
-
-\subsection{Background}
-
-The \texttt{X-Frame-Options} (XFO) response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
-
-\subsubsection{Directives}
-
-\textbf{DENY}
-
-\vspace{0.3cm} \noindent
-The page must not be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
-
-\vspace{0.7cm} \noindent
-\textbf{SAMEORIGIN}
-
-\vspace{0.3cm} \noindent
-The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of page that contains the element is that of the page to be rendered in the element.
-
-\vspace{0.7cm} \noindent
-\textbf{ALLOW-FROM $<$uri$>$}
-
-\vspace{0.3cm} \noindent
-Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
-
-\clearpage
-\newpage
-
-\subsection{Overview Analysis}
-
-\begin{figure}[H]
-	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{misc_headers-x-frame-options-overview.pdf_tex}}
-		\caption{Number of Domains using the XFO header and its directives}
-		\label{fig:xfo_overview}
-	\end{center}
-\end{figure}
-
-\noindent
-Figure \ref{fig:xfo_overview} shows the usage of the XCTO header and its single directive \texttt{nosniff}. As there is only one directive for XCTO, the number domains using it and those using the directive \texttt{nosniff} are identical.
-
-\vspace{0.3cm} \noindent
-There is a somewhat linear increase in usage over the measurement period (November 2020 - January 2022) which is encouraging to see.
-
-\clearpage
-\newpage
-
-
 \section{Public Key Pins}
 \label{section:hpkp}
 
@@ -3343,6 +3382,7 @@ Part V - Conclusion and Closing Remarks
 
 \section{Conclusions}
 
+- more help (tutorials and default configs) and awareness needed to headers more in use
 
 
 
