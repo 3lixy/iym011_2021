@@ -407,59 +407,6 @@ Cross Origin Request Sharing is a web browser mechanism for the purpose of allow
 \vspace{0.3cm} \noindent
 Under certain circumstances a 'preflight', HTTP OPTIONS call, is made to the resource in question to obtain the criteria that must be met for the desired request to be allowed to be made.
 
-\subsubsection{Response Headers}
-
-\textbf{Access-Control-Allow-Credentials}
-
-\vspace{0.3cm} \noindent
-When a script specifies the value of the \texttt{include} keyword for the request.credentials variable, this results in the browser sending the cookies (which can include session tokens) for the target url along with the request. The default behaviour in this situation is to deny access of the response to the script in case the script has malicious intent to obtain sensitive information.
-
-\vspace{0.3cm} \noindent
-If the response from the target url contains the header Access-Control-Allow-Credentials with a value true the script will be able to access the response.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Allow-Headers}
-
-\vspace{0.3cm} \noindent
-This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP headers that are permitted to be used in the intended request.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Allow-Methods}
-
-\vspace{0.3cm} \noindent
-This header can be present in the headers from a ``preflight'' (HTTP \texttt{OPTIONS} method request) response which determine the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are permitted to be used in the intended request.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Allow-Origin}
-
-\vspace{0.3cm} \noindent
-Specifies which origins (e.g. \texttt{example.com}) the requested resource is permitted to be loaded from.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Expose-Headers}
-
-\vspace{0.3cm} \noindent
-Specifies which headers, other than those deemed to be safe by CORS, from the response can be exposed to scripts.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Max-Age}
-
-\vspace{0.3cm} \noindent
-The duration for which a preflight response can be cached before another preflight request is required.
-
-\subsubsection{Request Headers}
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Request-Headers}
-
-\vspace{0.3cm} \noindent
-Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP headers that are requested to be used in the intended request.
-
-\vspace{0.7cm} \noindent
-\textbf{Access-Control-Request-Method}
-
-\vspace{0.3cm} \noindent
-Optional header can be added to a ``preflight'' (HTTP \texttt{OPTIONS} method) request to specify the HTTP methods (e.g. \texttt{GET}, \texttt{HEAD}) that are requested to be used in the intended request.
-
 \newpage
 
 \section{Selected Security Mechanisms}
@@ -1965,7 +1912,7 @@ Table \ref{table:tls_supported_matrix} is a matrix for the different combination
 \label{section:security_txt}
 
 \subsection{Background}
-The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a domain hosting a http(s) sever \cite{Foudil2021-vh}. The RFC draft mentions two types of systems for where the security.txt should be placed:
+The security.txt is a text file placed at one of the following two locations hosted on a website:
 
 \begin{itemize}
   \item Web-based services
@@ -1984,9 +1931,27 @@ A response to a request of the security.txt file must respond with a \texttt{Con
 \vspace{0.3cm} \noindent
 The RFC is currently in the draft stage and seeing updates as recently as May 2021.
 
+\vspace{0.3cm} \noindent
+Example security.txt file:
+
+\begin{lstlisting}
+Contact: mailto:security@example.com
+Expires: 2022-12-31T00:00:00.000Z
+Encryption: https://example.com/pgp-key.txt
+Acknowledgments: https://example.com/hall-of-fame.txt
+Preferred-Languages: en, es, ru
+\end{lstlisting}
+
 \subsection{Purpose Overview}
 
-\textbf{TODO}
+\noindent
+The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a domain hosting a http(s) sever \cite{Foudil2021-vh}.
+
+\vspace{0.3cm} \noindent
+The primary emphasis of using a security.txt is that its location is known. Without knowing where to find the information required to report vulnerabilities, security researches may not be able to reach the right team in the organisation able to take action on the report for some time or even at all.
+
+\vspace{0.3cm} \noindent
+Security researches can spend quite a long time trying numerous channels such as Linkedin, contact pages on websites, guessing security email addresses. If private messaging attempts fail some researchers resort to seeking assistance via twitter, however this also draws attention to there being a vulnerability on the organisation in the tweet which could allow malicious actors to discover and exploit the vulnerability before it is fixed.
 
 \subsection{Scanning}
 
@@ -2661,6 +2626,8 @@ There are a number of CSP headers, shown below, that have been created leading u
 
 The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \newline \texttt{Content-Security-Policy} with the exception that violations are only reported and not enforced. One of the main uses of this is when webmasters and developers are creating a CSP Policy and do not want to impact the end user experience until the policy is configured as desiredb
 
+\vspace{0.5cm} \noindent
+Example basic CSP policy header: \texttt{Content-Security-Policy: default-src 'self'; script-src 'self' cdn.example.com; style-src 'self'}
 
 \subsection{Purpose Overview}
 
@@ -2952,7 +2919,7 @@ A random selection of domains that the parser identified as both meeting the pre
 
 \begin{figure}[t]
 	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{STS_preload-overview.pdf_tex}}
+        \scalebox{0.90}{\subimport{../images}{HSTS_preload-overview.pdf_tex}}
 		\caption{STS Preload Overview}
 		\label{fig:STS_preloaded_overview}
 	\end{center}
@@ -2980,7 +2947,7 @@ Any data/publications detailing actual removal of domains due to them no longer 
 
 \begin{figure}[t]
 	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{STS_preload-preloaded-not_all_criteria_met.pdf_tex}}
+        \scalebox{0.90}{\subimport{../images}{HSTS_preload-preloaded-not_all_criteria_met.pdf_tex}}
 		\caption{Criteria not met for preloaded domains}
 		\label{fig:STS_preloaded_criteria_not_met}
 	\end{center}
@@ -3071,7 +3038,7 @@ Instructs the browser to also load any subdomains of the site only over HTTPS.
 Must be present if the site is to be preloaded via google's STS preload service.
 
 \vspace{0.3cm} \noindent
-Example STS header configuration: \texttt{Strict-Transport-Security: max-age 31536000; includeSubDomains; preload}.
+Example STS header configuration: \texttt{Strict-Transport-Security: max-age 31536000; includeSubDomains}.
 
 \subsection{Purpose Overview}
 
@@ -3088,7 +3055,7 @@ There is an issue however, in that a browser can only know to load over HTTPS wh
 
 \begin{figure}[t]
 	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{misc_headers-STS_overview.pdf_tex}}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-HSTS_overview.pdf_tex}}
 		\caption{Number of Domains using the STS header and its directives}
 		\label{fig:STS_overview}
 	\end{center}
@@ -3123,7 +3090,7 @@ There are many more sites that have the \texttt{preload} directive set (21.5\%) 
 
 \begin{figure}[t]
 	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{misc_headers-STS_max_age.pdf_tex}}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-HSTS_max_age.pdf_tex}}
 		\caption{Duration groupings of the \texttt{max-age} directive}
 		\label{fig:STS_max-age}
 	\end{center}
@@ -3166,9 +3133,13 @@ Denies requests under either of the two below conditions:
   \item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not \texttt{text/css}.
 \end{itemize}
 
+\vspace{0.3cm} \noindent
+Example XCTO Header: \texttt{X-Content-Type-Options: nosniff}
+
 \subsection{Purpose Overview}
 
-\textbf{TODO}
+\noindent
+This mechanism is intended to mitigate against such attacks as drive by downloads and untrusted user content being treated as an executable.
 
 \newpage
 
@@ -3235,9 +3206,13 @@ The page is allowed to be rendered in any of the following html elements: \textt
 \vspace{0.3cm} \noindent
 Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
 
+\vspace{0.3cm} \noindent
+Example XFO Header: \texttt{X-Frame-Options: DENY}
+
 \subsection{Purpose Overview}
 
-\textbf{TODO}
+\noindent
+The XFO mechanism intended to mitigate against such attacks as clickjacking where an attacker invisibly embeds another site on top of theirs tricking users, via the use of enticing offers such as free electronics, into clicking a seemingly harmless link which actually triggers a function on the embedded site such as transferring money via one's banking website to the attacker.
 
 \clearpage
 \newpage
@@ -3302,13 +3277,20 @@ Disables the mechanism allowing resources to be loaded without explicit permissi
 \vspace{0.3cm} \noindent
 Enables this mechanism only allowing resources being loaded from the same origin or from other origins that explicitly give permissions to do so (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
 
+\vspace{0.3cm} \noindent
+Example COEP Header: \texttt{Cross-Origin-Embedder-Policy: require-corp}
+
 \subsection{Purpose Overview}
 
-\textbf{TODO}
+\noindent
+The COEP mechanisms is to allow a website maintainer to enforce cross-origin resources must be explicitly allowed to be loaded via the use of the CROP header or CORS otherwise the resources will be blocked from being loaded in the browsers.
+
+\vspace{0.3cm} \noindent
+A driving factor for this header being introduced was that some developers may implement CORS in minimal way, such as setting the requesters origin in the Access-Control-Allow-Origin header \cite{noauthor_undated-cr}. This may have the undesired affect of allowing potentially sensitive data to be accessed advertisement data of users.
 
 \subsection{Overview Analysis}
 
-\begin{figure}[H]
+\begin{figure}[t]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{misc_headers-cross-origin-embedder-policy-overview.pdf_tex}}
 		\caption{Number of Domains using the COEP header and its directives}
@@ -3360,9 +3342,16 @@ If the request initiator’s origin and the request destination’s origin are t
 \vspace{0.3cm} \noindent
 The resource is allowed to be loaded regardless of the sites/origins involved.
 
+\vspace{0.3cm} \noindent
+Example COEP Header: \texttt{Cross-Origin-Resource-Policy: same-origin}
+
+\vspace{0.3cm} \noindent
+Example CORP Header: \texttt{Cross-Origin-Embedder-Policy: require-corp}
+
 \subsection{Purpose Overview}
 
-\textbf{TODO}
+\noindent
+A primary class of attacks that this mitigates against are speculative side-channel attacks. The Spectre attack \cite{Kocher2019-gv} is one such attack which was publicly announced in 2018.
 
 \clearpage
 \newpage
@@ -3424,9 +3413,13 @@ Allows the communication of a new window or tab (e.g. popup) to the originating 
 \vspace{0.3cm} \noindent
 Does not allow communication (isolates) from new windows or tab to the originating page (document) unless they are from the same origin. If not from the same origin they are placed in a separate browsing contexts.
 
+\vspace{0.3cm} \noindent
+Example COOP Header: \texttt{Cross-Origin-Opener-Policy: same-origin}
+
 \subsection{Purpose Overview}
 
-\textbf{TODO}
+\noindent
+The COOP mechanism is to prevent a new window or tab spawned from a website from communicating back to a website. If an attacker is able to spawn this new window or tab that is of a site they control, COOP with the directive \texttt{same-origin} will prevent the attacker from communicating back to the website that spawned the new window or tab. This stops the attacker from trying to control the website or exfiltrating data from it.
 
 \clearpage
 \newpage
@@ -3472,7 +3465,8 @@ The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rat
 
 \subsection{Purpose Overview}
 
-\textbf{TODO}
+\noindent
+This header was intended to protect websites in the event a CA provider was compromised, such as DigiNotar in 2011 \cite{Amann2017-co}, and unauthorised certificates being issued to an attacker for the purposes of impersonating websites. The HPKP mechanism would prevent the unauthorised certificate from being trusted by visitors that had previously visited the website i.e. preventing an entity in the middle attack.
 
 \newpage
 
