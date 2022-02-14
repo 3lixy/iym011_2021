@@ -493,17 +493,17 @@ The main attacks that are intended to be mitigated include Cross Site Scripting 
 
 
 \subsection{Strict-Transport Security}
-The \texttt{Strict-Transport Security} response header (HSTS) is a mechanism that instructs the browser to load the website only over https and never http \cite{Hodges2012-pe}. This prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them impersonate the user or just capture sensitive information to name only a few possibilities.
+The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over https and never http \cite{Hodges2012-pe}. This prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them impersonate the user or just capture sensitive information to name only a few possibilities.
 
 \vspace{0.3cm} \noindent
-There is an issue with this header such that a browser can only know to load over https when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the HSTS header. To overcome this preloading is required.
+There is an issue with this header such that a browser can only know to load over https when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the STS header. To overcome this preloading is required.
 
 
-\subsection{HSTS Preloading}
-HSTS Preloading is a mechanism where a browser checks to see if the requested domain is in a predefined list and if it is then the website must only be accessed over HTTPS.
+\subsection{STS Preloading}
+STS Preloading is a mechanism where a browser checks to see if the requested domain is in a predefined list and if it is then the website must only be accessed over HTTPS.
 
 \vspace{0.3cm} \noindent
-The main reason for HSTS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
+The main reason for STS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
 
 \vspace{0.3cm} \noindent
 Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
@@ -766,7 +766,7 @@ Part III - Data Acquisition
 \section{Data Acquisition}
 \label{section:data_aquisition}
 
-In order to be able to analyse HTTP Security Headers, TLS Versions, HSTS Preloading and security.txt adoption, or lack thereof, data on these desired metrics needs to be acquired. There are several overarching ways to acquire the desired data: Active, Passive and Third-Party data sets.
+In order to be able to analyse HTTP Security Headers, TLS Versions, STS Preloading and security.txt adoption, or lack thereof, data on these desired metrics needs to be acquired. There are several overarching ways to acquire the desired data: Active, Passive and Third-Party data sets.
 
 \vspace{0.3cm} \noindent
 Active data collection is the act of establishing TLS connections and or making HTTP requests and storing the resultant connection/request/response data. This method requires the setup of infrastructure and software, which can involve the customisation and or development of entire software applications. Active scanning gives great versatility, however care needs to be taken to ensure the data is collected in a methodical and ideally a reportable way, in order for the analysis to have meaning.
@@ -1007,7 +1007,7 @@ A scanner is to obtain the following information from a list of domains:
     \item If the domain redirects from \texttt{https://} to \texttt{http://}.
     \item The TLS version(s) the domain supports.
     \item The TLS version auto negotiated against the domain.
-    \item If the domain meets the HSTS preload requirements.
+    \item If the domain meets the STS preload requirements.
     \item The HTTP headers, including their values, in use by the base domain (or the www subdomain if the base domain does not have a \texttt{DNS A record} (IPv4 IP address).
     \item The content of the security.txt of the domain.
 \end{itemize}
@@ -1019,7 +1019,7 @@ This section covers the high-level design, represented in Figure \ref{fig:hla_de
 \ref{subsection:requirements}.
 
 \vspace{0.3cm} \noindent
-Existing technologies were evaluated, however a tool that met all the data capture requirements was not met. In particular obtaining the if HSTS Preload requirements were met was not found to be in a current tool.
+Existing technologies were evaluated, however a tool that met all the data capture requirements was not met. In particular obtaining the if STS Preload requirements were met was not found to be in a current tool.
 
 %\clearpage
 
@@ -1379,13 +1379,13 @@ The TLS version used for the HTTPS connection in Stage 3 is skipped as it has al
 \vspace{0.3cm} \noindent
 Stage 4 is deemed complete and processing moves to Stage 5.
 
-\subsubsection{Stage 5 - HSTS Preload}
-\label{subsection:stage_5_hsts}
+\subsubsection{Stage 5 - STS Preload}
+\label{subsection:stage_5_STS}
 
-This stage gathers the required data, such that a determination can be made at a later stage, if the domain of last url in the redirect chain (e.g. \texttt{http://www.example.com/index.php}) from Stage 3 meets the HSTS Preload requirements.
+This stage gathers the required data, such that a determination can be made at a later stage, if the domain of last url in the redirect chain (e.g. \texttt{http://www.example.com/index.php}) from Stage 3 meets the STS Preload requirements.
 
 \vspace{0.3cm} \noindent
-The HSTS Preload requirements are detailed in section \ref{section:hsts_preload}.
+The STS Preload requirements are detailed in section \ref{section:STS_preload}.
 
 \vspace{0.3cm} \noindent
 The following actions are performed on the base domain of the last url in the redirect chain from Step 3 and the results of which are recorded. The base domain of the url is determined by the use of the golang library ``golang.org/x/net/publicsuffix''. If any of the actions have already been performed in section 3, they are skipped as the results have already been captured:
@@ -1564,7 +1564,7 @@ For the purpose of obtaining the HTTP headers of a domain the ``Home Page'' of t
 To determine the TLS versions supported by a domain, other than that used on the HTTPS request to the home page, pure TLS connections are attempted which reduces the service impact as HTTP requests will add additional load to that of pure TLS connections. Additionally pure TLS connections are only attempted if an HTTPS connection was successful to a domain's home page.
 
 \vspace{0.3cm} \noindent
-Whilst obtaining the HSTS preload state of a domain, as detailed in section \ref{subsection:stage_5_hsts}, it is first checked if a url has already been requested. During the processing of a task, including redirects, it is quite possible that the information sought has already been obtained.
+Whilst obtaining the STS preload state of a domain, as detailed in section \ref{subsection:stage_5_STS}, it is first checked if a url has already been requested. During the processing of a task, including redirects, it is quite possible that the information sought has already been obtained.
 
 \vspace{0.3cm} \noindent
 There is no retry logic for a request to a domain to additionally reduce service degradation of the target domain.
@@ -2884,15 +2884,12 @@ It is quite disappointing that the use of \texttt{unsafe-inline} and \texttt{uns
 \newpage
 
 
-\section{HSTS Preload}
-\label{section:hsts_preload}
+\section{STS Preload}
+\label{section:STS_preload}
 
 \subsection{Background}
 
-HSTS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
-
-\vspace{0.3cm} \noindent
-The main reason for HSTS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
+STS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
 
 \vspace{0.3cm} \noindent
 Google maintains a predefined list, launched in 2010 \cite{Michael2015-hn}, of websites where the website owners/maintainers have requested to be added and required an email to be sent to a google  engineer to be included in the list \cite{Langley_undated-dm}. This service later gained a web portal in mid-2014 \cite{Michael2015-hn} for the request to be included in the preload list.
@@ -2911,12 +2908,13 @@ The following criteria must be met in order for a domain to qualify to be includ
   \item[e.g.:] if \texttt{http://example.com} is accessible, it must redirect to \texttt{https://example.com}
   \end{description}
   \item All subdomains should be served over HTTPS, however only the \texttt{www} subdomain (e.g. \texttt{www.example.com}) is checked if present in DNS.
-  \item An HSTS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
+  \item An STS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
   \begin{itemize}
     \item \texttt{max-age} directive must be no less than 31536000 seconds (i.e. 1 year).
     \item \texttt{includeSubDomains} directive must be present.
     \item \texttt{preload} directive must be present.
-    \item Should the site redirect away when accessed over HTTPS, the site must have the HSTS header.
+    \item Should the site redirect away when accessed over HTTPS, the site must have the STS header.
+    \item Example STS header preload configuration: \texttt{Strict-Transport-Security: max-age 31536000; includeSubDomains; preload}.
   \end{itemize} 
 \end{itemize}
 
@@ -2925,7 +2923,8 @@ If a domain in the preload list stops meeting the above criteria it runs the ris
 
 \subsection{Purpose Overview}
 
-\textbf{TODO}
+\noindent
+The main reason for STS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
 
 \subsection{Parser}
 
@@ -2933,16 +2932,16 @@ If a domain in the preload list stops meeting the above criteria it runs the ris
 The scanner was not initially configured to capture all the required information to be able to evaluate the conformance to the preload requirements. In March 2021 the base redirect and www subdomain check were added to the scanner.
 
 \vspace{0.3cm} \noindent
-The parser was configured to only analyse domains that were specifically added to the preload list. This is due to entire TLDs (e.g. .app, bank and .dev) being configured in the HSTS preload list and thus domains of these TLDs were not necessarily setup to meet the preload list criteria.
+The parser was configured to only analyse domains that were specifically added to the preload list. This is due to entire TLDs (e.g. .app, bank and .dev) being configured in the STS preload list and thus domains of these TLDs were not necessarily setup to meet the preload list criteria.
 
 \vspace{0.3cm} \noindent
 In the preload commit (Tue Nov 09 22:54:06 2021) there are 34 TLDs configured. This means that any site that is of one of these preload lists is preloaded (i.e. the domain itself is not in the preload list only the TLD)
 
 \vspace{0.3cm} \noindent
-All of the HSTS preload lists were obtained from chromium.googlesource.com and the most recent list preceding the time of a scan was used to identify if a domains was preloaded or not.
+All of the STS preload lists were obtained from chromium.googlesource.com and the most recent list preceding the time of a scan was used to identify if a domains was preloaded or not.
 
 \vspace{0.3cm} \noindent
-A random selection of domains that the parser identified as both meeting the preload criteria and not meeting the preload criteria were checked on the https://hstspreload.org/ website for verification that the parser was working as intended.
+A random selection of domains that the parser identified as both meeting the preload criteria and not meeting the preload criteria were checked on the https://STSpreload.org/ website for verification that the parser was working as intended.
 
 
 \clearpage
@@ -2953,23 +2952,23 @@ A random selection of domains that the parser identified as both meeting the pre
 
 \begin{figure}[t]
 	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{hsts_preload-overview.pdf_tex}}
-		\caption{HSTS Preload Overview}
-		\label{fig:hsts_preloaded_overview}
+        \scalebox{0.90}{\subimport{../images}{STS_preload-overview.pdf_tex}}
+		\caption{STS Preload Overview}
+		\label{fig:STS_preloaded_overview}
 	\end{center}
 \end{figure}
 
 \noindent
-Figure \ref{fig:hsts_preloaded_overview} shows an overal summary of the current state of top 1 million domains that are in the preload list managed by Google. The number of preloaded domains is quite a low percentage, as of January 2022 only 0.72\% of the top 1 million domains were preloaded.
+Figure \ref{fig:STS_preloaded_overview} shows an overal summary of the current state of top 1 million domains that are in the preload list managed by Google. The number of preloaded domains is quite a low percentage, as of January 2022 only 0.72\% of the top 1 million domains were preloaded.
 
 \vspace{0.3cm} \noindent
-The most recent HSTS preload list is from February 2022, as of as of January 2022, which contains 157192 (up from 1258 in 2010 \cite{Michael2015-hn}) entries which would seem to indicate that most of the preloaded domains are not in the top 1 million most popular domains.
+The most recent STS preload list is from February 2022, as of as of January 2022, which contains 157192 (up from 1258 in 2010 \cite{Michael2015-hn}) entries which would seem to indicate that most of the preloaded domains are not in the top 1 million most popular domains.
 
 \vspace{0.3cm} \noindent
 The low amount of sites that are preloaded in the top 1 million most popular domains could be due to that the majority of sites are maintained by individuals with an interest in security and thus not likely to be a very popular domains compared to all the site on the internet.
 
 \vspace{0.3cm} \noindent
-As of January 2022 38\% of domains preloaded do not meet the preload requirements anymore. This is a rather high percentage and these domains are at risk of being remove as per the message dispalyed on hstspreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: $<$domain$>$ is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}.
+As of January 2022 38\% of domains preloaded do not meet the preload requirements anymore. This is a rather high percentage and these domains are at risk of being remove as per the message dispalyed on STSpreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: $<$domain$>$ is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}.
 
 \vspace{0.3cm} \noindent
 Domains in the preload list that no longer meet the critera and were in the preload list before the requirements were formally documented and the web portal rolled out in 2014, are not subject for removal from the preload list however.
@@ -2981,9 +2980,9 @@ Any data/publications detailing actual removal of domains due to them no longer 
 
 \begin{figure}[t]
 	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{hsts_preload-preloaded-not_all_criteria_met.pdf_tex}}
+        \scalebox{0.90}{\subimport{../images}{STS_preload-preloaded-not_all_criteria_met.pdf_tex}}
 		\caption{Criteria not met for preloaded domains}
-		\label{fig:hsts_preloaded_criteria_not_met}
+		\label{fig:STS_preloaded_criteria_not_met}
 	\end{center}
 \end{figure}
 
@@ -2991,7 +2990,7 @@ Any data/publications detailing actual removal of domains due to them no longer 
 %\cite{Michael2015-hn} Upgrading HTTPS in Mid-Air
 
 \vspace{0.3cm} \noindent
-Figure \ref{fig:hsts_preloaded_criteria_not_met} shows the percentage of each criteria not met for domains that are preloaded from those that were scanned. The most prevalent criteria not met  was the lack of presence of the HSTS header followed by not redirecting from HTTP to HTTPS on the base domain.
+Figure \ref{fig:STS_preloaded_criteria_not_met} shows the percentage of each criteria not met for domains that are preloaded from those that were scanned. The most prevalent criteria not met  was the lack of presence of the STS header followed by not redirecting from HTTP to HTTPS on the base domain.
 
 \vspace{0.5cm} \noindent
 \textbf{No Base Redirect}
@@ -3006,34 +3005,34 @@ As of January 2022 12.6\% of preloaded domains not longer redirect correctly fro
 \textbf{Subdomain not HTTPS}
 
 \vspace{0.3cm} \noindent
-The \texttt{includeSubdomains} parameter must be included on the HSTS header, meaning that all subdomains of the base domain will be forced to load over HTTPS. Only the www subdomain is checked to see if it has a DNS entry and subsequently checked if the domain supports HTTPS on the www subdomain e.g. \texttt{https://www.exmaple.com}.
+The \texttt{includeSubdomains} parameter must be included on the STS header, meaning that all subdomains of the base domain will be forced to load over HTTPS. Only the www subdomain is checked to see if it has a DNS entry and subsequently checked if the domain supports HTTPS on the www subdomain e.g. \texttt{https://www.exmaple.com}.
 
 \vspace{0.3cm} \noindent
 As of January 2022 0.37\% of preloaded domains no longer use HTTPS on the www subdomain. This is rather surprising as going as far to preloading the domain to then not support HTTPS on the www subdomain at a later date is rather counter intuitive. It is possible that this was a configuration mistake on the web server.
 
 \vspace{0.5cm} \noindent
-\textbf{HSTS Header}
+\textbf{STS Header}
 
 \vspace{0.3cm} \noindent
-\textit{- No HSTS Header}
+\textit{- No STS Header}
 
 \vspace{0.3cm} \noindent
-By far the most prevalent reason that a domain no longer met the preload critera was a missing HSTS header. Many websites have numerous subdomains and it can be hard to keep track of all that are in use. Those managing the security aspect may not be aware of all the subdomains and by preloading the base domain could have caused issues if one or more subdomains were configured with only HTTP or invalid HTTPS configurations. This would lead to the request to have the base domain removed from the preload list.
+By far the most prevalent reason that a domain no longer met the preload critera was a missing STS header. Many websites have numerous subdomains and it can be hard to keep track of all that are in use. Those managing the security aspect may not be aware of all the subdomains and by preloading the base domain could have caused issues if one or more subdomains were configured with only HTTP or invalid HTTPS configurations. This would lead to the request to have the base domain removed from the preload list.
 
 \vspace{0.3cm} \noindent
 \textit{- Max Age too short}
 
 \vspace{0.3cm} \noindent
-4.2\% of preloaded domains that presented a HSTS header, have a \texttt{max-age} directive value of less than one year (31,536,000 seconds). This also happens to be the value given in the HSTS rfc \cite{Hodges2012-pe}.
+4.2\% of preloaded domains that presented a STS header, have a \texttt{max-age} directive value of less than one year (31,536,000 seconds). This also happens to be the value given in the STS rfc \cite{Hodges2012-pe}.
 
 \vspace{0.3cm} \noindent
-For 02 January 2022 the most common duration under a year was 180 days (6 months). There were also 3 domains that presented a max-age of 31104000 which is only 5 days below the required 365 days. 20 domains used a value of 0, essentially ``opting out'' of both the preloading and HSTS mechanism itself.
+For 02 January 2022 the most common duration under a year was 180 days (6 months). There were also 3 domains that presented a max-age of 31104000 which is only 5 days below the required 365 days. 20 domains used a value of 0, essentially ``opting out'' of both the preloading and STS mechanism itself.
 
 \vspace{0.3cm} \noindent
 \textit{- Missing preload}
 
 \vspace{0.3cm} \noindent
-1.6\% of preloaded domains did not provide the directive \texttt{preload} in the HSTS header. As this directive is only used for the purpose of preloading, one might assume that this was done on purpose such that preloading was not longer desired.
+1.6\% of preloaded domains did not provide the directive \texttt{preload} in the STS header. As this directive is only used for the purpose of preloading, one might assume that this was done on purpose such that preloading was not longer desired.
 
 \vspace{0.3cm} \noindent
 \textit{- Missing includeSubdomains}
@@ -3046,14 +3045,11 @@ For 02 January 2022 the most common duration under a year was 180 days (6 months
 \newpage
 
 \section{Strict Transport Security}
-\label{section:hsts}
+\label{section:STS}
 
 \subsection{Background}
 
-The \texttt{Strict-Transport Security} response header (HSTS) is a mechanism that instructs the browser to load the website only over https and never http \cite{Hodges2012-pe}.
-
-\vspace{0.3cm} \noindent
-There is an issue with this header such that a browser can only know to load over https when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the HSTS header. To overcome this preloading is required which was discussed in the previous section.
+The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over https and never http \cite{Hodges2012-pe}.
 
 \subsubsection{Directives}
 
@@ -3072,11 +3068,18 @@ Instructs the browser to also load any subdomains of the site only over HTTPS.
 \textbf{preload}
 
 \vspace{0.3cm} \noindent
-Must be present if the site is to be preloaded via google's HSTS preload service.
+Must be present if the site is to be preloaded via google's STS preload service.
+
+\vspace{0.3cm} \noindent
+Example STS header configuration: \texttt{Strict-Transport-Security: max-age 31536000; includeSubDomains; preload}.
 
 \subsection{Purpose Overview}
 
-\textbf{TODO}
+\noindent
+The STS header prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them impersonate the user or just capture sensitive information to name only a few possibilities.
+
+\vspace{0.3cm} \noindent
+There is an issue however, in that a browser can only know to load over HTTPS when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the STS header. To overcome this preloading is required which was discussed in the previous section.
 
 \clearpage
 \newpage
@@ -3085,9 +3088,9 @@ Must be present if the site is to be preloaded via google's HSTS preload service
 
 \begin{figure}[t]
 	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{misc_headers-hsts_overview.pdf_tex}}
-		\caption{Number of Domains using the HSTS header and its directives}
-		\label{fig:hsts_overview}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-STS_overview.pdf_tex}}
+		\caption{Number of Domains using the STS header and its directives}
+		\label{fig:STS_overview}
 	\end{center}
 \end{figure}
 
@@ -3107,33 +3110,33 @@ Must be present if the site is to be preloaded via google's HSTS preload service
 \end{table}
 
 \noindent
-Figure \ref{fig:hsts_overview} shows the usage of the STS header and its directives \texttt{max-age},  \texttt{includeSubDomains} and \texttt{preload}. It is difficult to see, however, the usage of the STS Header as directive \texttt{max-age} is present in almost every STS Header.
+Figure \ref{fig:STS_overview} shows the usage of the STS header and its directives \texttt{max-age},  \texttt{includeSubDomains} and \texttt{preload}. It is difficult to see, however, the usage of the STS Header as directive \texttt{max-age} is present in almost every STS Header.
 
 \vspace{0.3cm} \noindent
 The usage of the directive \texttt{includeSubDomains} is consistently 40\% of all directives used. Modern websites and applications can have a vast amount of sub-domains and as such will take time to make them all HTTPS if not already. This can be a major factor in the relatively low use of this directive.
 
 \vspace{0.3cm} \noindent
-There are many more sites that have the \texttt{preload} directive set (21.5\%) than are in Google's preload list (3.5\% - shown in figure \ref{fig:hsts_overview} as ``Preloaded Domains''). This could be websites preparing to be added to the preload list but as yet are not ready to meet the preload requirements. Currently there is no known use for using the \texttt{preload} directive other than being included in Google's preload list.
+There are many more sites that have the \texttt{preload} directive set (21.5\%) than are in Google's preload list (3.5\% - shown in figure \ref{fig:STS_overview} as ``Preloaded Domains''). This could be websites preparing to be added to the preload list but as yet are not ready to meet the preload requirements. Currently there is no known use for using the \texttt{preload} directive other than being included in Google's preload list.
 
 \clearpage
 \newpage
 
 \begin{figure}[t]
 	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{misc_headers-hsts_max_age.pdf_tex}}
+        \scalebox{0.90}{\subimport{../images}{misc_headers-STS_max_age.pdf_tex}}
 		\caption{Duration groupings of the \texttt{max-age} directive}
-		\label{fig:hsts_max-age}
+		\label{fig:STS_max-age}
 	\end{center}
 \end{figure}
 
 \noindent
-Figure \ref{fig:hsts_max-age} shows groups of the duration of the \texttt{max-age} directive. The most common duration is 1-3 years which is not unsurprising as the RFC states a vlaue of 1 year. The upward trend is in the 1-3 years bracket which indicates that as sites add a STS header they are doing so with at least a year for the \texttt{max-age} directive.
+Figure \ref{fig:STS_max-age} shows groups of the duration of the \texttt{max-age} directive. The most common duration is 1-3 years which is not unsurprising as the RFC states a vlaue of 1 year. The upward trend is in the 1-3 years bracket which indicates that as sites add a STS header they are doing so with at least a year for the \texttt{max-age} directive.
 
 \vspace{0.3cm} \noindent
 This shows confidence that website maintainers are intending to keep their websites HTTPS for the foreseeable future.
 
 \vspace{0.3cm} \noindent
-As of January 2022 5\% of the \texttt{max-age} directive values are set to a value of 0, down from 6\% in November 2020. This essentially is ``opting out'' of both the HSTS mechanism itself.
+As of January 2022 5\% of the \texttt{max-age} directive values are set to a value of 0, down from 6\% in November 2020. This essentially is ``opting out'' of both the STS mechanism itself.
 
 \vspace{0.3cm} \noindent
 In table \ref{table:sts_header_count} it can be seen that there has been a near 5 fold increase in the use of the STS header from May 2017.
@@ -3539,7 +3542,7 @@ SSL/TLS
 
 
 \vspace{0.3cm} \noindent
-HSTS Preload
+STS Preload
 - 
 
 \vspace{0.3cm} \noindent
@@ -3548,7 +3551,7 @@ COOP
 
 
 \vspace{0.3cm} \noindent
-HSTS Preload
+STS Preload
 - 
 
 \vspace{0.3cm} \noindent
