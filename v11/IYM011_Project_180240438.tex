@@ -3311,6 +3311,9 @@ Alternatively the sharp rise could be due to preparation of changing the headers
 The use of the \texttt{require-corp} directive is very low and as of January 2022.
 
 \vspace{0.3cm} \noindent
+The COEP header was introduced recently enough that similar analysis of header usage was not seen in research consulted thus no comparison is able to be made.
+
+\vspace{0.3cm} \noindent
 \textbf{TODO are the domains in the spike related to one another in some way?}
 
 \clearpage
@@ -3382,6 +3385,9 @@ Lastly \texttt{same-site} which allows resources to be loaded from any site whos
 There are a couple of spikes one in April 2021 and another in July 2021 for the use of \texttt{same-origin} directive.
 
 \vspace{0.3cm} \noindent
+The CORP header was introduced recently enough that similar analysis of header usage was not seen in research consulted thus no comparison is able to be made.
+
+\vspace{0.3cm} \noindent
 \textbf{TODO are the domains in the spike related to one another in some way?}
 
 \clearpage
@@ -3438,10 +3444,13 @@ The COOP mechanism is to prevent a new window or tab spawned from a website from
 Figure \ref{fig:coop_overview} shows the usage of the COOP header and its directives \texttt{unsafe-none}, \newline \texttt{same-origin-allow-popups} and \texttt{same-origin}. The usage of the COOP header is almost double that of the CORP header and quadruple that of the COEP header in January 2022, but is still rather low.
 
 \vspace{0.3cm} \noindent
-The most common directive used by far is \texttt{same-origin}, with 84\% of all directives (1029 domains) in January 2022. It is the most restrictive of the available directives which is great to see. It is of no real surprise that this is the case and it is relatively safe to assume that most websites would want isolation between windows or tabs as most functionality required would be within the same tab/window.
+The most common directive used by far is \texttt{same-origin}, with 67\% of all directives (1013 domains) in January 2022. It is the most restrictive of the available directives which is great to see. It is of no real surprise that this is the case and it is relatively safe to assume that most websites would want isolation between windows or tabs as most functionality required would be within the same tab/window.
 
 \vspace{0.3cm} \noindent
-The \texttt{unsafe-none} directive has the second most usage being 193 domains and 15\% of all directives used in January 2022. Lastly the \texttt{same-origin-allow-popups} directive is hardly used with ?? domains and ??\% \textbf{TODO} of all directives used in January 2022.
+The \texttt{same-origin-allow-popups} directive has the second most usage with 289 domains and 19\% of all directives used in January 2022. Lastly the \texttt{unsafe-none} the least used with 194 domains and 13\% of all directives used in January 2022.
+
+\vspace{0.3cm} \noindent
+The COOP header was introduced recently enough that similar analysis of header usage was not seen in research consulted thus no comparison is able to be made.
 
 \clearpage
 \newpage
