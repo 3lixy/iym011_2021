@@ -3480,6 +3480,21 @@ This header was intended to protect websites in the event a CA provider was comp
 	\end{center}
 \end{figure}
 
+\begin{table}[t]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|I|D|H|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Weissbacher et al} \cite{Weissbacher2014-vm} March 2014 & \textbf{Ying et al} \cite{Ying2016-ag} June 2015 & \textbf{Buchanan et al} \cite{Buchanan2018-xz} May 2017 & Jan 2022 \\
+      \hline
+      NA &  118 ($\sim$ 0.01\%) & 6,624 (0.7\%) & 526 (0.05\%)\\
+      \hline
+    \end{tabular}
+    \caption{Historical PKP Header Use}
+    \label{table:pkp_header_count} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
 \noindent
 Figure \ref{fig:pkp_overview} shows the usage of the HPKP header. As the header is deprecated by most modern browsers only the domains that used the header was analysed.
 
@@ -3487,22 +3502,7 @@ Figure \ref{fig:pkp_overview} shows the usage of the HPKP header. As the header 
 From November 2020 to mid March 2021 there was a steady decline, however since then usage as slightly fluctuated and the use in January 2022 is that of Mid March 2021. This indicates that there are a number of domains that have as yet to deprecate the HPKP header.
 
 \vspace{0.3cm} \noindent
-Table \ref{table:hpkp_use} shows that since May 2017 there has been a big drop in the use of the HPKP from 6624 to 526 in January 2022.
-
-\begin{table}[b]
-\footnotesize
-  \begin{center}
-    \begin{tabular}{|D|D|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-      \hline
-      \textbf{Buchanan et al} \cite{Buchanan2018-xz} August 2015 & \textbf{Buchanan et al} \cite{Buchanan2018-xz} May 2017 & November 2020 & January 2022 \\
-      \hline
-	  148 & 6624 & 624 & 526\\
-      \hline
-    \end{tabular}
-    \caption{Number of Domains using the HPKP header}
-    \label{table:hpkp_use} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
-  \end{center}
-\end{table}
+Table \ref{table:pkp_header_count} shows that since May 2017 was potentially the peak use of the PKP header and as of January 2022 there are only 526 sites using the header.
 
 \clearpage
 \newpage
