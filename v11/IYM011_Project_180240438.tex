@@ -1904,6 +1904,13 @@ Table \ref{table:tls_supported_matrix} is a matrix for the different combination
   \end{center}
 \end{table}
 
+\newpage
+
+\subsection{Conclusion}
+
+\noindent
+\textbf{TODO}
+
 \clearpage
 \newpage
 
@@ -1999,10 +2006,11 @@ If a security.txt file was deemed to be conformant it was hashed using the SHA25
 \vspace{0.3cm} \noindent
 During the process of creating the parser it was noticed that some security.txt files had a dynamic value set for the Expires field (visiting the file manually on different occasions would show the expires time to be a constant time from the time of request). As this would affect the detection of unique security.txt, all Expires field lines were removed before hashing took place.
 
+\newpage
 
 \subsection{Overview Analysis}
 
-\begin{figure}[H]
+\begin{figure}[t]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{security.txt-by_rank.pdf_tex}}
 		\caption{security.txt (only /.well-known path) by rank}
@@ -2010,8 +2018,6 @@ During the process of creating the parser it was noticed that some security.txt 
 	\end{center}
 \end{figure}
 
-\clearpage
-\newpage
 
 \noindent
 Figure \ref{fig:security_txt_by_rank} shows the percentage of domains that the scanner was able to identify having a valid security.txt at the path \texttt{/.well-known/security.txt} e.g. \newline \texttt{https://example.com/.well-known/security.txt}. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
@@ -2025,22 +2031,13 @@ The ranks ranges in Figure \ref{fig:security_txt_by_rank} in this report are as 
 \vspace{0.3cm} \noindent
 The uniformly overall percentage difference is roughly the 18\% of security.txt files that are potentially missing from this reports figure \ref{fig:security_txt_by_rank} due to the finding in \cite{Poteat2021-zr} that 18\% of sites only serve a security.txt at their top level path.
 
-\begin{figure}[H]
-	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{security.txt-by_root_vs_non_root.pdf_tex}}
-		\caption{security.txt file locations}
-		\label{fig:security_txt_by_root_vs_non_root}
-	\end{center}
-\end{figure}
-
-\clearpage
 \newpage
 
 \begin{figure}[t]
 	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{security.txt-unique_vs_non_unique.pdf_tex}}
-		\caption{security.txt (only /.well-known path) Unique Domains vs Unique Files}
-		\label{fig:security_txt_unique_vs_domains}
+        \scalebox{0.90}{\subimport{../images}{security.txt-by_root_vs_non_root.pdf_tex}}
+		\caption{security.txt file locations}
+		\label{fig:security_txt_by_root_vs_non_root}
 	\end{center}
 \end{figure}
 
@@ -2053,16 +2050,18 @@ Figure \ref{fig:security_txt_unique_vs_domains} shows the number of unique secur
 \vspace{0.3cm} \noindent
 The number of unique security.txt files is roughly half of all security.txt files found on unique domains. A reason for this could be that one organisation is responsible for multiple domains and uses a common security.txt for most and or all domains under their control.
 
-\vspace{0.3cm} \noindent
-Due to the large difference between the number of unique security.txt and number of unique domains further investigation was conducted to identify any large groupings of domains that used the same security.txt. From the 02 January 2022 scan, Google has the highest number of domains (198) with tumblr having (189) coming in a close second. The domains were grouped by the hash of the security.txt file. As one might expect the domains associated with Google predominantly started with \texttt{google.} e.g. \texttt{google.com}. The domains associated with tumblr had ``\textit{Please report abusive content (including spam, privacy violations, etc) at https://www.tumblr.com/abuse}'' in their security.txt file and did not appear to have a particular naming format, however the hackerone link revealed that an organisation named ``Automatic'' manage the hackerone representation.
+\newpage
 
-\vspace{0.3cm} \noindent
-Whilst this is nice to see that organisations look to be using unified configurations this does give another potential method by which to identify/fingerprint sites that are controlled by large organisations. This gives the opportunity to find sites with potentially weaker security (inherited from an acquisition for example) in order to laterally move to the parent organisations infrastructure.
+\begin{figure}[t]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{security.txt-unique_vs_non_unique.pdf_tex}}
+		\caption{security.txt (only /.well-known path) Unique Domains vs Unique Files}
+		\label{fig:security_txt_unique_vs_domains}
+	\end{center}
+\end{figure}
 
-\vspace{0.3cm} \noindent
-A low amount of security.txt files (17\%) contained signatures which allow the security researcher to verify the legitimacy of the security.txt. It should be noted that the signature should be allowed to be verified using out of band methods (i.e. not a link in the security.txt itself) such as DNSSEC.
 
-\begin{figure}[H]
+\begin{figure}[t]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{security.txt-fields_use_unique_files-root.pdf_tex}}
 		\caption{unique security.txt (top level path) by field use}
@@ -2070,8 +2069,18 @@ A low amount of security.txt files (17\%) contained signatures which allow the s
 	\end{center}
 \end{figure}
 
-\clearpage
+
+\vspace{0.3cm} \noindent
+Due to the large difference between the number of unique security.txt and number of unique domains further investigation was conducted to identify any large groupings of domains that used the same security.txt. From the 02 January 2022 scan, Google has the highest number of domains (198) with tumblr having (189) coming in a close second. The domains were grouped by the hash of the security.txt file. As one might expect the domains associated with Google predominantly started with \texttt{google.} e.g. \texttt{google.com}. The domains associated with tumblr had ``\textit{Please report abusive content (including spam, privacy violations, etc) at https://www.tumblr.com/abuse}'' in their security.txt file and did not appear to have a particular naming format, however the hackerone link revealed that an organisation named ``Automatic'' manage the hackerone representation.
+
+\vspace{0.3cm} \noindent
+Whilst this is nice to see that organisations look to be using unified configurations this does give another potential method by which to identify/fingerprint sites that are controlled by large organisations. This gives the opportunity to find sites with potentially weaker security (inherited from an acquisition for example) in order to laterally move to the parent organisations infrastructure.
+
 \newpage
+
+\vspace{0.3cm} \noindent
+A low amount of security.txt files (17\%) contained signatures which allow the security researcher to verify the legitimacy of the security.txt. It should be noted that the signature should be allowed to be verified using out of band methods (i.e. not a link in the security.txt itself) such as DNSSEC.
+
 
 \subsection{Fields}
 
@@ -2205,9 +2214,6 @@ Of the security.txt files that had one or more contacts the majority contained o
 \vspace{0.3cm} \noindent
 Of the 1.5-2\% of security.txt files that did contain one or more fields but did not contain a \texttt{Contact} field, several did contain other non RFC contact fields including:
 
-\clearpage
-\newpage
-
 \begin{itemize}
 	\setlength\itemsep{0.01em}
     \item openbugbounty field - openbugbounty is a not for profit organisation for the reporting of security vulnerabilities.
@@ -2236,8 +2242,6 @@ There are several possible reasons that domains are not including the expires in
 \noindent
 Figure \ref{fig:security_txt_by_when_expires} shows that there are a minimal amount of security.txt files that have an expires value in the past (ranging from 0\% to $\sim$3\%). The number of security.txt files that expire in less than a year is trending down and those that are to expire greater than an year is increasing. This looks to indicate that expires values are being changed to last more than one year against the recommendation of the RFC, which is to have an expire value less than a year to avoid staleness.
 
-\clearpage
-\newpage
 
 \begin{figure}[t]
 	\begin{center}
@@ -2363,6 +2367,12 @@ All of the \texttt{Permission} values appear to be set to \texttt{none} which wo
 
 \vspace{0.3cm} \noindent
 The \texttt{Disclosure} values were seen to be a HTTPS link, \texttt{Full}, \texttt{Partial} or \texttt{None} which would seem to indicate that if a security vulnerability were to be submitted the security researcher would act in good faith and adhere to this value in regards to the public disclosure of the security vulnerability found.
+
+\subsection{Conclusion}
+
+\noindent
+\textbf{TODO}
+
 
 \newpage
 
@@ -2708,6 +2718,9 @@ As the scanner followed redirects the parser kept track of the resultant domain 
 
 \subsection{Overview Analysis}
 
+\noindent
+Figure \ref{fig:csp_by_rank} shows the percentage of domains that the scanner was able to identify having a CSP header. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
+
 \begin{figure}[H]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{csp-by_rank.pdf_tex}}
@@ -2716,9 +2729,7 @@ As the scanner followed redirects the parser kept track of the resultant domain 
 	\end{center}
 \end{figure}
 
-
-\noindent
-Figure \ref{fig:csp_by_rank} shows the percentage of domains that the scanner was able to identify having a CSP header. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
+\newpage
 
 \vspace{0.3cm} \noindent
 Each rank group shows a steady rise in the use of a CSP headers, with domain in the Rank of 1-100 group seeing the most use, which is an encouraging sign. There is a long way to go however to have the majority of sites using a CSP policy.
@@ -2747,14 +2758,26 @@ In the research by \texttt{Weissbacher et al} \cite{Weissbacher2014-vm} in March
   \end{center}
 \end{table}
 
-
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{csp-header_use.pdf_tex}}
+		\caption{CSP headers use by name}
+		\label{fig:csp_by_rank}
+	\end{center}
+\end{figure}
 
 \vspace{0.3cm} \noindent
-Even though the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} CSP headers are now deprecated, there is still an increase in use from the \texttt{Ying et al} study \cite{Ying2016-ag} in June 2015 as shown in table \ref{table:csp_header_count}. The current (Jan 2022) overall percentage of use for these two headers however, is less that 4\% of all the CSP headers combined. Of the 4\% of domains that utalise the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} headers, only 13\% of them use only one or both of them. The remaining 87\% also use the \texttt{Content-Security-Policy} and or \texttt{Content-Security-Policy-Report-Only} headers.
+Even though the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} CSP headers are now deprecated, there is still an increase in use from the \texttt{Ying et al} study \cite{Ying2016-ag} in June 2015 as shown in table \ref{table:csp_header_count}. The current (Jan 2022) overall percentage of use for these two headers however, is less that 4\% of all the CSP headers combined.
 
+\vspace{0.3cm} \noindent
+Of the 4\% of domains that use the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} headers, only 13\% of these only use either of these two headers i.e. 87\% of domains that use \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} also use the \texttt{Content-Security-Policy}.
 
 \vspace{0.3cm} \noindent
 The presumed reason that domains use both deprecated and current CSP headers is backwards comparability for older browsers. Other possible reasons could be that legacy configurations that have been added to rather than removing the deprecated headers, or tooling in use automatically configures the deprecated headers.
+
+\vspace{0.3cm} \noindent
+\textbf{TODO csp-report-only} number of ro header that does not have a report-uri or report-to
+\% of Content-Security-Report-Only that does not have a report-uri / report-to
 
 \clearpage
 \newpage
@@ -2841,11 +2864,38 @@ The \texttt{self} keyword (restricting resources to the origin of the web page) 
 It can be seen from table \ref{table:csp_default-src-keyword} that \texttt{self} has had a marked increase in proportional use from \texttt{Ying et al} \cite{Ying2016-ag} in June 2015. The use of keywords \texttt{unsafe-inline} and \texttt{unsafe-eval} have unfortunately significantly increased to over 87\% and 79\% respectively.
 
 \vspace{0.3cm} \noindent
-It is quite disappointing that the use of \texttt{unsafe-inline} and \texttt{unsafe-eval} is still so prevalent. This indicates that website maintainers are struggling to be able to create CSP policies that are more restrictive but also do not impact the users experience, some may have event given up on the prospect.
+It is quite disappointing that the use of \texttt{unsafe-inline} and \texttt{unsafe-eval} is still so prevalent as setting these keywords allow a big attack vector for malicious actors. This indicates that website maintainers are struggling to be able to create CSP policies that are more restrictive but also do not impact the users experience, some may have event given up on the prospect.
 
-\subsubsection{report-uri}
+\subsubsection{reporting directives}
 
+\begin{figure}[t]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{csp-reporting_directives.pdf_tex}}
+		\caption{Percentage of reporting directives present in the \texttt{Content-Security-Policy}}
+		\label{fig:csp_by_reporting_directives}
+	\end{center}
+\end{figure}
+
+\noindent
+The reporting directives are a great way for policy developers to gain feedback on the polices, via the violation reports, being written and deployed for issues such as missing sources that need to be allowed, spelling mistakes in urls and other flaws with a configuration to name a few.
+
+\vspace{0.3cm} \noindent
+There are online services dedicated to receiving and processing the csp violation reports which greatly aids in getting value from the reports and reduces the barrier to entry which can lead to more use of reporting directives.
+
+\vspace{0.3cm} \noindent
+The reports can also serve as a possible detection mechanism for malicious entities trying to or have already exploit a website.
+
+\vspace{0.3cm} \noindent
+The \texttt{report-uri} reporting directive, introduced with first publish CSP specification in 2012 and is in use by 15\% of domains using the \texttt{Content-Security-Policy} in January 2022 and the \texttt{report-to} directive is in use by 1.5\% of domains. The \texttt{report-uri} reporting directive is deprecated as of CSP3 which is yet to be published (it is still in a working draft stage) which would point as to the reason it is dominant over the \texttt{report-to} directive.
+
+\vspace{0.3cm} \noindent
+Figure \ref{fig:csp_by_reporting_directives} shows that the overall percentage use of the reporting directive declining, however the number of domains using a CSP policy is increasing which indicates that figure \ref{fig:csp_by_reporting_directives} is showing as more domains start using a csp policy they are not using a reporting directive or potentially domains are removing the reporting directives or even a combination of both.
+
+\subsection{Conclusion}
+
+\noindent
 \textbf{TODO}
+
 
 \clearpage
 \newpage
@@ -3007,6 +3057,11 @@ For 02 January 2022 the most common duration under a year was 180 days (6 months
 \vspace{0.3cm} \noindent
 1.8\% of preloaded domains do not include the \texttt{includeSubdomains} directive and 0.8\% are missing both the \texttt{includeSubdomains} directive and the \texttt{preload} directive.
 
+\subsection{Conclusion}
+
+\noindent
+\textbf{TODO}
+
 
 \clearpage
 \newpage
@@ -3108,6 +3163,11 @@ As of January 2022 5\% of the \texttt{max-age} directive values are set to a val
 \vspace{0.3cm} \noindent
 In table \ref{table:sts_header_count} it can be seen that there has been a near 5 fold increase in the use of the STS header from May 2017.
 
+\subsection{Conclusion}
+
+\noindent
+\textbf{TODO}
+
 \clearpage
 \newpage
 
@@ -3176,6 +3236,11 @@ There is a somewhat linear increase in usage over the measurement period (Novemb
 
 \vspace{0.3cm} \noindent
 In table \ref{table:xcto_header_count} it can be seen that there has been a near 5 fold increase in the use of the XTCO header from 2015 and just over a 2 fold increase since May 2017. As of January 2022 the XCTO header is in use buy only 21\% of scanned domains. Whilst the trend is on a linear increase trend, more awareness and guidance is needed to get a faster adoption of XCTO and the other security headers analysed in this report.
+
+\subsection{Conclusion}
+
+\noindent
+\textbf{TODO}
 
 \clearpage
 \newpage
@@ -3254,6 +3319,11 @@ The \texttt{deny} directive has a fairly constant presence in domains with 14.3\
 \vspace{0.3cm} \noindent
 The deprecated directive \texttt{allow-from} has a very low but constant usage of 1.5\%. The low usage reflects its deprecation status and is likely present due to configurations that have either not been changed in a while or not removed when configurations changes have been made.
 
+\subsection{Conclusion}
+
+\noindent
+\textbf{TODO}
+
 \clearpage
 \newpage
 
@@ -3315,6 +3385,11 @@ The COEP header was introduced recently enough that similar analysis of header u
 
 \vspace{0.3cm} \noindent
 \textbf{TODO are the domains in the spike related to one another in some way?}
+
+\subsection{Conclusion}
+
+\noindent
+\textbf{TODO}
 
 \clearpage
 \newpage
@@ -3390,6 +3465,11 @@ The CORP header was introduced recently enough that similar analysis of header u
 \vspace{0.3cm} \noindent
 \textbf{TODO are the domains in the spike related to one another in some way?}
 
+\subsection{Conclusion}
+
+\noindent
+\textbf{TODO}
+
 \clearpage
 \newpage
 
@@ -3422,6 +3502,11 @@ Does not allow communication (isolates) from new windows or tab to the originati
 \vspace{0.3cm} \noindent
 Example COOP Header: \texttt{Cross-Origin-Opener-Policy: same-origin}
 
+\subsection{Conclusion}
+
+\noindent
+\textbf{TODO}
+
 \subsection{Purpose Overview}
 
 \noindent
@@ -3451,6 +3536,11 @@ The \texttt{same-origin-allow-popups} directive has the second most usage with 2
 
 \vspace{0.3cm} \noindent
 The COOP header was introduced recently enough that similar analysis of header usage was not seen in research consulted thus no comparison is able to be made.
+
+\subsection{Conclusion}
+
+\noindent
+\textbf{TODO}
 
 \clearpage
 \newpage
@@ -3512,6 +3602,11 @@ From November 2020 to mid March 2021 there was a steady decline, however since t
 
 \vspace{0.3cm} \noindent
 Table \ref{table:pkp_header_count} shows that since May 2017 was potentially the peak use of the PKP header and as of January 2022 there are only 526 sites using the header.
+
+\subsection{Conclusion}
+
+\noindent
+\textbf{TODO}
 
 \clearpage
 \newpage
