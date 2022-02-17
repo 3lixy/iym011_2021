@@ -1360,7 +1360,7 @@ A call is made to this url and if the \texttt{Content-Type} header is present wi
 %		\includegraphics[scale=0.75]{../images/Task_Flowv2.png}
 %		\includesvg[width=0.75](TaskFlow.svg)
 %		\def\svgscale{0.4}
-        \scalebox{0.47}{\subimport{../images}{task_flow.pdf_tex}}
+        \scalebox{0.47}{\subimport{../images}{TaskFlowv2fontv2.pdf_tex}}
 		\caption{High Level Task Flow}
 		\label{fig:task_flow}
 	\end{center}
@@ -1409,6 +1409,20 @@ The number of Task Agents deployed was 5, such that the scanning could be conduc
 
 A dashboard was created in grafana to visualise the progress/status of scans. Over time several alerts were configured after issues were encountered. Figure \ref{fig:grafana_screenshot} shows a screenshot of the dashboard representing a time window of 7 days.
 
+\newpage
+
+\vspace{0.3cm} \noindent
+There are several monitoring charts as detailed below:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item The Tasks Status By Agent chart displays the number of tasks of each task status' for a specific task agent. The "Agent" drop down box allows the user to select the task agent to be shown.
+    \item The \textit{In Progress Tasks} / \textit{Completed Tasks} / \textit{Ready} / \textit{Error Cannot Retry} / \textit{Pending Ready} charts show the number of tasks, per task agent, of the charts title task status.
+    \item Ready Delta - This is to monitor and alert for task agents that do not continually take new tasks if there are pending tasks.
+    \item The Tasks in Zombie State is to monitor and alert for tasks that have started \textit{In Progress} but have not reached \textit{Completed} or \textit{Error Cannot Retry} status after a certain amount of time.
+\end{itemize}
+
+
+
 \begin{figure}[ht]
 	\begin{center}
 		\includegraphics[scale=0.48]{../images/grafana.png} 
@@ -1417,6 +1431,7 @@ A dashboard was created in grafana to visualise the progress/status of scans. Ov
 	\end{center}
 \end{figure}
 
+\noindent
 \clearpage
 
 \subsubsection{Automation}
@@ -2774,6 +2789,12 @@ Of the 4\% of domains that use the \texttt{X-WebKit-CSP} and \texttt{X-Content-S
 
 \vspace{0.3cm} \noindent
 The presumed reason that domains use both deprecated and current CSP headers is backwards comparability for older browsers. Other possible reasons could be that legacy configurations that have been added to rather than removing the deprecated headers, or tooling in use automatically configures the deprecated headers.
+
+\vspace{0.3cm} \noindent
+There is a spike in use from 20 December 2020 to 11 January 2021 for the \texttt{Content-Security-Policy-Report-Only} header. The policy looks to be exclusively \texttt{worker-src 'none'; report-uri /csp-report} and all the \texttt{server} header values were \textit{cloudflare}. Cloudflare provides many services for websites such as web increased performance via caching.
+
+\vspace{0.3cm} \noindent
+The csp policy will send a report if a Worker, SharedWorker, or ServiceWorker script is attempted to be run. There does not seem to be any correlation between the websites other than being hosted on Cloudflare. The short period the policy was deployed for indicates that Cloudflare was doing some testing and or a beta program of some kind.
 
 \vspace{0.3cm} \noindent
 \textbf{TODO csp-report-only} number of ro header that does not have a report-uri or report-to
