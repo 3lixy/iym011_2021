@@ -429,17 +429,17 @@ SSL/TLS provides the following security services:
 \end{itemize}
 
 
-\subsection{Content-Security-Policy}
+\subsection{Content Security Policy}
 The Content Security Policy (CSP) mechanism allows restrictions to be specified, in either a header or HTTP meta tag, in the form of a policy.
 
 \vspace{0.3cm} \noindent
 A policy can consist of a number of directives targeted at restricting the loading/executing of resources on a web page in a browser, such as only allowing scripts to be loaded from a specific list of domains.
 
 \vspace{0.3cm} \noindent
-The main attacks that are intended to be mitigated include Cross Site Scripting (XSS), data injection attacks and packet sniffing attacks.
+The main attacks that are intended to be mitigated include Cross Site Scripting (XSS), data injection , packet sniffing and supply chain attacks.
 
 
-\subsection{Strict-Transport Security}
+\subsection{Strict Transport Security}
 The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over https and never http \cite{Hodges2012-pe}. This prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them impersonate the user or just capture sensitive information to name only a few possibilities.
 
 \vspace{0.3cm} \noindent
@@ -456,14 +456,14 @@ The main reason for STS Preloading is to ensure the first time a user visits a w
 Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
 
 
-\subsection{Cross-Origin-Resource-Policy}
+\subsection{Cross Origin Resource Policy}
 The Cross Origin Resource Policy is used to restrict which origins are allowed to read resource(s), such as scripts and images, protected by this mechanism.
 
 \vspace{0.3cm} \noindent
 A primary class of attacks that this mitigates against are speculative side-channel attacks. The Spectre attack \cite{Kocher2019-gv} is one such attack which was publicly announced in 2018.
 
 
-\subsection{Cross-Origin-Embedder-Policy}
+\subsection{Cross Origin Embedder Policy}
 The Cross Origin Resource Policy allows a website maintainer to require that any cross-origin resources are only allowed to be loaded if the resource is explicitly permitted to do so via a Cross Origin Resource Policy (CORP) or a Access Control Allow Origin CORS header or meta tag.
 
 \vspace{0.3cm} \noindent
@@ -473,14 +473,14 @@ A driving factor for this header being introduced was that some developers may i
 CORP has a lower risk than CORS of a similar situation form occurring as it is a lower privilege than CORS.
 
 
-\subsection{Cross-Origin-Opener-Policy}
+\subsection{Cross Origin Opener Policy}
 The \texttt{Cross-Origin-Opener-Policy} (COOP) header provides a mechanism that prevents the sharing of browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the web page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
 
 \vspace{0.3cm} \noindent
 This is also known as a process-isolation mechanism, preventing attackers from gaining access to a global object that created a popup window/tab for example.
 
 
-\subsection{X-Content-Type-Options}
+\subsection{X Content Type Options}
 The \texttt{X-Content-Type-Options} (XCTO) mechanism is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
 \texttt{Content-Type: text/css}) matches that of the requested resource \cite{Apple_undated-hz}.
 
@@ -488,21 +488,21 @@ The \texttt{X-Content-Type-Options} (XCTO) mechanism is used to enforce that the
 This mechanism is intended to mitigate against such attacks as drive by downloads and untrusted user content being treated as an executable.
 
 
-\subsection{X-Frame-Options}
+\subsection{X Frame Options}
 The \texttt{X-Frame-Options} (XFO) response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
 
 \vspace{0.3cm} \noindent
 This mechanism is intended to mitigate against such attacks as clickjacking where an attacker invisibly embeds another site on top of theirs tricking users, via the use of enticing offers such as free electronics, into clicking a seemingly harmless link which actually triggers a function on the embedded site such as transferring money via one's banking website to the attacker.
 
 
-\subsection{Public-Key-Pins}
+\subsection{Public Key Pinning}
 The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
 
 \vspace{0.3cm} \noindent
 This header was intended to protect websites in the event a CA provider was compromised, such as DigiNotar in 2011 \cite{Amann2017-co}, and unauthorised certificates being issued to an attacker for the purposes of impersonating websites. The HPKP mechanism would prevent the unauthorised certificate from being trusted by visitors that had previously visited the website i.e. preventing an entity in the middle attack.
 
 
-\subsection{security.txt}
+\subsection{Security.txt}
 The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a website \cite{Foudil2021-vh}.
 
 \vspace{0.3cm} \noindent
@@ -693,7 +693,15 @@ The maintainers of the OpenSSL library released a fix for the vulnerability alon
 \vspace{0.2cm} \noindent
 The 2015 FREAK attack shed light that the OpenSSL library would accept weak RSA encryption keys, from the use of export grade cipher suites, during a full-strength RSA TLS handshake. A malicious actor would force the client to use such a weak key by sending a \texttt{SeverKeyExchange} TLS protocol message to the client. If such a weak key was used the malicious actor could capture the traffic, brute force the key within a matter of hours and decrypt the captured traffic. The removal of export grade cipher suites on the server stops this attack \cite{Ristic2017-aj,Beurdouche2015-ga}.
 
-\subsubsection{General Mitigation Strategies}
+\subsubsection{Security Mechanism(s) Providing Mitigation}
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item TLS/SSL
+	\item Strict Transport Security
+	\item STS Preloading
+	\item Public Key Pinning
+\end{itemize}
 
 Organisations should have policies in place to keep up to date with current state of TLS vulnerabilities and best practice recommendations to best mitigate risk to themselves and their users from malicious actors.
 
@@ -2791,10 +2799,10 @@ Of the 4\% of domains that use the \texttt{X-WebKit-CSP} and \texttt{X-Content-S
 The presumed reason that domains use both deprecated and current CSP headers is backwards comparability for older browsers. Other possible reasons could be that legacy configurations that have been added to rather than removing the deprecated headers, or tooling in use automatically configures the deprecated headers.
 
 \vspace{0.3cm} \noindent
-There is a spike in use from 20 December 2020 to 11 January 2021 for the \texttt{Content-Security-Policy-Report-Only} header. The policy looks to be exclusively \texttt{worker-src 'none'; report-uri /csp-report} and all the \texttt{server} header values were \textit{cloudflare}. Cloudflare provides many services for websites such as web increased performance via caching.
+There is a spike in use from 20 December 2020 to 11 January 2021 for the \newline \texttt{Content-Security-Policy-Report-Only} header. The policy looks to be exclusively \newline \texttt{worker-src 'none'; report-uri /csp-report} and all the \texttt{server} header values were \textit{cloudflare}. Cloudflare provides many services for websites such as web increased performance via caching.
 
 \vspace{0.3cm} \noindent
-The csp policy will send a report if a Worker, SharedWorker, or ServiceWorker script is attempted to be run. There does not seem to be any correlation between the websites other than being hosted on Cloudflare. The short period the policy was deployed for indicates that Cloudflare was doing some testing and or a beta program of some kind.
+The csp policy will send a report if a Worker, SharedWorker, or ServiceWorker script is attempted to be run. There does not seem to be any correlation between the websites other than using Cloudflare services. The short period the policy was deployed for, indicates that Cloudflare was doing some testing and or a beta program of some kind.
 
 \vspace{0.3cm} \noindent
 \textbf{TODO csp-report-only} number of ro header that does not have a report-uri or report-to
@@ -3645,6 +3653,7 @@ Part V - Conclusion and Closing Remarks
 \section{Conclusions}
 
 - more help (tutorials and default configs) and awareness needed to headers more in use
+- Even though some scans missing largest gap 27 days and even with the missing data trends of use are clear for TLS…
 
 
 
@@ -3667,6 +3676,9 @@ STS Preload
 \vspace{0.3cm} \noindent
 COOP
 - Look into what the need is for unsafe-none (maybe just a general one)
+- Check if inline scripts actually used when unsafe-inline used
+- Check to see how much nonce used in html
+
 
 
 \vspace{0.3cm} \noindent
