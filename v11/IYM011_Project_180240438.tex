@@ -440,17 +440,17 @@ The main attacks that are intended to be mitigated include Cross Site Scripting 
 
 
 \subsection{Strict Transport Security}
-The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over https and never http \cite{Hodges2012-pe}. This prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them impersonate the user or just capture sensitive information to name only a few possibilities.
+The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over HTTPS and never HTTP \cite{Hodges2012-pe}. This prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them impersonate the user or just capture sensitive information to name only a few possibilities.
 
 \vspace{0.3cm} \noindent
-There is an issue with this header such that a browser can only know to load over https when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the STS header. To overcome this preloading is required.
+There is an issue with this header such that a browser can only know to load over HTTPS when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the STS header. To overcome this preloading is required.
 
 
 \subsection{STS Preloading}
 STS Preloading is a mechanism where a browser checks to see if the requested domain is in a predefined list and if it is then the website must only be accessed over HTTPS.
 
 \vspace{0.3cm} \noindent
-The main reason for STS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
+The main reason for STS Preloading is to ensure the first time a user visits a website it is over HTTPS. Without preloading, should a user visit the site the first time over HTTP, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
 
 \vspace{0.3cm} \noindent
 Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
@@ -787,7 +787,7 @@ Table \ref{table:measurement_technologies} details a number of measurement techn
       \hline
       \textbf{Technology} & \textbf{Description} & \textbf{Use Case} \\
       \hline
-      PHP with Curl \cite{Buchanan2018-xz} & PHP is a web programming language. Curl provides a client library for communicated to web services such as http web servers & Make HTTP calls to websites and capture the response body and metadata \\
+      PHP with Curl \cite{Buchanan2018-xz} & PHP is a web programming language. Curl provides a client library for communicated to web services such as HTTP web servers & Make HTTP calls to websites and capture the response body and metadata \\
       \hline
       Goscanner \cite{Amann2017-co} & Tool for large scale TLS and SSH scans & Obtain TLS connection information ip addreses / domains \\
       \hline
@@ -799,7 +799,7 @@ Table \ref{table:measurement_technologies} details a number of measurement techn
       \hline
       Scrapy \cite{Patil2017-bg} & A scriptable tool for extracting data from websites & Extract HTTP headers from response to a request made to a website \\
       \hline
-      Java with Apache \cite{Ying2016-ag} & Java is a programming language, Apache provides a http client for Java & Make HTTP calls to websites and capture the response body and metadata \\
+      Java with Apache \cite{Ying2016-ag} & Java is a programming language, Apache provides a HTTP client for Java & Make HTTP calls to websites and capture the response body and metadata \\
       \hline
       Zmap / Zgrab \cite{Michael2015-hn,Holz2020-ha,Kotzias2018-wd} & Zmap is a single packet network scanner. ZGrab is an application layer scanner. & Zmap can be used to identify ip address with open ports. ZGrab could then be use to capture the body and metadata from HTTP requests to the open port(s). \\
       \hline
@@ -811,7 +811,7 @@ Table \ref{table:measurement_technologies} details a number of measurement techn
 
 \subsubsection{Domain Resolving}
 
-When a http client makes a request to a URL (e.g. http://example.com) the client needs to lookup the IP Address of the domain (e.g. example.com) in order to send the HTTP request.
+When a HTTP client makes a request to a URL (e.g. http://example.com) the client needs to lookup the IP Address of the domain (e.g. example.com) in order to send the HTTP request.
 
 \vspace{0.3cm} \noindent
 Scanning a large number of domains can potentially put a strain on the DNS server the client is using to resolve the domain to an IP Address. If there are a sufficiently large number of domains to be resolved at the same time, or over a very short period of time (e.g. a few seconds) it is possible that the DNS resolution will fail when there is an IP Address that cannot be resolved. There are several ways around this such as pre determining the IP Address for the domain \cite{Amann2017-co}, using more than DNS server and using retries.
@@ -923,11 +923,11 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
 \endfoot
 \hline
 \endlastfoot
-      \textbf{Data Filtering} & If data is filtered during data capture, it could result in unintended data being filtered & The researches in \cite{Buchanan2018-xz} filter headers during data capture, which if not done perfectly (e.g. spelling and case) could produce unintended results. & All http headers, TLS certificates/connection information is captured unfiltered\\
+      \textbf{Data Filtering} & If data is filtered during data capture, it could result in unintended data being filtered & The researches in \cite{Buchanan2018-xz} filter headers during data capture, which if not done perfectly (e.g. spelling and case) could produce unintended results. & All HTTP headers, TLS certificates/connection information is captured unfiltered\\
       \hline
-      \textbf{www sumdomin} & If using only the base domains for http(s) requests could produce inaccurate results as not all domains serve http on the base domain. The www subdomain is the most common domain to serve http requests besides the base domain. & Researchers \cite{Buchanan2018-xz,Amann2017-co} do not state if the www subdomain was explicitly added during scanning. & The www subdomain is used if base domain does not have a DNS A record. \\
+      \textbf{www sumdomin} & If using only the base domains for HTTP(s) requests could produce inaccurate results as not all domains serve HTTP on the base domain. The www subdomain is the most common domain to serve HTTP requests besides the base domain. & Researchers \cite{Buchanan2018-xz,Amann2017-co} do not state if the www subdomain was explicitly added during scanning. & The www subdomain is used if base domain does not have a DNS A record. \\
       \hline
-      \textbf{HTTP method} & Browsers use the http GET method to obtain web pages. A website might behave differently if a non GET http method (e.g. HEAD) was used. Some websites may not even allow the http HEAD method. & Researchers \cite{Amann2017-co} specifically use the HEAD http method to reduce load on target domains. & The HTTP GET method is used which is what browsers use.\\
+      \textbf{HTTP method} & Browsers use the HTTP GET method to obtain web pages. A website might behave differently if a non GET HTTP method (e.g. HEAD) was used. Some websites may not even allow the HTTP HEAD method. & Researchers \cite{Amann2017-co} specifically use the HEAD HTTP method to reduce load on target domains. & The HTTP GET method is used which is what browsers use.\\
       \hline
       \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in table \ref{table:task_paramters_headers}. \\
       \hline
@@ -1143,7 +1143,7 @@ Table \ref{table:task_agent_parameters} details the parameters of a Task Agent.
       \hline
       \textbf{Parameter} & \textbf{Data Type} & \textbf{Value(s)} & \textbf{Description} \\
       \hline
-      max http/https redirects & int & 10 (golang default) & The number of http redirects allowed \\
+      max HTTP redirects & int & 10 (golang default) & The number of HTTP redirects allowed \\
       \hline
       \UScore{max_concurrent_tasks} & int & 100 & The maximum number of tasks that can be running concurrently \\
       \hline
@@ -1217,7 +1217,7 @@ A task has up to two parameters as shown in table \ref{task_paramters}.
       \hline
       \textbf{fqdn} & string & Yes & A domain from the domain list provided by tranco-list.eu\\
       \hline
-      \textbf{headers} & string & No & A JSON string of one or more http client headers and values\\
+      \textbf{headers} & string & No & A JSON string of one or more HTTP client headers and values\\
       \hline
     \end{tabular}
 %    \captionsetup{width=.75\textwidth}
@@ -1227,7 +1227,7 @@ A task has up to two parameters as shown in table \ref{task_paramters}.
 \end{table}
 
 \noindent
-All tasks will be using the same request headers as shown in table \ref{}. The header names and values were those present in the http request from visiting the url \texttt{https://www.google.com} and were captured using chrome's browser developer tools. This was done to best represent the standard request headers a browser would send to domain to thus have the best representation of response headers a user browsing the internet, would receive from a domain.
+All tasks will be using the same request headers as shown in table \ref{}. The header names and values were those present in the HTTP request from visiting the url \texttt{https://www.google.com} and were captured using chrome's browser developer tools. This was done to best represent the standard request headers a browser would send to domain to thus have the best representation of response headers a user browsing the internet, would receive from a domain.
 
 \begin{table}[H]
 \footnotesize
@@ -1618,7 +1618,7 @@ Each analysis section details how the data was processed.
 
 \subsection{Domains Unable To Be Scanned}
 
-As with other research not all of the domains in the list of domains to be scanned were able to have a http or https connection be made to them.
+As with other research not all of the domains in the list of domains to be scanned were able to have a HTTP or HTTPS connection be made to them.
 
 \vspace{0.3cm} \noindent
 On average the scanner was able to obtain a HTTP and or a HTTPS request 95\% of the time from the Tranco list of 1 million domains, shown in figure \ref{fig:failed_tasks}.
@@ -1842,7 +1842,7 @@ Figure \ref{fig:tls_negotiated} shows the negotiated TLS version of websites tha
 \end{itemize}
 
 \noindent
-No version of the leagcy SSL technology is supported by the builtin http client in Go (the programming language used to create the scanner used to gather the data for analysis). The lack of support of SSL is not of concern as the use of SSLv3 (the last version of SSL that was widely used) currently is essentially 0\% as shown by the research by \textit{Kotzias et al} \cite{Kotzias2018-wd} which showed that analysing passively collected SSL/TLS usage, SSLv3 usage was 0.01\% of all TLS/SSL connections in February 2018.
+No version of the leagcy SSL technology is supported by the builtin HTTP client in Go (the programming language used to create the scanner used to gather the data for analysis). The lack of support of SSL is not of concern as the use of SSLv3 (the last version of SSL that was widely used) currently is essentially 0\% as shown by the research by \textit{Kotzias et al} \cite{Kotzias2018-wd} which showed that analysing passively collected SSL/TLS usage, SSLv3 usage was 0.01\% of all TLS/SSL connections in February 2018.
 
 \begin{table}[H]
 \footnotesize
@@ -1984,7 +1984,7 @@ Preferred-Languages: en, es, ru
 \subsection{Purpose Overview}
 
 \noindent
-The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a domain hosting a http(s) sever \cite{Foudil2021-vh}.
+The ``security.txt'' mechanism is to aid in informing security researchers how to disclose security issues found on systems such as a domain hosting a HTTP(S) sever \cite{Foudil2021-vh}.
 
 \vspace{0.3cm} \noindent
 The primary emphasis of using a security.txt is that its location is known. Without knowing where to find the information required to report vulnerabilities, security researches may not be able to reach the right team in the organisation able to take action on the report for some time or even at all.
@@ -2978,7 +2978,7 @@ If a domain in the preload list stops meeting the above criteria it runs the ris
 \subsection{Purpose Overview}
 
 \noindent
-The main reason for STS Preloading is to ensure the first time a user visits a website it is over https. Without preloading, should a user visit the site the first time over http, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
+The main reason for STS Preloading is to ensure the first time a user visits a website it is over HTTPS. Without preloading, should a user visit the site the first time over HTTP, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
 
 \subsection{Parser}
 
@@ -3050,7 +3050,7 @@ Figure \ref{fig:STS_preloaded_criteria_not_met} shows the percentage of each cri
 \textbf{No Base Redirect}
 
 \vspace{0.3cm} \noindent
-If a website is running a HTTP server on its base domain on port 80 it must redirect to HTTPS on the same domain. For example of the base domain of \texttt{https://blog.example.com} is \texttt{example.com}. If a http connection was able to be made to \texttt{http://example.com} it must then redirect to \texttt{https://exmaple.com}.
+If a website is running a HTTP server on its base domain on port 80 it must redirect to HTTPS on the same domain. For example of the base domain of \texttt{https://blog.example.com} is \texttt{example.com}. If a HTTP connection was able to be made to \texttt{http://example.com} it must then redirect to \texttt{https://exmaple.com}.
 
 \vspace{0.3cm} \noindent
 As of January 2022 12.6\% of preloaded domains not longer redirect correctly from the base domain. A reason for this could be that the redirect was changed from redirecting to the base domain over HTTPS e.g. \texttt{https://exmaple.xom} but to the main url of the website such as \texttt{https://wwww.example.com} to save a redirect to the desired main website url for the end user.
@@ -3108,7 +3108,7 @@ For 02 January 2022 the most common duration under a year was 180 days (6 months
 
 \subsection{Background}
 
-The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over https and never http \cite{Hodges2012-pe}.
+The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over HTTPS and never HTTP \cite{Hodges2012-pe}.
 
 \subsubsection{Directives}
 
