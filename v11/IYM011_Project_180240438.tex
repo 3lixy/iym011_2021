@@ -124,6 +124,11 @@ Intentionally Blank
 \end{center}
 \addcontentsline{toc}{section}{Executive Summary}
 
+- Major contributions of research
+	- CO** header user
+	- TLS versions supported rather than just negotiated
+
+
 Executive Summary 
 
 \newpage
@@ -261,6 +266,8 @@ There are many services in the HTTPS ecosystem such as websites and API interfac
 \end{enumerate}
 }
 
+\vspace{0.3cm} \noindent
+The scanning of websites commenced in November 2020, before the \textit{``Project''} module was officially started in October 2021. This was due to the need to gather at least 12 months of data before the project submission deadline at the end of March 2022.
 
 \newpage
 
@@ -1227,9 +1234,14 @@ A task has up to two parameters as shown in table \ref{task_paramters}.
 \end{table}
 
 \noindent
-All tasks will be using the same request headers as shown in table \ref{}. The header names and values were those present in the HTTP request from visiting the url \texttt{https://www.google.com} and were captured using chrome's browser developer tools. This was done to best represent the standard request headers a browser would send to domain to thus have the best representation of response headers a user browsing the internet, would receive from a domain.
+All tasks will be using the same request headers as shown in table \ref{table:task_paramters_headers}. The header names and values were those present in the HTTP request from visiting the url \texttt{https://www.google.com} and were captured using chrome's browser developer tools.
 
-\begin{table}[H]
+\newpage
+
+\noindent
+This was done to best represent the standard request headers a browser would send to domain to thus have the best representation of response headers a user browsing the internet, would receive from a domain.
+
+\begin{table}[t]
 \footnotesize
   \begin{center}
     \begin{tabular}{|c|E|E|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
@@ -1260,6 +1272,15 @@ All tasks will be using the same request headers as shown in table \ref{}. The h
     \label{table:task_paramters_headers} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
+
+\vspace{0.3cm} \noindent
+All the headers in table \ref{table:task_paramters_headers} where carefully checked as to their purpose and if they were suitable to be included in order to obtain the best response from domains for the most relevant data to analyse from the perspective of a generic user browsing the internet.
+
+\vspace{0.3cm} \noindent
+The \texttt{user-agent} header is generally considered one of the most critical headers to use for HTTP requests to be associated with coming from a browser, rather than a backend service application, as almost all related research use this header \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn}.
+
+\vspace{0.3cm} \noindent
+The headers with the prefix \texttt{sec} are to enhance the premise that the request is coming from a user making the request manually in a browser. It could be argued that the accept headers are not needed however they should only give credit that the request is from a user rather than a service.
 
 \subsection{Task Flow}
 \label{section:task_flow}
@@ -3663,7 +3684,10 @@ Part V - Conclusion and Closing Remarks
 - more help (tutorials and default configs) and awareness needed to headers more in use
 - Even though some scans missing largest gap 27 days and even with the missing data trends of use are clear for TLS…
 
-
+- Critical Analysis
+	- Missing scans
+	- Retry calls for certain checks e.g. all preload checks. To do in a minimal resource way, enforce a min time between attempts and max attempts
+	
 
 \newpage
 
