@@ -1684,7 +1684,7 @@ It has become quite common for websites to automatic redirect a user to a HTTPS 
 
 
 \noindent
-The research by \texttt{Buchanan et al} \cite{Buchanan2018-xz} found that in August 2015 only 6.7\% of sites when accessed over HTTP redirected to HTTPS and increased to 24.78\% in May 2017. In November this research finds that in November 2020 the number of sites further increased to 56\% and continued this trend to reach 64.5\% in January 2022 as shown in table \ref{table:http_redirection} and figure \ref{fig:http_redirection}.
+The research by \texttt{Buchanan et al} \cite{Buchanan2018-xz} found that in August 2015 only 6.7\% of sites when accessed over HTTP redirected to HTTPS and increased to 24.78\% in May 2017. The same research finds that in November 2020 the number of sites further increased to 56\% and continued this trend to reach 64.5\% in January 2022 as shown in table \ref{table:http_redirection} and figure \ref{fig:http_redirection}.
 
 \newpage
 
@@ -1845,7 +1845,7 @@ Changes to the data being sent across the TLS secure channel during its journey 
 \begin{figure}[H]
 	\begin{center}
         \scalebox{0.90}{\subimport{../images}{tls-tls_negotiated.pdf_tex}}
-		\caption{TLS version negotiated for Top 1 Million Domains}
+		\caption{TLS version negotiated for Top 1 Million Domains that support HTTPS}
 		\label{fig:tls_negotiated}
 	\end{center}
 \end{figure}
@@ -1866,6 +1866,9 @@ Figure \ref{fig:tls_negotiated} shows the negotiated TLS version of websites tha
 
 \noindent
 No version of the leagcy SSL technology is supported by the builtin HTTP client in Go (the programming language used to create the scanner used to gather the data for analysis). The lack of support of SSL is not of concern as the use of SSLv3 (the last version of SSL that was widely used) currently is essentially 0\% as shown by the research by \textit{Kotzias et al} \cite{Kotzias2018-wd} which showed that analysing passively collected SSL/TLS usage, SSLv3 usage was 0.01\% of all TLS/SSL connections in February 2018.
+
+\vspace{0.3cm} \noindent
+As shown in figure \ref{fig:tls_negotiated}, November 2020 appears to show that it was just before this time that TLS 1.3 started to become the dominant TLS version negotiated, replacing TLS 1.2 as the dominant version. This assumption is enhanced by the research of \texttt{Holz et al} \cite{Holz2020-ha} which showed that in November 2019 from the analysis of passively collected TLS connection details, $\sim$79\% of connections were using TLS 1.2 with a downward trend and $\sim$19\% of connections using TLS 1.3 with an upward trend.
 
 \begin{table}[H]
 \footnotesize
@@ -1888,8 +1891,9 @@ No version of the leagcy SSL technology is supported by the builtin HTTP client 
   \end{center}
 \end{table}
 
-\noindent
-As shown in figure \ref{fig:tls_negotiated}, November 2020 appears to show that it was just before this time that TLS 1.3 started to become the dominant TLS version negotiated, replacing TLS 1.2 as the dominant version. This assumption is enhanced by the research of \texttt{Holz et al} \cite{Holz2020-ha} which showed that in November 2019 from the analysis of passively collected TLS connection details, $\sim$79\% of connections were using TLS 1.2 with a downward trend and $\sim$19\% of connections using TLS 1.3 with an upward trend.
+
+\clearpage
+\newpage
 
 
 \subsubsection{Supported TLS Versions}
@@ -1964,7 +1968,10 @@ Table \ref{table:tls_supported_matrix} is a matrix for the different combination
 \subsection{Summary}
 
 \noindent
-\textbf{TODO}
+The trend for negotiated TLS versions is going in the right direction, with TLS 1.3 being the dominant version as this research began with an upwaord trend and as yet does not show sings of tapering off. TLS negotiations that result in either TLS 1.0 or TLS 1.1 is less than 1\% of all TLS negotiations.
+
+\vspace{0.3cm} \noindent
+The use of TLS 1.1 and TLS 1.0 were declining rapidly at the same rate at the end of 2020, however the trend is now starting to slow down which likely means TLS 1.1 and TLS 1.0 will be in use still for some time.
 
 \clearpage
 \newpage
@@ -2063,7 +2070,10 @@ During the process of creating the parser it was noticed that some security.txt 
 
 \newpage
 
-\subsection{Analysis}
+\subsubsection{Analysis}
+
+\noindent
+The negotiated TLS versions are trending in the right direction with TLS 1.3 at nearly 
 
 \begin{figure}[t]
 	\begin{center}
@@ -2437,7 +2447,16 @@ The \texttt{Disclosure} values were seen to be a HTTPS link, \texttt{Full}, \tex
 \subsection{Summary}
 
 \noindent
-\textbf{TODO}
+The use of security.txt is quite minimal with 0.5\%, as of January 2022, of domains scanned having a valid security.txt file. This is not all to surprising as the RFC is still in the draft stage.
+
+\vspace{0.3cm} \noindent
+Approximately half  of all the valid security.txt files seen were unique, meaning that a large proportion of domains share the same security.txt file content.
+
+\vspace{0.3cm} \noindent
+Almost all security.txt files contained one or more contact which is the primary purpose of the security,txt mechanism to provide a contact point for security researchers to have an easy way to report  vulnerabilities.
+
+\vspace{0.3cm} \noindent
+As previously mentioned, one of the paths a security.txt file can be hosted at, as specified in the draft RFC. was not utilised by the scanner for the majority of the scans conducted. In any future studies, all paths specified in the latest version of the RFC should be utilised.
 
 
 \newpage
@@ -2969,10 +2988,16 @@ The \texttt{report-uri} reporting directive, introduced with first publish CSP s
 \vspace{0.3cm} \noindent
 Figure \ref{fig:csp_by_reporting_directives} shows that the overall percentage use of the reporting directive declining, however the number of domains using a CSP policy is increasing which indicates that figure \ref{fig:csp_by_reporting_directives} is showing as more domains start using a csp policy they are not using a reporting directive or potentially domains are removing the reporting directives or even a combination of both.
 
-\subsection{Conclusion}
+\subsection{Summary}
 
 \noindent
-\textbf{TODO}
+The ability to utilise a CSP policy has been available since 2015. We are not 7 years on and in January 2022 only 60 thousand domains (6\%) in the top 1 million ranked websites are using a CSP policy to protect their sites. This could indicate that website developers are finding it difficult to implement a CSP policy .
+
+\vspace{0.3cm} \noindent
+Websites are becoming more and more feature rich and being developed and an every increasing rate for many reasons such as staying competitive and demands from users. Libraries are often used along with numerous scripts created by the website developers which makes it very difficult or seemingly impossible to maintain a CSP policy that is both effective in protecting users as well as not impacting user experience (e.g. not blocking scripts that have changed and or added to add functionality to the website).
+
+\vspace{0.3cm} \noindent
+An alarming about of \texttt{script-src} directive configurations are still using the \texttt{unsafe} prefixed keywords (86\% that allow inline scripts) which allows one of the biggest attack vectorsfor websites that allow attacks such as cross site scripting attacks.
 
 
 \clearpage
@@ -3140,7 +3165,11 @@ For 02 January 2022 the most common duration under a year was 180 days (6 months
 \subsection{Summary}
 
 \noindent
-\textbf{TODO}
+The usage of STS Preloading is as yet not all that common with 0.72\% of the top 1 million domains currently utilising it.
+
+\vspace{0.3cm} \noindent
+Of the domains that do use STS Preloading, 38\% no longer meet the requirements which could result in their removal from the this thus removing the extra security layer the STS Preloading mechanism provides. As of January 2022, not having a STS header was 30\% of all reasons that a domain no longer met the preload requirement meaning they have opted out of both the STS header protection and STS Preloading.
+
 
 
 \clearpage
@@ -3246,7 +3275,12 @@ In table \ref{table:sts_header_count} it can be seen that there has been a near 
 \subsection{Summary}
 
 \noindent
-\textbf{TODO}
+As of January 2022 21.1\% of the top 1 million domains are using the STS header with an upward trend. This is quite promising to see and it is hoped the trend continues.
+
+
+\vspace{0.3cm} \noindent
+The most common value for the \texttt{max-age} directive is 1-3 years and a number of domains are using a value of 0 which means they are now actively opting out of the STS mechanism perhaps due to some endpoints not available over https as yet.
+
 
 \clearpage
 \newpage
@@ -3316,11 +3350,6 @@ There is a somewhat linear increase in usage over the measurement period (Novemb
 
 \vspace{0.3cm} \noindent
 In table \ref{table:xcto_header_count} it can be seen that there has been a near 5 fold increase in the use of the XTCO header from 2015 and just over a 2 fold increase since May 2017. As of January 2022 the XCTO header is in use buy only 21\% of scanned domains. Whilst the trend is on a linear increase trend, more awareness and guidance is needed to get a faster adoption of XCTO and the other security headers analysed in this report.
-
-\subsection{Summary}
-
-\noindent
-\textbf{TODO}
 
 \clearpage
 \newpage
@@ -3399,11 +3428,6 @@ The \texttt{deny} directive has a fairly constant presence in domains with 14.3\
 \vspace{0.3cm} \noindent
 The deprecated directive \texttt{allow-from} has a very low but constant usage of 1.5\%. The low usage reflects its deprecation status and is likely present due to configurations that have either not been changed in a while or not removed when configurations changes have been made.
 
-\subsection{Summary}
-
-\noindent
-\textbf{TODO}
-
 \clearpage
 \newpage
 
@@ -3462,14 +3486,6 @@ The use of the \texttt{require-corp} directive is very low and as of January 202
 
 \vspace{0.3cm} \noindent
 The COEP header was introduced recently enough that similar analysis of header usage was not seen in research consulted thus no comparison is able to be made.
-
-\vspace{0.3cm} \noindent
-\textbf{TODO are the domains in the spike related to one another in some way?}
-
-\subsection{Summary}
-
-\noindent
-\textbf{TODO}
 
 \clearpage
 \newpage
@@ -3542,14 +3558,6 @@ There are a couple of spikes one in April 2021 and another in July 2021 for the 
 \vspace{0.3cm} \noindent
 The CORP header was introduced recently enough that similar analysis of header usage was not seen in research consulted thus no comparison is able to be made.
 
-\vspace{0.3cm} \noindent
-\textbf{TODO are the domains in the spike related to one another in some way?}
-
-\subsection{Summary}
-
-\noindent
-\textbf{TODO}
-
 \clearpage
 \newpage
 
@@ -3617,11 +3625,6 @@ The \texttt{same-origin-allow-popups} directive has the second most usage with 2
 \vspace{0.3cm} \noindent
 The COOP header was introduced recently enough that similar analysis of header usage was not seen in research consulted thus no comparison is able to be made.
 
-\subsection{Summary}
-
-\noindent
-\textbf{TODO}
-
 \clearpage
 \newpage
 
@@ -3682,11 +3685,6 @@ From November 2020 to mid March 2021 there was a steady decline, however since t
 
 \vspace{0.3cm} \noindent
 Table \ref{table:pkp_header_count} shows that since May 2017 was potentially the peak use of the PKP header and as of January 2022 there are only 526 sites using the header.
-
-\subsection{Summary}
-
-\noindent
-\textbf{TODO}
 
 \clearpage
 \newpage
