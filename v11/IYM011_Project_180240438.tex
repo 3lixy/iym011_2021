@@ -103,7 +103,16 @@ I declare that this assignment is all my own work and that I have acknowledged a
 \section*{Acknowledgements}
 \end{center}
 
-Thank you coffee.
+\noindent
+Thanks to my supervisor Simon who has provided great advice throughout allowing the report to be what it is.
+
+\vspace{0.3cm} \noindent
+Thanks to my father who helped with proofing reading which aided in making the report more grammatically correct as well as impving readability and the flow of the report.
+
+\vspace{0.3cm} \noindent
+Lastly thanks to all the previous research that has been cited which has allowed this study to be what it is.
+
+
 
 \newpage
 
@@ -124,12 +133,35 @@ Intentionally Blank
 \end{center}
 \addcontentsline{toc}{section}{Executive Summary}
 
-- Major contributions of research
-	- CO** header user
-	- TLS versions supported rather than just negotiated
+\noindent
+This report is one of the required modules for the course \texttt{``MSc in Information Security''} at Royal Holloway, University of London. A longitudinal study for the adoption of several security mechanisms, including: \texttt{Transport Layer Security}, \texttt{Content Security Policy}, \texttt{STS Preloading} and \texttt{Security.txt} is undertaken.
 
+\vspace{0.3cm} \noindent
+This is accomplished by scanning the top 1 million ranked domains each day for over 12 months from November 2020 through to the end of January 2022 and subsequently analysis the data in order to determine the adoption of the security mechanisms.
 
-Executive Summary 
+\vspace{0.3cm} \noindent
+The analysis finds that the usage of TLS versions is trending in the right direction with TLS 1.3 reaching a 64.4\% proportion of all TLS connections from establish a TLS connection to websites in the top 1 million ranked domains.
+
+\vspace{0.3cm} \noindent
+There is still wide spread usage of the \texttt{unsafe-inline} and \texttt{unsafe-eval} keywords in Content Security Polices especially with the \texttt{script-src} directive which allows a great attack vector for cross site scripting attacks.
+
+\vspace{0.3cm} \noindent
+There are a reactively large proportion of domains that are STS preloaded but no longer meet the STS preload requirements which puts them at risk of being removed from the STS preload list.
+
+\vspace{0.3cm} \noindent
+The security.txt mechanism currently has low utilisation, however the RFC is still in the draft stage and the number of domains using this mechanism is trending upward. Even with the low usage, the number of security.txt that have a Contact is encouraging.
+
+\vspace{0.3cm} \noindent
+This study also adds some novel contributions not found during the literature research phase which are:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Analysis of TLS versions that are supported by a website are captured (rather than just the TLS version negotiated when making a HTTPS request)
+	\item Analysis of Cross Origin Security headers.
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+It should be noted that scanning of websites commenced in November 2020, before the \textit{``Project''} module was officially started in October 2021. This was due to the need to gather at least 12 months of data before the project submission deadline at the end of March 2022.
+
 
 \newpage
 \begin{center}
@@ -231,8 +263,8 @@ Security is a battle ground with attackers ever changing their techniques and de
 In 1994 SSL was proposed \cite{Oppliger2016-ig,Wu2016-nx} to make interactions with websites more secure. As time has moved on, more improved secure channel protocols, such as TLS 1.3 [RE01]\cite{Rescorla2018-wb} being the most recent, have been introduced as well as enhancements to HTTP through security headers such as HTTP Strict Transport Security \cite{Hodges2012-pe}.
 
 \vspace{0.6cm} \noindent
-\centerline{\texttt{What is the current adoption of Security Mechanisms}}
-\centerline{\texttt{in the HTTPS Ecosystem ?}}
+\centerline{\texttt{What is the current adoption of security mechanisms}}
+\centerline{\texttt{in the HTTPS ecosystem ?}}
 
 \vspace{0.6cm} \noindent
 It is likely that with the more complicated the security mechanism are to deploy and or implement, the less use it will see. This research intends to discover to what extent are security mechanisms currently deployed and attempt to determines possible reasons for large or small adoptions. Once the adoption has been measured it shall be compared to similar research to seek indications of adoption trends.
@@ -266,9 +298,6 @@ There are many services in the HTTPS ecosystem such as websites and API interfac
 \end{enumerate}
 }
 
-\vspace{0.3cm} \noindent
-The scanning of websites commenced in November 2020, before the \textit{``Project''} module was officially started in October 2021. This was due to the need to gather at least 12 months of data before the project submission deadline at the end of March 2022.
-
 \newpage
 
 \section{Document Structure}
@@ -289,7 +318,7 @@ This report going forward is structured as follows:
 \textbf{Part IV - Security Mechanism Adoption Analysis} analyses the chosen security mechanisms described in Part I from the data captured, over a 16 month period from November 2020 to February 2022, as detailed in Part III.
 
 \vspace{0.3cm} \noindent
-\textbf{Part V - Conclusions and Closing Remarks} brings the report to an end, \textbf{TODO}.
+\textbf{Part V - Conclusions and Closing Remarks} brings the report to an end concluding that apart from TLS the other chosen security mechanism that are currently no deprecated are of relatively low usage and work needs to be done to improve this.
 
 \newpage
 
@@ -1877,13 +1906,13 @@ As shown in figure \ref{fig:tls_negotiated}, November 2020 appears to show that 
       \hline
       \textbf{TLS Version} & \textbf{Kotzias et al} \cite{Kotzias2018-wd} July 2013 & \textbf{Kotzias et al} \cite{Kotzias2018-wd} August 2014 & \textbf{Holz et al} \cite{Holz2020-ha} November 2019 & January 2022 \\
       \hline
-	  TLS 1.0 & $\sim$73\% & $\sim$48\% & $<$1\% & <1\%\\
+	  TLS 1.0 & $\sim$73\% & $\sim$48\% & $<$1\% & $<$1\%\\
 	  \hline
 	  TLS 1.1 & $\sim$17\% & $<$1\% & $<$1\% & $<$1\%\\
 	  \hline
-	  TLS 1.2 & $\sim$1\% & $\sim$48\% & $\sim$79\% & 27.6\%\\
+	  TLS 1.2 & $\sim$1\% & $\sim$48\% & $\sim$79\% & 35.2\%\\
 	  \hline
-	  TLS 1.3 & NA & NA & $\sim$19\% & 48.4\%\\
+	  TLS 1.3 & NA & NA & $\sim$19\% & 64.4\%\\
 	  \hline
     \end{tabular}
     \caption{Negotiated TLS Versions}
@@ -1910,13 +1939,13 @@ As shown in figure \ref{fig:tls_negotiated}, November 2020 appears to show that 
 For each website that did support HTTPS, it was also checked to see which of the 4 TLS versions it supported. Figure \ref{fig:tls_verions_supported} shows how many domains supported the 4 TLS versions. The measurement of supported TLS versions was not observed in the research consulted for this project, indicating that it could be uncommon and as such this report may be one of only a handful that has conducted these measurements.
 
 \vspace{0.3cm} \noindent
-TLS 1.2 holds fairly steady ranging between 72\% and 75\%. The reason for this is likely due to TLS 1.2 being the most recent TLS versions supported by some legacy devices and is likely to remain like this for many years to come. As one might expect, TLS 1.3 is on an upward trend going from 37\% in November 2020 and reaching 48.5\% in January 2022.
+TLS 1.2 is in supported by over 99\% of domains. The reason for this is likely due to TLS 1.2 being the most recent TLS versions supported by some legacy devices and is likely to remain like this for many years to come. As one might expect, TLS 1.3 is on an upward trend going from 50\% in November 2020 and reaching 64\% in January 2022.
 
 \vspace{0.3cm} \noindent
-Both TLS 1.0 and TLS 1.1 look to follow the same downward trend with 34.3\% and 36.8\% in January 2022 respectively. As they follow the same trend it is likely due to when libraries and or applications are upgraded, rather than manual configuration changes to remove support for TLS 1.0 and TLS 1.1.
+Both TLS 1.0 and TLS 1.1 look to follow the same downward trend with 44\% and 48\% in January 2022 respectively. As they follow the same trend it is likely due to when libraries and or applications are upgraded, rather than manual configuration changes to remove support for TLS 1.0 and TLS 1.1.
 
 \vspace{0.3cm} \noindent
-For the 0.2\% of websites that negotiate with wither TLS 1.0 or TLS 1.1 they did not support any version higher than that they negotiated with. There should be not be a significant reason that TLS 1.2 and TLS 1.3 cannot be supported whilst also supporting TLS 1.0 and or TLS 1.1 for use by legacy devices. 
+For the 0.2\% of websites that negotiate with wither TLS 1.0 or TLS 1.1 they did not support any version higher than that they negotiated with. There should not be a significant reason that TLS 1.2 and TLS 1.3 cannot be supported whilst also supporting TLS 1.0 and or TLS 1.1 for use by legacy devices. 
 
 \vspace{0.3cm} \noindent
 It is possible that websites are running old/outdated versions of applications, supporting only TLS 1.0 and or TLS 1.1, serving these websites and the maintainers are unaware or the updating of these older systems are of low priority. A reverse proxy would at least allow the public endpoint of such websites to use TLS 1.2 and TLS 1.3.
@@ -1963,12 +1992,11 @@ Table \ref{table:tls_supported_matrix} is a matrix for the different combination
   \end{center}
 \end{table}
 
-\newpage
 
 \subsection{Summary}
 
 \noindent
-The trend for negotiated TLS versions is going in the right direction, with TLS 1.3 being the dominant version as this research began with an upwaord trend and as yet does not show sings of tapering off. TLS negotiations that result in either TLS 1.0 or TLS 1.1 is less than 1\% of all TLS negotiations.
+The trend for negotiated TLS versions is going in the right direction, with TLS 1.3 being the dominant version, currently at  as this research began with an upwaord trend and as yet does not show sings of tapering off. TLS negotiations that result in either TLS 1.0 or TLS 1.1 is less than 1\% of all TLS negotiations.
 
 \vspace{0.3cm} \noindent
 The use of TLS 1.1 and TLS 1.0 were declining rapidly at the same rate at the end of 2020, however the trend is now starting to slow down which likely means TLS 1.1 and TLS 1.0 will be in use still for some time.
@@ -2822,7 +2850,7 @@ Figure \ref{fig:csp_by_rank} shows the percentage of domains that the scanner wa
 Each rank group shows a steady rise in the use of a CSP headers, with domain in the Rank of 1-100 group seeing the most use, which is an encouraging sign. There is a long way to go however to have the majority of sites using a CSP policy.
 
 \vspace{0.3cm} \noindent
-In the research by \texttt{Weissbacher et al} \cite{Weissbacher2014-vm} in March 2014 showed only 2\% of the sites in the top 100 use CSP, this increased to 7\% in the research by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015 and in January it is 37\% which is a marked increase.
+In the research by \texttt{Weissbacher et al} \cite{Weissbacher2014-vm} in March 2014 showed only 2\% of the sites ranked in the top 100 use CSP, this increased to 7\% in the research by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015 and as of January 2022 it is 36\% which is a marked increase.
 
 \begin{table}[t]
 \footnotesize
@@ -2831,7 +2859,7 @@ In the research by \texttt{Weissbacher et al} \cite{Weissbacher2014-vm} in March
       \hline
       \textbf{HTTP Header} & \textbf{Weissbacher et al} \cite{Weissbacher2014-vm} March 2014 & \textbf{Ying et al} \cite{Ying2016-ag} June 2015 & Jan 2022 \\
       \hline
-      Content-Security-Policy & 815 & 1241 & 59098\\
+      Content-Security-Policy & 815 & 1241 & 83208\\
       \hline
       Content-Security-Policy-Report-Only & 35 & 180 & 15280\\
       \hline
@@ -2991,14 +3019,16 @@ Figure \ref{fig:csp_by_reporting_directives} shows that the overall percentage u
 \subsection{Summary}
 
 \noindent
-The ability to utilise a CSP policy has been available since 2015. We are not 7 years on and in January 2022 only 60 thousand domains (6\%) in the top 1 million ranked websites are using a CSP policy to protect their sites. This could indicate that website developers are finding it difficult to implement a CSP policy .
+The ability to utilise a CSP policy has been available since 2015. We are now 7 years on and in January 2022 only 83 thousand domains (9\%) in the top 1 million ranked websites are using a CSP policy to protect their sites. This could indicate that website developers are finding it difficult to implement a CSP policy .
+
+\vspace{0.3cm} \noindent
+An alarming about of \texttt{script-src} directive configurations are still using the \texttt{unsafe} prefixed keywords (86\% that allow inline scripts) which allows one of the biggest attack vectorsfor websites that allow attacks such as cross site scripting attacks.
 
 \vspace{0.3cm} \noindent
 Websites are becoming more and more feature rich and being developed and an every increasing rate for many reasons such as staying competitive and demands from users. Libraries are often used along with numerous scripts created by the website developers which makes it very difficult or seemingly impossible to maintain a CSP policy that is both effective in protecting users as well as not impacting user experience (e.g. not blocking scripts that have changed and or added to add functionality to the website).
 
 \vspace{0.3cm} \noindent
-An alarming about of \texttt{script-src} directive configurations are still using the \texttt{unsafe} prefixed keywords (86\% that allow inline scripts) which allows one of the biggest attack vectorsfor websites that allow attacks such as cross site scripting attacks.
-
+For a greater adoption of CSP, the frameworks and tooling used to create websites need to incorporate the facility to generate CSP polices as this would allow the "system" to know which scripts and external sources are needed thus already knowing the information required to create a policy.
 
 \clearpage
 \newpage
@@ -3243,7 +3273,7 @@ As of January 2022 12.6\% of preloaded domains not longer redirect correctly fro
 The \texttt{includeSubdomains} parameter must be included on the STS header, meaning that all subdomains of the base domain will be forced to load over HTTPS. Only the www subdomain is checked to see if it has a DNS entry and subsequently checked if the domain supports HTTPS on the www subdomain e.g. \texttt{https://www.exmaple.com}.
 
 \vspace{0.3cm} \noindent
-As of January 2022 0.37\% of preloaded domains no longer use HTTPS on the www subdomain. This is rather surprising as going as far to preloading the domain to then not support HTTPS on the www subdomain at a later date is rather counter intuitive. It is possible that this was a configuration mistake on the web server.
+As of January 2022 less than 0.1\% of preloaded domains no longer use HTTPS on the www subdomain. This is not all the unsurprising as it is unlikely that a the www subdomain would have HTTPS support removed after it has been preloaded since it would be a primary subdomain to check for issues with HTTPS during the stage of making a domain preload compliant.
 
 \vspace{0.5cm} \noindent
 \textbf{STS Header}
@@ -3589,11 +3619,6 @@ Does not allow communication (isolates) from new windows or tab to the originati
 \vspace{0.3cm} \noindent
 Example COOP Header: \texttt{Cross-Origin-Opener-Policy: same-origin}
 
-\subsection{Conclusion}
-
-\noindent
-\textbf{TODO}
-
 \subsection{Purpose Overview}
 
 \noindent
@@ -3700,69 +3725,70 @@ Part V - Conclusion and Closing Remarks
 
 \section{Conclusions}
 
-- more help (tutorials and default configs) and awareness needed to headers more in use
-- Even though some scans missing largest gap 27 days and even with the missing data trends of use are clear for TLS…
+\noindent
+The overarching goal of this study was to answer the question:
 
-- Critical Analysis
-	- Missing scans
-	- Retry calls for certain checks e.g. all preload checks. To do in a minimal resource way, enforce a min time between attempts and max attempts
-	
+\vspace{0.6cm} \noindent
+\centerline{\texttt{What is the current adoption of security mechanisms}}
+\centerline{\texttt{in the HTTPS ecosystem ?}}
+
+\vspace{0.3cm} \noindent
+This was achieved by scanning the top 1 million ranked websites (as determined by Tranco \cite{noauthor_undated-mt}) each day for over 12 months and analysing the results.
+
+\vspace{0.3cm} \noindent
+Through the study the number of websites supporting HTTPS remained at a near constant of $\sim$80\% indicating that the number we have reached a plateau of websites supporting HTTPS. For these remaining sites it may very likely need a simple, potentially, free service to get these sites supporting HTTPS. There are a number of these services out there however it may seem to much of a barrier as the operators may not see HTTPS as a necessary feature of their site unfortunately.
+
+\vspace{0.3cm} \noindent
+With TLS1.3 climbing from 50\% in November 2020 to 64\% in January 2022, of websites scanned that support HTTPS, shows there is string support for the latest TLS versions and this trend looks as thou it will continue to rise providing more security for users browsing the internet. Also encouraging to see is the continued decline of the support of TLS 1.0 and TLS 1.1 which could indicate the website operators are increasingly comfortable to stop supporting these legacy versions possibly as there are a minimal amount of devices that require them still in use.
+
+\vspace{0.3cm} \noindent
+The security.txt mechanisms is still in its infancy as it is still in the draft RFC stage which shows in its adoption which is 0.5\% of websites scanned as of January 2022. The goal of this mechanism is admirable and its relevance looks quite promising as the majority of security.txt files found have a contact defined which is the primary piece of information that security researches are looking for in order to report a security vulnerability. It is hoped that more tutorials and setup procedures for website hosting prompts for the information for a security.txt to be deployed such that a wider adoption can be made.
+
+\vspace{0.3cm} \noindent
+A Content Security Policy policy is a critical mechanism to assisting in mitigating cross site scripting attacks however only 9\% of domains scanned are using a CSP policy as of January 2022. The use of \texttt{usafe-inline} and \texttt{unsafe-eval} keywords are still very prevalent, especially for the \texttt{script-src} directive which negates one of the strongest protections against XSS attacks. This is likely due to several contribution factors including the complexity of websites and the amount of work required to redactor website code not to have the need for these directives. This finding is quite disappointing and an in depth study should be conduct to uncover the major reasons this is still the case. 
+
+\vspace{0.3cm} \noindent
+As previously stated there are several time periods during the data capture phase where there is missing data which is not all that uncommon for this type of study. The reasons for the missing data has been identified along with measures intended to prevent further occurrences which will hopefully allow future studies to learn from. The largest gap is 27 days and even though this is almost of month of data has not seemed to have been an issue for analysis and the identification of longitudinal trends. The main issue with this would have been any short live spikes, such as that seen by the use of the CSP report only header, could have been missed.
+
+\vspace{0.3cm} \noindent
+Another critique of this study is of the choice not to retry HTTP(S) or TLS connections that failed in order to reduce the load on the target domains. If retries had been utilised it is quite possible that some of these failed HTTP(S) or TLS connections would have been successfully, however this is likely not to be significant enough to have changed the analysis findings.
+
+\vspace{0.3cm} \noindent
+To conclude, apart from TLS the other security mechanisms see a rather low usage on the top 1 million ranked websites. More work should be done to improve their usage (such as better tutorials, prompts during setup wizzards, default configs and best practice guides) as well as finding out why the usage is as low as it is.
 
 \newpage
 
 \section{Future Work}
 
 \vspace{0.3cm} \noindent
-- 
+There is a large scope for future studies due to the ever changing HTTPS ecosystem and its complexity. A number of possible areas for further work are detailed below that came to light during the creation of this study.
 
-\vspace{0.3cm} \noindent
-SSL/TLS
-- why sites use TLS 1.0 and TLS 1.1 as the max version / still support them - survey may be needed but may not get very many willing/avail to part of survey. 
+\vspace{0.7cm} \noindent
+\textbf{Legacy TLS Usage}
 
+\noindent
+For the websites the only support the legacy TLS versions, TLS 1.0 and TLS 1.1, it could be investigated into why this is the situation and leading to what could be done to have them use TLS 1.2 and TLS 1.3.
 
-\vspace{0.3cm} \noindent
-STS Preload
-- 
+\vspace{0.7cm} \noindent
+\textbf{STS Preloaded sites that no longer meet the preload criteria}
 
-\vspace{0.3cm} \noindent
-COOP
-- Look into what the need is for unsafe-none (maybe just a general one)
-- Check if inline scripts actually used when unsafe-inline used
-- Check to see how much nonce used in html
+\noindent
+There are rather a large proportion of websites that are currently STS preloaded but no longer meet the criteria. It could be investigated why this is the case and thus could lead to enhanced documentation in how to better prepare for and keep conformity for preloading and or enhanced organisation procedures to prevent unintentionally no longer meeting one or more of the preload criteria.
 
+\vspace{0.7cm} \noindent
+\textbf{Content Security Policy - Unsafe keyword usage}
 
+\noindent
+The use of the \texttt{unsafe} prefixed keywords especially for the \texttt{script-src} directive is relatively high currently. If a study was able to uncover the reasons for this it could help both the website operators trying to implement secure policies as well as the body that maintains the CSP standard in order to work together to best protect users with CSP policies.  
 
-\vspace{0.3cm} \noindent
-STS Preload
-- 
+\vspace{0.7cm} \noindent
+\textbf{Continued Adoption Studies}
 
-\vspace{0.3cm} \noindent
-CSP
-- Check if inline scripts actually used when unsafe-inline used
-- Check to see how much nonce used in html
-- keep track of how csp polices change over time for the same sites
-- Keep track of when CSP 3 is finalised and browser uptake of full CSP 3 specification
-- use of nonce in web page
-- unsafes and trend of how much unsafe on webistes
-
-\vspace{0.3cm} \noindent
-Effectiveness of the security mechanisms
-
-\vspace{0.3cm} \noindent
-more in depth look at a couple of specific and closley related security mechanisms
-
-\vspace{0.3cm} \noindent
-Security.txt
-- Continue to measure adoption over time
-- Is there an uptick on usage over time and any significant change in usage when RFC no longer draft
-- 
-
+\noindent
+There is always a need for adoption studies as it gives insight into how security mechanisms are being used which influences the evolution of such mechanisms, provides guidance for which mechanisms should be looked into more deeply and a historical record for longitudinal studies.
 
 \newpage
 
-\section{Closing Remarks}
-
-\newpage
 
 \pagenumbering{roman}
 \setcounter{page}{1}
@@ -3786,21 +3812,6 @@ Intentionally Blank
 \begin{appendices}
 \section{Sample Latex Appendix}
 
-\subsubsection{Algorithm}
-
-Sub-subsection 1 of the proposed solution.
-
-\begin{algorithm}
-\caption{Algorithm 1}\label{euclid}
-\begin{algorithmic}
-\If {$A$ intersect with $B$ is $True$}
-	\State {\textit{A intersects}}
-\ElsIf{$A$ = $C$}
-	\State {\textit{A equals C}}
-\Else \State {\textit{A does not intersect with B and is not equal to C}}
-\EndIf   
-\end{algorithmic}
-\end{algorithm}
 
 \end{appendices}
 
