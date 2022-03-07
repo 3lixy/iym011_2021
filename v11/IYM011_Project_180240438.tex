@@ -104,15 +104,13 @@ I declare that this assignment is all my own work and that I have acknowledged a
 \end{center}
 
 \noindent
-Thanks to my supervisor Simon who has provided great advice throughout allowing the report to be what it is.
+Thanks to my supervisor Simon, who has provided great advice throughout allowing the report to be what it is.
 
 \vspace{0.3cm} \noindent
-Thanks to my father who helped with proofing reading which aided in making the report more grammatically correct as well as impving readability and the flow of the report.
+Thanks to my father, Roger, who helped with proof reading, which aided in making the report more grammatically correct as well as improving readability and the flow of the report.
 
 \vspace{0.3cm} \noindent
-Lastly thanks to all the previous research that has been cited which has allowed this study to be what it is.
-
-
+Lastly thanks to all the previous research that has been cited which has allowed this study to build upon  them.
 
 \newpage
 
@@ -134,13 +132,13 @@ Intentionally Blank
 \addcontentsline{toc}{section}{Executive Summary}
 
 \noindent
-This report is one of the required modules for the course \texttt{``MSc in Information Security''} at Royal Holloway, University of London. A longitudinal study for the adoption of several security mechanisms, including: \texttt{Transport Layer Security}, \texttt{Content Security Policy}, \texttt{STS Preloading} and \texttt{Security.txt} is undertaken.
+This report is one of the required modules for the course \texttt{MSc in Information Security} at Royal Holloway, University of London. A longitudinal study for the adoption of several security mechanisms, including: \texttt{Transport Layer Security}, \texttt{Content Security Policy}, \texttt{STS Preloading} and \texttt{Security.txt} is undertaken.
 
 \vspace{0.3cm} \noindent
-This is accomplished by scanning the top 1 million ranked domains each day for over 12 months from November 2020 through to the end of January 2022 and subsequently analysis the data in order to determine the adoption of the security mechanisms.
+This is accomplished by scanning the top 1 million ranked domains each day for over 12 months from November 2020 through to the end of January 2022 and subsequent analysis of the data in order to determine the adoption of the security mechanisms.
 
 \vspace{0.3cm} \noindent
-The analysis finds that the usage of TLS versions is trending in the right direction with TLS 1.3 reaching a 64.4\% proportion of all TLS connections from establish a TLS connection to websites in the top 1 million ranked domains.
+The analysis finds that the usage of TLS versions is trending in the right direction with TLS 1.3 reaching a 64.4\% proportion of all from establishment of a TLS connection to websites in the top 1 million ranked domains.
 
 \vspace{0.3cm} \noindent
 There is still wide spread usage of the \texttt{unsafe-inline} and \texttt{unsafe-eval} keywords in Content Security Polices especially with the \texttt{script-src} directive which allows a great attack vector for cross site scripting attacks.
@@ -156,7 +154,7 @@ This study also adds some novel contributions not found during the literature re
 \begin{itemize}
 	\setlength\itemsep{0.1em}
 	\item Analysis of TLS versions that are supported by a website are captured (rather than just the TLS version negotiated when making a HTTPS request)
-	\item Analysis of Cross Origin Security headers.
+	\item Analysis of the newest Cross Origin Security headers.
 \end{itemize}
 
 \vspace{0.3cm} \noindent
@@ -205,25 +203,25 @@ It should be noted that scanning of websites commenced in November 2020, before 
 \textbf{Application Programming Interface} is an interface intended to be used by a computer program for the purpose of allowing two computer programs to communicate to one another in a structured format. \par
 \vspace{0.5cm}
 \textbf{Cascading Style Sheets} is a mechanism by which a web page can be styled by many different aspects such as fonts, colours and spaces. \par
-\textbf{Cipher Suite} Defines the implementation of cryptographic primitives and addition information referable via a unique identifier such as \UScore{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256} for the use in establishment of SSL/TLS connections \cite{Ristic2017-aj}. \par
-\textbf{Cross Origin-Request-Sharing} Is a web browser mechanism for the purpose of allowing a resource to specify the origins allowed to access the resource via the use of HTTP Headers. \par
+\textbf{Cipher Suite} defines the implementation of cryptographic primitives and additional information referable via a unique identifier such as \UScore{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256} for the use in establishment of SSL/TLS connections \cite{Ristic2017-aj}. \par
+\textbf{Cross Origin-Request-Sharing} is a web browser mechanism for the purpose of allowing a resource to specify the origins allowed to access the resource via the use of HTTP Headers. \par
 \textbf{Cross Site Scripting} A browser attack whereby a malicious script is inserted into a web page for the purpose of performing wanted actions on a user’s online account and or gaining access to sensitive information (e.g. authentication cookies and session identifiers) usually via a web browser. \par
 \textbf{Content Security Policy} is a HTTP protocol feature to restrict which resources can be fetched and or executed, such as for the purposes of obtaining content e.g. images, whilst on a specific web page in a web browser. The policy details can be specified in either a HTTP Header or in the head section of a web page via the meta tag. \par
 \vspace{0.5cm}
 \textbf{Document Object Model} is the web browsers internal representation of an html page as a result of the browser parsing the html \cite{Apple_undated-ay}. \par
 \vspace{0.5cm}
-\textbf{Federal Information Processing Standards} Standards for federal computer systems which are developed by the National Institute of Standards and Technology (NIST) \par
+\textbf{Federal Information Processing Standards} standards for federal computer systems which are developed by the National Institute of Standards and Technology (NIST) \par
 \vspace{0.5cm}
-\textbf{Hypertext Markup Language} A standardised language to create documents \cite{Berners-Lee1995-hg} for instructing a web browser how a web page should be rendered/visualised. \par
-\textbf{Hypertext Transfer Protocol} A stateless application level protocol \cite{Berners-Lee1996-ji} for the transmission of data (e.g. HTML) typically between a website and a web browser. \par
+\textbf{Hypertext Markup Language} a standardised language to create documents \cite{Berners-Lee1995-hg} for instructing a web browser how a web page should be rendered/visualised. \par
+\textbf{Hypertext Transfer Protocol} a stateless application level protocol \cite{Berners-Lee1996-ji} for the transmission of data (e.g. HTML) typically between a website and a web browser. \par
 \vspace{0.5cm}
 \textbf{Multi-purpose Internet Mail Extensions} is used to announce the intended format of a resource (e.g document or file) \cite{Freed2013-yn}. \par
 \vspace{0.5cm}
-\textbf{Universal Resource Locator} A specific type of URI that has a scheme (how to access) and a resource (where to access). The most basic form of a URI is as follows \texttt{$<$scheme$>$:$<$scheme-specific-part$>$}. An example URL is \newline \texttt{https://www.example.com} \par
+\textbf{Universal Resource Locator} a specific type of URI that has a scheme (how to access) and a resource (where to access). The most basic form of a URI is as follows \texttt{$<$scheme$>$:$<$scheme-specific-part$>$}. An example URL is \newline \texttt{https://www.example.com} \par
 \vspace{0.5cm}
-\textbf{Secure Socket Layer} A protocol to establish a secure communications channel mainly used by the HTTP protocol \par
+\textbf{Secure Socket Layer} a protocol to establish a secure communications channel mainly used by the HTTP protocol \par
 \vspace{0.5cm}
-\textbf{Transport Layer Security} A protocol, successor of the SSL protocol, to establish a secure communications channel mainly used by the HTTP protocol \par
+\textbf{Transport Layer Security} a protocol, successor of the SSL protocol, to establish a secure communications channel mainly used by the HTTP protocol \par
 
 \end{hangparas}
 \clearpage
@@ -318,7 +316,7 @@ This report going forward is structured as follows:
 \textbf{Part IV - Security Mechanism Adoption Analysis} analyses the chosen security mechanisms described in Part I from the data captured, over a 16 month period from November 2020 to February 2022, as detailed in Part III.
 
 \vspace{0.3cm} \noindent
-\textbf{Part V - Conclusions and Closing Remarks} brings the report to an end concluding that apart from TLS the other chosen security mechanism that are currently no deprecated are of relatively low usage and work needs to be done to improve this.
+\textbf{Part V - Conclusions and Closing Remarks} brings the report to an end concluding that apart from TLS the other chosen security mechanism that are currently not deprecated are of relatively low usage and work needs to be done to improve this.
 
 \newpage
 
@@ -349,7 +347,7 @@ An example header would be \texttt{server: nginx} where \texttt{server} is the k
 
 \subsection{HTTP Methods}
 
-\noindent HTTP has a number of methods for the purpose of denoting the indented request action that the request initiator is requesting to perform on a resource.
+\noindent HTTP has a number of methods for the purpose of denoting the intended request action that the request initiator is requesting to perform on a resource.
 
 \vspace{0.3cm} \noindent
 The below are relevant methods for this project:
@@ -484,7 +482,7 @@ The main attacks that are intended to be mitigated include Cross Site Scripting 
 
 
 \subsection{Strict Transport Security}
-The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over HTTPS and never HTTP \cite{Hodges2012-pe}. This prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them impersonate the user or just capture sensitive information to name only a few possibilities.
+The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over HTTPS and never HTTP \cite{Hodges2012-pe}. This prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them to impersonate the user or just capture sensitive information to name only a few possibilities.
 
 \vspace{0.3cm} \noindent
 There is an issue with this header such that a browser can only know to load over HTTPS when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the STS header. To overcome this preloading is required.
@@ -511,10 +509,10 @@ A primary class of attacks that this mitigates against are speculative side-chan
 The Cross Origin Resource Policy allows a website maintainer to require that any cross-origin resources are only allowed to be loaded if the resource is explicitly permitted to do so via a Cross Origin Resource Policy (CORP) or a Access Control Allow Origin CORS header or meta tag.
 
 \vspace{0.3cm} \noindent
-A driving factor for this header being introduced was that some developers may implement CORS in minimal way, such as setting the requesters origin in the Access-Control-Allow-Origin header \cite{noauthor_undated-cr}. This may have the undesired affect of allowing potentially sensitive data to be accessed advertisement data of users.
+A driving factor for this header being introduced was that some developers may implement CORS in minimal way, such as setting the requesters origin in the Access-Control-Allow-Origin header \cite{noauthor_undated-cr}. This may have the undesired affect of allowing potentially sensitive data to be accessed unintentionally.
 
 \vspace{0.3cm} \noindent
-CORP has a lower risk than CORS of a similar situation form occurring as it is a lower privilege than CORS.
+COEP has a lower risk than CORS of a similar situation form occurring as it is a lower privilege than CORS.
 
 
 \subsection{Cross Origin Opener Policy}
@@ -529,7 +527,7 @@ The \texttt{X-Content-Type-Options} (XCTO) mechanism is used to enforce that the
 \texttt{Content-Type: text/css}) matches that of the requested resource \cite{Apple_undated-hz}.
 
 \vspace{0.3cm} \noindent
-This mechanism is intended to mitigate against such attacks as drive by downloads and untrusted user content being treated as an executable.
+This mechanism is intended to mitigate against such attacks as \textit{drive by downloads} and untrusted user content being treated as an executable.
 
 
 \subsection{X Frame Options}
@@ -613,7 +611,7 @@ DOM-Based XSS (also referred to as \textit{Type 0}) takes place entirely in the 
 Mutation Based XSS (also referred to as \textit{mXSS}) is based on the use of the \texttt{innterHTML} functionality, often used to provide web application users to do custom styling, of a browser which allows direct manipulation of the HTML content bypassing the DOM entirely. The malicious actor crafts a ``mutated'' payload that once processed by the \texttt{innerHTML} functionality allows the script to execute \cite{Heiderich2013-qv}.
 
 \subsubsection{Historical Example}
-In October of 2005 it was discovered that when users visited an infected MySpace profile the phrase ``but most of all, samy is my hero'' was appended to the ``hero'' section of visiting users profiles. The infected profile contained a stored XSS payload which added itself to the visiting users profile and adding the aforementioned phrase. The attack was initiated by ``Samy'' infecting their own profile with the XSS payload. Over one million user profiles were reported to have been affected within 20 hours \cite{Lee2019-xf}.
+In October of 2005 it was discovered that when users visited an infected MySpace profile the phrase ``but most of all, samy is my hero'' was appended to the ``hero'' section of visiting users profiles. The infected profile contained a stored XSS payload which added itself to the visiting users profile and adding the aforementioned phrase. The attack was initiated by ``Samy'' infecting his own profile with the XSS payload. Over one million user profiles were reported to have been affected within 20 hours \cite{Lee2019-xf}.
 
 \vspace{0.2cm} \noindent
 The attack is known as the ``Samy Worm'' as it propagated to other MySspace profiles just by visiting an infected profile.
@@ -3736,38 +3734,38 @@ The overarching goal of this study was to answer the question:
 This was achieved by scanning the top 1 million ranked websites (as determined by Tranco \cite{noauthor_undated-mt}) each day for over 12 months and analysing the results.
 
 \vspace{0.3cm} \noindent
-Through the study the number of websites supporting HTTPS remained at a near constant of $\sim$80\% indicating that the number we have reached a plateau of websites supporting HTTPS. For these remaining sites it may very likely need a simple, potentially, free service to get these sites supporting HTTPS. There are a number of these services out there however it may seem to much of a barrier as the operators may not see HTTPS as a necessary feature of their site unfortunately.
+Throughout the study the number of websites supporting HTTPS remained at a near constant of $\sim$80\% indicating that a plateau of websites supporting HTTPS has been reached. For these remaining sites it may very likely need a simple, potentially, free service to get these sites supporting HTTPS. There are a number of these services available, however it may seem to much of a barrier as the operators may not see HTTPS as a necessary feature of their site unfortunately.
 
 \vspace{0.3cm} \noindent
-With TLS1.3 climbing from 50\% in November 2020 to 64\% in January 2022, of websites scanned that support HTTPS, shows there is string support for the latest TLS versions and this trend looks as thou it will continue to rise providing more security for users browsing the internet. Also encouraging to see is the continued decline of the support of TLS 1.0 and TLS 1.1 which could indicate the website operators are increasingly comfortable to stop supporting these legacy versions possibly as there are a minimal amount of devices that require them still in use.
+With TLS1.3 climbing from 50\% in November 2020 to 64\% in January 2022, of websites scanned that support HTTPS, shows there is strong support for the latest TLS versions and this trend looks as thou it will continue to rise providing more security for users browsing the internet. Also encouraging to see is the continued decline of the support of TLS 1.0 and TLS 1.1 which could indicate the website operators are increasingly comfortable to stop supporting these legacy versions possibly as there are a minimal amount of devices that require them still in use.
 
 \vspace{0.3cm} \noindent
-The security.txt mechanisms is still in its infancy as it is still in the draft RFC stage which shows in its adoption which is 0.5\% of websites scanned as of January 2022. The goal of this mechanism is admirable and its relevance looks quite promising as the majority of security.txt files found have a contact defined which is the primary piece of information that security researches are looking for in order to report a security vulnerability. It is hoped that more tutorials and setup procedures for website hosting prompts for the information for a security.txt to be deployed such that a wider adoption can be made.
+The security.txt mechanisms is still in its infancy as it is still in the draft RFC stage which shows in its adoption which is 0.5\% of websites scanned as of January 2022. The goal of this mechanism is admirable and its relevance looks quite promising as the majority of security.txt files found have a contact field defined, which is the primary piece of information that security researches are looking for in order to report a security vulnerability. It is hoped that more tutorials and setup procedures for website hosting, prompts for the information for a security.txt to be deployed such that a wider adoption can be made.
 
 \vspace{0.3cm} \noindent
-A Content Security Policy policy is a critical mechanism to assisting in mitigating cross site scripting attacks however only 9\% of domains scanned are using a CSP policy as of January 2022. The use of \texttt{usafe-inline} and \texttt{unsafe-eval} keywords are still very prevalent, especially for the \texttt{script-src} directive which negates one of the strongest protections against XSS attacks. This is likely due to several contribution factors including the complexity of websites and the amount of work required to redactor website code not to have the need for these directives. This finding is quite disappointing and an in depth study should be conduct to uncover the major reasons this is still the case. 
+A Content Security Policy policy is a critical mechanism in assisting to mitigate cross site scripting attacks, however only 9\% of domains scanned are using a CSP policy as of January 2022. The use of \texttt{usafe-inline} and \texttt{unsafe-eval} keywords are still very prevalent, especially for the \texttt{script-src} directive which negates one of the strongest protections against XSS attacks. This is likely due to several contributing factors including the complexity of websites and the amount of work required to refactor website code in order not to have the need for these directives. This finding is quite disappointing and an in depth study should be conduct to uncover the definitive primary reasons this is still the case. 
 
 \vspace{0.3cm} \noindent
-As previously stated there are several time periods during the data capture phase where there is missing data which is not all that uncommon for this type of study. The reasons for the missing data has been identified along with measures intended to prevent further occurrences which will hopefully allow future studies to learn from. The largest gap is 27 days and even though this is almost of month of data has not seemed to have been an issue for analysis and the identification of longitudinal trends. The main issue with this would have been any short live spikes, such as that seen by the use of the CSP report only header, could have been missed.
+As previously stated there are several time periods during the data capture phase where there is missing data, which is not all that uncommon for this type of study. The reasons for the missing data has been identified, along with measures intended to prevent further occurrences which will hopefully allow future studies to learn from them. The largest gap is 27 days and even though this is almost a month of data, it has seemed to not have been an issue for analysis and the identification of longitudinal trends. The main issue is with the identification of short live spikes/fluctuations, such as that seen by the use of the CSP report only header.
 
 \vspace{0.3cm} \noindent
-Another critique of this study is of the choice not to retry HTTP(S) or TLS connections that failed in order to reduce the load on the target domains. If retries had been utilised it is quite possible that some of these failed HTTP(S) or TLS connections would have been successfully, however this is likely not to be significant enough to have changed the analysis findings.
+Another critique of this study is of the choice not to retry HTTP(S) or TLS connections that failed in order to reduce the load on the target domains. If retries had been utilised it is quite possible that some of these failed HTTP(S) or TLS connections would have been successful, however this is likely not to be significant enough to have changed the analysis findings.
 
 \vspace{0.3cm} \noindent
-To conclude, apart from TLS the other security mechanisms see a rather low usage on the top 1 million ranked websites. More work should be done to improve their usage (such as better tutorials, prompts during setup wizzards, default configs and best practice guides) as well as finding out why the usage is as low as it is.
+To conclude, apart from TLS the other security mechanisms see a rather low usage within the top 1 million ranked websites. More work should be done to improve their usage (such as better tutorials, prompts during setup wizzards, default configs and best practice guidance) as well as finding out why the usage is as low as it is.
 
 \newpage
 
 \section{Future Work}
 
 \vspace{0.3cm} \noindent
-There is a large scope for future studies due to the ever changing HTTPS ecosystem and its complexity. A number of possible areas for further work are detailed below that came to light during the creation of this study.
+There is a large scope for future studies due to the ever changing HTTPS ecosystem and its complexity. A number of possible areas for further work are detailed below that came to light during this study.
 
 \vspace{0.7cm} \noindent
 \textbf{Legacy TLS Usage}
 
 \noindent
-For the websites the only support the legacy TLS versions, TLS 1.0 and TLS 1.1, it could be investigated into why this is the situation and leading to what could be done to have them use TLS 1.2 and TLS 1.3.
+For the websites the only support the legacy TLS versions, TLS 1.0 and TLS 1.1, it could be investigated into why this is the situation and leading to what could be done to support TLS 1.2 and TLS 1.3.
 
 \vspace{0.7cm} \noindent
 \textbf{STS Preloaded sites that no longer meet the preload criteria}
@@ -3785,7 +3783,7 @@ The use of the \texttt{unsafe} prefixed keywords especially for the \texttt{scri
 \textbf{Continued Adoption Studies}
 
 \noindent
-There is always a need for adoption studies as it gives insight into how security mechanisms are being used which influences the evolution of such mechanisms, provides guidance for which mechanisms should be looked into more deeply and a historical record for longitudinal studies.
+There is always a need for adoption studies as it gives insight into how security mechanisms are being used, which influences the evolution of such mechanisms, provides guidance for which mechanisms should be looked into more deeply and a historical record for longitudinal research.
 
 \newpage
 
