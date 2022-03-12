@@ -651,7 +651,7 @@ The 2018 Texthelp breach is one example of this type of attack where a malicious
 
 \subsection{Clickjacking}
 
-A clickjacking attack is one in which a user-initiated attack is hijacked to perform unwanted actions. A user is enticed to click on an element of a page, such as an image, however rather than an action or outcome the user expects to occur one determined by the attacker takes place. To undertake the attack a malicious site renders a web page from the target website within an iframe. The malicious site uses styling to show only what the attack desires of the target website \cite{Jamwal2018-tz}.
+A clickjacking attack is one in which a user-initiated attack is hijacked to perform unwanted actions. A user is enticed to click on an element of a page, such as an image, however rather than an action or outcome the user expects to occur, one determined by the attacker takes place. To undertake the attack a malicious site renders a web page from the target website within an iframe. The malicious site uses styling to show only what the attack desires of the target website \cite{Jamwal2018-tz}.
 
 \subsubsection{Historical Example}
 The Twitter Attack, also referred to as the ``Twitter Bomb'', begins by a user seeing a twitter post that contains the text \texttt{Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and clicking on the link. Visiting the link will present the user with a page seemingly only containing only a single button ladled \texttt{Don't Click}.
@@ -821,7 +821,7 @@ Table \ref{table:measurement_technologies} details a number of measurement techn
       \hline
       \textbf{Technology} & \textbf{Description} & \textbf{Use Case} \\
       \hline
-      PHP with Curl \cite{Buchanan2018-xz} & PHP is a web programming language. Curl provides a client library for communicated to web services such as HTTP web servers & Make HTTP calls to websites and capture the response body and metadata \\
+      PHP with Curl \cite{Buchanan2018-xz} & PHP is a web programming language. Curl provides a client library for communicating to web services such as HTTP web servers & Make HTTP calls to websites and capture the response body and metadata \\
       \hline
       Goscanner \cite{Amann2017-co} & Tool for large scale TLS and SSH scans & Obtain TLS connection information ip addreses / domains \\
       \hline
@@ -858,7 +858,7 @@ Precomputing DNS resolutions makes more sense when not following HTTP redirects 
 When using lists that contain base domains (e.g. example.com) it is not known if the website is actually hosted or available from the base domain. Websites are generally available from the base domain (e.g. example.com) and or its www subdomain (e.g. www.example.com).
 
 \vspace{0.3cm} \noindent
-To give a good chance of being able to obtain a HTTP response from domain, it is common to try both the base domain and the www subdomain \cite{Chen2016-dl,Kumar2017-qw,Ying2016-ag,Michael2015-hn}. Some researchers choose not to also try the www subdomain such as in \cite{Buchanan2018-xz,Amann2017-co} (but do not necessarily state why they chose not to do so), which can lead to unnecessarily reduced data for analysis.
+To give a good chance of being able to obtain a HTTP response from a domain, it is common to try both the base domain and the www subdomain \cite{Chen2016-dl,Kumar2017-qw,Ying2016-ag,Michael2015-hn}. Some researchers choose not to also try the www subdomain such as in \cite{Buchanan2018-xz,Amann2017-co} (but do not necessarily state why they chose not to do so), which can lead to unnecessarily reduced data for analysis.
 
 \subsubsection{HTTP Method}
 In order to obtain HTTP Security Headers, one needs to make an HTTP Request. There are several types of HTTP Request, GET and HEAD being two of them.
@@ -967,7 +967,7 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
       \hline
       \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have. & None of the research \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Roth2020-hg,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Calzavara2018-xv,Holz2020-ha,Michael2015-hn,} processes SSL/TLS verification at the analysis stage. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or assumed to be not enough sites affected. & SSL/TLS verification is performed at the analysis phase. \\
       \hline
-      \textbf{Monitoring} & When a scanning session is conducted and not monitored, one or more sessions could fail without the researcher(s) being aware for an unknown amount of time. & It is possible that the outage mentioned in \cite{Poteat2021-zr} could have been avoided or minimised by the use of effective monitoring. & Metrics of the status of scanning are crated and alerted upon and investigated. \\
+      \textbf{Monitoring} & When a scanning session is conducted and not monitored, one or more sessions could fail without the researcher(s) being aware for an unknown amount of time. & It is possible that the outage mentioned in \cite{Poteat2021-zr} could have been avoided or minimised by the use of effective monitoring. & Metrics of the status of scanning are created and alerted upon and investigated. \\
 %      \hline
 %      \textbf{Scan frequency} & The more data the better & - & - \\
       \hline
@@ -1133,7 +1133,7 @@ The MongoDB database technology was chosen as it:
 The Task API is meant purely as a common interface for the task agent such that the task database can be changed without the need to modify the task agent.
 
 \vspace{0.3cm} \noindent
-The HTTP protocol was chosen as the interface to the API as it is a very well-known and a standard protocol to use for an API.
+The HTTP protocol was chosen as the interface to the API as it is a very well known and a standard protocol to use for an API.
 
 \vspace{0.3cm} \noindent
 The intended clients of the API is the Task Agent (for running and updating the tasks) and the Task Manager (for creating an offline archive once all tasks have completed for later analysis).
@@ -1144,11 +1144,11 @@ The Task API can perform the following functions:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
     \item Allow a client to retrieve one or more tasks via a HTTP GET request.
-    \item Allow the following task database filtering via url arguments when a HTTP GET request is made:
-    \item Task Status (e.g completed)
-    \item Task Unique ID
-    \item Sort by Unique ID
-    \item Allow a client to update one or more tasks via a HTTP POST request
+    \item Allow the following task database filtering via url arguments when a HTTP GET request is made.
+    \item Task Status (e.g completed).
+    \item Task Unique ID.
+    \item Sort by Unique ID.
+    \item Allow a client to update one or more tasks via a HTTP POST request.
 \end{itemize}
 
 \vspace{0.6cm} \noindent
@@ -1210,7 +1210,7 @@ This is the target domain of a task being performed by the Task Agent.
 
 \subsubsection{[G] Time Series Database}
 
-The Task Manager will create metrics about tasks and send then to the time series database. Time series databases are optimised for metrics that are time bound which is the type of metrics that is required to be stored. 
+The Task Manager will create metrics about tasks and send them to the time series database. Time series databases are optimised for metrics that are time bound which is the type of metrics that is required to be stored. 
 
 \vspace{0.3cm} \noindent
 InfluxDB was the time series database technology implementation chosen as it is is relativity modern, quick to get up and running and has a community version available (free).
@@ -1233,7 +1233,7 @@ Alerts were configured in Grafana to fire under the following conditions:
 
 \subsubsection{[I] All Tasks Archive}
 
-Once all tasks have been processed, the Task Manager will use the Task API to create a gzip compressed tar file archive containing a json structured representation for each task.
+Once all tasks have been processed, the Task Manager will use the Task API to create a compressed archive file containing a json structured representation for each task.
 
 \vspace{0.3cm} \noindent
 This compressed archive is transferred to an archive file server for later analysis.
@@ -1307,7 +1307,7 @@ All the headers in table \ref{table:task_paramters_headers} where carefully chec
 The \texttt{user-agent} header is generally considered one of the most critical headers to use for HTTP requests to be associated with coming from a browser, rather than a backend service application, as almost all related research use this header \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn}.
 
 \vspace{0.3cm} \noindent
-The headers with the prefix \texttt{sec} are to enhance the premise that the request is coming from a user making the request manually in a browser. It could be argued that the accept headers are not needed however they should only give credit that the request is from a user rather than a service.
+The headers with the prefix \texttt{sec} are to enhance the premise that the request is coming from a user making the request manually in a browser. It could be argued that the \texttt{accept} headers are not needed however they should only give credit that the request is from a user rather than a service.
 
 \subsection{Task Flow}
 \label{section:task_flow}
@@ -1509,7 +1509,7 @@ A Task Agent continually look for new tasks to perform and run up to 100 concurr
 A zombie task is one where it is started but does not complete within a set amount of time. For this research the duration limit for a task deemed to be a zombie task is 120 minutes (2hours). This occurred less than one task per 10 million tasks performed.
 
 \vspace{0.2cm} \noindent
-A scan outage for a duration of 27 days was caused by zombie tasks. A single tasks not completing will prevent the archive create process from starting. As a result changes were made such that when a low amount of zombie tasks were detected they were reset and re-attempted. All reset tasks completed successfully. If there were several zombie tasks detected this would raise alert and human intervention would be required to resolve the situation.
+A scan outage for a duration of 27 days was caused by zombie tasks. A single task not completing will prevent the archive create process from starting. As a result changes were made such that when a low amount of zombie tasks were detected they were reset and re-attempted. All reset tasks completed successfully. If there were several zombie tasks detected this would raise alert and human intervention would be required to resolve the situation.
 
 \vspace{0.2cm} \noindent
 It was not looked into why zombie tasks occurred as the rate was so low it was not an efficient use of time and would not affect the research results as the tasks were successfully re-attempted.
@@ -1604,7 +1604,7 @@ The software used to conduct the research against domains does not attempt to:
 
 \subsection{Information Disclosure}
 
-As this research obtains publicly available information and is not revealing vulnerabilities about any particular domain, there is not a concern of exposing information about domains that may revel vulnerabilities.
+As this research obtains publicly available information and is not revealing vulnerabilities about any particular domain, there is not a concern of exposing information about domains that may reveal vulnerabilities.
 
 \subsection{Abuse Reports}
 
@@ -1647,12 +1647,12 @@ There are several gaps in the available scanning archives summarised in table \r
 \end{itemize}
 
 \noindent
-In the following sections these date ranges will be visible on certain charts. As the scanning has been for an extended period and any single time period is no longer than 27 days, it is believed it will not have a material impact any trends identified.
+In the following sections these date ranges will be visible on certain charts. As the scanning has been for an extended period and any single time period is no longer than 27 days, it is believed it will not have a material impact on any trends identified.
 
 
 \subsection{Analysis Methodology}
 
-Each scan archive was processed grouping related data together, such as all the security.txt files, to produce a JSON file to allow for easier analysis of the data.
+Each scan archive was processed, grouping related data together, such as all the security.txt files, to produce a JSON file to allow for easier analysis of the data.
 
 \vspace{0.3cm} \noindent
 A python application was created to parse these JSON files to produce further JSON files that were be used for creating charts.
@@ -1666,7 +1666,7 @@ Each analysis section details how the data was processed.
 
 \subsection{Domains Unable To Be Scanned}
 
-As with other research not all of the domains in the list of domains to be scanned were able to have a HTTP or HTTPS connection be made to them.
+As with other research, not all of the domains in the list of domains to be scanned were able to have a HTTP or HTTPS connection made to them.
 
 \vspace{0.3cm} \noindent
 On average the scanner was able to obtain a HTTP and or a HTTPS request 95\% of the time from the Tranco list of 1 million domains, shown in figure \ref{fig:failed_tasks}.
@@ -1681,7 +1681,7 @@ On average the scanner was able to obtain a HTTP and or a HTTPS request 95\% of 
 \end{figure}
 
 \noindent
-Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS response 51\% of the time this was due to differing errors, such as timeouts, in the establishment of a HTTP/HTTPS connection and the transmission of data across such a connection. The remaining 49\% was due to not receiving one or more IP addresses from the DNS lookup request.
+Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS response, 51\% were due to differing errors, such as timeouts, in the establishment of a HTTP/HTTPS connection and the transmission of data across such a connection. The remaining 49\% was due to not receiving one or more IP addresses from the DNS lookup request.
 
 %\restoregeometry
 
@@ -1716,7 +1716,7 @@ The research by \texttt{Buchanan et al} \cite{Buchanan2018-xz} found that in Aug
 \newpage
 
 \vspace{0.3cm} \noindent
-This upward trend of HTTP to HTTPS redirection is slowing however it is hoped that more sites continue to implement redirection such that future research does not show a plateau before nearly all sites in the top 1 Million redirect to HTTPS.
+This upward trend of HTTP to HTTPS redirection is slowing. However it is hoped that more sites continue to implement redirection such that future research does not show a plateau before nearly all sites in the top 1 Million redirect to HTTPS.
 
 \vspace{0.3cm} \noindent
 To some surprise there are a number of sites that redirect from HTTPS to HTTP, 3.5\% in November 2020 and  down to 1.7\% in January 2022. It is assumed that this is done on purpose, and that as the trend is on the decline that the reasons for implementing HTTPS to HTTP redirection are being overcome or not relevant any more.
@@ -1765,7 +1765,7 @@ The acronyms SSL and TLS are often used interchangeably to refer to the secure c
 Confidentiality is the protection of data such that only those who have been given authorisation can access the data.
 
 \vspace{0.3cm} \noindent
-Two entities should be able to establish a SSL/TLS connection between one another such that only these two entities can access the data data being sent over it. This should result in any third parties that are able capture the traffic from being able to recover the data being sent over the SSL/TLS channel \cite{Martin2017-sx}.
+Two entities should be able to establish a SSL/TLS connection between one another such that only these two entities can access the data data being sent over it. This should result in any third parties that are able capture the traffic from, not being able to recover the data being sent over the SSL/TLS channel \cite{Martin2017-sx}.
 
 \vspace{0.7cm} \noindent
 \textbf{Data origin authentication}
@@ -1789,7 +1789,7 @@ It is optional for a client to prove its identity to the server using PKI during
 \textbf{Perfect forward secrecy}
 
 \noindent
-Perfect forward secrecy ensures that if the private key that is paired with certificate of a server/website was compromised, any SSL/TLS traffic that was captured being sent to or from this server could not be decrypted with the private key being revealed. This is accomplished via the use of Ephemeral Diffie-Hellman key exchange \cite{Martin2017-sx}.
+Perfect forward secrecy ensures that if the private key that is paired with the certificate of a server/website that was compromised, any SSL/TLS traffic that was captured being sent to or from this server could not be decrypted with the private key being revealed. This is accomplished via the use of Ephemeral Diffie-Hellman key exchange \cite{Martin2017-sx}.
 
 \vspace{0.3cm} \noindent
 Perfect forward secrecy is mandatory as of TLS 1.3 and as such RSA key exchange was removed in TLS 1.3.
@@ -1798,7 +1798,7 @@ Perfect forward secrecy is mandatory as of TLS 1.3 and as such RSA key exchange 
 \textbf{SSL 2.0 [1994]}
 
 \noindent
-Netscape Communications started developing a protocol, named Secure Socket Layer (SSL), for securing HTTP communications in 1993 \cite{Oppliger2016-ig}, due to that fact that when HTTP was first introduced it did not provide a means by which to secure its communications \cite{Oppliger2016-ig}.
+Netscape Communications started developing a protocol, named Secure Socket Layer (SSL), for securing HTTP communications in 1993 \cite{Oppliger2016-ig}, due to the fact that when HTTP was first introduced it did not provide a means by which to secure its communications \cite{Oppliger2016-ig}.
 Netscape Communications introduced SSL 2.0 in 1994 \cite{Oppliger2016-ig,Wu2016-nx}.
 
 \vspace{0.7cm} \noindent
@@ -1817,7 +1817,7 @@ SSL 3.0 was eventually standardised as RFC6101 \cite{Freier2011-pt}.
 In 1996 the IETF Transport Layer Security (TLS) Working Group was established \cite{Oppliger2016-ig,Farrell2010-kv} which produced TLS 1.0 as RFC4436 in 1999 \cite{Dierks1999-fn}.
 
 \vspace{0.3cm} \noindent
-TLS 1.0 was based on SSL 3.0 and introduced some enhancements and modifications \cite{Rescorla2001-gg}. Due to the changes made in TLS 1.0, it was allowed to be used by US government as it gained FIPS approval \cite{Ristic2017-aj}.
+TLS 1.0 was based on SSL 3.0 and introduced some enhancements and modifications \cite{Rescorla2001-gg}. Due to the changes made in TLS 1.0, it was allowed to be used by the US government as it gained FIPS approval \cite{Ristic2017-aj}.
 
 \vspace{0.7cm} \noindent
 \textbf{TLS 1.1 [2006]}
@@ -1892,7 +1892,7 @@ Figure \ref{fig:tls_negotiated} shows the negotiated TLS version of websites tha
 \end{itemize}
 
 \noindent
-No version of the leagcy SSL technology is supported by the builtin HTTP client in Go (the programming language used to create the scanner used to gather the data for analysis). The lack of support of SSL is not of concern as the use of SSLv3 (the last version of SSL that was widely used) currently is essentially 0\% as shown by the research by \textit{Kotzias et al} \cite{Kotzias2018-wd} which showed that analysing passively collected SSL/TLS usage, SSLv3 usage was 0.01\% of all TLS/SSL connections in February 2018.
+No version of the leagcy SSL technology is supported by the built in HTTP client in Go (the programming language used to create the scanner used to gather the data for analysis). The lack of support of SSL is not of concern as the use of SSLv3 (the last version of SSL that was widely used) currently is essentially 0\% as shown by the research by \textit{Kotzias et al} \cite{Kotzias2018-wd} which showed that analysing passively collected SSL/TLS usage, SSLv3 usage was 0.01\% of all TLS/SSL connections in February 2018.
 
 \vspace{0.3cm} \noindent
 As shown in figure \ref{fig:tls_negotiated}, November 2020 appears to show that it was just before this time that TLS 1.3 started to become the dominant TLS version negotiated, replacing TLS 1.2 as the dominant version. This assumption is enhanced by the research of \texttt{Holz et al} \cite{Holz2020-ha} which showed that in November 2019 from the analysis of passively collected TLS connection details, $\sim$79\% of connections were using TLS 1.2 with a downward trend and $\sim$19\% of connections using TLS 1.3 with an upward trend.
@@ -1943,13 +1943,13 @@ TLS 1.2 is in supported by over 99\% of domains. The reason for this is likely d
 Both TLS 1.0 and TLS 1.1 look to follow the same downward trend with 44\% and 48\% in January 2022 respectively. As they follow the same trend it is likely due to when libraries and or applications are upgraded, rather than manual configuration changes to remove support for TLS 1.0 and TLS 1.1.
 
 \vspace{0.3cm} \noindent
-For the 0.2\% of websites that negotiate with wither TLS 1.0 or TLS 1.1 they did not support any version higher than that they negotiated with. There should not be a significant reason that TLS 1.2 and TLS 1.3 cannot be supported whilst also supporting TLS 1.0 and or TLS 1.1 for use by legacy devices. 
+For the 0.2\% of websites that negotiate with TLS 1.0 or TLS 1.1 they did not support any version higher than that they negotiated with. There should not be a significant reason that TLS 1.2 and TLS 1.3 cannot be supported whilst also supporting TLS 1.0 and or TLS 1.1 for use by legacy devices. 
 
 \vspace{0.3cm} \noindent
 It is possible that websites are running old/outdated versions of applications, supporting only TLS 1.0 and or TLS 1.1, serving these websites and the maintainers are unaware or the updating of these older systems are of low priority. A reverse proxy would at least allow the public endpoint of such websites to use TLS 1.2 and TLS 1.3.
 
 \vspace{0.3cm} \noindent
-Table \ref{table:tls_supported_matrix} is a matrix for the different combinations of TLS versions supported by domains on 02 Jan 2022. The highest concentration of domains is for supporting both TLS 1.2 and TLS 1.3 which is quite encouraging. As state previously, TLS 1.0 has a significant presence over TLS 1.1 shown as 2305 domains supporting TLS 1.0 alone.
+Table \ref{table:tls_supported_matrix} is a matrix for the different combinations of TLS versions supported by domains on 02 Jan 2022. The highest concentration of domains is for supporting both TLS 1.2 and TLS 1.3 which is quite encouraging. As stated previously, TLS 1.0 has a significant presence over TLS 1.1 shown as 2305 domains supporting TLS 1.0 alone.
 
 \begin{table}[t]
 %\small
@@ -1994,10 +1994,10 @@ Table \ref{table:tls_supported_matrix} is a matrix for the different combination
 \subsection{Summary}
 
 \noindent
-The trend for negotiated TLS versions is going in the right direction, with TLS 1.3 being the dominant version, currently at  as this research began with an upwaord trend and as yet does not show sings of tapering off. TLS negotiations that result in either TLS 1.0 or TLS 1.1 is less than 1\% of all TLS negotiations.
+The trend for negotiated TLS versions is going in the right direction, with TLS 1.3 being the dominant version, currently as this research began with an upward trend and as yet does not show sings of tapering off. TLS negotiations that result in either TLS 1.0 or TLS 1.1 is less than 1\% of all TLS negotiations.
 
 \vspace{0.3cm} \noindent
-The use of TLS 1.1 and TLS 1.0 were declining rapidly at the same rate at the end of 2020, however the trend is now starting to slow down which likely means TLS 1.1 and TLS 1.0 will be in use still for some time.
+The use of TLS 1.1 and TLS 1.0 were declining rapidly at the same rate at the end of 2020, however the trend is now starting to slow down which likely means TLS 1.1 and TLS 1.0 will still be in use s for some time.
 
 \clearpage
 \newpage
@@ -2046,7 +2046,7 @@ The ``security.txt'' mechanism is to aid in informing security researchers how t
 The primary emphasis of using a security.txt is that its location is known. Without knowing where to find the information required to report vulnerabilities, security researches may not be able to reach the right team in the organisation able to take action on the report for some time or even at all.
 
 \vspace{0.3cm} \noindent
-Security researches can spend quite a long time trying numerous channels such as Linkedin, contact pages on websites, guessing security email addresses. If private messaging attempts fail some researchers resort to seeking assistance via twitter, however this also draws attention to there being a vulnerability on the organisation in the tweet which could allow malicious actors to discover and exploit the vulnerability before it is fixed.
+Security researches can spend quite a long time trying numerous channels such as Linkedin, contact pages on websites, guessing security email addresses. If private messaging attempts fail, some researchers resort to seeking assistance via twitter, however this also draws attention to there being a vulnerability on the organisation in the tweet which could allow malicious actors to discover and exploit the vulnerability before it is fixed.
 
 \subsection{Scanning}
 
@@ -2096,10 +2096,7 @@ During the process of creating the parser it was noticed that some security.txt 
 
 \newpage
 
-\subsubsection{Analysis}
-
-\noindent
-The negotiated TLS versions are trending in the right direction with TLS 1.3 at nearly 
+\subsection{Analysis}
 
 \begin{figure}[t]
 	\begin{center}
@@ -2115,7 +2112,7 @@ The negotiated TLS versions are trending in the right direction with TLS 1.3 at 
 Figure \ref{fig:security_txt_by_rank} shows the percentage of domains that the scanner was able to identify having a valid security.txt at the path \texttt{/.well-known/security.txt} e.g. \newline \texttt{https://example.com/.well-known/security.txt}. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
 
 \vspace{0.3cm} \noindent
-Figure \ref{fig:security_txt_by_rank} closely matches, with a uniformly overall reduced percentage of however, that of a figure 1 in \cite{Poteat2021-zr}. It is not clear from \cite{Poteat2021-zr} whether the ranking always starts from 1 or from the previous smaller rank.
+Figure \ref{fig:security_txt_by_rank} closely matches, with a uniformly overall reduced percentage however, that of figure 1 in \cite{Poteat2021-zr}. It is not clear from \cite{Poteat2021-zr} whether the ranking always starts from 1 or from the previous smaller rank.
 
 \vspace{0.3cm} \noindent
 The ranks ranges in Figure \ref{fig:security_txt_by_rank} in this report are as stated in the legend domains from rank 1 to rank 100, rank 101 to 1000 and so on. The last rank is from 100001 to 1 million. Rank 1-100 from figure \ref{fig:security_txt_by_rank} should be comparative to that of the Top 100 of figure 1 in \cite{Poteat2021-zr} while taking into account the potential 18\% discrepancy.
@@ -2263,7 +2260,7 @@ Table \ref{table:security_txt_by_contact_type} shows the average presence of the
 The most prevelant email username used was \texttt{security}, as shown in table \ref{table:security_txt_by_email_username} which is of no real surprise due to the purpose of the security.txt.
 
 \vspace{0.3cm} \noindent
-There were several email addresses that were obfuscated which required multiple dedicated regular expressions to be created in order for the parser to detect them as email addresses. Some examples of email obfuscation observed are:
+There were several email addresses that were made obscure (obfuscated) which required multiple dedicated regular expressions to be created in order for the parser to detect them as email addresses. Some examples of email obfuscation observed are:
 
 \begin{itemize}
 	\setlength\itemsep{0.01em}
@@ -2304,7 +2301,7 @@ One reason why email addresses have been obfuscated is not wanting them to be id
 \end{table}
 
 \noindent
-Of the security.txt files that had one or more contacts the majority contained only 1 contact as shown in table \ref{table:security_txt_by_contact_count}. Interestingly there were double the amount of security.txt files that contained 6 contacts than those that had 5 contacts.
+Of the security.txt files that had one or more contacts, the majority contained only 1 contact as shown in table \ref{table:security_txt_by_contact_count}. Interestingly there were double the amount of security.txt files that contained 6 contacts than those that had 5 contacts.
 
 \vspace{0.3cm} \noindent
 Of the 1.5-2\% of security.txt files that did contain one or more fields but did not contain a \texttt{Contact} field, several did contain other non RFC contact fields including:
@@ -2330,7 +2327,7 @@ If this trend continues, \texttt{Expires} will likely get close to 100\% use suc
 There are several possible reasons that domains are not including the expires including:
 \begin{itemize}
 	\setlength\itemsep{0.01em}
-    \item the administrative burden of regularly reviewing the security.txt
+    \item the administrative burden of regularly reviewing the security.txt.
     \item if a static datetime is used and it is left to expire, security researches may decide to seek conformation other than using the information in the contact field to verify the correct means of reporting a security vulnerability, thus delaying such reporting. If no expires is included then it cannot expire.
 \end{itemize}
 
@@ -2351,7 +2348,7 @@ Figure \ref{fig:security_txt_by_when_expires} shows that there are a minimal amo
 \textbf{Encryption}
 
 \noindent
-The RFC states that keys should not be included in security.txt files, despite this $\sim$0.7\% of unique files do include keys. This looks to indicate either that the majority are conforming to the RFC recommendation and or do not wish to include a key in the security.txt.
+The RFC states that keys should not be included in security.txt files. Despite this, $\sim$0.7\% of unique files do include keys. This looks to indicate either that the majority are conforming to the RFC recommendation and or do not wish to include a key in the security.txt.
 
 \begin{table}[H]
 %\tiny
@@ -2374,7 +2371,7 @@ The RFC states that keys should not be included in security.txt files, despite t
 
 
 \noindent
-Table \ref{table:security_txt_encryption_type} shows three types of encryption reference: HTTPS, HTTP and OpenPGP4 Fingerprint Reader (openpgp4fpr). The RFC states that the \texttt{Encryption} field must being with \texttt{https://}, however despite this OpenPGP4 Fingerprint Reader has a presence of $\sim$3.0. A reason for this could be that it was more convenient to use a OpenPGP4 Fingerprint Reader, however this might hinder the use of it if security researchers are not familiar with this scheme type. Should a website operator want to use OpenPGP4 Fingerprint Reader scheme, it is best placed in a separate web page such that instructions can be included on how to use such a scheme. 2\% of values use the scheme \texttt{http://} which is quite surprising given the purpose of a security.txt and being present in the \texttt{Encryption} field.
+Table \ref{table:security_txt_encryption_type} shows three types of encryption reference: HTTPS, HTTP and OpenPGP4 Fingerprint Reader (openpgp4fpr). The RFC states that the \texttt{Encryption} field must begin with \texttt{https://}, however despite this OpenPGP4 Fingerprint Reader has a presence of $\sim$3.0\%. A reason for this could be that it was more convenient to use an OpenPGP4 Fingerprint Reader, however this might hinder the use of it if security researchers are not familiar with this scheme type. Should a website operator want to use OpenPGP4 Fingerprint Reader scheme, it is best placed in a separate web page such that instructions can be included on how to use such a scheme. 2\% of values use the scheme \texttt{http://} which is quite surprising given the purpose of a security.txt and being present in the \texttt{Encryption} field.
 
 \vspace{0.7cm} \noindent
 \textbf{Preferred-Languages}
@@ -2406,13 +2403,13 @@ As one may expect there were many different languages (over 50) represented in t
 \end{table}
 
 \noindent
-English is the most prominent language which makes sense as that is also the most common language used for business. If a researcher did not speak English, or any of the other languages listed,  they maybe very well know someone who does in order to report an issue.
+English is the most prominent language which makes sense as that is also the most common language used for business. If a researcher did not speak English, or any of the other languages listed, they may be very well know someone who does in order to report an issue.
 
 \vspace{0.7cm} \noindent
 \textbf{Other RFC Fields}
 
 \noindent
-The remaining fields defined in the RFC that have not been analysed in this section are of less interest and as such only their relative presence in a security.txt was analysed displayed in table \ref{table:security_txt_by_other_rfc_fields} and figure \ref{fig:security_txt_by_fields}.
+The remaining fields defined in the RFC that have not been analysed in this section are of less interest and as such only their relative presence in a security.txt was analysed and displayed in table \ref{table:security_txt_by_other_rfc_fields} and figure \ref{fig:security_txt_by_fields}.
 
 \begin{table}[H]
 %\tiny
@@ -2465,7 +2462,7 @@ There are a number of fields, many present in only a single security.txt, that a
 \end{table}
 
 \noindent
-All of the \texttt{Permission} values appear to be set to \texttt{none} which would seed to indicate that permission is not given to perform testing for vulnerabilities against the site.
+All of the \texttt{Permission} values appear to be set to \texttt{none} which would seem to indicate that permission is not given to perform testing for vulnerabilities against the site.
 
 \vspace{0.3cm} \noindent
 The \texttt{Disclosure} values were seen to be a HTTPS link, \texttt{Full}, \texttt{Partial} or \texttt{None} which would seem to indicate that if a security vulnerability were to be submitted the security researcher would act in good faith and adhere to this value in regards to the public disclosure of the security vulnerability found.
@@ -2482,7 +2479,7 @@ Approximately half  of all the valid security.txt files seen were unique, meanin
 Almost all security.txt files contained one or more contact which is the primary purpose of the security,txt mechanism to provide a contact point for security researchers to have an easy way to report  vulnerabilities.
 
 \vspace{0.3cm} \noindent
-As previously mentioned, one of the paths a security.txt file can be hosted at, as specified in the draft RFC. was not utilised by the scanner for the majority of the scans conducted. In any future studies, all paths specified in the latest version of the RFC should be utilised.
+As previously mentioned, one of the paths a security.txt file can be hosted at, as specified in the draft RFC, was not utilised by the scanner for the majority of the scans conducted. In any future studies, all paths specified in the latest version of the RFC should be utilised.
 
 
 \newpage
@@ -2490,10 +2487,10 @@ As previously mentioned, one of the paths a security.txt file can be hosted at, 
 \section{Content Security Policy}
 \label{section:csp}
 
-The Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed be retrieved and or loaded by the browser. CSP is an evolution of the \textit{Same-Origin Policy (SOP)} browser mechanism.
+The Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed to be retrieved and or loaded by the browser. CSP is an evolution of the \textit{Same-Origin Policy (SOP)} browser mechanism.
 
 \vspace{0.3cm} \noindent
-Same Origin Policy is rather restrictive and this is where Content Security Policy gives more control to website maintainers and developers.
+The \texttt{Same Origin Policy} mechanism is rather restrictive and this is where Content Security Policy gives more control to website maintainers and developers.
 
 \subsection{Background}
 \subsubsection{Development}
@@ -2523,7 +2520,7 @@ CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the mo
 
 
 \subsubsection{Policy Delivery}
-There CSP policy can be delivered either by the use of one of two HTTP headers (Content-Security-Policy and Content-Security-Policy-Report-Only) or in the \texttt{$<$meta$>$} element in the html body of a web page.
+The CSP policy can be delivered either by the use of one of two HTTP headers (Content-Security-Policy and Content-Security-Policy-Report-Only) or in the \texttt{$<$meta$>$} element in the html body of a web page.
 
 \subsubsection{CSP Directive}
 A CSP Policy consists of one or more directives which are bound to a specific type of resource. For example, the script-src directive controls the restrictions, or lack thereof, for the location(s) scripts can be obtained, executed or loaded from. A CSP Directive can have of one or more values.
@@ -2560,7 +2557,7 @@ Table \ref{table:cpsdirectives1} details the directives from CSP Level 1 until C
       \hline
       connect-src & Restricts source of script interface requests & 1\\
       \hline
-      report-uri & Destination URI for sending CSP violates reports. Deprecated as of CSP Level 3 in favour of \texttt{report-to} & 1\\
+      report-uri & Destination URI for sending CSP violates reports Deprecated as of CSP Level 3 in favour of \texttt{report-to} & 1\\
       \hline
       base-uri & Restrict URIs for a document's base element & 1.1\\
       \hline
@@ -2745,20 +2742,20 @@ There are a number of CSP headers, shown below, that have been created leading u
 
 \subsubsection{Content-Security-Policy-Report-Only}
 
-The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \newline \texttt{Content-Security-Policy} with the exception that violations are only reported and not enforced. One of the main uses of this is when webmasters and developers are creating a CSP Policy and do not want to impact the end user experience until the policy is configured as desiredb
+The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \newline \texttt{Content-Security-Policy} with the exception that violations are only reported and not enforced. One of the main uses of this is when webmasters and developers are creating a CSP Policy and do not want to impact the end user experience until the policy is configured as desired.
 
 \vspace{0.5cm} \noindent
 Example basic CSP policy header: \texttt{Content-Security-Policy: default-src 'self'; script-src 'self' cdn.example.com; style-src 'self'}
 
 \subsection{Purpose Overview}
 
-CSP mainly provides mitigations for web applications against XSS Cross Site Scripting (XSS), data injection attacks and packet sniffing attacks. There are several basic policy settings that can utilised for protection against such attacks.
+CSP mainly provides mitigations for web applications against XSS Cross Site Scripting (XSS), data injection attacks and packet sniffing attacks. There are several basic policy settings that can be utilised for protection against such attacks.
 
 \vspace{0.5cm} \noindent
 \textbf{Restrict locations resources can be loaded from}
 
 \vspace{0.3cm} \noindent
-Using the script-src directive to only allow resources to be loaded from trusted sources is a great first step to preventing attackers from loading scripts. The additional use of sub resource integrity can be used to prevent supply chain attacks where the attacker takes control of a trusted source script.
+Using the script-src directive to only allow resources to be loaded from trusted sources is a great first step to prevent attackers from loading scripts. The additional use of sub resource integrity can be used to prevent supply chain attacks where the attacker takes control of a trusted source script.
 
 \vspace{0.5cm} \noindent
 \textbf{Remove the need to use unsafe directives}
@@ -2780,7 +2777,7 @@ CSP policy maintainers should keep up to date with CSP bypass techniques such as
 
 \subsection{Parser}
 
-A parser was created in python which processed the value for a content security policy header. The parser checked all of the below headers of a scan result for the presence of a CSP header.
+A parser was created in python which processed the value for a content security policy header. The parser checked all of the headers below of a scan result for the presence of a CSP header.
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
@@ -2824,7 +2821,7 @@ A number of regular expressions were created to place each directive into one of
 \end{table}
 
 \vspace{0.3cm} \noindent
-As the scanner followed redirects the parser kept track of the resultant domain of any such redirects and skipped processing a CSP if the resultant domain had already had a CSP processed.
+As the scanner followed redirects, the parser kept track of the resultant domain of any such redirects and skipped processing a CSP if the resultant domain had already had a CSP processed.
 
 
 \subsection{Analysis}
@@ -2845,10 +2842,10 @@ Figure \ref{fig:csp_by_rank} shows the percentage of domains that the scanner wa
 \newpage
 
 \vspace{0.3cm} \noindent
-Each rank group shows a steady rise in the use of a CSP headers, with domain in the Rank of 1-100 group seeing the most use, which is an encouraging sign. There is a long way to go however to have the majority of sites using a CSP policy.
+Each rank group shows a steady rise in the use of a CSP headers, with domain in the Rank of 1-100 group seeing the most use, which is an encouraging sign. There is a long way to go, however, to have the majority of sites using a CSP policy.
 
 \vspace{0.3cm} \noindent
-In the research by \texttt{Weissbacher et al} \cite{Weissbacher2014-vm} in March 2014 showed only 2\% of the sites ranked in the top 100 use CSP, this increased to 7\% in the research by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015 and as of January 2022 it is 36\% which is a marked increase.
+In the research by \texttt{Weissbacher et al} \cite{Weissbacher2014-vm} in March 2014 showed only 2\% of the sites ranked in the top 100 use CSP increasing to 7\% in the research by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015 and as of January 2022 it is 36\% which is a marked increase.
 
 \begin{table}[t]
 \footnotesize
@@ -2882,7 +2879,7 @@ In the research by \texttt{Weissbacher et al} \cite{Weissbacher2014-vm} in March
 \subsubsection{Distribution by Header}
 
 \vspace{0.3cm} \noindent
-Even though the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} CSP headers are now deprecated, there is still an increase in use from the \texttt{Ying et al} study \cite{Ying2016-ag} in June 2015 as shown in table \ref{table:csp_header_count}. The current (Jan 2022) overall percentage of use for these two headers however, is less that 4\% of all the CSP headers combined.
+Even though the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} CSP headers are now deprecated, there is still an increase in use from the \texttt{Ying et al} study \cite{Ying2016-ag} in June 2015 as shown in table \ref{table:csp_header_count}. The current (Jan 2022) overall percentage of use for these two headers, however, is less that 4\% of all the CSP headers combined.
 
 \vspace{0.3cm} \noindent
 Of the 4\% of domains that use the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} headers, only 13\% of these only use either of these two headers i.e. 87\% of domains that use \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} also use the \texttt{Content-Security-Policy}.
@@ -2894,10 +2891,10 @@ The presumed reason that domains use both deprecated and current CSP headers is 
 There is a spike in use from 20 December 2020 to 11 January 2021 for the \newline \texttt{Content-Security-Policy-Report-Only} header. The policy looks to be exclusively \newline \texttt{worker-src 'none'; report-uri /csp-report} and all the \texttt{server} header values were \textit{cloudflare}. Cloudflare provides many services for websites such as web increased performance via caching.
 
 \vspace{0.3cm} \noindent
-The csp policy will send a report if a Worker, SharedWorker, or ServiceWorker script is attempted to be run. There does not seem to be any correlation between the websites other than using Cloudflare services. The short period the policy was deployed for, indicates that Cloudflare was doing some testing and or a beta program of some kind.
+The CSP policy will send a report if a Worker, SharedWorker, or ServiceWorker script is attempted to be run. There does not seem to be any correlation between the websites other than using Cloudflare services. The short period the policy was deployed for, indicates that Cloudflare was doing some testing and or a beta program of some kind.
 
 \vspace{0.3cm} \noindent
-As of January 2022 33\% of domains that are using the \newline \texttt{Content-Security-Policy-Report-Only} header have not configured a \texttt{report-uri} or \texttt{report-to} directive, which results in reports not being send upon policy violations. Developers might consider they do not as yet need to configure a reporting directive as they are still in the development phase and are using browser developer tools to identify policy violations.
+As of January 2022 33\% of domains that are using the \newline \texttt{Content-Security-Policy-Report-Only} header have not configured a \texttt{report-uri} or \texttt{report-to} directive, which results in reports not being sent upon policy violations. Developers might consider they do not as yet need to configure a reporting directive as they are still in the development phase and are using browser developer tools to identify policy violations.
 
 \clearpage
 \newpage
@@ -2946,7 +2943,7 @@ Figure \ref{fig:csp_csp_by_directives} show the percentage of directives present
 \newpage
 
 \noindent
-The distribution use of keywords has changed quite significantly since the study by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015. It should be noted that there are also significantly more domains utilising CSP as well as the understanding of CSP will have increased which could very well had an effect of keyword distribution change seen.
+The distribution use of keywords has changed quite significantly since the study by \texttt{Ying et al} \cite{Ying2016-ag} in June 2015. It should be noted that there are also significantly more domains utilising CSP as well as the understanding of CSP will have increased which could very well have had an effect of keyword distribution change seen.
 
 \vspace{0.3cm} \noindent
 It is good to see that keyword \texttt{*} (essentially providing no protections) proportionally has reduced significantly from 14\% to 4\%. Unfortunately the proportional use of both \texttt{unsafe-inline} and \texttt{unsafe-eval} has over doubled.
@@ -2986,10 +2983,10 @@ The \texttt{self} keyword (restricting resources to the origin of the web page) 
 It can be seen from table \ref{table:csp_default-src-keyword} that \texttt{self} has had a marked increase in proportional use from \texttt{Ying et al} \cite{Ying2016-ag} in June 2015. The use of keywords \texttt{unsafe-inline} and \texttt{unsafe-eval} have unfortunately significantly increased to over 87\% and 79\% respectively.
 
 \vspace{0.3cm} \noindent
-It is quite disappointing that the use of \texttt{unsafe-inline} and \texttt{unsafe-eval} is still so prevalent as setting these keywords allow a big attack vector for malicious actors. This indicates that website maintainers are struggling to be able to create CSP policies that are more restrictive but also do not impact the users experience, some may have event given up on the prospect.
+It is quite disappointing that the use of \texttt{unsafe-inline} and \texttt{unsafe-eval} is still so prevalent as setting these keywords allow a big attack vector for malicious actors. This indicates that website maintainers are struggling to be able to create CSP policies that are more restrictive but also do not impact the users experience, some may have even given up on the prospect.
 
 \vspace{0.7cm} \noindent
-\textbf{reporting directives}
+\textbf{Reporting Directives}
 
 \begin{figure}[t]
 	\begin{center}
@@ -3012,18 +3009,18 @@ The reports can also serve as a possible detection mechanism for malicious entit
 The \texttt{report-uri} reporting directive, introduced with first publish CSP specification in 2012 and is in use by 15\% of domains using the \texttt{Content-Security-Policy} in January 2022 and the \texttt{report-to} directive is in use by 1.5\% of domains. The \texttt{report-uri} reporting directive is deprecated as of CSP3 which is yet to be published (it is still in a working draft stage) which would point as to the reason it is dominant over the \texttt{report-to} directive.
 
 \vspace{0.3cm} \noindent
-Figure \ref{fig:csp_by_reporting_directives} shows that the overall percentage use of the reporting directive declining, however the number of domains using a CSP policy is increasing which indicates that figure \ref{fig:csp_by_reporting_directives} is showing as more domains start using a csp policy they are not using a reporting directive or potentially domains are removing the reporting directives or even a combination of both.
+Figure \ref{fig:csp_by_reporting_directives} shows that the overall percentage use of the reporting directive is declining, however the number of domains using a CSP policy is increasing which indicates that figure \ref{fig:csp_by_reporting_directives} is showing as more domains start using a CSP policy they are not using a reporting directive or potentially domains are removing the reporting directives or even a combination of both.
 
 \subsection{Summary}
 
 \noindent
-The ability to utilise a CSP policy has been available since 2015. We are now 7 years on and in January 2022 only 83 thousand domains (9\%) in the top 1 million ranked websites are using a CSP policy to protect their sites. This could indicate that website developers are finding it difficult to implement a CSP policy .
+The ability to utilise a CSP policy has been available since 2015. We are now 7 years on and in January 2022 only 83 thousand domains (9\%) in the top 1 million ranked websites are using a CSP policy to protect their sites. This could indicate that website developers are finding it difficult to implement a CSP policy.
 
 \vspace{0.3cm} \noindent
-An alarming about of \texttt{script-src} directive configurations are still using the \texttt{unsafe} prefixed keywords (86\% that allow inline scripts) which allows one of the biggest attack vectorsfor websites that allow attacks such as cross site scripting attacks.
+An alarming about of \texttt{script-src} directive configurations are still using the \texttt{unsafe} prefixed keywords (86\% that allow inline scripts) which allows one of the biggest attack vectors for websites that allow attacks such as cross site scripting attacks.
 
 \vspace{0.3cm} \noindent
-Websites are becoming more and more feature rich and being developed and an every increasing rate for many reasons such as staying competitive and demands from users. Libraries are often used along with numerous scripts created by the website developers which makes it very difficult or seemingly impossible to maintain a CSP policy that is both effective in protecting users as well as not impacting user experience (e.g. not blocking scripts that have changed and or added to add functionality to the website).
+Websites are becoming more and more feature rich and being developed at an every increasing rate for many reasons such as staying competitive and demands from users. Libraries are often used along with numerous scripts created by the website developers which makes it very difficult or seemingly impossible to maintain a CSP policy that is both effective in protecting users as well as not impacting user experience (e.g. not blocking scripts that have changed and or added to add functionality to the website).
 
 \vspace{0.3cm} \noindent
 For a greater adoption of CSP, the frameworks and tooling used to create websites need to incorporate the facility to generate CSP polices as this would allow the "system" to know which scripts and external sources are needed thus already knowing the information required to create a policy.
@@ -3067,10 +3064,10 @@ Example STS header configuration: \texttt{Strict-Transport-Security: max-age 315
 \subsection{Purpose Overview}
 
 \noindent
-The STS header prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them impersonate the user or just capture sensitive information to name only a few possibilities.
+The STS header prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack, allowing the attacker to impersonate the user or just capture sensitive information to name only a few possibilities.
 
 \vspace{0.3cm} \noindent
-There is an issue however, in that a browser can only know to load over HTTPS when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the STS header. To overcome this preloading is required which was discussed in the previous section.
+There is an issue however, in that a browser can only know to load over HTTPS when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the STS header. To overcome this, preloading is required which was discussed in the previous section.
 
 \clearpage
 \newpage
@@ -3121,13 +3118,13 @@ There are many more sites that have the \texttt{preload} directive set (21.5\%) 
 \end{figure}
 
 \noindent
-Figure \ref{fig:STS_max-age} shows groups of the duration of the \texttt{max-age} directive. The most common duration is 1-3 years which is not unsurprising as the RFC states a vlaue of 1 year. The upward trend is in the 1-3 years bracket which indicates that as sites add a STS header they are doing so with at least a year for the \texttt{max-age} directive.
+Figure \ref{fig:STS_max-age} shows groups of the duration of the \texttt{max-age} directive. The most common duration is 1-3 years which is not unsurprising as the RFC states a value of 1 year. The upward trend is in the 1-3 years bracket which indicates that as sites add a STS header they are doing so with at least a year for the \texttt{max-age} directive.
 
 \vspace{0.3cm} \noindent
 This shows confidence that website maintainers are intending to keep their websites HTTPS for the foreseeable future.
 
 \vspace{0.3cm} \noindent
-As of January 2022 5\% of the \texttt{max-age} directive values are set to a value of 0, down from 6\% in November 2020. This essentially is ``opting out'' of both the STS mechanism itself.
+As of January 2022 5\% of the \texttt{max-age} directive values are set to a value of 0, down from 6\% in November 2020. This essentially is ``opting out'' of the STS mechanism itself.
 
 \vspace{0.3cm} \noindent
 In table \ref{table:sts_header_count} it can be seen that there has been a near 5 fold increase in the use of the STS header from May 2017.
@@ -3156,7 +3153,7 @@ STS Preloading is a mechanism where a browser checks to see if the requested sit
 Google maintains a predefined list, launched in 2010 \cite{Michael2015-hn}, of websites where the website owners/maintainers have requested to be added and required an email to be sent to a google  engineer to be included in the list \cite{Langley_undated-dm}. This service later gained a web portal in mid-2014 \cite{Michael2015-hn} for the request to be included in the preload list.
 
 \vspace{0.3cm} \noindent
-The firefox browser generates their own preload list, which is the output of a process that uses the preload list provided as maintained by google and checks each domainy discards any that no loger meets the preload criteria.
+The Firefox browser generates its own preload list. Each domain from the preload lost maintained by Google is checked and if it meets all the preload requirements it is included in the Firefox preload list.
 
 \vspace{0.3cm} \noindent
 The following criteria must be met in order for a domain to qualify to be included in the preload list:
@@ -3169,7 +3166,7 @@ The following criteria must be met in order for a domain to qualify to be includ
   \item[e.g.:] if \texttt{http://example.com} is accessible, it must redirect to \texttt{https://example.com}
   \end{description}
   \item All subdomains should be served over HTTPS, however only the \texttt{www} subdomain (e.g. \texttt{www.example.com}) is checked if present in DNS.
-  \item An STS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
+  \item A STS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
   \begin{itemize}
     \item \texttt{max-age} directive must be no less than 31536000 seconds (i.e. 1 year).
     \item \texttt{includeSubDomains} directive must be present.
@@ -3193,13 +3190,13 @@ The main reason for STS Preloading is to ensure the first time a user visits a w
 The scanner was not initially configured to capture all the required information to be able to evaluate the conformance to the preload requirements. In March 2021 the base redirect and www subdomain check were added to the scanner.
 
 \vspace{0.3cm} \noindent
-The parser was configured to only analyse domains that were specifically added to the preload list. This is due to entire TLDs (e.g. .app, bank and .dev) being configured in the STS preload list and thus domains of these TLDs were not necessarily setup to meet the preload list criteria.
+The parser was configured to only analyse domains that were specifically added to the preload list. This is due to entire TLDs (e.g. .app, bank and .dev) being configured in the STS preload list and thus domains of these TLDs were not necessarily set up to meet the preload list criteria.
 
 \vspace{0.3cm} \noindent
 In the preload commit (Tue Nov 09 22:54:06 2021) there are 34 TLDs configured. This means that any site that is of one of these preload lists is preloaded (i.e. the domain itself is not in the preload list only the TLD)
 
 \vspace{0.3cm} \noindent
-All of the STS preload lists were obtained from chromium.googlesource.com and the most recent list preceding the time of a scan was used to identify if a domains was preloaded or not.
+All of the STS preload lists were obtained from chromium.googlesource.com and the most recent list preceding the time of a scan was used to identify if a domain was preloaded or not.
 
 \vspace{0.3cm} \noindent
 A random selection of domains that the parser identified as both meeting the preload criteria and not meeting the preload criteria were checked on the https://STSpreload.org/ website for verification that the parser was working as intended.
@@ -3222,19 +3219,19 @@ A random selection of domains that the parser identified as both meeting the pre
 \subsubsection{Preload Criteria Conformity}
 
 \noindent
-Figure \ref{fig:STS_preloaded_overview} shows an overal summary of the current state of top 1 million domains that are in the preload list managed by Google. The number of preloaded domains is quite a low percentage, as of January 2022 only 0.72\% of the top 1 million domains were preloaded.
+Figure \ref{fig:STS_preloaded_overview} shows an overal summary of the current state of top 1 million domains that are in the preload list managed by Google. The number of preloaded domains is quite a low percentage. As of January 2022 only 0.72\% of the top 1 million domains were preloaded.
 
 \vspace{0.3cm} \noindent
-The most recent STS preload list is from February 2022, as of as of January 2022, which contains 157192 (up from 1258 in 2010 \cite{Michael2015-hn}) entries which would seem to indicate that most of the preloaded domains are not in the top 1 million most popular domains.
+The most recent STS preload list is from February 2022, as of January 2022, which contains 157192 (up from 1258 in 2010 \cite{Michael2015-hn}) entries which would seem to indicate that most of the preloaded domains are not in the top 1 million most popular domains.
 
 \vspace{0.3cm} \noindent
-The low amount of sites that are preloaded in the top 1 million most popular domains could be due to that the majority of sites are maintained by individuals with an interest in security and thus not likely to be a very popular domains compared to all the site on the internet.
+The low amount of sites that are preloaded in the top 1 million most popular domains could be due to that the majority of sites being maintained by individuals with an interest in security and thus not likely to be a very popular domains compared to all the site on the internet.
 
 \vspace{0.3cm} \noindent
-As of January 2022 38\% of domains preloaded do not meet the preload requirements anymore. This is a rather high percentage and these domains are at risk of being remove as per the message dispalyed on STSpreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: $<$domain$>$ is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}.
+As of January 2022 38\% of domains preloaded do not meet the preload requirements anymore. This is rather a high percentage and these domains are at risk of being removed as per the message displayed on STSpreload.org when checking a domain that no longer meets the preload requirements: \textit{``Status: $<$domain$>$ is currently preloaded, but no longer meets the requirements. It may be at risk of removal.''}.
 
 \vspace{0.3cm} \noindent
-Domains in the preload list that no longer meet the critera and were in the preload list before the requirements were formally documented and the web portal rolled out in 2014, are not subject for removal from the preload list however.
+Domains in the preload list that no longer meet the criteria and were in the preload list before the requirements were formally documented and the web portal rolled out in 2014, are not subject for removal from the preload list however.
 
 \vspace{0.3cm} \noindent
 Any data/publications detailing actual removal of domains due to them no longer meeting the requirements was unable to be identified.
@@ -3271,7 +3268,7 @@ As of January 2022 12.6\% of preloaded domains not longer redirect correctly fro
 The \texttt{includeSubdomains} parameter must be included on the STS header, meaning that all subdomains of the base domain will be forced to load over HTTPS. Only the www subdomain is checked to see if it has a DNS entry and subsequently checked if the domain supports HTTPS on the www subdomain e.g. \texttt{https://www.exmaple.com}.
 
 \vspace{0.3cm} \noindent
-As of January 2022 less than 0.1\% of preloaded domains no longer use HTTPS on the www subdomain. This is not all the unsurprising as it is unlikely that a the www subdomain would have HTTPS support removed after it has been preloaded since it would be a primary subdomain to check for issues with HTTPS during the stage of making a domain preload compliant.
+As of January 2022 less than 0.1\% of preloaded domains no longer use HTTPS on the www subdomain. This is not at all unsurprising, as it is unlikely that the www subdomain would have HTTPS support removed after it has been preloaded since it would be a primary subdomain to check for issues with HTTPS during the stage of making a domain preload compliant.
 
 \vspace{0.5cm} \noindent
 \textbf{STS Header}
@@ -3295,7 +3292,7 @@ For 02 January 2022 the most common duration under a year was 180 days (6 months
 \textit{- Missing preload}
 
 \vspace{0.3cm} \noindent
-1.6\% of preloaded domains did not provide the directive \texttt{preload} in the STS header. As this directive is only used for the purpose of preloading, one might assume that this was done on purpose such that preloading was not longer desired.
+1.6\% of preloaded domains did not provide the directive \texttt{preload} in the STS header. As this directive is only used for the purpose of preloading, one might assume that this was done on purpose indicating that preloading was not longer desired.
 
 \vspace{0.3cm} \noindent
 \textit{- Missing includeSubdomains}
@@ -3309,7 +3306,7 @@ For 02 January 2022 the most common duration under a year was 180 days (6 months
 The usage of STS Preloading is as yet not all that common with 0.72\% of the top 1 million domains currently utilising it.
 
 \vspace{0.3cm} \noindent
-Of the domains that do use STS Preloading, 38\% no longer meet the requirements which could result in their removal from the this thus removing the extra security layer the STS Preloading mechanism provides. As of January 2022, not having a STS header was 30\% of all reasons that a domain no longer met the preload requirement meaning they have opted out of both the STS header protection and STS Preloading.
+Of the domains that do use STS Preloading, 38\% no longer meet the requirements which could result in their removal from the list thus removing the extra security layer the STS Preloading mechanism provides. As of January 2022, not having a STS header was 30\% of all reasons that a domain no longer met the preload requirement meaning they have opted out of both the STS header protection and STS Preloading.
 
 
 
@@ -3355,6 +3352,9 @@ This mechanism is intended to mitigate against such attacks as drive by download
 \end{figure}
 
 \noindent
+It should be noted that in figure \ref{fig:xcto_overview} representation for \texttt{XTCO header} cannot be seen. This is due to the fact that \texttt{nosniff} was the only value for this header and has an identical representation, thus it is completely overshadowing \texttt{XTCO header}.
+
+\vspace{0.3cm} \noindent
 Figure \ref{fig:xcto_overview} shows the usage of the XCTO header and its single directive \texttt{nosniff}. As there is only one directive for XCTO, the number of domains using it and those using the directive \texttt{nosniff} are identical.
 
 \vspace{0.3cm} \noindent
@@ -3376,7 +3376,7 @@ There is a somewhat linear increase in usage over the measurement period (Novemb
 \end{table}
 
 \vspace{0.3cm} \noindent
-In table \ref{table:xcto_header_count} it can be seen that there has been a near 5 fold increase in the use of the XTCO header from 2015 and just over a 2 fold increase since May 2017. As of January 2022 the XCTO header is in use buy only 21\% of scanned domains. Whilst the trend is on a linear increase trend, more awareness and guidance is needed to get a faster adoption of XCTO and the other security headers analysed in this report.
+In table \ref{table:xcto_header_count} it can be seen that there has been a near 5 fold increase in the use of the XTCO header from 2015 and just over a 2 fold increase since May 2017. As of January 2022 the XCTO header is in use by only 21\% of scanned domains. Whilst the trend is on a linear increase trend, more awareness and guidance is needed to get a faster adoption of XCTO and the other security headers analysed in this report.
 
 \clearpage
 \newpage
@@ -3386,7 +3386,7 @@ In table \ref{table:xcto_header_count} it can be seen that there has been a near
 
 \subsection{Background}
 
-The \texttt{X-Frame-Options} (XFO) response header is a mechanism that states if a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+The \texttt{X-Frame-Options} (XFO) response header is a mechanism that states whether or not a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
 
 \subsubsection{Directives}
 
@@ -3399,13 +3399,13 @@ The page must not be rendered in any of the following html elements: \texttt{$<$
 \textbf{SAMEORIGIN}
 
 \vspace{0.3cm} \noindent
-The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of page that contains the element is that of the page to be rendered in the element.
+The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of the page that contains the element is that of the page to be rendered in the element.
 
 \vspace{0.7cm} \noindent
 \textbf{ALLOW-FROM $<$uri$>$}
 
 \vspace{0.3cm} \noindent
-Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This is directive is now deprecated and should not to be used.
+Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This directive is now deprecated and should not to be used.
 
 \vspace{0.3cm} \noindent
 Example XFO Header: \texttt{X-Frame-Options: DENY}
@@ -3444,7 +3444,7 @@ The XFO mechanism intended to mitigate against such attacks as clickjacking wher
 \end{table}
 
 \noindent
-Figure \ref{fig:xfo_overview} shows the usage of the XFO header and its directives \texttt{deny}, \texttt{sameorigin} and the deprecated \texttt{allow-from}. The \texttt{sameorigin} directive has a near constant usage of 84\% this is great to see and not all that unsurprising as it is not all that common for the need to embed foreign origins into ones website or the need for foreign origins to embed ones website.
+Figure \ref{fig:xfo_overview} shows the usage of the XFO header and its directives \texttt{deny}, \texttt{sameorigin} and the deprecated \texttt{allow-from}. The \texttt{sameorigin} directive has a near constant usage of 84\% which is great to see and not all that unsurprising as it is not all that common for the need to embed foreign origins into ones website or the need for foreign origins to embed one's website.
 
 \vspace{0.3cm} \noindent
 That being said, with only a 21\% usage of the XFO header as of January 2022, many more websites should be able to use the header with the \texttt{sameorigin}, or the more secure \texttt{deny}, directive without affecting the user experience and in turn protect the users from attacks such as clickjacking.
@@ -3453,7 +3453,7 @@ That being said, with only a 21\% usage of the XFO header as of January 2022, ma
 The \texttt{deny} directive has a fairly constant presence in domains with 14.3\% use in January 2022. \texttt{deny} gives the most protection by not allowing the website to be embedded in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
 
 \vspace{0.3cm} \noindent
-The deprecated directive \texttt{allow-from} has a very low but constant usage of 1.5\%. The low usage reflects its deprecation status and is likely present due to configurations that have either not been changed in a while or not removed when configurations changes have been made.
+The deprecated directive \texttt{allow-from} has a very low but constant usage of 1.5\%. The low usage reflects its deprecation status and is likely present due to configurations that have either not been changed in a while or not removed when configuration changes have been made.
 
 \clearpage
 \newpage
@@ -3484,10 +3484,11 @@ Example COEP Header: \texttt{Cross-Origin-Embedder-Policy: require-corp}
 \subsection{Purpose Overview}
 
 \noindent
-The COEP mechanisms is to allow a website maintainer to enforce cross-origin resources must be explicitly allowed to be loaded via the use of the CROP header or CORS otherwise the resources will be blocked from being loaded in the browsers.
+The COEP mechanisms is to allow a website maintainer to enforce cross-origin resources that must be explicitly allowed to be loaded via the use of the CROP header or CORS otherwise the resources will be blocked from being loaded in the browsers.
 
 \vspace{0.3cm} \noindent
-A driving factor for this header being introduced was that some developers may implement CORS in minimal way, such as setting the requesters origin in the Access-Control-Allow-Origin header \cite{noauthor_undated-cr}. This may have the undesired affect of allowing potentially sensitive data to be accessed advertisement data of users.
+A driving factor for this header being introduced was that some developers may implement CORS in minimal way, such as setting the requesters origin in the Access-Control-Allow-Origin header \cite{noauthor_undated-cr}. This may have the undesired affect of allowing potentially sensitive data to be accessed unintentionally.
+
 
 \subsection{Analysis}
 
@@ -3503,13 +3504,13 @@ A driving factor for this header being introduced was that some developers may i
 Figure \ref{fig:coep_overview} shows the usage of the COEP header and its directives \texttt{unsafe-none} and \texttt{require-corp}. The usage of the COEP header is rather low and as of January 2022 only 353 domains in the top 1 million most popular use it and of those only 15\% of them use the \texttt{require-corp} directive (the only directive that imposes restrictions).
 
 \vspace{0.3cm} \noindent
-There is a sharp rise of its use in March 2021 with the directive of \texttt{unsafe-none} which indicated that the header was added perhaps for the purposes of an audit or similar that suggested its use as \texttt{unsafe-none} is the default behaviour (i.e. the same as not specifying the header at all).
+There is a sharp rise in its use in March 2021 with the directive of \texttt{unsafe-none} which indicated that the header was added perhaps for the purposes of an audit or similar that suggested its use as \texttt{unsafe-none} is the default behaviour (i.e. the same as not specifying the header at all).
 
 \vspace{0.3cm} \noindent
-Alternatively the sharp rise could be due to preparation of changing the headers directive to \texttt{require-corp} at a later date however the directive appears to have remained set to \texttt{unsafe-none} for 9 months now.
+Alternatively the sharp rise could be due to preparation of changing the headers directive to \texttt{require-corp} at a later date. However the directive appears to have remained set to \texttt{unsafe-none} for 9 months now.
 
 \vspace{0.3cm} \noindent
-The use of the \texttt{require-corp} directive is very low and as of January 2022.
+The use of the \texttt{require-corp} directive is very low as of January 2022.
 
 \vspace{0.3cm} \noindent
 The COEP header was introduced recently enough that similar analysis of header usage was not seen in research consulted thus no comparison is able to be made.
@@ -3571,7 +3572,7 @@ A primary class of attacks that this mitigates against are speculative side-chan
 Figure \ref{fig:corp_overview} shows the usage of the CORP header and its directives \texttt{same-site}, \texttt{same-origin} and \texttt{cross-origin}. The usage of the CORP header almost double that of the COEP header in January 2022, but is still rather low.
 
 \vspace{0.3cm} \noindent
-The most common directive used is \texttt{same-origin},  63\% of all directives (387 domains) in January 2022, which the most restrictive of the available directives which is great to see.
+The most common directive used is \texttt{same-origin}, 63\% of all directives (387 domains) in January 2022, which the most restrictive of the available directives which is great to see.
 
 \vspace{0.3cm} \noindent
 The use of \texttt{cross-origin}, being the least restrictive directive, allows resources to be loaded from any source is the second most used with 157 domains and 25\% of all directives used in January 2022. This would indicate the there are one or more resources that that are not from the same site as the website being visited or that website maintainers have added the header with the least restrictive directive or a combination of both.
@@ -3580,10 +3581,10 @@ The use of \texttt{cross-origin}, being the least restrictive directive, allows 
 Lastly \texttt{same-site} which allows resources to be loaded from any site whos origin matches the origin of the current website being visited is in use by 63 sites.
 
 \vspace{0.3cm} \noindent
-There are a couple of spikes one in April 2021 and another in July 2021 for the use of \texttt{same-origin} directive.
+There are a couple of spikes. One in April 2021 and another in July 2021 for the use of \texttt{same-origin} directive.
 
 \vspace{0.3cm} \noindent
-The CORP header was introduced recently enough that similar analysis of header usage was not seen in research consulted thus no comparison is able to be made.
+The CORP header was introduced recently enough that similar analysis of header usage was not seen in research consulted, thus no comparison is able to be made.
 
 \clearpage
 \newpage
@@ -3645,7 +3646,7 @@ The most common directive used by far is \texttt{same-origin}, with 67\% of all 
 The \texttt{same-origin-allow-popups} directive has the second most usage with 289 domains and 19\% of all directives used in January 2022. Lastly the \texttt{unsafe-none} the least used with 194 domains and 13\% of all directives used in January 2022.
 
 \vspace{0.3cm} \noindent
-The COOP header was introduced recently enough that similar analysis of header usage was not seen in research consulted thus no comparison is able to be made.
+The COOP header was introduced recently enough that similar analysis of header usage was not seen in research consulted, thus no comparison is able to be made.
 
 \clearpage
 \newpage
@@ -3700,13 +3701,13 @@ This header was intended to protect websites in the event a CA provider was comp
 \end{table}
 
 \noindent
-Figure \ref{fig:pkp_overview} shows the usage of the HPKP header. As the header is deprecated by most modern browsers only the domains that used the header was analysed.
+Figure \ref{fig:pkp_overview} shows the usage of the HPKP header. As the header is deprecated by most modern browsers only the domains that used the header were analysed.
 
 \vspace{0.3cm} \noindent
-From November 2020 to mid March 2021 there was a steady decline, however since then usage as slightly fluctuated and the use in January 2022 is that of Mid March 2021. This indicates that there are a number of domains that have as yet to deprecate the HPKP header.
+From November 2020 to mid March 2021 there was a steady decline, however since then usage has slightly fluctuated and the use in January 2022 is that of Mid March 2021. This indicates that there are a number of domains that have as yet to deprecate the HPKP header.
 
 \vspace{0.3cm} \noindent
-Table \ref{table:pkp_header_count} shows that since May 2017 was potentially the peak use of the PKP header and as of January 2022 there are only 526 sites using the header.
+Table \ref{table:pkp_header_count} shows that May 2017 was potentially the peak use of the PKP header and as of January 2022 there are only 526 sites using the header.
 
 \clearpage
 \newpage
@@ -3734,19 +3735,19 @@ The overarching goal of this study was to answer the question:
 This was achieved by scanning the top 1 million ranked websites (as determined by Tranco \cite{noauthor_undated-mt}) each day for over 12 months and analysing the results.
 
 \vspace{0.3cm} \noindent
-Throughout the study the number of websites supporting HTTPS remained at a near constant of $\sim$80\% indicating that a plateau of websites supporting HTTPS has been reached. For these remaining sites it may very likely need a simple, potentially, free service to get these sites supporting HTTPS. There are a number of these services available, however it may seem to much of a barrier as the operators may not see HTTPS as a necessary feature of their site unfortunately.
+Throughout the study the number of websites supporting HTTPS remained at a near constant of $\sim$80\% indicating that a plateau of websites supporting HTTPS has been reached. For these remaining sites it may very likely need a simple, potentially, free service to get these sites supporting HTTPS. There are a number of these services available, however it may seem too much of a barrier as the operators may not see HTTPS as a necessary feature of their site unfortunately.
 
 \vspace{0.3cm} \noindent
-With TLS1.3 climbing from 50\% in November 2020 to 64\% in January 2022, of websites scanned that support HTTPS, shows there is strong support for the latest TLS versions and this trend looks as thou it will continue to rise providing more security for users browsing the internet. Also encouraging to see is the continued decline of the support of TLS 1.0 and TLS 1.1 which could indicate the website operators are increasingly comfortable to stop supporting these legacy versions possibly as there are a minimal amount of devices that require them still in use.
+With TLS1.3 climbing from 50\% in November 2020 to 64\% in January 2022, of websites scanned that support HTTPS, there a is strong support for the latest TLS versions and this trend looks as thou it will continue to rise providing more security for users browsing the internet. Also encouraging to see is the continued decline of the support of TLS 1.0 and TLS 1.1 which could indicate the website operators are increasingly comfortable to stop supporting these legacy versions possibly as there are a minimal amount of devices that require them still in use.
 
 \vspace{0.3cm} \noindent
 The security.txt mechanisms is still in its infancy as it is still in the draft RFC stage which shows in its adoption which is 0.5\% of websites scanned as of January 2022. The goal of this mechanism is admirable and its relevance looks quite promising as the majority of security.txt files found have a contact field defined, which is the primary piece of information that security researches are looking for in order to report a security vulnerability. It is hoped that more tutorials and setup procedures for website hosting, prompts for the information for a security.txt to be deployed such that a wider adoption can be made.
 
 \vspace{0.3cm} \noindent
-A Content Security Policy policy is a critical mechanism in assisting to mitigate cross site scripting attacks, however only 9\% of domains scanned are using a CSP policy as of January 2022. The use of \texttt{usafe-inline} and \texttt{unsafe-eval} keywords are still very prevalent, especially for the \texttt{script-src} directive which negates one of the strongest protections against XSS attacks. This is likely due to several contributing factors including the complexity of websites and the amount of work required to refactor website code in order not to have the need for these directives. This finding is quite disappointing and an in depth study should be conduct to uncover the definitive primary reasons this is still the case. 
+A Content Security Policy is a critical mechanism in assisting to mitigate cross site scripting attacks, however only 9\% of domains scanned are using a CSP policy as of January 2022. The use of \texttt{usafe-inline} and \texttt{unsafe-eval} keywords are still very prevalent, especially for the \texttt{script-src} directive which negates one of the strongest protections against XSS attacks. This is likely due to several contributing factors including the complexity of websites and the amount of work required to refactor website code in order not to have the need for these directives. This finding is quite disappointing and an in depth study should be conducted to uncover the definitive primary reasons why this is still the case. 
 
 \vspace{0.3cm} \noindent
-As previously stated there are several time periods during the data capture phase where there is missing data, which is not all that uncommon for this type of study. The reasons for the missing data has been identified, along with measures intended to prevent further occurrences which will hopefully allow future studies to learn from them. The largest gap is 27 days and even though this is almost a month of data, it has seemed to not have been an issue for analysis and the identification of longitudinal trends. The main issue is with the identification of short live spikes/fluctuations, such as that seen by the use of the CSP report only header.
+As previously stated there are several time periods during the data capture phase where there is missing data, which is not all that uncommon for this type of study. The reasons for the missing data has been identified, along with measures intended to prevent further occurrences which will hopefully allow future studies to learn from them. The largest gap is 27 days and even though this is almost a month of data, it seems not to have been an issue for analysis and the identification of longitudinal trends. The main issue is with the identification of short live spikes/fluctuations, such as that seen by the use of the CSP report only header.
 
 \vspace{0.3cm} \noindent
 Another critique of this study is of the choice not to retry HTTP(S) or TLS connections that failed in order to reduce the load on the target domains. If retries had been utilised it is quite possible that some of these failed HTTP(S) or TLS connections would have been successful, however this is likely not to be significant enough to have changed the analysis findings.
@@ -3771,7 +3772,7 @@ For the websites the only support the legacy TLS versions, TLS 1.0 and TLS 1.1, 
 \textbf{STS Preloaded sites that no longer meet the preload criteria}
 
 \noindent
-There are rather a large proportion of websites that are currently STS preloaded but no longer meet the criteria. It could be investigated why this is the case and thus could lead to enhanced documentation in how to better prepare for and keep conformity for preloading and or enhanced organisation procedures to prevent unintentionally no longer meeting one or more of the preload criteria.
+There are rather a large proportion of websites that are currently STS preloaded but no longer meet the criteria. It could be investigated why this is the case and thus could lead to enhanced documentation in how to better prepare for and keep conformity for preloading and or enhanced organisational procedures to prevent unintentionally no longer meeting one or more of the preload criteria.
 
 \vspace{0.7cm} \noindent
 \textbf{Content Security Policy - Unsafe keyword usage}
