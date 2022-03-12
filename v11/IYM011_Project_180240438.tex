@@ -788,17 +788,17 @@ The number of domains to scan using zone lists can be in the 10s or even 100s of
 
 \subsubsection{Search Engines}
 
-Utilising search engines can allow additional urls for a domain to be acquired to allow for further insight how responses might change depending on which web page of a domain is requested \cite{Chen2016-dl}.
+Utilising search engines can allow additional URLs for a domain to be acquired to allow for further insight how responses might change depending on which web page of a domain is requested \cite{Chen2016-dl}.
 
 \subsubsection{IPv4 Address Space}
 
-Scanning the entire IPv4 Address space (i.e. all internet  IPv4 addresses) is also a source of entities to scan \cite{Kotzias2018-wd}. The major difference is the use of an IP Address rather than a domain which needs to take into account that servers may respond differently if an IP address is used as the website address rather than a domain name (e.g. \texttt{https://1.2.3.4} vs \texttt{https://example.com}).
+Scanning the entire IPv4 Address space (i.e. all internet  IPv4 addresses) is also a source of entities to scan \cite{Kotzias2018-wd}. The major difference is the use of an IP address rather than a domain which needs to take into account that servers may respond differently if an IP address is used as the website address rather than a domain name (e.g. \texttt{https://1.2.3.4} vs \texttt{https://example.com}).
 
 \vspace{0.3cm} \noindent
 The number of internet routable IP Addresses, i.e. ip addresses that can be access over the internet, is around \(2^{32}\) total possible addresses minus approximately 288 million non route-able addresses which results in approximately 4 billion addresses.
 
 \vspace{0.3cm} \noindent
-Scanning the entire IP Address range can lead to abuse reports, however these can often be revoked if the researcher works with the operator who raised the complaint to conduct the scan in a manner in which the operator deems acceptable.
+Scanning the entire IP address range can lead to abuse reports, however these can often be revoked if the researcher works with the operator who raised the complaint to conduct the scan in a manner in which the operator deems acceptable.
 
 \subsection{Scanning}
 
@@ -835,7 +835,7 @@ Table \ref{table:measurement_technologies} details a number of measurement techn
       \hline
       Java with Apache \cite{Ying2016-ag} & Java is a programming language, Apache provides a HTTP client for Java & Make HTTP calls to websites and capture the response body and metadata \\
       \hline
-      Zmap / Zgrab \cite{Michael2015-hn,Holz2020-ha,Kotzias2018-wd} & Zmap is a single packet network scanner. ZGrab is an application layer scanner. & Zmap can be used to identify ip address with open ports. ZGrab could then be use to capture the body and metadata from HTTP requests to the open port(s). \\
+      Zmap / Zgrab \cite{Michael2015-hn,Holz2020-ha,Kotzias2018-wd} & Zmap is a single packet network scanner. ZGrab is an application layer scanner. & Zmap can be used to identify IP address with open ports. ZGrab could then be use to capture the body and metadata from HTTP requests to the open port(s). \\
       \hline
     \end{tabular}
     \caption{Technologies used in previous measurement studies}
@@ -845,10 +845,10 @@ Table \ref{table:measurement_technologies} details a number of measurement techn
 
 \subsubsection{Domain Resolving}
 
-When a HTTP client makes a request to a URL (e.g. http://example.com) the client needs to lookup the IP Address of the domain (e.g. example.com) in order to send the HTTP request.
+When a HTTP client makes a request to a URL (e.g. http://example.com) the client needs to lookup the IP address of the domain (e.g. example.com) in order to send the HTTP request.
 
 \vspace{0.3cm} \noindent
-Scanning a large number of domains can potentially put a strain on the DNS server the client is using to resolve the domain to an IP Address. If there are a sufficiently large number of domains to be resolved at the same time, or over a very short period of time (e.g. a few seconds) it is possible that the DNS resolution will fail when there is an IP Address that cannot be resolved. There are several ways around this such as pre determining the IP Address for the domain \cite{Amann2017-co}, using more than DNS server and using retries.
+Scanning a large number of domains can potentially put a strain on the DNS server the client is using to resolve the domain to an IP address. If there are a sufficiently large number of domains to be resolved at the same time, or over a very short period of time (e.g. a few seconds) it is possible that the DNS resolution will fail when there is an IP address that cannot be resolved. There are several ways around this such as pre determining the IP address for the domain \cite{Amann2017-co}, using more than DNS server and using retries.
 
 \vspace{0.3cm} \noindent
 Pre-computing DNS resolutions makes more sense when not following HTTP redirects such as for the TLS connection establishment in \cite{Amann2017-co,Holz2020-ha}.
@@ -1177,7 +1177,7 @@ Table \ref{table:task_agent_parameters} details the parameters of a Task Agent.
       \hline
       \textbf{Parameter} & \textbf{Data Type} & \textbf{Value(s)} & \textbf{Description} \\
       \hline
-      max HTTP redirects & int & 10 (golang default) & The number of HTTP redirects allowed \\
+      max HTTP redirects & int & 10 (Golang default) & The number of HTTP redirects allowed \\
       \hline
       \UScore{max_concurrent_tasks} & int & 100 & The maximum number of tasks that can be running concurrently \\
       \hline
@@ -1391,7 +1391,7 @@ This stage gathers the required data, such that a determination can be made at a
 The STS Preload requirements are detailed in section \ref{section:STS_preload}.
 
 \vspace{0.3cm} \noindent
-The following actions are performed on the base domain of the last url in the redirect chain from Step 3 and the results of which are recorded. The base domain of the url is determined by the use of the golang library ``golang.org/x/net/publicsuffix''. If any of the actions have already been performed in section 3, they are skipped as the results have already been captured:
+The following actions are performed on the base domain of the last url in the redirect chain from Step 3 and the results of which are recorded. The base domain of the url is determined by the use of the Golang library ``Golang.org/x/net/publicsuffix''. If any of the actions have already been performed in section 3, they are skipped as the results have already been captured:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
@@ -1463,7 +1463,7 @@ The number of Task Agents deployed was 5, such that the scanning could be conduc
 
 \subsubsection{Monitoring}
 
-A dashboard was created in grafana to visualise the progress/status of scans. Over time several alerts were configured after issues were encountered. Figure \ref{fig:grafana_screenshot} shows a screen shot of the dashboard representing a time window of 7 days.
+A dashboard was created in Grafana to visualise the progress/status of scans. Over time several alerts were configured after issues were encountered. Figure \ref{fig:grafana_screenshot} shows a screen shot of the dashboard representing a time window of 7 days.
 
 \newpage
 
@@ -1481,7 +1481,7 @@ There are several monitoring charts as detailed below:
 
 \begin{figure}[ht]
 	\begin{center}
-		\includegraphics[scale=0.48]{../images/grafana.png} 
+		\includegraphics[scale=0.48]{../images/Grafana.png} 
 		\caption{Grafana Dashboard}
 		\label{fig:grafana_screenshot}
 	\end{center}
@@ -1524,7 +1524,7 @@ An unexpected permanent loss of access to the storage location where the ``All T
 \textbf{Programming}
 
 \vspace{0.2cm} \noindent
-Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when a non standard HTTP code is received, it will cause golang to panic and the program will terminate. There was a single domain that caused this issue and it was put in the deny list to overcome this issue.
+Golang has, as of November 2021, a bug \cite{noauthor_undated-kp} where when a non standard HTTP code is received, it will cause Golang to panic and the program will terminate. There was a single domain that caused this issue and it was put in the deny list to overcome this issue.
 
 \vspace{0.6cm} \noindent
 \textbf{Development Work}
@@ -1599,7 +1599,7 @@ The software used to conduct the research against domains does not attempt to:
     \item Send malformed requests
     \item Login
     \item Exploit vulnerabilities
-    \item Access hidden/private paths/urls
+    \item Access hidden/private paths/URLs
 \end{itemize}
 
 \subsection{Information Disclosure}
@@ -1614,7 +1614,7 @@ As the domains being scanned have not given permission for research to be conduc
 The cloud service providers for the servers that conduct the research have easy to use interfaces to allow responses to abuse reports should they be submitted.
 
 \vspace{0.3cm} \noindent
-The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an ip address can host more than one domain and a complaint may ask to block an ip address range.
+The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an IP address can host more than one domain and a complaint may ask to block an IP address range.
 
 \vspace{0.3cm} \noindent
 There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which stated a request for ``assistance in verifying possible malicious activity being hosted on a system registered to you''. The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating that the request was made for the purpose of internet research.
@@ -1878,7 +1878,7 @@ Changes to the data being sent across the TLS secure channel during its journey 
 \end{figure}
 
 \noindent
-Figure \ref{fig:tls_negotiated} shows the negotiated TLS version of websites that ended with HTTPS urls after HTTP redirection was completed. The scanner supported the following TLS versions when attempting to connect to a website with a HTTPS url:
+Figure \ref{fig:tls_negotiated} shows the negotiated TLS version of websites that ended with HTTPS URLs after HTTP redirection was completed. The scanner supported the following TLS versions when attempting to connect to a website with a HTTPS url:
 
 \newpage
 \clearpage
@@ -2109,7 +2109,7 @@ During the process of creating the parser it was noticed that some security.txt 
 \subsubsection{Distribution by Rank}
 
 \noindent
-Figure \ref{fig:security_txt_by_rank} shows the percentage of domains that the scanner was able to identify having a valid security.txt at the path \texttt{/.well-known/security.txt} e.g. \newline \texttt{https://example.com/.well-known/security.txt}. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
+Figure \ref{fig:security_txt_by_rank} shows the percentage of domains that the scanner was able to identify having a valid security.txt at the path \texttt{/.well-known/security.txt} e.g. \newline \texttt{https://example.com/.well-known/security.txt}. The line chart is split by rank groups using the rank provided in the domains list file from tranco-list.eu for the day the scan was conducted.
 
 \vspace{0.3cm} \noindent
 Figure \ref{fig:security_txt_by_rank} closely matches, with a uniformly overall reduced percentage however, that of figure 1 in \cite{Poteat2021-zr}. It is not clear from \cite{Poteat2021-zr} whether the ranking always starts from 1 or from the previous smaller rank.
@@ -2164,7 +2164,7 @@ The number of unique security.txt files is roughly half of all security.txt file
 
 
 \vspace{0.3cm} \noindent
-Due to the large difference between the number of unique security.txt and number of unique domains further investigation was conducted to identify any large groupings of domains that used the same security.txt. From the 02 January 2022 scan, Google has the highest number of domains (198) with tumblr having (189) coming in a close second. The domains were grouped by the hash of the security.txt file. As one might expect the domains associated with Google predominantly started with \texttt{google.} e.g. \texttt{google.com}. The domains associated with tumblr had ``\textit{Please report abusive content (including spam, privacy violations, etc) at https://www.tumblr.com/abuse}'' in their security.txt file and did not appear to have a particular naming format, however the hackerone link revealed that an organisation named ``Automatic'' manage the hackerone representation.
+Due to the large difference between the number of unique security.txt and number of unique domains further investigation was conducted to identify any large groupings of domains that used the same security.txt. From the 02 January 2022 scan, Google has the highest number of domains (198) with tumblr having (189) coming in a close second. The domains were grouped by the hash of the security.txt file. As one might expect the domains associated with Google predominantly started with \texttt{google.} e.g. \texttt{google.com}. The domains associated with tumblr had ``\textit{Please report abusive content (including spam, privacy violations, etc) at https://www.tumblr.com/abuse}'' in their security.txt file and did not appear to have a particular naming format, however the Hackerone link revealed that an organisation named ``Automatic'' manage the Hackerone representation.
 
 \vspace{0.3cm} \noindent
 Whilst this is nice to see that organisations look to be using unified configurations this does give another potential method by which to identify/fingerprint sites that are controlled by large organisations. This gives the opportunity to find sites with potentially weaker security (inherited from an acquisition for example) in order to laterally move to the parent organisations infrastructure.
@@ -2197,7 +2197,7 @@ There are 8 defined fields in the RFC, 2 of which are mandatory (Contact and Exp
 	\setlength\itemsep{0.1em}
     \item Acknowledgments - links to acknowledge security researches for their efforts in reporting security vulnerabilities.
     \item Canonical - link to a canonical security.txt location.
-    \item \textbf{Contact} - A method to use for reporting security vulnerabilities (e.g. email, phone and website urls).
+    \item \textbf{Contact} - A method to use for reporting security vulnerabilities (e.g. email, phone and website URLs).
     \item Encryption - States or links on how to encrypt communication.
     \item \textbf{Expires} - The date-time after which that data present in the security.txt should not be used.
     \item Hiring - Link to a page detailing security related positions.
@@ -2829,7 +2829,7 @@ As the scanner followed redirects, the parser kept track of the resultant domain
 \subsubsection{Distribution by Rank}
 
 \noindent
-Figure \ref{fig:csp_by_rank} shows the percentage of domains that the scanner was able to identify having a CSP header. The line chart is split by rank groups using the rank provided in the domains list file from traco-list.eu for the day the scan was conducted.
+Figure \ref{fig:csp_by_rank} shows the percentage of domains that the scanner was able to identify having a CSP header. The line chart is split by rank groups using the rank provided in the domains list file from tranco-list.eu for the day the scan was conducted.
 
 \begin{figure}[H]
 	\begin{center}
@@ -2997,7 +2997,7 @@ It is quite disappointing that the use of \texttt{unsafe-inline} and \texttt{uns
 \end{figure}
 
 \noindent
-The reporting directives are a great way for policy developers to gain feedback on the polices, via the violation reports, being written and deployed for issues such as missing sources that need to be allowed, spelling mistakes in urls and other flaws with a configuration to name a few.
+The reporting directives are a great way for policy developers to gain feedback on the polices, via the violation reports, being written and deployed for issues such as missing sources that need to be allowed, spelling mistakes in URLs and other flaws with a configuration to name a few.
 
 \vspace{0.3cm} \noindent
 There are online services dedicated to receiving and processing the csp violation reports which greatly aids in getting value from the reports and reduces the barrier to entry which can lead to more use of reporting directives.
