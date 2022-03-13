@@ -248,8 +248,11 @@ It should be noted that scanning of websites commenced in November 2020, before 
 
 \newpage
 \pagenumbering{arabic}
-\section{Introduction}
+%\chapter*{Introduction}
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
 \label{section:intro}
+
 
 \noindent
 The world revolves around internet communication and websites are a big part of that. There have been many security improvements to the technology that powers the HTTPS ecosystem and as such, analysing how these are or are not being utilised is of great interest and value to the community.
@@ -270,7 +273,8 @@ It is likely that with the more complicated the security mechanism are to deploy
 \clearpage
 \newpage
 
-\section{Objectives and Scope}
+\section*{Objectives and Scope}
+\addcontentsline{toc}{section}{Objectives and Scope}
 
 In order to conduct research to answer the question stated in the introduction in an constructive manner, one must set out a list of objectives to be completed:
 
@@ -298,37 +302,41 @@ There are many services in the HTTPS ecosystem such as websites and API interfac
 
 \newpage
 
-\section{Document Structure}
+\section*{Document Structure}
 \label{section:doc_struct}
+\addcontentsline{toc}{section}{Document Structure}
 
 This report going forward is structured as follows:
 
 \vspace{0.3cm} \noindent
-\textbf{Part I - Security Features Primer} provides a technical background of relevant technologies related to the security mechanisms to be analysed. The chosen security mechanisms to be analysed are given a brief overview along with any attacks they are designed to mitigate.
+\textbf{Chapter \ref{chap:sec_feat_primer} - Security Features Primer} provides a technical background of relevant technologies related to the security mechanisms to be analysed. The chosen security mechanisms to be analysed are given a brief overview along with any attacks they are designed to mitigate.
 
 \vspace{0.3cm} \noindent
-\textbf{Part II - Why Security Features Exist} details the need for security mechanisms, focusing on those mentioned in Part I, including the following attacks: \textit{Cross Site Scripting (XSS)}, \textit{Supply Chain Attacks}, \textit{Clickjacking} and \textit{Entity in the Middle Attacks}.
+\textbf{Chapter \ref{chap:sec_feat_exist} - Why Security Features Exist} details the need for security mechanisms, focusing on those mentioned in Part I, including the following attacks: \textit{Cross Site Scripting (XSS)}, \textit{Supply Chain Attacks}, \textit{Clickjacking} and \textit{Entity in the Middle Attacks}.
 
 \vspace{0.3cm} \noindent
-\textbf{Part III - Data Acquisition} discusses internet scanning, the issues to be aware of and how other similar research has captured their data. This part concludes with detailing how this project carried out the data capture.
+\textbf{Chapter \ref{chap:data_acqusition} - Data Acquisition} discusses internet scanning, the issues to be aware of and how other similar research has captured their data. This part concludes with detailing how this project carried out the data capture.
 
 \vspace{0.3cm} \noindent
-\textbf{Part IV - Security Mechanism Adoption Analysis} analyses the chosen security mechanisms described in Part I from the data captured, over a 16 month period from November 2020 to February 2022, as detailed in Part III.
+\textbf{Chapter \ref{chap:analysis} - Security Mechanism Adoption Analysis} analyses the chosen security mechanisms described in Part I from the data captured, over a 16 month period from November 2020 to February 2022, as detailed in Part III.
 
 \vspace{0.3cm} \noindent
-\textbf{Part V - Conclusions and Closing Remarks} brings the report to an end concluding that apart from TLS the other chosen security mechanism that are currently not deprecated are of relatively low usage and work needs to be done to improve this.
+\textbf{Chapter \ref{chap:conclusion} - Conclusions and Closing Remarks} brings the report to an end concluding that apart from TLS the other chosen security mechanism that are currently not deprecated are of relatively low usage and work needs to be done to improve this.
 
 \newpage
 
-\vspace*{\fill}
-\begin{center}
-\begin{huge}
-Part I - Security Features Primer
-\end{huge}
-\end{center}
-\vspace{\fill}
+%\vspace*{\fill}
+%\begin{center}
+%\begin{huge}
+%Part I - Security Features Primer
+%\end{huge}
+%\end{center}
+%\vspace{\fill}
+%
+%\newpage
 
-\newpage
+\chapter{Security Features Primer}
+\label{chap:sec_feat_primer}
 
 \section{HTTP}
 \label{section:http}
@@ -544,15 +552,18 @@ The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits 
 This header was intended to protect websites in the event a CA provider was compromised, such as DigiNotar in 2011 \cite{Amann2017-co}, and unauthorised certificates being issued to an attacker for the purposes of impersonating websites. The HPKP mechanism would prevent the unauthorised certificate from being trusted by visitors that had previously visited the website i.e. preventing an entity in the middle attack.
 \newpage
 
-\vspace*{\fill}
-\begin{center}
-\begin{huge}
-Part II - Why Security Features Exist
-\end{huge}
-\end{center}
-\vspace{\fill}
+%\vspace*{\fill}
+%\begin{center}
+%\begin{huge}
+%Part II - Why Security Features Exist
+%\end{huge}
+%\end{center}
+%\vspace{\fill}
+%
+%\newpage
 
-\newpage
+\chapter{Why Security Features Exist}
+\label{chap:sec_feat_exist}
 
 \section{The Need for Security Mechanisms}
 \label{section:need_for_security_mechanisms}
@@ -738,19 +749,21 @@ The 2015 FREAK attack shed light that the OpenSSL library would accept weak RSA 
 \end{itemize}
 
 Organisations should have policies in place to keep up to date with current state of TLS vulnerabilities and best practice recommendations to best mitigate risk to themselves and their users from malicious actors.
-
-\newpage
-
-\vspace*{\fill}
-\begin{center}
-\begin{huge}
-Part III - Data Acquisition 
-\end{huge}
-\end{center}
-\vspace{\fill}
-
 \clearpage
 \newpage
+
+%\vspace*{\fill}
+%\begin{center}
+%\begin{huge}
+%Part III - Data Acquisition
+%\end{huge}
+%\end{center}
+%\vspace{\fill}
+%
+%\newpage
+
+\chapter{Data Acquisition}
+\label{chap:data_acqusition}
 
 \section{Data Acquisition}
 \label{section:data_aquisition}
@@ -1199,7 +1212,7 @@ Section \ref{subsection:task_parameters} details the parameters of a task. \newl
 Section \ref{section:task_flow} details the high level flow for the process of performing a domain scanning Task.
 
 \vspace{0.3cm} \noindent
-Appendix \textbf{TODO} detail the TLS client capabilities of the Task Agent.
+Appendix \textbf{TODO} details the TLS client capabilities of the Task Agent.
 
 \vspace{0.3cm} \noindent
 As with the Task API the Task Agent will use the programming language GO.
@@ -1621,15 +1634,18 @@ There was a single abuse report, which came from the Cybersecurity and Infrastru
 
 \newpage
 
-\vspace*{\fill}
-\begin{center}
-\begin{huge}
-Part IV - Security Mechanism Adoption Analysis
-\end{huge}
-\end{center}
-\vspace{\fill}
+%\vspace*{\fill}
+%\begin{center}
+%\begin{huge}
+%Part IV - Security Mechanism Adoption Analysis
+%\end{huge}
+%\end{center}
+%\vspace{\fill}
+%
+%\newpage
 
-\newpage
+\chapter{Security Mechanism Adoption Analysis}
+\label{chap:analysis}
 
 \section{Scans Overview}
 \label{section:scans_overview}
@@ -3712,15 +3728,18 @@ Table \ref{table:pkp_header_count} shows that May 2017 was potentially the peak 
 \clearpage
 \newpage
 
-\vspace*{\fill}
-\begin{center}
-\begin{huge}
-Part V - Conclusion and Closing Remarks
-\end{huge}
-\end{center}
-\vspace{\fill}
+%\vspace*{\fill}
+%\begin{center}
+%\begin{huge}
+%Part V - Conclusion and Closing Remarks
+%\end{huge}
+%\end{center}
+%\vspace{\fill}
+%
+%\newpage
 
-\newpage
+\chapter{Conclusion and Closing Remarks}
+\label{chap:conclusion}
 
 \section{Conclusions}
 
@@ -3789,8 +3808,8 @@ There is always a need for adoption studies as it gives insight into how securit
 \newpage
 
 
-\pagenumbering{roman}
-\setcounter{page}{1}
+%\pagenumbering{roman}
+%\setcounter{page}{1}
 \vspace*{\fill}
 \begin{center}
 \begin{huge}
@@ -3801,17 +3820,59 @@ Intentionally Blank
 
 \newpage
 
+\addcontentsline{toc}{chapter}{Bibliography}
 \bibliographystyle{IEEEtran}
 
 
 \bibliography{IEEEabrv,library}
 
 \newpage
+%\addcontentsline{toc}{chapter}{Appendices}
+%\begin{appendices}\renewcommand\chaptername{Appendix}
+\chapter*{Appendices}
+\addcontentsline{toc}{chapter}{Appendices}
+\appendix
+\renewcommand\thesection{\Alph{section}}
+\section{Task Agent TLS Client}
+\noindent
+The below list contains the TLS 1.0 - TLS 1.2 cipher suites that the Task Agent supported:
 
-\begin{appendices}
-\section{Sample Latex Appendix}
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item \UScore{TLS_RSA_WITH_RC4_128_SHA}
+  \item \UScore{TLS_RSA_WITH_3DES_EDE_CBC_SHA}
+  \item \UScore{TLS_RSA_WITH_AES_128_CBC_SHA}
+  \item \UScore{TLS_RSA_WITH_AES_256_CBC_SHA}
+  \item \UScore{TLS_RSA_WITH_AES_128_CBC_SHA256}
+  \item \UScore{TLS_RSA_WITH_AES_128_GCM_SHA256}
+  \item \UScore{TLS_RSA_WITH_AES_256_GCM_SHA384}
+  \item \UScore{TLS_ECDHE_ECDSA_WITH_RC4_128_SHA}
+  \item \UScore{TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA}
+  \item \UScore{TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA}
+  \item \UScore{TLS_ECDHE_RSA_WITH_RC4_128_SHA}
+  \item \UScore{TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA}
+  \item \UScore{TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA}
+  \item \UScore{TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA}
+  \item \UScore{TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256}
+  \item \UScore{TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256}
+  \item \UScore{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256}
+  \item \UScore{TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256}
+  \item \UScore{TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384}
+  \item \UScore{TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384}
+  \item \UScore{TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256}
+  \item \UScore{TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256}
+\end{itemize}
 
+\vspace{0.3cm} \noindent
+The below list contains the TLS 1.3 cipher suites that the Task Agent supported:
 
-\end{appendices}
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item \UScore{TLS_AES_128_GCM_SHA256}
+  \item \UScore{TLS_AES_256_GCM_SHA384}
+  \item \UScore{TLS_CHACHA20_POLY1305_SHA256}
+\end{itemize}
+
+%\end{appendices}
 
 \end{document}

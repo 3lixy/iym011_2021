@@ -1,10 +1,10 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{nscreport}[]
 
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
 \ProcessOptions \relax
 
-\LoadClass[12pt,twoside]{article}
+\LoadClass[12pt,twoside]{report}
 \RequirePackage[onehalfspacing]{setspace}
 \RequirePackage[top=1.2in, left=2.7cm, bottom=1.2in, right=2.7cm]{geometry}
 
