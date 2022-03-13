@@ -25,6 +25,7 @@
 \usepackage{calc}
 \usepackage{import}
 \usepackage{subfig}
+\usepackage{xcolor}
 %\usepackage[nottoc]{tocbibind}
 %\renewcommand{\contentsname}{\centering Contents} 
 %\makeglossaries
@@ -46,7 +47,14 @@
 \newcolumntype{H}{>{\centering\arraybackslash}m{3.6cm}}
 \newcolumntype{I}{>{\centering\arraybackslash}m{4cm}}
 \newcolumntype{J}{>{\centering\arraybackslash}m{10cm}}
-
+\hypersetup{%
+  colorlinks=false,
+%  urlbordercolor=1 0 0  %  possible also
+  urlbordercolor=blue,
+  linkbordercolor=blue,
+  citecolor=blue,
+linkcolor=green,
+}
 
 
 % Options -> Config -> QuickBuild -> PdfLaTex + Bib(la)tex + PdfLaTex x2 + View pdf
@@ -309,19 +317,19 @@ There are many services in the HTTPS ecosystem such as websites and API interfac
 This report going forward is structured as follows:
 
 \vspace{0.3cm} \noindent
-\textbf{Chapter \ref{chap:sec_feat_primer} - Security Features Primer} provides a technical background of relevant technologies related to the security mechanisms to be analysed. The chosen security mechanisms to be analysed are given a brief overview along with any attacks they are designed to mitigate.
+\hyperref[chap:sec_feat_primer]{\textbf{Chapter \ref{chap:sec_feat_primer} - Security Features Primer}} provides a technical background of relevant technologies related to the security mechanisms to be analysed. The chosen security mechanisms to be analysed are given a brief overview along with any attacks they are designed to mitigate.
 
 \vspace{0.3cm} \noindent
-\textbf{Chapter \ref{chap:sec_feat_exist} - Why Security Features Exist} details the need for security mechanisms, focusing on those mentioned in Part I, including the following attacks: \textit{Cross Site Scripting (XSS)}, \textit{Supply Chain Attacks}, \textit{Clickjacking} and \textit{Entity in the Middle Attacks}.
+\hyperref[chap:sec_feat_exist]{\textbf{Chapter \ref{chap:sec_feat_exist} - Why Security Features Exist}} details the need for security mechanisms, focusing on those mentioned in Part I, including the following attacks: \textit{Cross Site Scripting (XSS)}, \textit{Supply Chain Attacks}, \textit{Clickjacking} and \textit{Entity in the Middle Attacks}.
 
 \vspace{0.3cm} \noindent
-\textbf{Chapter \ref{chap:data_acqusition} - Data Acquisition} discusses internet scanning, the issues to be aware of and how other similar research has captured their data. This part concludes with detailing how this project carried out the data capture.
+\hyperref[chap:data_acqusition]{\textbf{Chapter \ref{chap:data_acqusition} - Data Acquisition}} discusses internet scanning, the issues to be aware of and how other similar research has captured their data. This part concludes with detailing how this project carried out the data capture.
 
 \vspace{0.3cm} \noindent
-\textbf{Chapter \ref{chap:analysis} - Security Mechanism Adoption Analysis} analyses the chosen security mechanisms described in Part I from the data captured, over a 16 month period from November 2020 to February 2022, as detailed in Part III.
+\hyperref[chap:analysis]{\textbf{Chapter \ref{chap:analysis} - Security Mechanism Adoption Analysis}} analyses the chosen security mechanisms described in Part I from the data captured, over a 16 month period from November 2020 to February 2022, as detailed in Part III.
 
 \vspace{0.3cm} \noindent
-\textbf{Chapter \ref{chap:conclusion} - Conclusions and Closing Remarks} brings the report to an end concluding that apart from TLS the other chosen security mechanism that are currently not deprecated are of relatively low usage and work needs to be done to improve this.
+\hyperref[chap:conclusion]{\textbf{Chapter \ref{chap:conclusion} - Conclusions and Closing Remarks}} brings the report to an end concluding that apart from TLS the other chosen security mechanism that are currently not deprecated are of relatively low usage and work needs to be done to improve this.
 
 \newpage
 
