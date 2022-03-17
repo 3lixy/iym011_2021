@@ -302,7 +302,7 @@ There are many services in the HTTPS ecosystem such as websites and API interfac
 This report going forward is structured as follows:
 
 \vspace{0.3cm} \noindent
-\hyperref[chap:sec_feat_primer]{\textbf{Chapter \ref{chap:sec_feat_primer} - Security Features Primer}} provides a technical background of relevant technologies related to the security mechanisms to be analysed. The chosen security mechanisms to be analysed are given a brief overview along with any attacks they are designed to mitigate.
+\hyperref[chap:sec_feat_primer]{\textbf{Chapter \ref{chap:sec_feat_primer} - Security Mechanisms Primer}} provides a breif background of relevant technologies related to the security mechanisms to be analysed. The chosen security mechanisms to be analysed are given a brief overview along with any attacks they are designed to mitigate.
 
 \vspace{0.3cm} \noindent
 \hyperref[chap:sec_feat_exist]{\textbf{Chapter \ref{chap:sec_feat_exist} - Why Security Features Exist}} details the need for security mechanisms, focusing on those mentioned in Part I, including the following attacks: \textit{Cross Site Scripting (XSS)}, \textit{Supply Chain Attacks}, \textit{Clickjacking} and \textit{Entity in the Middle Attacks}.
@@ -312,6 +312,10 @@ This report going forward is structured as follows:
 
 \vspace{0.3cm} \noindent
 \hyperref[chap:analysis]{\textbf{Chapter \ref{chap:analysis} - Security Mechanism Adoption Analysis}} analyses the chosen security mechanisms described in Part I from the data captured, over a 16 month period from November 2020 to February 2022, as detailed in Part III.
+
+\vspace{0.3cm} \noindent
+\hyperref[chap:sec_mech_overview]{\textbf{Chapter \ref{chap:sec_mech_overview} - Security Mechanisms Overview}} goes into further detail about each security mechanism that will analysed. This is to allow the reader to gain further context for the analysis chapter.
+
 
 \vspace{0.3cm} \noindent
 \hyperref[chap:conclusion]{\textbf{Chapter \ref{chap:conclusion} - Conclusions and Closing Remarks}} brings the report to an end concluding that apart from TLS the other chosen security mechanism that are currently not deprecated are of relatively low usage and work needs to be done to improve this.
@@ -1394,7 +1398,7 @@ Stage 4 is deemed complete and processing moves to Stage 5.
 This stage gathers the required data, such that a determination can be made at a later stage, if the domain of last url in the redirect chain (e.g. \texttt{http://www.example.com/index.php}) from Stage 3 meets the STS Preload requirements.
 
 \vspace{0.3cm} \noindent
-The STS Preload requirements are detailed in section \ref{section:STS_preload}.
+The STS Preload requirements are detailed in section \ref{section:STS_preload_bd}.
 
 \vspace{0.3cm} \noindent
 The following actions are performed on the base domain of the last url in the redirect chain from Step 3 and the results of which are recorded. The base domain of the url is determined by the use of the Golang library ``Golang.org/x/net/publicsuffix''. If any of the actions have already been performed in section 3, they are skipped as the results have already been captured:
@@ -1637,126 +1641,28 @@ There was a single abuse report, which came from the Cybersecurity and Infrastru
 %
 %\newpage
 
-\chapter{Security Mechanism Adoption Analysis}
-\label{chap:analysis}
 
-\section{Scans Overview}
-\label{section:scans_overview}
+\chapter{Security Mechanism Overview}
+\label{chap:sec_mech_overview}
 
-\subsection{Impact To Available Data For Analysis}
+\section{HTTPS}
+\label{sec:https_bd}
 
-There are several gaps in the available scanning archives summarised in table \ref{table:missing_scan_archives}, detailed in section \ref{subsection:missing_scans_overview} and listed below:
-
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-    \item 24 Jan 2021 for 8 days
-    \item 16 March 2021 for 12 days
-    \item 31 July 2021 for 27 days
-    \item 17 September 2021 for 17 days
-\end{itemize}
-
-\noindent
-In the following sections these date ranges will be visible on certain charts. As the scanning has been for an extended period and any single time period is no longer than 27 days, it is believed it will not have a material impact on any trends identified.
-
-
-\subsection{Analysis Methodology}
-
-Each scan archive was processed, grouping related data together, such as all the security.txt files, to produce a JSON file to allow for easier analysis of the data.
+This mechanism is analysed in section \ref{sec:ana_https_rdr}.
 
 \vspace{0.3cm} \noindent
-A python application was created to parse these JSON files to produce further JSON files that were be used for creating charts.
-
-\vspace{0.3cm} \noindent
-A further python application was created to plot charts using the matplotlib charting library \cite{noauthor_undated-po}.
-
-\vspace{0.3cm} \noindent
-Each analysis section details how the data was processed.
-
-
-\subsection{Domains Unable To Be Scanned}
-
-As with other research, not all of the domains in the list of domains to be scanned were able to have a HTTP or HTTPS connection made to them.
-
-\vspace{0.3cm} \noindent
-On average the scanner was able to obtain a HTTP and or a HTTPS request 95\% of the time from the Tranco list of 1 million domains, shown in figure \ref{fig:failed_tasks}.
-
-\begin{figure}[H]
-	\begin{center}
-        \subfloat[\centering Average percentage of domain scan final status]{\scalebox{0.80}{\subimport{../images}{domains_not_scanned-status_pie.pdf_tex}}}
-        \subfloat[\centering Average percentage of domain scan failure cause]{\scalebox{0.80}{\subimport{../images}{domains_not_scanned-cannot_retry_pie.pdf_tex}}}
-		\caption{Failed Tasks}
-		\label{fig:failed_tasks}
-	\end{center}
-\end{figure}
-
-\noindent
-Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS response, 51\% were due to differing errors, such as timeouts, in the establishment of a HTTP/HTTPS connection and the transmission of data across such a connection. The remaining 49\% was due to not receiving one or more IP addresses from the DNS lookup request.
-
-%\restoregeometry
-
-\clearpage 
-
-\newpage
-
-\section{HTTP(S) Redirection}
-
-\subsection{Background}
-
-\noindent
 The S in HTTPS signifies that the HTTP protocol communication shall be over a secure channel, provided by the SSL/TLS protocols \cite{Rescorla2000-fs}. A URL starting with \texttt{https://} e.g. \texttt{https://example.com} signifies it will be using a SSL/TLS secure channel.
 
 \vspace{0.3cm} \noindent
 It has become quite common for websites to automatic redirect a user to a HTTPS url if the user enters or follows a HTTP url e.g. the URL \texttt{http://example.com} redirecting to \texttt{https://example.com}. This helps to enable the use of the HTTP protocol over a secure channel without the user having to actively seek out the HTTPS URL of a website (which most users are unlikely to do).
 
-\subsection{Analysis}
-
-\begin{figure}[H]
-	\begin{center}
-        \scalebox{0.90}{\subimport{../images}{http-https_redirects.pdf_tex}}
-		\caption{HTTP(S) Redirections for Top 1 Million Domains}
-		\label{fig:http_redirection}
-	\end{center}
-\end{figure}
-
-
-\noindent
-The research by \texttt{Buchanan et al} \cite{Buchanan2018-xz} found that in August 2015 only 6.7\% of sites when accessed over HTTP redirected to HTTPS and increased to 24.78\% in May 2017. The same research finds that in November 2020 the number of sites further increased to 56\% and continued this trend to reach 64.5\% in January 2022 as shown in table \ref{table:http_redirection} and figure \ref{fig:http_redirection}.
-
-\newpage
-
-\vspace{0.3cm} \noindent
-This upward trend of HTTP to HTTPS redirection is slowing. However it is hoped that more sites continue to implement redirection such that future research does not show a plateau before nearly all sites in the top 1 Million redirect to HTTPS.
-
-\vspace{0.3cm} \noindent
-To some surprise there are a number of sites that redirect from HTTPS to HTTP, 3.5\% in November 2020 and  down to 1.7\% in January 2022. It is assumed that this is done on purpose, and that as the trend is on the decline that the reasons for implementing HTTPS to HTTP redirection are being overcome or not relevant any more.
-
-
-\begin{table}[t]
-\footnotesize
-  \begin{center}
-    \begin{tabular}{|l|D|D|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-      \hline
-      \textbf{Redirection} & \textbf{Buchanan et al} \cite{Buchanan2018-xz} August 2015 & \textbf{Buchanan et al} \cite{Buchanan2018-xz} May 2017 & November 2020 & January 2022 \\
-      \hline
-	  HTTP $>$ HTTP\textbf{S} & 6.7\% & 24.78\% & 56\% & 64.5\%\\
-	  \hline
- 	  HTTP\textbf{S} $>$ HTTP & NA & NA & 3.5\% & 1.7\%\\
-      \hline
-    \end{tabular}
-    \caption{HTTP(S) Redirection}
-    \label{table:http_redirection} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
-  \end{center}
-\end{table}
-
-
-\newpage
-
-
 \section{TLS}
-\label{section:ssl_tls}
+\label{sec:tls_bd}
 
-\subsection{Background}
-\noindent The SSL (Secure Socket Layer)/TLS (Transport Layer Security) protocols were designed to establish a secure communications channel between two entities e.g. a web browser and a website. Protocols such as HTTP can utilise SSL/TLS to secure its communication.
+This mechanism is analysed in section \ref{section:ana_ssl_tls}.
+
+\vspace{0.3cm} \noindent
+The SSL (Secure Socket Layer)/TLS (Transport Layer Security) protocols were designed to establish a secure communications channel between two entities e.g. a web browser and a website. Protocols such as HTTP can utilise SSL/TLS to secure its communication.
 
 \vspace{0.3cm} \noindent
 With each new version of SSL/TLS more security features were added in response to attacks against the protocols, weakness identified and the desire to make the protocols more secure.
@@ -1764,7 +1670,7 @@ With each new version of SSL/TLS more security features were added in response t
 \vspace{0.3cm} \noindent
 The acronyms SSL and TLS are often used interchangeably to refer to the secure channel they provide, even though none of the SSL versions should be used any more due to the vulnerabilities and weaknesses of SSL 2.0 and SSL 3.0 \cite{Oppliger2016-ig}.
 
-\subsubsection{Security Services}
+\subsection{Security Services}
 \noindent The SSL/TLS mechanism provides several security services, as of the release of TLS 1.3 the main categories are: Confidentiality, Data Origin Authentication, Entity Authentication and Perfect Forward Secrecy.
 
 \vspace{0.7cm} \noindent
@@ -1863,6 +1769,646 @@ TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currentl
   \item Removal of MD5, SHA-224 and DSA for Signature Algorithms
   \item Enforcement of Perfect Forward Secrecy
 \end{itemize}
+
+
+\section{Security.txt}
+\label{sec:security_txt_bd}
+
+This mechanism is analysed in section \ref{section:ana_security_txt}.
+
+\vspace{0.3cm} \noindent
+The security.txt is a text file placed at one of the following two locations hosted on a website:
+
+\begin{itemize}
+  \item Web-based services
+  \item Filesystems
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+For websites, a file named ``security.txt'' \textbf{must} be placed in the path \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt}.
+
+\vspace{0.3cm} \noindent
+It is also permitted to store a security.txt at the top level path e.g. \texttt{https://example.com/security.txt} or redirect to the \texttt{/.well-known/security.txt} path.
+
+\vspace{0.3cm} \noindent
+A response to a request of the security.txt file must respond with a \texttt{Content-Type} header with the value of \texttt{text/plain}, and served only over HTTPS.
+
+\vspace{0.3cm} \noindent
+The RFC is currently in the draft stage and seeing updates as recently as May 2021.
+
+\vspace{0.3cm} \noindent
+Example security.txt file:
+
+\begin{lstlisting}
+Contact: mailto:security@example.com
+Expires: 2022-12-31T00:00:00.000Z
+Encryption: https://example.com/pgp-key.txt
+Acknowledgments: https://example.com/hall-of-fame.txt
+Preferred-Languages: en, es, ru
+\end{lstlisting}
+
+\section{Content Security Policy}
+\label{section:csp_bd}
+
+This mechanism is analysed in section \ref{section:ana_csp}.
+
+\vspace{0.3cm} \noindent
+The Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed to be retrieved and or loaded by the browser. CSP is an evolution of the \textit{Same-Origin Policy (SOP)} browser mechanism.
+
+\vspace{0.3cm} \noindent
+The \texttt{Same Origin Policy} mechanism is rather restrictive and this is where Content Security Policy gives more control to website maintainers and developers.
+
+\subsection{Development}
+
+CSP is developed and maintained by The World Wide Web Consortium (W3C) \cite{Barth2012-ow}.
+CSP Level 1 initial draft was published in 2012 \cite{Barth2012-ow} and finalised in 2015 \cite{Barth2015-ez}.
+CSP Level 2 had its first draft in 2014 \cite{West2014-oe} and was finalised in 2016 \cite{West2016-ol} which included the following changes:
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item base-uri, child-src, form-action, frame-ancestors, plugin-types directives added
+  \item frame-src depreciated
+  \item Inline scripts / stylesheets allowed via nonces
+  \item New fields added to violation reports
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the most recent draft in 2021 \cite{West2021-hi} and is currently in the working draft state which included the following changes:
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item Spec re-written
+  \item frame-src undepreciated (uses child-src if not present)
+  \item manifest-src, worker-src directives added
+  \item 'strict-dynamic' source expression added
+  \item child-src substantially changed
+  \item deprecation of the report-uri directive in favour of a more recent directive report-to
+\end{itemize}
+
+
+\subsection{Policy Delivery}
+The CSP policy can be delivered either by the use of one of two HTTP headers (Content-Security-Policy and Content-Security-Policy-Report-Only) or in the \texttt{$<$meta$>$} element in the html body of a web page.
+
+\subsubsection{CSP Directive}
+A CSP Policy consists of one or more directives which are bound to a specific type of resource. For example, the script-src directive controls the restrictions, or lack thereof, for the location(s) scripts can be obtained, executed or loaded from. A CSP Directive can have of one or more values.
+
+\vspace{0.3cm} \noindent
+Should a directive be absent from a CSP Policy it is deemed to have no values i.e. ``open''. Configuring the default-src directive in a CSP policy cause most directives that are not present to inherit the values of the values of the default-src directive.
+
+\vspace{0.3cm} \noindent
+Table \ref{table:cpsdirectives1} details the directives from CSP Level 1 until CSP Level 3 29 June 2021. CSP Level 3 is still a working draft and as such until CSP Level 3 is finalised the data within table \ref{table:cpsdirectives1} may become inaccurate should there be any changes before CSP Level 3 is finalised.
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{|l|J|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Directive} & \textbf{Restrictive Context Sources} & \textbf{CSP Level}\\
+      \hline
+      default-src & Fall-back for interactions that are covered by CSP but not specified in other directives & 1\\
+      \hline
+      script-src & script sources: e.g. \texttt{$<$script$>$} elements, inline script blocks and XSLT stylesheets & 1 \\
+      \hline
+      object-src & Restricts the source of plugin requests/content & 1 \\
+      \hline
+      style-src & Style sources: e.g. \texttt{$<$style$>$} elements and \texttt{$<$link rel='stylesheet'$>$ elements} & 1\\
+      \hline
+      connect-src & The URLs being called from scripts e.g. XMLHttpRequest requests & 1 \\
+      \hline
+      img-src & Image sources: e.g. \texttt{$<$img$>$} elements & 1\\
+      \hline
+      media-src & Restricts the source of video/audio and related metadata & 1\\
+      \hline
+      frame-src & Restrict the source of loading resources into child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1\\
+      \hline
+      font-src & Restricts the source of font resources & 1\\
+      \hline
+      connect-src & Restricts source of script interface requests & 1\\
+      \hline
+      report-uri & Destination URI for sending CSP violates reports Deprecated as of CSP Level 3 in favour of \texttt{report-to} & 1\\
+      \hline
+      base-uri & Restrict URIs for a document's base element & 1.1\\
+      \hline
+      child-src & web worker sources and child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1.1\\
+      \hline
+      form-action & Restrict URIs for Form action target & 1.1\\
+      \hline
+      frame-ancestors & Restrict source of embedded child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1.1\\
+      \hline
+      plugin-types & Restricts the media type of plugins. No longer present as of \texttt{W3C Working Draft, 10 March 2021} \cite{noauthor_undated-xf} & 1.1\\
+      \hline
+      sandbox & Apply sandbox policy to a resource & 1.1\\
+      \hline
+      manifest & Restricts source of application manifests & 3 \\
+      \hline
+      prefetch-src & Restricts source of pre-fetched/pre-rendered resources & 3 \\
+      \hline
+      script-src-elem & Restricts source of $<$script$>$ elements only & 3 \\
+      \hline
+      script-src-attr & Restricts source of inline scripts (e.g. onclick) (not $<$script$>$ elements) & 3 \\
+      \hline
+      style-src-elem & Restricts source of $<$style$>$ and $<$link$>$ elements containing \texttt{rel="stylesheet"} only & 3 \\
+      \hline
+      style-src-attr & Restricts source of inline style & 3 \\
+      \hline
+      worker-src-attr & Restricts source of resources loaded as Worker, SharedWorker, or ServiceWorker & 3 \\
+      \hline
+      navigate-to & Restricts source of any navigations & 3 \\
+      \hline
+      report-to & Reporting group for sending CSP violates reports & 3 \\
+      \hline
+    \end{tabular}
+%    \captionsetup{width=.75\textwidth}
+    \caption{Summary of CSP directives}
+    \label{table:cpsdirectives1} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+\subsection{Directives defined in other standards}
+
+There are several CSP directives defined in other standards.
+
+\vspace{0.7cm} \noindent
+\textbf{upgrade-insecure-requests}
+
+\vspace{0.3cm} \noindent
+Converts any \texttt{http://} request made by the browser to use \texttt{https://} i.e. all \texttt{http://} requests will be forced to use \texttt{https://}.
+
+\vspace{0.7cm} \noindent
+\textbf{block-all-mixed-content}
+
+\vspace{0.3cm} \noindent
+Does not allow the browser to make any \texttt{http://} requests for assets if the page was loaded over \texttt{https://}. This directive is processed after the upgrade-insecure-requests is processed, should it be present.
+
+\subsection{Source Lists}
+
+Below are the types of sources for values of CSP directives.
+
+
+\vspace{0.7cm} \noindent
+\textbf{Keyword}
+
+\vspace{0.3cm} \noindent
+The values below are keywords that can be used as values for directives:
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item \texttt{none} – does not allow the use of resources that apply to the directive in question.
+  \item \texttt{self} – restricts the resources to the domain of the web page and does not include subdomains.
+  \item \texttt{unsafe-inline} – Permits the resource to be inline, .e.g. a scripts code resides in a \texttt{$<$script$>$} element rather that in a separate file.
+  \item \texttt{unsafe-eval} – Permits the use of mechanisms, such as \texttt{eval()}, which transform plain text into executable code.
+  \item \texttt{unsafe-allow-redirects} – Used with the \texttt{navigate-to} directive. Not currently supported in browsers.
+  \item \texttt{unsafe-hashes} – Allows the use of inline scripts if the script matches a hash in the \texttt{script-src} directive.
+  
+\end{itemize}
+
+\noindent
+Both \texttt{unsafe-inline} and \texttt{unsafe-eval} are deemed to be dangerous as inline resources and the use of mechanisms such as \texttt{eval()} are attack vectors for malicious actors, hence the use of the prefix \texttt{unsafe}.
+
+\vspace{0.7cm} \noindent
+\textbf{Host}
+
+\vspace{0.3cm} \noindent
+One or more ``hosts'' can be specified as values for a directive. The following are all valid examples of host values:
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item domain.com
+  \item *.domain.com
+  \item https://*.domain.com:81
+  \item domain.com/script.js
+\end{itemize}
+
+\vspace{0.5cm} \noindent
+\textbf{Scheme}
+
+\vspace{0.3cm} \noindent
+Scheme values, referring the to protocol via which to access resources, may be used in directives. For example:
+
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item http:
+  \item https:
+  \item data:
+\end{itemize}
+
+\vspace{0.5cm} \noindent
+\textbf{Nonce}
+
+\vspace{0.3cm} \noindent
+A nonce can be used to allow inline resources to be allowed without the need to use the dangerous \texttt{unsafe-inline} keyword. The nonce would need to be included in both the CSP Policy directive and the inline resource.
+
+\vspace{0.3cm} \noindent
+For example if an in-line script was required, only scripts from the same origin are to be allowed, and the nonce was to be \texttt{MyRandomNonce}, then the CSP Policy would be:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: script-src 'self' 'nonce-MyRandomNonce'}
+
+\vspace{0.3cm} \noindent
+The inline script would also have the nonce:
+
+\vspace{0.3cm} \noindent
+\texttt{$<$script nonce="MyRandomNonce"$>$...$<$/script$>$}
+
+\vspace{0.7cm} \noindent
+\textbf{Digest}
+
+\vspace{0.3cm} \noindent
+A hash (digest) value can be used for scripts, the script-src directive, and non-script elements, such as the style-src directive. An example digest for the script-src directive:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: script-src 'sha256-MyHashDigest='}
+
+\vspace{0.3cm} \noindent
+If a digest value is present, each script element will be hashed and the resultant hash compared to the hash value in the directive and if a match occurs the script is deemed to be allowed.
+
+\vspace{0.3cm} \noindent
+The current hashing functions specified in CSP Level 3 are \texttt{sha256}, \texttt{sha368} and \texttt{sha512}.
+
+\subsection{Reporting Directives}
+
+\textbf{report-uri}
+
+\vspace{0.3cm} \noindent
+Upon a CSP Policy violation and a value is present for report-uri, the browser will send a report to the location specified for report-uri. The report is in the form of JSON document(s) and sent using the HTTP POST method.
+
+\vspace{0.3cm} \noindent
+As of the most recent CSP Level 3 working Draft (29 June 2021), report-uri is deprecated in favour of \texttt{report-to}.
+
+\vspace{0.3cm} \noindent
+An example report-uri configuration can be seen below:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: ...; report-uri https://report.example.com;}
+
+\vspace{0.7cm} \noindent
+\textbf{report-to}
+
+\vspace{0.3cm} \noindent
+Upon a CSP Policy violation and a value is present for report-to and the group is defined in the header \texttt{Report-To}, the browser will send a report to the location specified in the group configuration. The report is in the form of JSON document(s) and sent using the HTTP POST method.
+
+\vspace{0.3cm} \noindent
+An example report-to configuration can be seen below:
+
+\vspace{0.3cm} \noindent
+\texttt{Content-Security-Policy: ...; report-to <group name>}
+
+\subsection{CSP Headers}
+
+There are a number of CSP headers, shown below, that have been created leading up to the current \texttt{Content-Security-Policy} and \texttt{Content-Security-Policy-Report=Only} headers.
+
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item Content-Security-Policy
+  \item Content-Security-Policy-Report-Only
+  \item X-Content-Security-Policy (Used by and now deprecated by Firefox browser)
+  \item X-Webkit-CSP (Introduced and now deprecated by the chromium project since 2013 \cite{Google_undated-ct})
+\end{itemize}
+
+
+\subsection{Content-Security-Policy-Report-Only}
+
+The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \newline \texttt{Content-Security-Policy} with the exception that violations are only reported and not enforced. One of the main uses of this is when webmasters and developers are creating a CSP Policy and do not want to impact the end user experience until the policy is configured as desired.
+
+\vspace{0.5cm} \noindent
+Example basic CSP policy header: \texttt{Content-Security-Policy: default-src 'self'; script-src 'self' cdn.example.com; style-src 'self'}
+
+\section{Strict Transport Security}
+\label{section:STS_bd}
+
+This mechanism is analysed in section \ref{section:ana_STS}.
+
+\vspace{0.3cm} \noindent
+The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over HTTPS and never HTTP \cite{Hodges2012-pe}.
+
+\subsection{Directives}
+
+\textbf{max-age}
+
+\noindent
+The duration, in seconds, the browser will honour the Strict-Transport Security request to only load the page over HTTPS.
+
+\vspace{0.7cm} \noindent
+\textbf{includeSubDomains}
+
+\vspace{0.3cm} \noindent
+Instructs the browser to also load any subdomains of the site only over HTTPS.
+
+\vspace{0.7cm} \noindent
+\textbf{preload}
+
+\vspace{0.3cm} \noindent
+Must be present if the site is to be preloaded via Google's STS preload service.
+
+\vspace{0.3cm} \noindent
+Example STS header configuration: \texttt{Strict-Transport-Security: max-age 31536000; includeSubDomains}.
+
+\section{STS Preload}
+\label{section:STS_preload_bd}
+
+This mechanism is analysed in section \ref{section:ana_STS_preload}.
+
+\vspace{0.3cm} \noindent
+STS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
+
+\vspace{0.3cm} \noindent
+Google maintains a predefined list, launched in 2010 \cite{Michael2015-hn}, of websites where the website owners/maintainers have requested to be added and required an email to be sent to a google  engineer to be included in the list \cite{Langley_undated-dm}. This service later gained a web portal in mid-2014 \cite{Michael2015-hn} for the request to be included in the preload list.
+
+\vspace{0.3cm} \noindent
+The Firefox browser generates its own preload list. Each domain from the preload lost maintained by Google is checked and if it meets all the preload requirements it is included in the Firefox preload list.
+
+\vspace{0.3cm} \noindent
+The following criteria must be met in order for a domain to qualify to be included in the preload list:
+
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item The website has a valid certificate trusted by browsers.
+  \item If the domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, it must redirect to the HTTPS on the same domain.
+  \begin{description}
+  \item[e.g.:] if \texttt{http://example.com} is accessible, it must redirect to \texttt{https://example.com}
+  \end{description}
+  \item All subdomains should be served over HTTPS, however only the \texttt{www} subdomain (e.g. \texttt{www.example.com}) is checked if present in DNS.
+  \item A STS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
+  \begin{itemize}
+    \item \texttt{max-age} directive must be no less than 31536000 seconds (i.e. 1 year).
+    \item \texttt{includeSubDomains} directive must be present.
+    \item \texttt{preload} directive must be present.
+    \item Should the site redirect away when accessed over HTTPS, the site must have the STS header.
+    \item Example STS header preload configuration: \texttt{Strict-Transport-Security: max-age 31536000; includeSubDomains; preload}.
+  \end{itemize} 
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+If a domain in the preload list stops meeting the above criteria it runs the risk of being removed from the preload list.
+
+\section{X Content Type Options}
+\label{section:xcto_bd}
+
+This mechanism is analysed in section \ref{section:ana_xcto}.
+
+\vspace{0.3cm} \noindent
+The \texttt{X-Content-Type-Options} header (XCTO) is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
+\texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
+
+\subsection{Directives}
+
+\textbf{nosniff}
+
+\vspace{0.3cm} \noindent
+Denies requests under either of the two below conditions:
+
+\begin{itemize}
+  \setlength\itemsep{0.1em}
+  \item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type.
+  \item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not \texttt{text/css}.
+\end{itemize}
+
+\vspace{0.3cm} \noindent
+Example XCTO Header: \texttt{X-Content-Type-Options: nosniff}
+
+\section{X Frame Options}
+\label{section:xfo_bd}
+
+This mechanism is analysed in section \ref{section:ana_xfo}.
+
+\vspace{0.3cm} \noindent
+The \texttt{X-Frame-Options} (XFO) response header is a mechanism that states whether or not a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+
+\subsection{Directives}
+
+\textbf{DENY}
+
+\vspace{0.3cm} \noindent
+The page must not be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
+
+\vspace{0.7cm} \noindent
+\textbf{SAMEORIGIN}
+
+\vspace{0.3cm} \noindent
+The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of the page that contains the element is that of the page to be rendered in the element.
+
+\vspace{0.7cm} \noindent
+\textbf{ALLOW-FROM $<$uri$>$}
+
+\vspace{0.3cm} \noindent
+Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This directive is now deprecated and should not to be used.
+
+\vspace{0.3cm} \noindent
+Example XFO Header: \texttt{X-Frame-Options: DENY}
+
+\section{Cross Origin Embedder Policy}
+\label{section:coep_bd}
+
+This mechanism is analysed in section \ref{section:ana_coep}.
+
+\vspace{0.3cm} \noindent
+The \texttt{Cross-Origin-Embedder-Policy} (COEP) header provides a mechanism that does not allow any cross-origin resources from being loaded unless explicitly allowed (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
+
+\subsection{Directives}
+\textbf{unsafe-none}
+
+\vspace{0.3cm} \noindent
+Disables the mechanism allowing resources to be loaded without explicit permission being given. This is the default behaviour.
+
+\vspace{0.7cm} \noindent
+\textbf{require-corp}
+
+\vspace{0.3cm} \noindent
+Enables this mechanism only allowing resources being loaded from the same origin or from other origins that explicitly give permissions to do so (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
+
+\vspace{0.3cm} \noindent
+Example COEP Header: \texttt{Cross-Origin-Embedder-Policy: require-corp}
+
+
+\section{Cross Origin Resource Policy}
+\label{section:corp_bd}
+
+This mechanism is analysed in section \ref{section:ana_corp}.
+
+\vspace{0.3cm} \noindent
+The \texttt{Cross-Origin-Resource-Policy} (CORP) header provides a mechanism that restricts which origins are permitted to load a resource \cite{Apple_undated-au}.
+
+\subsection{Directives}
+\textbf{same-site}
+
+\vspace{0.3cm} \noindent
+If the request initiator's origin and the request destination's origins are of the same site then load the resource. For example, if the request initiator's origin is \newline \texttt{https://account.example.com/index.html} and the request destination is \newline \texttt{https://signin.example.com/script.js}, the resource can be loaded as both are of the same site \texttt{example.com}.
+
+\vspace{0.7cm} \noindent
+\textbf{same-origin}
+
+\vspace{0.3cm} \noindent
+If the request initiator’s origin and the request destination's origin are the same then load the resource. For example, if the request initiator’s origin is \texttt{https://blog.example.com} and the request destination is \texttt{https://blog.example.com}, the resource can be loaded as both are of the same origin \texttt{https://blog.example.com}.
+
+\vspace{0.7cm} \noindent
+\textbf{cross-origin}
+
+\vspace{0.3cm} \noindent
+The resource is allowed to be loaded regardless of the sites/origins involved.
+
+\vspace{0.3cm} \noindent
+Example COEP Header: \texttt{Cross-Origin-Resource-Policy: same-origin}
+
+\vspace{0.3cm} \noindent
+Example CORP Header: \texttt{Cross-Origin-Embedder-Policy: require-corp}
+
+\section{Cross Origin Opener Policy}
+\label{section:coop_bd}
+
+This mechanism is analysed in section \ref{section:ana_coop}.
+
+\vspace{0.3cm} \noindent
+The \texttt{Cross-Origin-Opener-Policy} (COOP) header provides a mechanism that prevents the sharing of browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the web page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
+
+\subsubsection{Directives}
+\textbf{unsafe-none}
+
+\vspace{0.3cm} \noindent
+Disables the mechanism unless the document (e.g. popup) uses this header with either of the two directives: \texttt{same-origin} and \texttt{same-origin-allow-popups}. This is the default behaviour.
+
+\vspace{0.7cm} \noindent
+\textbf{same-origin-allow-popups}
+
+\vspace{0.3cm} \noindent
+Allows the communication of a new window or tab (e.g. popup) to the originating page (document) if a COOP header is not present, or has the directive \texttt{unsafe-none}, on the new window or tab.
+
+\vspace{0.7cm} \noindent
+\textbf{same-origin}
+
+\vspace{0.3cm} \noindent
+Does not allow communication (isolates) from new windows or tab to the originating page (document) unless they are from the same origin. If not from the same origin they are placed in a separate browsing contexts.
+
+\vspace{0.3cm} \noindent
+Example COOP Header: \texttt{Cross-Origin-Opener-Policy: same-origin}
+
+\section{Public Key Pins}
+\label{section:hpkp_bd}
+
+This mechanism is analysed in section \ref{section:ana_hpkp}.
+
+\vspace{0.3cm} \noindent
+This mechanism is analysed in section \ref{section:ana_hpkp}.
+The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
+
+\vspace{0.3cm} \noindent
+There have been several issues with HPKP such as HPKP Suicide \cite{Chen2018-ft,Chuat2021-nf} or Ransom PKP \cite{Chuat2021-nf} which are forms of Hostile Pinning \cite{Evans2018-mi}
+
+\vspace{0.3cm} \noindent
+This header is now deprecated by most modern web browsers.
+
+\subsection{Public-Key-Pins-Report-Only}
+The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rather only sends violation reports.
+
+\newpage
+
+\chapter{Security Mechanism Adoption Analysis}
+\label{chap:analysis}
+
+\section{Scans Overview}
+\label{section:scans_overview}
+
+\subsection{Impact To Available Data For Analysis}
+
+There are several gaps in the available scanning archives summarised in table \ref{table:missing_scan_archives}, detailed in section \ref{subsection:missing_scans_overview} and listed below:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item 24 Jan 2021 for 8 days
+    \item 16 March 2021 for 12 days
+    \item 31 July 2021 for 27 days
+    \item 17 September 2021 for 17 days
+\end{itemize}
+
+\noindent
+In the following sections these date ranges will be visible on certain charts. As the scanning has been for an extended period and any single time period is no longer than 27 days, it is believed it will not have a material impact on any trends identified.
+
+
+\subsection{Analysis Methodology}
+
+Each scan archive was processed, grouping related data together, such as all the security.txt files, to produce a JSON file to allow for easier analysis of the data.
+
+\vspace{0.3cm} \noindent
+A python application was created to parse these JSON files to produce further JSON files that were be used for creating charts.
+
+\vspace{0.3cm} \noindent
+A further python application was created to plot charts using the matplotlib charting library \cite{noauthor_undated-po}.
+
+\vspace{0.3cm} \noindent
+Each analysis section details how the data was processed.
+
+
+\subsection{Domains Unable To Be Scanned}
+
+As with other research, not all of the domains in the list of domains to be scanned were able to have a HTTP or HTTPS connection made to them.
+
+\vspace{0.3cm} \noindent
+On average the scanner was able to obtain a HTTP and or a HTTPS request 95\% of the time from the Tranco list of 1 million domains, shown in figure \ref{fig:failed_tasks}.
+
+\begin{figure}[H]
+	\begin{center}
+        \subfloat[\centering Average percentage of domain scan final status]{\scalebox{0.80}{\subimport{../images}{domains_not_scanned-status_pie.pdf_tex}}}
+        \subfloat[\centering Average percentage of domain scan failure cause]{\scalebox{0.80}{\subimport{../images}{domains_not_scanned-cannot_retry_pie.pdf_tex}}}
+		\caption{Failed Tasks}
+		\label{fig:failed_tasks}
+	\end{center}
+\end{figure}
+
+\noindent
+Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS response, 51\% were due to differing errors, such as timeouts, in the establishment of a HTTP/HTTPS connection and the transmission of data across such a connection. The remaining 49\% was due to not receiving one or more IP addresses from the DNS lookup request.
+
+%\restoregeometry
+
+\clearpage 
+
+\newpage
+
+\section{HTTP(S) Redirection}
+\label{sec:ana_https_rdr}
+
+Background for this mechanism is detailed in section \ref{sec:https_bd}.
+
+\subsection{Analysis}
+
+\begin{figure}[H]
+	\begin{center}
+        \scalebox{0.90}{\subimport{../images}{http-https_redirects.pdf_tex}}
+		\caption{HTTP(S) Redirections for Top 1 Million Domains}
+		\label{fig:http_redirection}
+	\end{center}
+\end{figure}
+
+
+\noindent
+The research by \texttt{Buchanan et al} \cite{Buchanan2018-xz} found that in August 2015 only 6.7\% of sites when accessed over HTTP redirected to HTTPS and increased to 24.78\% in May 2017. The same research finds that in November 2020 the number of sites further increased to 56\% and continued this trend to reach 64.5\% in January 2022 as shown in table \ref{table:http_redirection} and figure \ref{fig:http_redirection}.
+
+\newpage
+
+\vspace{0.3cm} \noindent
+This upward trend of HTTP to HTTPS redirection is slowing. However it is hoped that more sites continue to implement redirection such that future research does not show a plateau before nearly all sites in the top 1 Million redirect to HTTPS.
+
+\vspace{0.3cm} \noindent
+To some surprise there are a number of sites that redirect from HTTPS to HTTP, 3.5\% in November 2020 and  down to 1.7\% in January 2022. It is assumed that this is done on purpose, and that as the trend is on the decline that the reasons for implementing HTTPS to HTTP redirection are being overcome or not relevant any more.
+
+
+\begin{table}[t]
+\footnotesize
+  \begin{center}
+    \begin{tabular}{|l|D|D|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \hline
+      \textbf{Redirection} & \textbf{Buchanan et al} \cite{Buchanan2018-xz} August 2015 & \textbf{Buchanan et al} \cite{Buchanan2018-xz} May 2017 & November 2020 & January 2022 \\
+      \hline
+	  HTTP $>$ HTTP\textbf{S} & 6.7\% & 24.78\% & 56\% & 64.5\%\\
+	  \hline
+ 	  HTTP\textbf{S} $>$ HTTP & NA & NA & 3.5\% & 1.7\%\\
+      \hline
+    \end{tabular}
+    \caption{HTTP(S) Redirection}
+    \label{table:http_redirection} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
+  \end{center}
+\end{table}
+
+
+\newpage
+
+\section{TLS}
+\label{section:ana_ssl_tls}
+
+Background for this mechanism is detailed in section \ref{sec:tls_bd}.
 
 \subsection{Purpose Overview}
 
@@ -2008,43 +2554,16 @@ The trend for negotiated TLS versions is going in the right direction, with TLS 
 \vspace{0.3cm} \noindent
 The use of TLS 1.1 and TLS 1.0 were declining rapidly at the same rate at the end of 2020, however the trend is now starting to slow down which likely means TLS 1.1 and TLS 1.0 will still be in use s for some time.
 
+
+
+
 \clearpage
 \newpage
 
-
 \section{Security.txt}
-\label{section:security_txt}
+\label{section:ana_security_txt}
 
-\subsection{Background}
-The security.txt is a text file placed at one of the following two locations hosted on a website:
-
-\begin{itemize}
-  \item Web-based services
-  \item Filesystems
-\end{itemize}
-
-\vspace{0.3cm} \noindent
-For websites, a file named ``security.txt'' \textbf{must} be placed in the path \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt}.
-
-\vspace{0.3cm} \noindent
-It is also permitted to store a security.txt at the top level path e.g. \texttt{https://example.com/security.txt} or redirect to the \texttt{/.well-known/security.txt} path.
-
-\vspace{0.3cm} \noindent
-A response to a request of the security.txt file must respond with a \texttt{Content-Type} header with the value of \texttt{text/plain}, and served only over HTTPS.
-
-\vspace{0.3cm} \noindent
-The RFC is currently in the draft stage and seeing updates as recently as May 2021.
-
-\vspace{0.3cm} \noindent
-Example security.txt file:
-
-\begin{lstlisting}
-Contact: mailto:security@example.com
-Expires: 2022-12-31T00:00:00.000Z
-Encryption: https://example.com/pgp-key.txt
-Acknowledgments: https://example.com/hall-of-fame.txt
-Preferred-Languages: en, es, ru
-\end{lstlisting}
+Background for this mechanism is detailed in section \ref{sec:security_txt_bd}.
 
 \subsection{Purpose Overview}
 
@@ -2488,273 +3007,14 @@ Approximately half  of all the valid security.txt files seen were unique, meanin
 Almost all security.txt files contained one or more contact which is the primary purpose of the security,txt mechanism to provide a contact point for security researchers to have an easy way to report  vulnerabilities.
 
 \vspace{0.3cm} \noindent
-As previously mentioned, one of the paths a security.txt file can be hosted at, as specified in the draft RFC, was not utilised by the scanner for the majority of the scans conducted. In any future studies, all paths specified in the latest version of the RFC should be utilised.
-
+As previously mentioned, one of the paths a securit y.txt file can be hosted at, as specified in the draft RFC, was not utilised by the scanner for the majority of the scans conducted. In any future studies, all paths specified in the latest version of the RFC should be utilised.
 
 \newpage
 
 \section{Content Security Policy}
-\label{section:csp}
+\label{section:ana_csp}
 
-The Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed to be retrieved and or loaded by the browser. CSP is an evolution of the \textit{Same-Origin Policy (SOP)} browser mechanism.
-
-\vspace{0.3cm} \noindent
-The \texttt{Same Origin Policy} mechanism is rather restrictive and this is where Content Security Policy gives more control to website maintainers and developers.
-
-\subsection{Background}
-\subsubsection{Development}
-
-CSP is developed and maintained by The World Wide Web Consortium (W3C) \cite{Barth2012-ow}.
-CSP Level 1 initial draft was published in 2012 \cite{Barth2012-ow} and finalised in 2015 \cite{Barth2015-ez}.
-CSP Level 2 had its first draft in 2014 \cite{West2014-oe} and was finalised in 2016 \cite{West2016-ol} which included the following changes:
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item base-uri, child-src, form-action, frame-ancestors, plugin-types directives added
-	\item frame-src depreciated
-	\item Inline scripts / stylesheets allowed via nonces
-	\item New fields added to violation reports
-\end{itemize}
-
-\vspace{0.3cm} \noindent
-CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the most recent draft in 2021 \cite{West2021-hi} and is currently in the working draft state which included the following changes:
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item Spec re-written
-	\item frame-src undepreciated (uses child-src if not present)
-	\item manifest-src, worker-src directives added
-	\item 'strict-dynamic' source expression added
-	\item child-src substantially changed
-	\item deprecation of the report-uri directive in favour of a more recent directive report-to
-\end{itemize}
-
-
-\subsubsection{Policy Delivery}
-The CSP policy can be delivered either by the use of one of two HTTP headers (Content-Security-Policy and Content-Security-Policy-Report-Only) or in the \texttt{$<$meta$>$} element in the html body of a web page.
-
-\subsubsection{CSP Directive}
-A CSP Policy consists of one or more directives which are bound to a specific type of resource. For example, the script-src directive controls the restrictions, or lack thereof, for the location(s) scripts can be obtained, executed or loaded from. A CSP Directive can have of one or more values.
-
-\vspace{0.3cm} \noindent
-Should a directive be absent from a CSP Policy it is deemed to have no values i.e. ``open''. Configuring the default-src directive in a CSP policy cause most directives that are not present to inherit the values of the values of the default-src directive.
-
-\vspace{0.3cm} \noindent
-Table \ref{table:cpsdirectives1} details the directives from CSP Level 1 until CSP Level 3 29 June 2021. CSP Level 3 is still a working draft and as such until CSP Level 3 is finalised the data within table \ref{table:cpsdirectives1} may become inaccurate should there be any changes before CSP Level 3 is finalised.
-
-\begin{table}[h!]
-  \begin{center}
-    \begin{tabular}{|l|J|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-      \hline
-      \textbf{Directive} & \textbf{Restrictive Context Sources} & \textbf{CSP Level}\\
-      \hline
-      default-src & Fall-back for interactions that are covered by CSP but not specified in other directives & 1\\
-      \hline
-      script-src & script sources: e.g. \texttt{$<$script$>$} elements, inline script blocks and XSLT stylesheets & 1 \\
-      \hline
-      object-src & Restricts the source of plugin requests/content & 1 \\
-      \hline
-      style-src & Style sources: e.g. \texttt{$<$style$>$} elements and \texttt{$<$link rel='stylesheet'$>$ elements} & 1\\
-      \hline
-      connect-src & The URLs being called from scripts e.g. XMLHttpRequest requests & 1 \\
-      \hline
-      img-src & Image sources: e.g. \texttt{$<$img$>$} elements & 1\\
-      \hline
-      media-src & Restricts the source of video/audio and related metadata & 1\\
-      \hline
-      frame-src & Restrict the source of loading resources into child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1\\
-      \hline
-      font-src & Restricts the source of font resources & 1\\
-      \hline
-      connect-src & Restricts source of script interface requests & 1\\
-      \hline
-      report-uri & Destination URI for sending CSP violates reports Deprecated as of CSP Level 3 in favour of \texttt{report-to} & 1\\
-      \hline
-      base-uri & Restrict URIs for a document's base element & 1.1\\
-      \hline
-      child-src & web worker sources and child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1.1\\
-      \hline
-      form-action & Restrict URIs for Form action target & 1.1\\
-      \hline
-      frame-ancestors & Restrict source of embedded child browsing contexts (e.g. \texttt{$<$iframe$>$} elements) & 1.1\\
-      \hline
-      plugin-types & Restricts the media type of plugins. No longer present as of \texttt{W3C Working Draft, 10 March 2021} \cite{noauthor_undated-xf} & 1.1\\
-      \hline
-      sandbox & Apply sandbox policy to a resource & 1.1\\
-      \hline
-      manifest & Restricts source of application manifests & 3 \\
-      \hline
-      prefetch-src & Restricts source of pre-fetched/pre-rendered resources & 3 \\
-      \hline
-      script-src-elem & Restricts source of $<$script$>$ elements only & 3 \\
-      \hline
-      script-src-attr & Restricts source of inline scripts (e.g. onclick) (not $<$script$>$ elements) & 3 \\
-      \hline
-      style-src-elem & Restricts source of $<$style$>$ and $<$link$>$ elements containing \texttt{rel="stylesheet"} only & 3 \\
-      \hline
-      style-src-attr & Restricts source of inline style & 3 \\
-      \hline
-      worker-src-attr & Restricts source of resources loaded as Worker, SharedWorker, or ServiceWorker & 3 \\
-      \hline
-      navigate-to & Restricts source of any navigations & 3 \\
-      \hline
-      report-to & Reporting group for sending CSP violates reports & 3 \\
-      \hline
-    \end{tabular}
-%    \captionsetup{width=.75\textwidth}
-    \caption{Summary of CSP directives}
-    \label{table:cpsdirectives1} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
-  \end{center}
-\end{table}
-
-\clearpage
-
-\subsubsection{Directives defined in other standards}
-
-There are several CSP directives defined in other standards.
-
-\vspace{0.7cm} \noindent
-\textbf{upgrade-insecure-requests}
-
-\vspace{0.3cm} \noindent
-Converts any \texttt{http://} request made by the browser to use \texttt{https://} i.e. all \texttt{http://} requests will be forced to use \texttt{https://}.
-
-\vspace{0.7cm} \noindent
-\textbf{block-all-mixed-content}
-
-\vspace{0.3cm} \noindent
-Does not allow the browser to make any \texttt{http://} requests for assets if the page was loaded over \texttt{https://}. This directive is processed after the upgrade-insecure-requests is processed, should it be present.
-
-\subsubsection{Source Lists}
-
-Below are the types of sources for values of CSP directives.
-
-
-\vspace{0.7cm} \noindent
-\textbf{Keyword}
-
-\vspace{0.3cm} \noindent
-The values below are keywords that can be used as values for directives:
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item \texttt{none} – does not allow the use of resources that apply to the directive in question.
-	\item \texttt{self} – restricts the resources to the domain of the web page and does not include subdomains.
-	\item \texttt{unsafe-inline} – Permits the resource to be inline, .e.g. a scripts code resides in a \texttt{$<$script$>$} element rather that in a separate file.
-	\item \texttt{unsafe-eval} – Permits the use of mechanisms, such as \texttt{eval()}, which transform plain text into executable code.
-	\item \texttt{unsafe-allow-redirects} – Used with the \texttt{navigate-to} directive. Not currently supported in browsers.
-	\item \texttt{unsafe-hashes} – Allows the use of inline scripts if the script matches a hash in the \texttt{script-src} directive.
-	
-\end{itemize}
-
-\noindent
-Both \texttt{unsafe-inline} and \texttt{unsafe-eval} are deemed to be dangerous as inline resources and the use of mechanisms such as \texttt{eval()} are attack vectors for malicious actors, hence the use of the prefix \texttt{unsafe}.
-
-\vspace{0.7cm} \noindent
-\textbf{Host}
-
-\vspace{0.3cm} \noindent
-One or more ``hosts'' can be specified as values for a directive. The following are all valid examples of host values:
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item domain.com
-	\item *.domain.com
-	\item https://*.domain.com:81
-	\item domain.com/script.js
-\end{itemize}
-
-\vspace{0.5cm} \noindent
-\textbf{Scheme}
-
-\vspace{0.3cm} \noindent
-Scheme values, referring the to protocol via which to access resources, may be used in directives. For example:
-
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item http:
-	\item https:
-	\item data:
-\end{itemize}
-
-\vspace{0.5cm} \noindent
-\textbf{Nonce}
-
-\vspace{0.3cm} \noindent
-A nonce can be used to allow inline resources to be allowed without the need to use the dangerous \texttt{unsafe-inline} keyword. The nonce would need to be included in both the CSP Policy directive and the inline resource.
-
-\vspace{0.3cm} \noindent
-For example if an in-line script was required, only scripts from the same origin are to be allowed, and the nonce was to be \texttt{MyRandomNonce}, then the CSP Policy would be:
-
-\vspace{0.3cm} \noindent
-\texttt{Content-Security-Policy: script-src 'self' 'nonce-MyRandomNonce'}
-
-\vspace{0.3cm} \noindent
-The inline script would also have the nonce:
-
-\vspace{0.3cm} \noindent
-\texttt{$<$script nonce="MyRandomNonce"$>$...$<$/script$>$}
-
-
-
-\vspace{0.7cm} \noindent
-\textbf{Digest}
-
-\vspace{0.3cm} \noindent
-A hash (digest) value can be used for scripts, the script-src directive, and non-script elements, such as the style-src directive. An example digest for the script-src directive:
-
-\vspace{0.3cm} \noindent
-\texttt{Content-Security-Policy: script-src 'sha256-MyHashDigest='}
-
-\vspace{0.3cm} \noindent
-If a digest value is present, each script element will be hashed and the resultant hash compared to the hash value in the directive and if a match occurs the script is deemed to be allowed.
-
-\vspace{0.3cm} \noindent
-The current hashing functions specified in CSP Level 3 are \texttt{sha256}, \texttt{sha368} and \texttt{sha512}.
-
-\subsubsection{Reporting Directives}
-
-\textbf{report-uri}
-
-\vspace{0.3cm} \noindent
-Upon a CSP Policy violation and a value is present for report-uri, the browser will send a report to the location specified for report-uri. The report is in the form of JSON document(s) and sent using the HTTP POST method.
-
-\vspace{0.3cm} \noindent
-As of the most recent CSP Level 3 working Draft (29 June 2021), report-uri is deprecated in favour of \texttt{report-to}.
-
-\vspace{0.3cm} \noindent
-An example report-uri configuration can be seen below:
-
-\vspace{0.3cm} \noindent
-\texttt{Content-Security-Policy: ...; report-uri https://report.example.com;}
-
-\vspace{0.7cm} \noindent
-\textbf{report-to}
-
-\vspace{0.3cm} \noindent
-Upon a CSP Policy violation and a value is present for report-to and the group is defined in the header \texttt{Report-To}, the browser will send a report to the location specified in the group configuration. The report is in the form of JSON document(s) and sent using the HTTP POST method.
-
-\vspace{0.3cm} \noindent
-An example report-to configuration can be seen below:
-
-\vspace{0.3cm} \noindent
-\texttt{Content-Security-Policy: ...; report-to <group name>}
-
-\subsubsection{CSP Headers}
-
-There are a number of CSP headers, shown below, that have been created leading up to the current \texttt{Content-Security-Policy} and \texttt{Content-Security-Policy-Report=Only} headers.
-
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-	\item Content-Security-Policy
-	\item Content-Security-Policy-Report-Only
-	\item X-Content-Security-Policy (Used by and now deprecated by Firefox browser)
-	\item X-Webkit-CSP (Introduced and now deprecated by the chromium project since 2013 \cite{Google_undated-ct})
-\end{itemize}
-
-
-\subsubsection{Content-Security-Policy-Report-Only}
-
-The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \newline \texttt{Content-Security-Policy} with the exception that violations are only reported and not enforced. One of the main uses of this is when webmasters and developers are creating a CSP Policy and do not want to impact the end user experience until the policy is configured as desired.
-
-\vspace{0.5cm} \noindent
-Example basic CSP policy header: \texttt{Content-Security-Policy: default-src 'self'; script-src 'self' cdn.example.com; style-src 'self'}
+Background for this mechanism is detailed in section \ref{section:csp_bd}.
 
 \subsection{Purpose Overview}
 
@@ -3037,38 +3297,10 @@ For a greater adoption of CSP, the frameworks and tooling used to create website
 \clearpage
 \newpage
 
-
-\clearpage
-\newpage
-
 \section{Strict Transport Security}
-\label{section:STS}
+\label{section:ana_STS}
 
-\subsection{Background}
-
-The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over HTTPS and never HTTP \cite{Hodges2012-pe}.
-
-\subsubsection{Directives}
-
-\textbf{max-age}
-
-\noindent
-The duration, in seconds, the browser will honour the Strict-Transport Security request to only load the page over HTTPS.
-
-\vspace{0.7cm} \noindent
-\textbf{includeSubDomains}
-
-\vspace{0.3cm} \noindent
-Instructs the browser to also load any subdomains of the site only over HTTPS.
-
-\vspace{0.7cm} \noindent
-\textbf{preload}
-
-\vspace{0.3cm} \noindent
-Must be present if the site is to be preloaded via Google's STS preload service.
-
-\vspace{0.3cm} \noindent
-Example STS header configuration: \texttt{Strict-Transport-Security: max-age 31536000; includeSubDomains}.
+Background for this mechanism was detailed in section \ref{section:STS_bd}.
 
 \subsection{Purpose Overview}
 
@@ -3152,41 +3384,9 @@ The most common value for the \texttt{max-age} directive is 1-3 years and a numb
 \newpage
 
 \section{STS Preload}
-\label{section:STS_preload}
+\label{section:ana_STS_preload}
 
-\subsection{Background}
-
-STS Preloading is a mechanism where a browser checks to see if the requested site is in a predefined list and if it is then the website must only be accessed over HTTPS.
-
-\vspace{0.3cm} \noindent
-Google maintains a predefined list, launched in 2010 \cite{Michael2015-hn}, of websites where the website owners/maintainers have requested to be added and required an email to be sent to a google  engineer to be included in the list \cite{Langley_undated-dm}. This service later gained a web portal in mid-2014 \cite{Michael2015-hn} for the request to be included in the preload list.
-
-\vspace{0.3cm} \noindent
-The Firefox browser generates its own preload list. Each domain from the preload lost maintained by Google is checked and if it meets all the preload requirements it is included in the Firefox preload list.
-
-\vspace{0.3cm} \noindent
-The following criteria must be met in order for a domain to qualify to be included in the preload list:
-
-\begin{itemize}
-  \setlength\itemsep{0.1em}
-  \item The website has a valid certificate trusted by browsers.
-  \item If the domain (e.g. \texttt{example.com}) is running a HTTP server, on port 80, it must redirect to the HTTPS on the same domain.
-  \begin{description}
-  \item[e.g.:] if \texttt{http://example.com} is accessible, it must redirect to \texttt{https://example.com}
-  \end{description}
-  \item All subdomains should be served over HTTPS, however only the \texttt{www} subdomain (e.g. \texttt{www.example.com}) is checked if present in DNS.
-  \item A STS header (\texttt{Strict-Transport-Security}) is present on the base domain (e.g. \texttt{example.com}) for HTTPS requests with the following configuration:
-  \begin{itemize}
-    \item \texttt{max-age} directive must be no less than 31536000 seconds (i.e. 1 year).
-    \item \texttt{includeSubDomains} directive must be present.
-    \item \texttt{preload} directive must be present.
-    \item Should the site redirect away when accessed over HTTPS, the site must have the STS header.
-    \item Example STS header preload configuration: \texttt{Strict-Transport-Security: max-age 31536000; includeSubDomains; preload}.
-  \end{itemize} 
-\end{itemize}
-
-\vspace{0.3cm} \noindent
-If a domain in the preload list stops meeting the above criteria it runs the risk of being removed from the preload list.
+Background for this mechanism was detailed in section \ref{section:STS_preload_bd}.
 
 \subsection{Purpose Overview}
 
@@ -3317,31 +3517,12 @@ The usage of STS Preloading is as yet not all that common with 0.72\% of the top
 \vspace{0.3cm} \noindent
 Of the domains that do use STS Preloading, 38\% no longer meet the requirements which could result in their removal from the list thus removing the extra security layer the STS Preloading mechanism provides. As of January 2022, not having a STS header was 30\% of all reasons that a domain no longer met the preload requirement meaning they have opted out of both the STS header protection and STS Preloading.
 
-
+\newpage
 
 \section{X Content Type Options}
-\label{section:xcto}
+\label{section:ana_xcto}
 
-\subsection{Background}
-
-The \texttt{X-Content-Type-Options} header (XCTO) is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
-\texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
-
-\subsubsection{Directives}
-
-\textbf{nosniff}
-
-\vspace{0.3cm} \noindent
-Denies requests under either of the two below conditions:
-
-\begin{itemize}
-  \setlength\itemsep{0.1em}
-  \item A request has a destination of type script-like (one of \texttt{audioworklet}, \texttt{paintworklet}, \texttt{script}, \texttt{serviceworker}, \texttt{sharedworker}, or \texttt{worker}) and the \texttt{MIME} type (from the \texttt{Content-Type} header) is not a JavaScript \texttt{MIME} type.
-  \item A request has a destination of type style and the MIME type (from the \texttt{Content-Type} header) is not \texttt{text/css}.
-\end{itemize}
-
-\vspace{0.3cm} \noindent
-Example XCTO Header: \texttt{X-Content-Type-Options: nosniff}
+Background for this mechanism was detailed in section \ref{section:xcto_bd}.
 
 \subsection{Purpose Overview}
 
@@ -3391,33 +3572,9 @@ In table \ref{table:xcto_header_count} it can be seen that there has been a near
 \newpage
 
 \section{X Frame Options}
-\label{section:xfo}
+\label{section:ana_xfo}
 
-\subsection{Background}
-
-The \texttt{X-Frame-Options} (XFO) response header is a mechanism that states whether or not a browser should load the url in question in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
-
-\subsubsection{Directives}
-
-\textbf{DENY}
-
-\vspace{0.3cm} \noindent
-The page must not be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}.
-
-\vspace{0.7cm} \noindent
-\textbf{SAMEORIGIN}
-
-\vspace{0.3cm} \noindent
-The page is allowed to be rendered in any of the following html elements: \texttt{$<$frame$>$}, \texttt{$<$iframe$>$}, \texttt{$<$embed$>$}, or \texttt{$<$object$>$}, if the origin of the page that contains the element is that of the page to be rendered in the element.
-
-\vspace{0.7cm} \noindent
-\textbf{ALLOW-FROM $<$uri$>$}
-
-\vspace{0.3cm} \noindent
-Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame$>$} elements. This directive is now deprecated and should not to be used.
-
-\vspace{0.3cm} \noindent
-Example XFO Header: \texttt{X-Frame-Options: DENY}
+Background for this mechanism was detailed in section \ref{section:xfo_bd}.
 
 \subsection{Purpose Overview}
 
@@ -3469,26 +3626,9 @@ The deprecated directive \texttt{allow-from} has a very low but constant usage o
 
 
 \section{Cross Origin Embedder Policy}
-\label{section:coep}
+\label{section:ana_coep}
 
-\subsection{Background}
-
-The \texttt{Cross-Origin-Embedder-Policy} (COEP) header provides a mechanism that does not allow any cross-origin resources from being loaded unless explicitly allowed (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
-
-\subsubsection{Directives}
-\textbf{unsafe-none}
-
-\vspace{0.3cm} \noindent
-Disables the mechanism allowing resources to be loaded without explicit permission being given. This is the default behaviour.
-
-\vspace{0.7cm} \noindent
-\textbf{require-corp}
-
-\vspace{0.3cm} \noindent
-Enables this mechanism only allowing resources being loaded from the same origin or from other origins that explicitly give permissions to do so (via the use of Cross-Origin Resource Sharing or a Cross-Origin-Resource-Policy).
-
-\vspace{0.3cm} \noindent
-Example COEP Header: \texttt{Cross-Origin-Embedder-Policy: require-corp}
+Background for this mechanism was detailed in section \ref{section:coep_bd}.
 
 \subsection{Purpose Overview}
 
@@ -3529,35 +3669,9 @@ The COEP header was introduced recently enough that similar analysis of header u
 
 
 \section{Cross Origin Resource Policy}
-\label{section:corp}
+\label{section:ana_corp}
 
-\subsection{Background}
-
-The \texttt{Cross-Origin-Resource-Policy} (CORP) header provides a mechanism that restricts which origins are permitted to load a resource \cite{Apple_undated-au}.
-
-\subsubsection{Directives}
-\textbf{same-site}
-
-\vspace{0.3cm} \noindent
-If the request initiator's origin and the request destination's origins are of the same site then load the resource. For example, if the request initiator's origin is \newline \texttt{https://account.example.com/index.html} and the request destination is \newline \texttt{https://signin.example.com/script.js}, the resource can be loaded as both are of the same site \texttt{example.com}.
-
-\vspace{0.7cm} \noindent
-\textbf{same-origin}
-
-\vspace{0.3cm} \noindent
-If the request initiator’s origin and the request destination's origin are the same then load the resource. For example, if the request initiator’s origin is \texttt{https://blog.example.com} and the request destination is \texttt{https://blog.example.com}, the resource can be loaded as both are of the same origin \texttt{https://blog.example.com}.
-
-\vspace{0.7cm} \noindent
-\textbf{cross-origin}
-
-\vspace{0.3cm} \noindent
-The resource is allowed to be loaded regardless of the sites/origins involved.
-
-\vspace{0.3cm} \noindent
-Example COEP Header: \texttt{Cross-Origin-Resource-Policy: same-origin}
-
-\vspace{0.3cm} \noindent
-Example CORP Header: \texttt{Cross-Origin-Embedder-Policy: require-corp}
+Background for this mechanism was detailed in section \ref{section:corp_bd}.
 
 \subsection{Purpose Overview}
 
@@ -3600,32 +3714,9 @@ The CORP header was introduced recently enough that similar analysis of header u
 
 
 \section{Cross Origin Opener Policy}
-\label{section:coop}
+\label{section:ana_coop}
 
-\subsection{Background}
-
-The \texttt{Cross-Origin-Opener-Policy} (COOP) header provides a mechanism that prevents the sharing of browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the web page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
-
-\subsubsection{Directives}
-\textbf{unsafe-none}
-
-\vspace{0.3cm} \noindent
-Disables the mechanism unless the document (e.g. popup) uses this header with either of the two directives: \texttt{same-origin} and \texttt{same-origin-allow-popups}. This is the default behaviour.
-
-\vspace{0.7cm} \noindent
-\textbf{same-origin-allow-popups}
-
-\vspace{0.3cm} \noindent
-Allows the communication of a new window or tab (e.g. popup) to the originating page (document) if a COOP header is not present, or has the directive \texttt{unsafe-none}, on the new window or tab.
-
-\vspace{0.7cm} \noindent
-\textbf{same-origin}
-
-\vspace{0.3cm} \noindent
-Does not allow communication (isolates) from new windows or tab to the originating page (document) unless they are from the same origin. If not from the same origin they are placed in a separate browsing contexts.
-
-\vspace{0.3cm} \noindent
-Example COOP Header: \texttt{Cross-Origin-Opener-Policy: same-origin}
+Background for this mechanism was detailed in section \ref{section:coop_bd}.
 
 \subsection{Purpose Overview}
 
@@ -3660,22 +3751,10 @@ The COOP header was introduced recently enough that similar analysis of header u
 \clearpage
 \newpage
 
-
 \section{Public Key Pins}
-\label{section:hpkp}
+\label{section:ana_hpkp}
 
-\subsection{Background}
-
-The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
-
-\vspace{0.3cm} \noindent
-There have been several issues with HPKP such as HPKP Suicide \cite{Chen2018-ft,Chuat2021-nf} or Ransom PKP \cite{Chuat2021-nf} which are forms of Hostile Pinning \cite{Evans2018-mi}
-
-\vspace{0.3cm} \noindent
-This header is now deprecated by most modern web browsers.
-
-\subsubsection{Public-Key-Pins-Report-Only}
-The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rather only sends violation reports.
+Background for this mechanism was detailed in section \ref{section:hpkp_bd}.
 
 \subsection{Purpose Overview}
 
