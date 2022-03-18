@@ -137,7 +137,7 @@ The analysis finds that the usage of TLS versions is trending in the right direc
 There is still wide spread usage of the \texttt{unsafe-inline} and \texttt{unsafe-eval} keywords in Content Security Polices especially with the \texttt{script-src} directive which allows a great attack vector for cross site scripting attacks.
 
 \vspace{0.3cm} \noindent
-There are a reactively large proportion of domains that are STS preloaded but no longer meet the STS preload requirements which puts them at risk of being removed from the STS preload list.
+There are a relatively large proportion of domains that are STS preloaded but no longer meet the STS preload requirements which puts them at risk of being removed from the STS preload list.
 
 \vspace{0.3cm} \noindent
 The security.txt mechanism currently has low utilisation, however the RFC is still in the draft stage and the number of domains using this mechanism is trending upward. Even with the low usage, the number of security.txt that have a Contact is encouraging.
@@ -411,9 +411,9 @@ Table \ref{table:sopviolations1} shows some origin triplets via the comparison o
       \hline
       https://blog.example.com/index.html & Yes & The host of the origin triplet, blog.example.com, is different.\\
       \hline
-      https://shop.example.com:8000/forum.html & Yes & The port of the origin triplet is different (https default port is 443)\\
+      https://shop.example.com:8000/forum.html & Yes & The port of the origin triplet is different (HTTPS default port is 443)\\
       \hline
-      http://shop.example.com/index.html & Yes & The scheme of the origin triplet, http, is different.\\
+      http://shop.example.com/index.html & Yes & The scheme of the origin triplet, HTTP, is different.\\
       \hline
     \end{tabular}}
     \caption{Same Origin triplet example violations}
@@ -1001,7 +1001,7 @@ A potential example of this is where in \cite{Buchanan2018-xz} the researches de
 The number of times data gathered and how far apart they are, in terms of time, are important in terms of showing any potential trends and having enough data to confidently make statements from the analysis of such data.
 
 \vspace{0.3cm} \noindent
-Of the research sources that were reviewed for this project, those that conducted active scanning activities make at least two scans such as \cite{Buchanan2018-xz,Amann2017-co,Chen2016-dl,Kumar2017-qw} and some with daily scans for years \cite{Holz2020-ha}.
+Of the research sources that were reviewed for this project, those that conducted active scanning activities make at least two scans such as \cite{Buchanan2018-xz,Amann2017-co,Chen2016-dl,Kumar2017-qw} and some with daily scans for years \cite{Holz2020-ha}. This is discussed shortly in the literature review in section \ref{section:lit_review}.
 
 \vspace{0.3cm} \noindent
 The more data that is gathered in the same way, the higher value that analysis obtains, assuming that the methodology of the acquisition is sound.
@@ -1018,9 +1018,15 @@ The researchers in \cite{Poteat2021-zr} stated that they had a ``measurement out
 The majority of research reviewed for this project state the technologies used and the high level description of the methodology used to acquire the data later analysed, such as in \cite{Amann2017-co,Chen2016-dl,Van_Goethem2014-ao}.
 
 \vspace{0.3cm} \noindent
-Whilst this is generally enough for the reader to understand the high-level methodology, those who wish or are conducting similar or related research could benefit form a more detailed and formal method. To that end it would be of benefit to the community if a more formal method is documented and made available which would allow internet research methodologies to be documented in a standardised form such that they can be compared and contrasted more easily.
+Whilst this is generally enough for the reader to understand the high-level methodology, those who wish or are conducting similar or related research could benefit form a more detailed and formal method. There are several strategies presently available for researchers to utilise.
+
+\vspace{0.3cm} \noindent
+``Strategies for Sound Internet Measurement'' \cite{Paxson2004-hq} is one such paper with specific relevance to measurement research which is very relevant to the research for this report. The paper outlines the inherent difficulties and pitfalls one can encounter focusing on: \textit{Precision}, \textit{Meta-data}, \textit{Accuracy}, \textit{Misconception}, \textit{Calibration}, \textit{Data Volume} and  \textit{Reproduceability}.
+
+
 
 \subsection{Literature Review}
+\label{section:lit_review}
 
 Table \ref{table:data_acquisition_lit_review} is a critical review of limitations identified in the literature research and how this project aims to address them.
 
