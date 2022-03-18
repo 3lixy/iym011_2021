@@ -759,8 +759,86 @@ Organisations should have policies in place to keep up to date with current stat
 %
 %\newpage
 
+
+
 \chapter{Data Acquisition}
 \label{chap:data_acqusition}
+
+
+\section{Ethical Considerations}
+\label{section:ethics}
+
+It is not feasible to request permission to conduct internet measurement scans from the desired targets. This means that researches should take it upon themselves to evaluate their methodology for ethical considerations in the absence of permission to conduct such research.
+
+\vspace{0.3cm} \noindent
+The ethical considerations as outlined in \cite{Amann2017-co,Partridge2016-ph,Durumeric2015-zq,Kumar2017-qw} were considered for this research.
+
+\vspace{0.3cm} \noindent
+During the literature research, not all research that was of a similar nature contained ethical consideration statements. One would hope that ethic consideration was performed in the research, but should be outlined if only minimally.
+
+\vspace{0.3cm} \noindent
+The ``BCS, The Chartered Institute For It'' code of conduct \cite{Bcs2011-rj} outlines professional standards that should be met. This research was conducted with the same sentiment of these standards. Below are several of the most relevant excerpts taken from the document as presented below verbitem that represent to conduct of this research:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item \textit{``NOT disclose or authorise to be disclosed, or use for personal gain or to benefit a third party, confidential information except with the permission of your Relevant Authority, or as required by Legislation.''}
+	\item \textit{``accept your personal duty to uphold the reputation of the profession and not take''
+any action which could bring the profession into disrepute.}
+	\item \textit{``only undertake to do work or provide a service that is within your professional
+competence''}
+	\item \textit{``have due regard for public health, privacy, security and wellbeing of others and
+the environment''}
+\end{itemize}
+
+\subsection{Service Degradation}
+
+Using the ``Tranco List'' which is a ``most popular'' type of domain list reduces the chance of service degradation as the more popular a domain is the more resources it is likely has which reduces the impact of the measurement analysis.
+
+\vspace{0.3cm} \noindent
+For the purpose of obtaining the HTTP headers of a domain the ``Home Page'' of the domains are requested which are more likely to be cached than other pages.
+
+\vspace{0.3cm} \noindent
+To determine the TLS versions supported by a domain, other than that used on the HTTPS request to the home page, pure TLS connections are attempted which reduces the service impact as HTTP requests will add additional load to that of pure TLS connections. Additionally pure TLS connections are only attempted if an HTTPS connection was successful to a domain's home page.
+
+\vspace{0.3cm} \noindent
+Whilst obtaining the STS preload state of a domain, as detailed in section \ref{subsection:stage_5_STS}, it is first checked if a url has already been requested. During the processing of a task, including redirects, it is quite possible that the information sought has already been obtained.
+
+\vspace{0.3cm} \noindent
+There is no retry logic for a request to a domain to additionally reduce service degradation of the target domain.
+
+\vspace{0.3cm} \noindent
+Randomisation is another potential tactic, however as the research uses a domain list rather than ip addresses. For randomisation to be effective the ip addresses would need to be pre resolved which is not being undertaken in this research.
+
+\subsection{Exploitation}
+
+The software used to conduct the research against domains does not attempt to:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+    \item Send malformed requests
+    \item Login
+    \item Exploit vulnerabilities
+    \item Access hidden/private paths/URLs
+\end{itemize}
+
+\subsection{Information Disclosure}
+
+As this research obtains publicly available information and is not revealing vulnerabilities about any particular domain, there is not a concern of exposing information about domains that may reveal vulnerabilities.
+
+\subsection{Abuse Reports}
+
+As the domains being scanned have not given permission for research to be conducted upon them, the ip addresses that conduct the research have rDNS (reverse DNS) entries configured such that complaints/enquires can be submitted.
+
+\vspace{0.3cm} \noindent
+The cloud service providers for the servers that conduct the research have easy to use interfaces to allow responses to abuse reports should they be submitted.
+
+\vspace{0.3cm} \noindent
+The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an IP address can host more than one domain and a complaint may ask to block an IP address range.
+
+\vspace{0.3cm} \noindent
+There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which stated a request for ``assistance in verifying possible malicious activity being hosted on a system registered to you''. The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating that the request was made for the purpose of internet research.
+
+\newpage
+
 
 \section{Data Acquisition}
 \label{section:data_aquisition}
@@ -1567,67 +1645,6 @@ Table \ref{table:missing_scan_archives} summarises the extent of missing scan ar
     \label{table:missing_scan_archives} % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex
   \end{center}
 \end{table}
-
-\newpage
-
-\section{Ethical Considerations}
-\label{section:ethics}
-
-It is not feasible to request permission to conduct internet measurement scans from the desired targets. This means that researches should take it upon themselves to evaluate their methodology for ethical considerations in the absence of permission to conduct such research.
-
-\vspace{0.3cm} \noindent
-The ethical considerations as outlined in \cite{Amann2017-co,Partridge2016-ph,Durumeric2015-zq,Kumar2017-qw} were considered for this research.
-
-\vspace{0.3cm} \noindent
-During the literature research, not all research that was of a similar nature contained ethical consideration statements. One would hope that ethic consideration was performed in the research, but should be outlined if only minimally.
-
-\subsection{Service Degradation}
-
-Using the ``Tranco List'' which is a ``most popular'' type of domain list reduces the chance of service degradation as the more popular a domain is the more resources it is likely has which reduces the impact of the measurement analysis.
-
-\vspace{0.3cm} \noindent
-For the purpose of obtaining the HTTP headers of a domain the ``Home Page'' of the domains are requested which are more likely to be cached than other pages.
-
-\vspace{0.3cm} \noindent
-To determine the TLS versions supported by a domain, other than that used on the HTTPS request to the home page, pure TLS connections are attempted which reduces the service impact as HTTP requests will add additional load to that of pure TLS connections. Additionally pure TLS connections are only attempted if an HTTPS connection was successful to a domain's home page.
-
-\vspace{0.3cm} \noindent
-Whilst obtaining the STS preload state of a domain, as detailed in section \ref{subsection:stage_5_STS}, it is first checked if a url has already been requested. During the processing of a task, including redirects, it is quite possible that the information sought has already been obtained.
-
-\vspace{0.3cm} \noindent
-There is no retry logic for a request to a domain to additionally reduce service degradation of the target domain.
-
-\vspace{0.3cm} \noindent
-Randomisation is another potential tactic, however as the research uses a domain list rather than ip addresses. For randomisation to be effective the ip addresses would need to be pre resolved which is not being undertaken in this research.
-
-\subsection{Exploitation}
-
-The software used to conduct the research against domains does not attempt to:
-
-\begin{itemize}
-	\setlength\itemsep{0.1em}
-    \item Send malformed requests
-    \item Login
-    \item Exploit vulnerabilities
-    \item Access hidden/private paths/URLs
-\end{itemize}
-
-\subsection{Information Disclosure}
-
-As this research obtains publicly available information and is not revealing vulnerabilities about any particular domain, there is not a concern of exposing information about domains that may reveal vulnerabilities.
-
-\subsection{Abuse Reports}
-
-As the domains being scanned have not given permission for research to be conducted upon them, the ip addresses that conduct the research have rDNS (reverse DNS) entries configured such that complaints/enquires can be submitted.
-
-\vspace{0.3cm} \noindent
-The cloud service providers for the servers that conduct the research have easy to use interfaces to allow responses to abuse reports should they be submitted.
-
-\vspace{0.3cm} \noindent
-The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an IP address can host more than one domain and a complaint may ask to block an IP address range.
-
-\vspace{0.3cm} \noindent
-There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which stated a request for ``assistance in verifying possible malicious activity being hosted on a system registered to you''. The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating that the request was made for the purpose of internet research.
 
 \newpage
 
