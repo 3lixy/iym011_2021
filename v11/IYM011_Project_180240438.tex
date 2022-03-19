@@ -135,7 +135,7 @@ Intentionally Blank
 This report is one of the required modules for the course \texttt{MSc in Information Security} at Royal Holloway, University of London. A longitudinal study for the adoption of several security mechanisms, including: \texttt{Transport Layer Security}, \texttt{Content Security Policy}, \texttt{STS Preloading} and \texttt{Security.txt} is undertaken.
 
 \vspace{0.3cm} \noindent
-This is accomplished by scanning the top 1 million ranked domains each day for over 12 months from November 2020 through to the end of January 2022 and subsequent analysis of the data in order to determine the adoption of the security mechanisms.
+This is accomplished by scanning the top 1 million ranked domains each day for 16 months from November 2020 through to the end of January 2022 and subsequent analysis of the data in order to determine the adoption of the security mechanisms.
 
 \vspace{0.3cm} \noindent
 The analysis finds that the usage of TLS versions is trending in the right direction with TLS 1.3 reaching a 64.4\% proportion of all from establishment of a TLS connection to websites in the top 1 million ranked domains.
@@ -317,6 +317,7 @@ The main contributions of this research are (1) Which TLS versions a website sup
 \newpage
 
 \section*{Objectives and Scope}
+\label{sec:objectives_scope}
 \addcontentsline{toc}{section}{Objectives and Scope}
 
 In order to conduct research to answer the question stated in the introduction in an constructive manner, one must set out a list of objectives to be completed:
@@ -898,6 +899,55 @@ There was a single abuse report, which came from the Cybersecurity and Infrastru
 
 \newpage
 
+\section{Literature Review}
+\label{section:lit_review}
+
+Table \ref{table:data_acquisition_lit_review} is a critical review of limitations identified in the literature research and how this project aims to address them.
+
+\begin{center}
+
+\footnotesize
+\begin{longtable}{|C|E|H|H|}
+
+    \caption{Data Acquisition Literature Review} 
+    \label{table:data_acquisition_lit_review} \\ % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex 
+\hline
+\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{How Addressed In This Project} \\
+\hline
+\endfirsthead
+\multicolumn{4}{c}%
+{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+\hline
+\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{How Addressed In This Project} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\textit{Continued on next page}} \\
+\endfoot
+\hline
+\endlastfoot
+      \textbf{Data Filtering} & If data is filtered during data capture, it could result in unintended data being filtered & The researches in \cite{Buchanan2018-xz} filter headers during data capture, which if not done perfectly (e.g. spelling and case) could produce unintended results. & All HTTP headers, TLS certificates/connection information is captured unfiltered\\
+      \hline
+      \textbf{www subdomain} & If using only the base domains for HTTP(s) requests could produce inaccurate results as not all domains serve HTTP on the base domain. The www subdomain is the most common domain to serve HTTP requests besides the base domain. & Researchers \cite{Buchanan2018-xz,Amann2017-co} do not state if the www subdomain was explicitly added during scanning. & The www subdomain is used if base domain does not have a DNS A record. \\
+      \hline
+      \textbf{HTTP method} & Browsers use the HTTP GET method to obtain web pages. A website might behave differently if a non GET HTTP method (e.g. HEAD) was used. Some websites may not even allow the HTTP HEAD method. & Researchers \cite{Amann2017-co} specifically use the HEAD HTTP method to reduce load on target domains. & The HTTP GET method is used which is what browsers use.\\
+      \hline
+      \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in table \ref{table:task_paramters_headers}. \\
+      \hline
+      \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have. & None of the research \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Roth2020-hg,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Calzavara2018-xv,Holz2020-ha,Michael2015-hn,} processes SSL/TLS verification at the analysis stage. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or assumed to be not enough sites affected. & SSL/TLS verification is performed at the analysis phase. \\
+      \hline
+      \textbf{Monitoring} & When a scanning session is conducted and not monitored, one or more sessions could fail without the researcher(s) being aware for an unknown amount of time. & It is possible that the outage mentioned in \cite{Poteat2021-zr} could have been avoided or minimised by the use of effective monitoring. & Metrics of the status of scanning are created and alerted upon and investigated. \\
+%      \hline
+%      \textbf{Scan frequency} & The more data the better & - & - \\
+      \hline
+      \textbf{Scanner Tool Verification} & One cannot assume that the technology used to perform the scanning is doing what one expects or intends without due diligence being performed. & None of the research specifically calls out testing of the scanner with manual verification of results. & Successfully and unsuccessfully scanned domains were picked at random during the creation of the scanner, manually verifying results and correcting/updating scanner as required. \\
+      \hline
+      \textbf{Scanner Tool Flow} & The use of graphical flows allows greater accuracy for research replication and understanding. & Whilst most research gives a written overview of scanner methodology \cite{Buchanan2018-xz,Amann2017-co,Patil2017-bg,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Holz2020-ha,Michael2015-hn}, they vary in detail and do not have a graphical counterpart. & Includes a graphical representation with detailed descriptions to enhance the understanding of scanner methodology. \\
+%       &  &  &  \\
+%      \hline
+\end{longtable}
+\end{center}
+
+\newpage
 
 \section{Data Acquisition}
 \label{section:data_aquisition}
@@ -917,6 +967,7 @@ Third Party data sets is the use of data collected by another entity that is usi
 Active data collection, for the purpose of measuring security mechanism adoption, requires a list of entities to collect data from. Generating a list of domains to scan on ones own could be potentially quite an arduous task. Using resources that contain collections of domains is a much easier task, assuming the collection is of high relevance to the research that is to be conducted.
 
 \subsubsection{Pre-compiled Lists}
+\label{subsubsec:precomplied_lists}
 
 Pre-compiled, often ranked by popularity, domain lists are made available by organisations that claim they are in a position to create such lists such as: Alexa Top 1 Million sites \cite{noauthor_undated-wh}, Cisco Umbrella \cite{noauthor_undated-ku}, Majestic Million \cite{noauthor_undated-sz} and Tranco \cite{noauthor_undated-mt}. These lists are updated regularly, as often as once a day, which allows researchers to have up to date lists that are freely available.
 
@@ -1074,63 +1125,13 @@ The researchers in \cite{Poteat2021-zr} stated that they had a ``measurement out
 
 \subsection{Detailed Methodologies}
 
-The majority of research reviewed for this project state the technologies used and the high level description of the methodology used to acquire the data later analysed, such as in \cite{Amann2017-co,Chen2016-dl,Van_Goethem2014-ao}.
+The majority of research reviewed for this project (outlined in section \ref{section:lit_review}) state the technologies used and the high level description of the methodology used to acquire the data later analysed, such as in \cite{Amann2017-co,Chen2016-dl,Van_Goethem2014-ao}.
 
 \vspace{0.3cm} \noindent
 Whilst this is generally enough for the reader to understand the high-level methodology, those who wish or are conducting similar or related research could benefit form a more detailed and formal method. There are several strategies presently available for researchers to utilise.
 
 \vspace{0.3cm} \noindent
 ``Strategies for Sound Internet Measurement'' \cite{Paxson2004-hq} is one such paper with specific relevance to measurement research which is very relevant to the research for this report. The paper outlines the inherent difficulties and pitfalls one can encounter focusing on: \textit{Precision}, \textit{Meta-data}, \textit{Accuracy}, \textit{Misconception}, \textit{Calibration}, \textit{Data Volume} and  \textit{Reproduceability}.
-
-
-
-\subsection{Literature Review}
-\label{section:lit_review}
-
-Table \ref{table:data_acquisition_lit_review} is a critical review of limitations identified in the literature research and how this project aims to address them.
-
-\begin{center}
-
-\footnotesize
-\begin{longtable}{|C|E|H|H|}
-
-    \caption{Data Acquisition Literature Review} 
-    \label{table:data_acquisition_lit_review} \\ % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex 
-\hline
-\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{How Addressed In This Project} \\
-\hline
-\endfirsthead
-\multicolumn{4}{c}%
-{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
-\hline
-\textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{How Addressed In This Project} \\
-\hline
-\endhead
-\hline \multicolumn{4}{r}{\textit{Continued on next page}} \\
-\endfoot
-\hline
-\endlastfoot
-      \textbf{Data Filtering} & If data is filtered during data capture, it could result in unintended data being filtered & The researches in \cite{Buchanan2018-xz} filter headers during data capture, which if not done perfectly (e.g. spelling and case) could produce unintended results. & All HTTP headers, TLS certificates/connection information is captured unfiltered\\
-      \hline
-      \textbf{www subdomain} & If using only the base domains for HTTP(s) requests could produce inaccurate results as not all domains serve HTTP on the base domain. The www subdomain is the most common domain to serve HTTP requests besides the base domain. & Researchers \cite{Buchanan2018-xz,Amann2017-co} do not state if the www subdomain was explicitly added during scanning. & The www subdomain is used if base domain does not have a DNS A record. \\
-      \hline
-      \textbf{HTTP method} & Browsers use the HTTP GET method to obtain web pages. A website might behave differently if a non GET HTTP method (e.g. HEAD) was used. Some websites may not even allow the HTTP HEAD method. & Researchers \cite{Amann2017-co} specifically use the HEAD HTTP method to reduce load on target domains. & The HTTP GET method is used which is what browsers use.\\
-      \hline
-      \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in table \ref{table:task_paramters_headers}. \\
-      \hline
-      \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have. & None of the research \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Roth2020-hg,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Calzavara2018-xv,Holz2020-ha,Michael2015-hn,} processes SSL/TLS verification at the analysis stage. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or assumed to be not enough sites affected. & SSL/TLS verification is performed at the analysis phase. \\
-      \hline
-      \textbf{Monitoring} & When a scanning session is conducted and not monitored, one or more sessions could fail without the researcher(s) being aware for an unknown amount of time. & It is possible that the outage mentioned in \cite{Poteat2021-zr} could have been avoided or minimised by the use of effective monitoring. & Metrics of the status of scanning are created and alerted upon and investigated. \\
-%      \hline
-%      \textbf{Scan frequency} & The more data the better & - & - \\
-      \hline
-      \textbf{Scanner Tool Verification} & One cannot assume that the technology used to perform the scanning is doing what one expects or intends without due diligence being performed. & None of the research specifically calls out testing of the scanner with manual verification of results. & Successfully and unsuccessfully scanned domains were picked at random during the creation of the scanner, manually verifying results and correcting/updating scanner as required. \\
-      \hline
-      \textbf{Scanner Tool Flow} & The use of graphical flows allows greater accuracy for research replication and understanding. & Whilst most research gives a written overview of scanner methodology \cite{Buchanan2018-xz,Amann2017-co,Patil2017-bg,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Holz2020-ha,Michael2015-hn}, they vary in detail and do not have a graphical counterpart. & Includes a graphical representation with detailed descriptions to enhance the understanding of scanner methodology. \\
-%       &  &  &  \\
-%      \hline
-\end{longtable}
-\end{center}
 
 
 \section{Methodology}
@@ -2385,6 +2386,7 @@ The \texttt{Public-Key-Pins-Report-Only} header does not enforce the pinning rat
 \label{section:scans_overview}
 
 \subsection{Impact To Available Data For Analysis}
+\label{subsec:dataimpact}
 
 There are several gaps in the available scanning archives summarised in table \ref{table:missing_scan_archives}, detailed in section \ref{subsection:missing_scans_overview} and listed below:
 
@@ -3228,6 +3230,7 @@ In the research by \texttt{Weissbacher et al} \cite{Weissbacher2014-vm} in March
 \end{figure}
 
 \subsubsection{Distribution by Header}
+\label{subsubsec:csp_header_dist}
 
 \vspace{0.3cm} \noindent
 Even though the \texttt{X-WebKit-CSP} and \texttt{X-Content-Security-Policy} CSP headers are now deprecated, there is still an increase in use from the \texttt{Ying et al} study \cite{Ying2016-ag} in June 2015 as shown in table \ref{table:csp_header_count}. The current (Jan 2022) overall percentage of use for these two headers, however, is less that 4\% of all the CSP headers combined.
@@ -3892,47 +3895,59 @@ Table \ref{table:pkp_header_count} shows that May 2017 was potentially the peak 
 %
 %\newpage
 
-\chapter{Conclusion and Closing Remarks}
+\chapter{Discussion and Closing Remarks}
 \label{chap:conclusion}
 
-\section{Conclusions}
+\section{Discussion}
+
+\subsection{Objectives Scope Justification}
+
+As a refresher the \hyperref[sec:objectives_scope]{scope for the objectives} for this study are:
+
+\textit{
+\begin{enumerate}
+  \item The measurements will be restricted to websites as they are interacted with by a large proportion of people today, thus providing useful analysis targets.
+  \item Scan websites no more than once a day for a period of at least 12 months.
+  \item Restrict the websites scanned to the top 1 million most popular.
+  \item Only metadata, i.e. headers and connection details, will be captured and not the body content of websites.
+\end{enumerate}
+}
 
 \noindent
-The overarching goal of this study was to answer the question:
-
-\vspace{0.6cm} \noindent
-\centerline{\texttt{What is the current adoption of security mechanisms}}
-\centerline{\texttt{in the HTTPS ecosystem ?}}
+The reason for scanning against domains that are amongst the most popular was to analyse domains that had a high number of visitors. It would seem prudent to perform analysis on domains that had the highest amount off traffic as that should have the most number of users affected by security mechanism adoptions on domains.
 
 \vspace{0.3cm} \noindent
-This was achieved by scanning the top 1 million ranked websites (as determined by Tranco \cite{noauthor_undated-mt}) each day for over 12 months and analysing the results.
+Scans were conducted at a maximum one a day as it is unlikely any significant changes that were intended to persist would remain much longer than a single day and is also appropriate as this study is performing analysis over a large time period (16 months). Scanning once a day could be deemed as quite high, however an added benefit is if there were issues with some scans there should be enough remaining scans to allow effective analysis to occur. There were such issues with this research as detailed in section \ref{subsec:dataimpact}, which has occurred for other research, for example in \cite{Poteat2021-zr}.
 
 \vspace{0.3cm} \noindent
-Throughout the study the number of websites supporting HTTPS remained at a near constant of $\sim$80\% indicating that a plateau of websites supporting HTTPS has been reached. For these remaining sites it may very likely need a simple, potentially, free service to get these sites supporting HTTPS. There are a number of these services available, however it may seem too much of a barrier as the operators may not see HTTPS as a necessary feature of their site unfortunately.
+The target domains for each scan was limited to the Tranco Top 1 million list as it would have been impractical  to generate a source list manually as there was limited time and resources which was better spent focussing on the scanning itself. There being 1 million domains in the Tanco list was deemed to be off sufficient amount and quality and as previously mentioned in section \ref{subsubsec:precomplied_lists} many other studies have used such lists. The use of a richer set of domains could have had an effect of the outcome of the analysis, however this is true of all measurement studies. A secondary reason to use only 1 million domains was to reduce the resources required for them all to be scanned once a day as there is a real world cost to running the infrastructure required which was $\sim$\$51 a month which equates to \$816 for a 16 month period. This is not an insignificant amount of money for a personal budget.
 
 \vspace{0.3cm} \noindent
-With TLS1.3 climbing from 50\% in November 2020 to 64\% in January 2022, of websites scanned that support HTTPS, there a is strong support for the latest TLS versions and this trend looks as thou it will continue to rise providing more security for users browsing the internet. Also encouraging to see is the continued decline of the support of TLS 1.0 and TLS 1.1 which could indicate the website operators are increasingly comfortable to stop supporting these legacy versions possibly as there are a minimal amount of devices that require them still in use.
+With any measurement study one needs to set a limit to the amount of data to be analysed. The choice to restrict the data collection to only metadata was to limit the scope such that there was a reasonable chance of being able to sufficiently analyse the data in the limited time made available to complete this study. This looks to have been a wise choice as it has taken the majority of time available to complete this study.
+
+\subsection{Scanning}
+
+\noindent
+As detailed in section \ref{subsec:dataimpact} there were several time periods of missing scan data not available for analysis. This essentially comes down to effective monitoring in order to reduce the impact. It is not possible to make a system 100\% reliable, however extra vigilance such as frequent manual inspection could have reduce the impact to missing data.
 
 \vspace{0.3cm} \noindent
-The security.txt mechanisms is still in its infancy as it is still in the draft RFC stage which shows in its adoption which is 0.5\% of websites scanned as of January 2022. The goal of this mechanism is admirable and its relevance looks quite promising as the majority of security.txt files found have a contact field defined, which is the primary piece of information that security researches are looking for in order to report a security vulnerability. It is hoped that more tutorials and setup procedures for website hosting, prompts for the information for a security.txt to be deployed such that a wider adoption can be made.
+Creating an application is easy, however, creating a stable system with effective monitoring takes a lot of effort and generally requires teams of people working in shifts to be very effective.
+
+\subsection{Analysis}
+
+\noindent
+A large proportion of time spent on the analysis phase was constructing the tooling to process the data from the domain scans. Great care had to be taken to verify the output of this tooling and on several occasions when analysing the charts generated, inaccuracies in the data representation could be seen and had to be corrected.
 
 \vspace{0.3cm} \noindent
-A Content Security Policy is a critical mechanism in assisting to mitigate cross site scripting attacks, however only 9\% of domains scanned are using a CSP policy as of January 2022. The use of \texttt{usafe-inline} and \texttt{unsafe-eval} keywords are still very prevalent, especially for the \texttt{script-src} directive which negates one of the strongest protections against XSS attacks. This is likely due to several contributing factors including the complexity of websites and the amount of work required to refactor website code in order not to have the need for these directives. This finding is quite disappointing and an in depth study should be conducted to uncover the definitive primary reasons why this is still the case. 
+The analysis conducted was not merely just charting chosen data over the time period, significant deviations from trends warranted investigation. One such deviation, detailed in section \ref{subsubsec:csp_header_dist}, was a spike in \texttt{content-security-policy-report-only} header use for a short time period where cloudflare appeared to be conducting some sort of trial run.
+
 
 \vspace{0.3cm} \noindent
-As previously stated there are several time periods during the data capture phase where there is missing data, which is not all that uncommon for this type of study. The reasons for the missing data has been identified, along with measures intended to prevent further occurrences which will hopefully allow future studies to learn from them. The largest gap is 27 days and even though this is almost a month of data, it seems not to have been an issue for analysis and the identification of longitudinal trends. The main issue is with the identification of short live spikes/fluctuations, such as that seen by the use of the CSP report only header.
+Unless one conducts a measurement study it is not particularly realised how much time it takes to collect and process the data into a usable form and how easy it is to misrepresent and or inaccurately represent the collected data. The study ``Strategies for Sound Internet Measurement'' \cite{Paxson2004-hq} goes into great detail into what one needs to be aware of for measurement studies in order to obtain a more favourable outcome.
 
-\vspace{0.3cm} \noindent
-Another critique of this study is of the choice not to retry HTTP(S) or TLS connections that failed in order to reduce the load on the target domains. If retries had been utilised it is quite possible that some of these failed HTTP(S) or TLS connections would have been successful, however this is likely not to be significant enough to have changed the analysis findings.
+\subsection{Future Work}
 
-\vspace{0.3cm} \noindent
-To conclude, apart from TLS the other security mechanisms see a rather low usage within the top 1 million ranked websites. More work should be done to improve their usage (such as better tutorials, prompts during setup wizzards, default configs and best practice guidance) as well as finding out why the usage is as low as it is.
-
-\newpage
-
-\section{Future Work}
-
-\vspace{0.3cm} \noindent
+\noindent
 There is a large scope for future studies due to the ever changing HTTPS ecosystem and its complexity. A number of possible areas for further work are detailed below that came to light during this study.
 
 \vspace{0.7cm} \noindent
@@ -3960,6 +3975,42 @@ The use of the \texttt{unsafe} prefixed keywords especially for the \texttt{scri
 There is always a need for adoption studies as it gives insight into how security mechanisms are being used, which influences the evolution of such mechanisms, provides guidance for which mechanisms should be looked into more deeply and a historical record for longitudinal research.
 
 \newpage
+
+\section{Conclusions}
+
+\noindent
+The overarching goal of this study was to answer the question:
+
+\vspace{0.6cm} \noindent
+\centerline{\texttt{What is the current adoption of security mechanisms}}
+\centerline{\texttt{in the HTTPS ecosystem ?}}
+
+\vspace{0.3cm} \noindent
+This was achieved by scanning the top 1 million ranked websites (as determined by Tranco \cite{noauthor_undated-mt}) each day for 16 months and analysing the results.
+
+\vspace{0.3cm} \noindent
+Throughout the study the number of websites supporting HTTPS remained at a near constant of $\sim$80\% indicating that a plateau of websites supporting HTTPS has been reached. For these remaining sites it may very likely need a simple, potentially, free service to get these sites supporting HTTPS. There are a number of these services available, however it may seem too much of a barrier as the operators may not see HTTPS as a necessary feature of their site unfortunately.
+
+\vspace{0.3cm} \noindent
+With TLS1.3 climbing from 50\% in November 2020 to 64\% in January 2022, of websites scanned that support HTTPS, there a is strong support for the latest TLS versions and this trend looks as thou it will continue to rise providing more security for users browsing the internet. Also encouraging to see is the continued decline of the support of TLS 1.0 and TLS 1.1 which could indicate the website operators are increasingly comfortable to stop supporting these legacy versions possibly as there are a minimal amount of devices that require them still in use.
+
+\vspace{0.3cm} \noindent
+The security.txt mechanisms is still in its infancy as it is still in the draft RFC stage which shows in its adoption which is 0.5\% of websites scanned as of January 2022. The goal of this mechanism is admirable and its relevance looks quite promising as the majority of security.txt files found have a contact field defined, which is the primary piece of information that security researches are looking for in order to report a security vulnerability. It is hoped that more tutorials and setup procedures for website hosting, prompts for the information for a security.txt to be deployed such that a wider adoption can be made.
+
+\vspace{0.3cm} \noindent
+A Content Security Policy is a critical mechanism in assisting to mitigate cross site scripting attacks, however only 9\% of domains scanned are using a CSP policy as of January 2022. The use of \texttt{usafe-inline} and \texttt{unsafe-eval} keywords are still very prevalent, especially for the \texttt{script-src} directive which negates one of the strongest protections against XSS attacks. This is likely due to several contributing factors including the complexity of websites and the amount of work required to refactor website code in order not to have the need for these directives. This finding is quite disappointing and an in depth study should be conducted to uncover the definitive primary reasons why this is still the case. 
+
+\vspace{0.3cm} \noindent
+As previously stated there are several time periods during the data capture phase where there is missing data, which is not all that uncommon for this type of study. The reasons for the missing data has been identified, along with measures intended to prevent further occurrences which will hopefully allow future studies to learn from them. The largest gap is 27 days and even though this is almost a month of data, it seems not to have been an issue for analysis and the identification of longitudinal trends. The main issue is with the identification of short live spikes/fluctuations, such as that seen by the use of the CSP report only header.
+
+\vspace{0.3cm} \noindent
+Another critique of this study is of the choice not to retry HTTP(S) or TLS connections that failed in order to reduce the load on the target domains. If retries had been utilised it is quite possible that some of these failed HTTP(S) or TLS connections would have been successful, however this is likely not to be significant enough to have changed the analysis findings.
+
+\vspace{0.3cm} \noindent
+To conclude, apart from TLS the other security mechanisms see a rather low usage within the top 1 million ranked websites. More work should be done to improve their usage (such as better tutorials, prompts during setup wizzards, default configs and best practice guidance) as well as finding out why the usage is as low as it is.
+
+\newpage
+
 
 
 %\pagenumbering{roman}
