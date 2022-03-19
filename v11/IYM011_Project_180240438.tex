@@ -263,12 +263,55 @@ Security is a battle ground with attackers ever changing their techniques and de
 \vspace{0.3cm} \noindent
 In 1994 SSL was proposed \cite{Oppliger2016-ig,Wu2016-nx} to make interactions with websites more secure. As time has moved on, more improved secure channel protocols, such as TLS 1.3 [RE01]\cite{Rescorla2018-wb} being the most recent, have been introduced as well as enhancements to HTTP through security headers such as HTTP Strict Transport Security \cite{Hodges2012-pe}.
 
+\vspace{0.3cm} \noindent
+HTTPS is one of the critical security mechanisms and was introduced as HTTP does not have any protections against the following:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Viewing the plaintext data being exchanged between the browser and website
+	\item Manipulating data being exchanged between the browser and website without detection
+	\item Entity impersonating a website without detection
+\end{itemize}
+
+\noindent
+HTTPS overcomes these issues as it provides several protections including:
+
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Only the user browsing a website and the website itself are able to view the plaintext data being sent between them as it is encrypted in transit
+	\item If the encrypted data in transit is modified this can be detected
+	\item The authenticity of the identity of the website being visited can be verified using certificate authorities
+\end{itemize}
+
+\noindent
+HTTPS is detailed more extensively in section \ref{sec:https_bd}.
+
+
+\vspace{0.3cm} \noindent
+This research aims to answer the question:
+
 \vspace{0.6cm} \noindent
 \centerline{\texttt{What is the current adoption of security mechanisms}}
 \centerline{\texttt{in the HTTPS ecosystem ?}}
 
 \vspace{0.6cm} \noindent
-It is likely that with the more complicated the security mechanism are to deploy and or implement, the less use it will see. This research intends to discover to what extent are security mechanisms currently deployed and attempt to determines possible reasons for large or small adoptions. Once the adoption has been measured it shall be compared to similar research to seek indications of adoption trends.
+Measuring the adoption of HTTPS security mechanisms is important for many reasons including:
+\begin{itemize}
+	\setlength\itemsep{0.1em}
+	\item Allowing the community to gain insight in the their use
+	\item Identify trends (good, bad and unexpected) leading to initiatives to improve mechanism use
+	\item Identify the usage of obsolete and or mechanisms that should no longer be in use
+	\item Identify ineffective and or mis-configurations and how widespread they are
+	\item Attempt to infer why a mechanism has lower than expected/desired usage
+\end{itemize}
+
+\noindent
+It is likely that with the more complicated the security mechanism are to deploy and or implement, the less use it will see. This research intends to discover to what extent are security mechanisms currently deployed and attempt to determines possible reasons for large or small adoptions. Once the adoption has been measured it shall be compared to similar research to seek indications of adoption trends. Chapter \ref{chap:sec_feat_exist} details ``Why Security Features Exist''.
+
+\vspace{0.3cm} \noindent
+The usage of ``Top 1 Million sites`` lists are quite popular with researchers as shown by use in \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}. As these lists identify themselves as containing the ``Top'' sites, this provides a source of domains that are likely to be most commonly used by users browsing the internet and thus a very relevant source for study. The lists containing 1 million domains is of sufficient size to gain a broad insight into the websites on the internet.
+
+\vspace{0.3cm} \noindent
+The main contributions of this research are (1) Which TLS versions a website supports (section \ref{section:ana_ssl_tls}); (2) Continuation from previous studies on the adoption of security headers; (3) The adoption of \texttt{Cross Origin} security headers introduced relatively recently (sections \ref{section:ana_coep}, \ref{section:ana_corp}, \ref{section:ana_coop}).
 
 \clearpage
 \newpage
@@ -371,10 +414,15 @@ The below are relevant methods for this project:
 
 \subsection{HTTPS}
 
-\noindent The S in HTTPS signifies that the HTTP protocol communication shall be over a secure channel, provided by the SSL/TLS protocols \cite{Rescorla2000-fs}. A URL starting with \texttt{https://} e.g. \texttt{https://example.com} signifies it will be using a SSL/TLS secure channel.
+\noindent
+The S in HTTPS signifies that the HTTP protocol communication shall be over a secure channel, provided by the SSL/TLS protocols \cite{Rescorla2000-fs}. A URL starting with \texttt{https://} e.g. \texttt{https://example.com} signifies it will be using a SSL/TLS secure channel.
 
-\vspace{0.3cm}
-\noindent Slowly over time HTTPS has seen an ever increasing amount of adoption. There have been several incentives over the years to encourage the use of HTTPS and reduce the barrier to entry:
+\vspace{0.3cm} \noindent 
+SSL/TLS provides several protections including: confidentiality, data origin authentication and entity authentication. Entity authentication of a website is provided by the use of ``certificates'' which are approved by certificate authorities. A users' browser has a predefined list of certificate authorities that it trusts and a website certificate will only be deemed valid of it was approved by a certificate authority in the predefined list.
+
+
+\vspace{0.3cm} \noindent
+Slowly over time HTTPS has seen an ever increasing amount of adoption. There have been several incentives over the years to encourage the use of HTTPS and reduce the barrier to entry:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
@@ -383,6 +431,9 @@ The below are relevant methods for this project:
 	\item Google Chrome and Mozilla Firefox both start to show warnings in their browsers in 2017 when users typed in passwords on a site loaded over HTTP \cite{Vyas2017-ds,Google_undated-ws}
 	\item Governments and Community resources on why to use HTTPS \cite{noauthor_undated-oz,noauthor_undated-xk}
 \end{itemize}
+
+\noindent
+SSL/TLS is detailed in more depth in sections \ref{section:ssm_tls} and \ref{sec:tls_bd}.
 
 \section{Same Origin Policy}
 \label{section:same_origin_policy}
@@ -461,6 +512,7 @@ The following security mechanisms are those that have been selected for their ad
 
 
 \subsection{SSL/TLS}
+\label{section:ssm_tls}
 For the context of this research, SSL/TLS provides the secure channel used to send HTTP protocol traffic securely. This is more widely known as HTTPS.
 
 \vspace{0.3cm} \noindent
