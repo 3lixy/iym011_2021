@@ -399,13 +399,13 @@ HTTP (Hypertext Transfer Protocol), standardised in 1996 \cite{Berners-Lee1996-j
 
 \subsection{HTTP Headers}
 
-\noindent HTTP Headers make up part of the additional meta-data that accompanies a request and response payloads on the HTTP protocol.
+\noindent HTTP Headers make up part of the additional meta-data that accompanies request and response payloads on the HTTP protocol.
 
 \vspace{0.3cm} \noindent
 Headers are key value pairs delimited by the colon \texttt{:} character \cite{Berners-Lee1996-ji}. The key of a header is case insensitive.
 
 \vspace{0.3cm} \noindent
-An example header would be \texttt{server: nginx} where \texttt{server} is the key and \texttt{nginx} is the value.
+An example header could be \texttt{server: nginx} where \texttt{server} is the key and \texttt{nginx} is the value.
 
 \subsection{HTTP Methods}
 
@@ -425,7 +425,7 @@ The below are relevant methods for this project:
 The S in HTTPS signifies that the HTTP protocol communication shall be over a secure channel, provided by the SSL/TLS protocols \cite{Rescorla2000-fs}. A URL starting with \texttt{https://} e.g. \texttt{https://example.com} signifies it will be using a SSL/TLS secure channel.
 
 \vspace{0.3cm} \noindent 
-SSL/TLS provides several protections including: confidentiality, data origin authentication and entity authentication. Entity authentication of a website is provided by the use of ``certificates'' which are approved by certificate authorities. A users' browser has a predefined list of certificate authorities that it trusts and a website certificate will only be deemed valid of it was approved by a certificate authority in the predefined list.
+SSL/TLS provides several protections including: confidentiality, data origin authentication and entity authentication. Entity authentication of a website is provided by the use of ``certificates'' which are issued by certificate authorities. A users' browser has a predefined list of certificate authorities that it trusts and a website certificate will only be deemed valid of it was issued by a certificate authority in the predefined list.
 
 
 \vspace{0.3cm} \noindent
@@ -435,7 +435,7 @@ Slowly over time HTTPS has seen an ever increasing amount of adoption. There hav
 	\setlength\itemsep{0.1em}
 	\item Lets Encrypt provides free certificates, a prerequisite to enable HTTPS, for websites and is currently able to issue at least 200 million certificates a day as of February 2020 \cite{noauthor_undated-bi}
 	\item Search engines will rank websites higher if they use HTTPS. Google uses HTTPS as a ``very lightweight signal'' \cite{noauthor_undated-im}
-	\item Google Chrome and Mozilla Firefox both start to show warnings in their browsers in 2017 when users typed in passwords on a site loaded over HTTP \cite{Vyas2017-ds,Google_undated-ws}
+	\item Google Chrome and Mozilla Firefox both started to show warnings in their browsers in 2017 when users typed in passwords on a site loaded over HTTP \cite{Vyas2017-ds,Google_undated-ws}
 	\item Governments and Community resources on why to use HTTPS \cite{noauthor_undated-oz,noauthor_undated-xk}
 \end{itemize}
 
@@ -460,7 +460,7 @@ A request is deemed to be ``cross origin'' when the origin triplets of the url o
 The path of a URL after the origin triplet is NOT evaluated when origins are being compared, for example the origin triplet of \texttt{https://example.com/index.html} is \newline \texttt{https://example.com}.
 
 \vspace{0.3cm} \noindent
-Table \ref{table:sopviolations1} shows some origin triplets via the comparison of origins to the url \newline \texttt{https://shop.example.com/index.html} which is of the origin \newline \texttt{https://shop.example.com}.
+Table \ref{table:sopviolations1} shows several examples of same origin triplet violations of http requests when a user is currently viewing the url \texttt{https://shop.example.com/index.html} in their browser, which is of the origin \texttt{https://shop.example.com}.
 
 \begin{table}[h!]
 %\tiny
@@ -493,20 +493,22 @@ A Cross origin request is one that is between two different origins, examples of
 Cross Origin network requests can be summarised into 3 different categories:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item Cross-Origin reads are mostly denied (to prevent attacks such as XSS which is discussed further in section \ref{subsection:XSS}.
+	\item Cross-Origin reads are mostly denied (to prevent attacks such as XSS which is discussed further in section \ref{subsection:XSS}).
 	\item Cross-Origin embedding is mostly allowed (e.g. \texttt{$<$script src="…"$><$/script$>$})
 	\item Cross-Origin writes are mostly allowed (e.g. form submissions, links and redirects)
 \end{itemize}
 
 \subsection{Cross Origin Request Sharing}
 \label{section:Cross-Origin-Request-Sharing}
+
+\noindent
+Cross Origin Request Sharing is a web browser mechanism for the purpose of allowing a resource to specify the restrictions to be able to access a resource via one or more of the HTTP Headers \cite{Apple2006-hk}.
+
+\vspace{0.3cm} \noindent
 Cross-Origin-Request-Sharing (CORS) can be used to override the default SOP behaviour, however it must be used with caution to limit exposure to attacks.
 
 \vspace{0.3cm} \noindent
-A request is deemed to be ``cross origin'' when the origin triplets of the url of the request being made is different from that of the origin of the request. For example if a script on the web page \texttt{https://shop.example.com/index.com} which has the origin \texttt{https://shop.example.com} make a request to \texttt{https://www.domain.com/login.html} which has the origin \texttt{https://www.domain.com} the two origins are different thus the request is deemed to be cross-origin.
-
-\vspace{0.3cm} \noindent
-Cross Origin Request Sharing is a web browser mechanism for the purpose of allowing a resource to specify the restrictions to be able to access a resource via one or more of the HTTP Headers \cite{Apple2006-hk} detailed in the following sections.
+A request is deemed to be ``cross origin'' when the origin triplets of the url of the request being made is different from that of the origin of the request. For example if a script on the web page \texttt{https://shop.example.com/index.com} which has the origin \texttt{https://shop.example.com} wants to make a request to \texttt{https://www.domain.com/login.html} which has the origin \texttt{https://www.domain.com} the two origins are different thus the request is deemed to be cross-origin.
 
 \vspace{0.3cm} \noindent
 Under certain circumstances a 'preflight', HTTP OPTIONS call, is made to the resource in question to obtain the criteria that must be met for the desired request to be allowed to be made.
@@ -516,7 +518,7 @@ Under certain circumstances a 'preflight', HTTP OPTIONS call, is made to the res
 \section{Selected Security Mechanisms}
 \label{section:selected_security_mechanisms}
 
-The following security mechanisms are those that have been selected for their adoption to be analysed. They are briefly summarised here and detailed more in depth in the analysis section for ease of reference.
+The following security mechanisms are those that have been selected for their adoption to be analysed. They are briefly summarised here and detailed more in depth in \hyperref[chap:sec_mech_overview]{chapter \ref{chap:sec_mech_overview}} and then analysed in \hyperref[chap:analysis]{chapter \ref{chap:analysis}}.
 
 
 \subsection{SSL/TLS}
@@ -531,8 +533,9 @@ SSL/TLS provides the following security services:
 	\item Confidentiality - the protection of data such that only those who have been given authorisation can access the data
 	\item Data Origin Authentication - establishes the integrity of the SSL/TLS channel data, i.e. to be able to verify the data was sent, and not altered in transit, by the corresponding party with whom the SSL/TLS channel was established with.
 	\item Entity Authentication - the ability for an entity to prove their identity using mechanisms such as digital signatures.
-
 \end{itemize}
+
+This mechanism is detailed further in chapter \ref{section:ssm_tls}.
 
 
 \subsection{Security.txt}
@@ -541,6 +544,7 @@ The ``security.txt'' mechanism is to aid in informing security researchers how t
 \vspace{0.3cm} \noindent
 The specification specifies a number of locations where a ``security.txt'' file should be placed thus allowing security researchers to know where to look to find disclosure/reporting information should a site support the security.txt mechanism.
 
+This mechanism is detailed further in section \ref{sec:security_txt_bd} and analysed in section\ref{section:ana_ssl_tls}.
 
 
 \subsection{Content Security Policy}
@@ -552,12 +556,16 @@ A policy can consist of a number of directives targeted at restricting the loadi
 \vspace{0.3cm} \noindent
 The main attacks that are intended to be mitigated include Cross Site Scripting (XSS), data injection , packet sniffing and supply chain attacks.
 
+This mechanism is detailed further in chapter \ref{section:csp_bd} and analysed in section\ref{section:ana_csp}..
+
 
 \subsection{Strict Transport Security}
 The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over HTTPS and never HTTP \cite{Hodges2012-pe}. This prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them to impersonate the user or just capture sensitive information to name only a few possibilities.
 
 \vspace{0.3cm} \noindent
 There is an issue with this header such that a browser can only know to load over HTTPS when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the STS header. To overcome this preloading is required.
+
+This mechanism is detailed further in chapter \ref{section:} and analysed in section\ref{section:ana_STS}.
 
 
 \subsection{STS Preloading}
