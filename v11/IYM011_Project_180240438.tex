@@ -891,7 +891,7 @@ It is not feasible to request permission to conduct internet measurement scans f
 The ethical considerations as outlined in \cite{Amann2017-co,Partridge2016-ph,Durumeric2015-zq,Kumar2017-qw} were considered for this research.
 
 \vspace{0.3cm} \noindent
-During the literature research, not all research that was of a similar nature contained ethical consideration statements. One would hope that ethic consideration was performed in the research, but should be outlined if only minimally.
+During the literature research, not all research that was of a similar nature contained ethical consideration statements. One would hope that ethical consideration was performed in the research, but should be outlined if only minimally.
 
 \vspace{0.3cm} \noindent
 The ``BCS, The Chartered Institute For IT'' code of conduct \cite{Bcs2011-rj} outlines professional standards that should be met. This research was conducted with the same sentiment of these standards. Below are several of the most relevant excerpts taken from the document as presented below verbitem that represent to conduct of this research:
@@ -908,7 +908,7 @@ the environment''}
 
 \subsection{Service Degradation}
 
-Using the ``Tranco List'' which is a ``most popular'' type of domain list reduces the chance of service degradation as the more popular a domain is the more resources it is likely has which reduces the impact of the measurement analysis.
+Using the ``Tranco Top 1 Million Domains'' list \ref{noauthor_undated-mt} which is a ``most popular'' type of domain list, similar to other lists as described in section \ref{subsubsec:precomplied_lists}, reduces the chance of service degradation as the more popular a domain is, the more resources it is likely has which reduces the impact of the measurement analysis.
 
 \vspace{0.3cm} \noindent
 For the purpose of obtaining the HTTP headers of a domain the ``Home Page'' of the domains are requested which are more likely to be cached than other pages.
@@ -917,7 +917,7 @@ For the purpose of obtaining the HTTP headers of a domain the ``Home Page'' of t
 To determine the TLS versions supported by a domain, other than that used on the HTTPS request to the home page, pure TLS connections are attempted which reduces the service impact as HTTP requests will add additional load to that of pure TLS connections. Additionally pure TLS connections are only attempted if an HTTPS connection was successful to a domain's home page.
 
 \vspace{0.3cm} \noindent
-Whilst obtaining the STS preload state of a domain, as detailed in section \ref{subsection:stage_5_STS}, it is first checked if a url has already been requested. During the processing of a task, including redirects, it is quite possible that the information sought has already been obtained.
+Whilst obtaining the STS preload state of a domain, as detailed in section \ref{subsection:stage_5_STS}, it is first checked if the desired url has already been requested. During the processing of a scan, including redirects, it is quite possible that the information sought has already been obtained.
 
 \vspace{0.3cm} \noindent
 There is no retry logic for a request to a domain to additionally reduce service degradation of the target domain.
@@ -952,21 +952,21 @@ The cloud service providers for the servers that conduct the research have easy 
 The software that conducts the research was pre-equipped with a deny list for both ip addresses and domains. Both ip addresses and domains are required as an IP address can host more than one domain and a complaint may ask to block an IP address range.
 
 \vspace{0.3cm} \noindent
-There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which stated a request for ``assistance in verifying possible malicious activity being hosted on a system registered to you''. The reported domain and time of request was checked and the task agent made the request to the domain at the time the abuse report stated. A response to the report was made stating that the request was made for the purpose of internet research.
+There was a single abuse report, which came from the Cybersecurity and Infrastructure Security Agency (CISA) \cite{noauthor_undated-fh} USA government agency, which stated a request for ``assistance in verifying possible malicious activity being hosted on a system registered to you''. The reported domain and time of the request was checked against the scan logs and it was found that a scan request to the domain was at the time the abuse report stated. A response to the report was made stating that the request was made for the purpose of internet research.
 
 \newpage
 
 \section{Literature Review}
 \label{section:lit_review}
 
-Table \ref{table:data_acquisition_lit_review} is a critical review of limitations identified in the literature research and how this project aims to address them.
+Table \ref{table:data_acquisition_lit_review} is a critical review of limitations identified from previous internet measurement studies found during the literature research and how this project aims to address them.
 
 \begin{center}
 
 \footnotesize
 \begin{longtable}{|C|E|H|H|}
 
-    \caption{Data Acquisition Literature Review} 
+    \caption{Internet Measurement Studies Literature Review} 
     \label{table:data_acquisition_lit_review} \\ % label MUST be after caption https://stackoverflow.com/questions/1353120/referring-to-a-table-in-latex 
 \hline
 \textbf{Section} & \textbf{Limitation} & \textbf{Example(s)} & \textbf{How Addressed In This Project} \\
@@ -990,7 +990,7 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
       \hline
       \textbf{Client Headers} & Browsers send standard request headers on the requests to a websites home page. Including as many of these headers as possible when scanning domains, allows greater browser emulation. It is quite common when a non browser user agent header is detected a different response is sent from the website. & \cite{Patil2017-bg} uses 3 user-agents, \cite{Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn} use a single user agent. No other request headers are specified in the research. & Use chrome user agent along with other request headers as detailed in table \ref{table:task_paramters_headers}. \\
       \hline
-      \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have. & None of the research \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Roth2020-hg,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Calzavara2018-xv,Holz2020-ha,Michael2015-hn,} processes SSL/TLS verification at the analysis stage. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or assumed to be not enough sites affected. & SSL/TLS verification is performed at the analysis phase. \\
+      \textbf{SSL/TLS Verification} & If SSL/TLS verification is done at capture time there is a possibility that the client/OS does not necessarily have access to all of the Root/Intermediate certificates that a browser would have. & None of the research \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Roth2020-hg,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Calzavara2018-xv,Holz2020-ha,Michael2015-hn} processes SSL/TLS verification at the analysis stage. There could be many reasons for this such as it not being common knowledge of how browsers cache certificates and or assumed that not enough sites would be affected. & SSL/TLS certificate verification is performed at the analysis phase. \\
       \hline
       \textbf{Monitoring} & When a scanning session is conducted and not monitored, one or more sessions could fail without the researcher(s) being aware for an unknown amount of time. & It is possible that the outage mentioned in \cite{Poteat2021-zr} could have been avoided or minimised by the use of effective monitoring. & Metrics of the status of scanning are created and alerted upon and investigated as detailed in section \ref{section:deployment_monitoring}. \\
 %      \hline
@@ -1012,7 +1012,7 @@ Table \ref{table:data_acquisition_lit_review} is a critical review of limitation
 In order to be able to analyse HTTP Security Headers, TLS Versions, STS Preloading and security.txt adoption, or lack thereof, data on these desired metrics needs to be acquired. There are several overarching ways to acquire the desired data: Active, Passive and Third-Party data sets.
 
 \vspace{0.3cm} \noindent
-Active data collection is the act of establishing TLS connections and or making HTTP requests and storing the resultant connection/request/response data. This method requires the setup of infrastructure and software, which can involve the customisation and or development of entire software applications. Active scanning gives great versatility, however care needs to be taken to ensure the data is collected in a methodical and ideally a reportable way, in order for the analysis to have meaning.
+Active data collection is the act of establishing TLS connections and or making HTTP requests and storing the resultant connection/request/response data. This method requires the setup of infrastructure and software, which can involve the customisation and or development of entire software applications. Active scanning gives great versatility, however care needs to be taken to ensure the data is collected in a methodical and ideally a repeatable way, in order for the methodology to be able to be reproduced.
 
 \vspace{0.3cm} \noindent
 Passive data collection is capturing data as it flows through network infrastructure. The infrastructure required is likely to be less than that of active collection as it should only require the duplication of pre-existing network traffic to a device that is able to store the data. With any sort of data collection there is the always the ethical consideration to take into account, however with passive collection privacy is of higher concern than active data collection and needs to be treated as such.
@@ -1026,10 +1026,10 @@ Active data collection, for the purpose of measuring security mechanism adoption
 \subsubsection{Pre-compiled Lists}
 \label{subsubsec:precomplied_lists}
 
-Pre-compiled, often ranked by popularity, domain lists are made available by organisations that claim they are in a position to create such lists such as: Alexa Top 1 Million sites \cite{noauthor_undated-wh}, Cisco Umbrella \cite{noauthor_undated-ku}, Majestic Million \cite{noauthor_undated-sz} and Tranco \cite{noauthor_undated-mt}. These lists are updated regularly, as often as once a day, which allows researchers to have up to date lists that are freely available.
+Pre-compiled, often ranked by popularity, domain lists are made available by organisations that claim they are in a position to create such lists, such as: Alexa Top 1 Million sites \cite{noauthor_undated-wh}, Cisco Umbrella \cite{noauthor_undated-ku}, Majestic Million \cite{noauthor_undated-sz} and Tranco \cite{noauthor_undated-mt}. These lists are updated regularly, as often as once a day, which allows researchers to have up to date lists that are freely available.
 
 \vspace{0.3cm} \noindent
-The Alexa Top 1 Million site is a favourite among researchers as shown by use in \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}. These lists are primarily used as they are intended to reflect the most popular sites on the internet and thus are assumed to be ones that would use the most up to date security mechanisms.
+The Alexa Top 1 Million site is a favourite among researchers as shown by use in \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}. These lists are primarily used as they are intended to reflect the most popular sites on the internet and thus are assumed to have a high amount of visitors making them great sources for research.
 
 \subsubsection{Zone Lists}
 
@@ -1064,7 +1064,7 @@ Scanning the entire IP address range can lead to abuse reports, however these ca
 There are quite a number of scanning technologies used in measurement research and as such there does not seem to be a proffered technology overall but what the researcher(s) are comfortable with. This does makes sense in regards to if a particular technology has worked for researcher in a previous study then using it in a future study, where applicable, as they are familiar with its capabilities giving more time for other activities.
 
 \vspace{0.3cm} \noindent
-Table \ref{table:measurement_technologies} details a number of measurement technologies found to be used in previous measure during the literature research.
+Table \ref{table:measurement_technologies} details a number of measurement technologies found to be used in previous measurement studies during the literature research.
 
 \clearpage
 \newpage
@@ -1076,19 +1076,19 @@ Table \ref{table:measurement_technologies} details a number of measurement techn
       \hline
       \textbf{Technology} & \textbf{Description} & \textbf{Use Case} \\
       \hline
-      PHP with Curl \cite{Buchanan2018-xz} & PHP is a web programming language. Curl provides a client library for communicating to web services such as HTTP web servers & Make HTTP calls to websites and capture the response body and metadata \\
+      PHP with Curl \cite{Buchanan2018-xz} & PHP is a web programming language. Curl provides a client library for communicating to web services such as HTTP web servers. & Make HTTP calls to websites and capture the response body and metadata. \\
       \hline
-      Goscanner \cite{Amann2017-co} & Tool for large scale TLS and SSH scans & Obtain TLS connection information ip addresses / domains \\
+      Goscanner \cite{Amann2017-co} & Tool for large scale TLS and SSH scans. & Obtain TLS connection information. \\
       \hline
-      Bro \cite{Amann2017-co,Kotzias2018-wd} & A network security monitor & Passive network packet capture for TLS connection analysis \\
+      Bro \cite{Amann2017-co,Kotzias2018-wd} & A network security monitor. & Passive network packet capture for TLS connection information. \\
       \hline
-      PhantomJS \cite{Chen2016-dl,Van_Goethem2014-ao} & A headless scriptable browser & A browser that can be easily used by scripts for obtaining body of website with JavaScript execution \\
+      PhantomJS \cite{Chen2016-dl,Van_Goethem2014-ao} & A headless scriptable browser. & A browser that can be easily used by JavaScript scripts for obtaining the body of a website. \\
       \hline
-      Chrome \cite{Kumar2017-qw} & A modern desktop website browser & In headless mode, can be used to capture a page rendered as an ender user would see it \\
+      Chrome \cite{Kumar2017-qw} & A modern desktop website browser. & In headless mode, can be used to capture a page rendered as an end user would see it. \\
       \hline
-      Scrapy \cite{Patil2017-bg} & A scriptable tool for extracting data from websites & Extract HTTP headers from response to a request made to a website \\
+      Scrapy \cite{Patil2017-bg} & A scriptable tool for extracting data from websites. & Extract HTTP headers from response to a request made to a website. \\
       \hline
-      Java with Apache \cite{Ying2016-ag} & Java is a programming language, Apache provides a HTTP client for Java & Make HTTP calls to websites and capture the response body and metadata \\
+      Java with Apache \cite{Ying2016-ag} & Java is a programming language, Apache provides a HTTP client for Java. & Make HTTP calls to websites and capture the response body and metadata. \\
       \hline
       Zmap / Zgrab \cite{Michael2015-hn,Holz2020-ha,Kotzias2018-wd} & Zmap is a single packet network scanner. ZGrab is an application layer scanner. & Zmap can be used to identify IP address with open ports. ZGrab could then be use to capture the body and metadata from HTTP requests to the open port(s). \\
       \hline
@@ -1119,24 +1119,24 @@ To give a good chance of being able to obtain a HTTP response from a domain, it 
 In order to obtain HTTP Security Headers, one needs to make an HTTP Request. There are several types of HTTP Request, GET and HEAD being two of them.
 
 \vspace{0.3cm} \noindent
-HTTP HEAD requests result in only metadata being returned (this includes HTTP Headers) by the server. The main reason researchers choose to use HEAD HTTP Requests \cite{Amann2017-co} is to save compute resources on the server (as the server does not have to generate the response payload such as a html web page) as well as reducing the amount of data being sent over the network.
+HTTP HEAD requests result in only metadata being returned (this includes HTTP Headers) by the server. The main reason researchers choose to use HEAD HTTP Requests \cite{Amann2017-co} is to save compute resources on the server (as the server does not have to generate the response payload such as a html web page) as well as reducing the amount of data being sent over the internet.
 
 \vspace{0.3cm} \noindent
-Whilst using HEAD requests does save server resources, which helps in the ethics of internet research of this kind, browsers perform GET requests which could potentially respond with different headers for the same URL. If the researcher is intending on analysing the response payload from a website then GET requests \cite{Chen2016-dl,Kumar2017-qw} are required.
+Whilst using HEAD requests does save server resources, which helps in the ethics of internet research of this kind, browsers perform GET requests which could potentially respond with different headers for the same URL. If the researcher is intending on analysing the response payload from a website, in the same way a browser would, then GET requests \cite{Chen2016-dl,Kumar2017-qw} should be used.
 
 \vspace{0.3cm} \noindent
-Certain applications and programming languages, such as go \cite{noauthor_undated-lc}, allow the use of GET request without requesting the actual payload from the server which leaves just the computing resource to generate the payload. If the home page is requested this is more likely to be cached, as it will be one of the most visited pages, than other pages which also help to reduce the compute load on the target resource (e.g. website).
+Certain applications and programming languages, such as go \cite{noauthor_undated-lc}, allow the use of GET request without requesting the actual payload from the server which leaves just the computing resource to generate the payload. If the home page is requested, this is more likely to be cached, as it will be one of the most visited pages which also helps to reduce the compute load on the target resource (e.g. website).
 
 \subsubsection{HTTP Client Headers}
 
-When browsers make HTTP requests to websites, they send several HTTP headers with the request. One of these headers is named \texttt{user-agent} and is often used to detect if the client making the request is a browser. When a website detects that a non-browser is making the request it can change the response which could skew the results of research such as analysing HTTP security header adoption for web browsers.
+When browsers make HTTP requests to websites, they send several HTTP headers with the request. One of these headers is named \texttt{user-agent} and is often used to detect if the client making the request is a browser. When a website detects that a non-browser is making the request it can change the response which could skew the results of research such as analysing HTTP security header adoption as would be seen by a web browser.
 
 \vspace{0.3cm} \noindent
-For the purposes of internet research when attempting to gather data from responses to HTTP requests that would normally be sent to a browser, the use of a browser user-agent is typically used \cite{Buchanan2018-xz, Patil2017-bg,Ying2016-ag,Lavrenovs2018-dl,Poteat2021-zr}. The declaration from researchers of the value for such headers is not always present \cite{Amann2017-co} which could leave readers potentially questioning the reliability of the resultant analysis.
+For the purposes of internet research when attempting to gather data from responses to HTTP requests that would be sent to a browser, the use of a browser user-agent is typically used \cite{Buchanan2018-xz, Patil2017-bg,Ying2016-ag,Lavrenovs2018-dl,Poteat2021-zr}. The declaration from researchers of the value for such headers is not always present \cite{Amann2017-co} which could leave readers potentially questioning the reliability of the resultant analysis.
 
 \subsubsection{Redirects}
 
-When a HTTP request is made, the HTTP protocol has the ability to redirect to a different url. This is quite normal for websites to do this and there are numerous reasons to do so, such as redirecting from the base domain e.g. (http://example.com) to the www subdomain e.g. (http://www.example.com) where the website is actually hosted. It is generally good practice to follow redirects as this is what browsers do, unless researchers wish to only analyse a response from a specific url such as the base domain in \cite{Amann2017-co}.
+When a HTTP request is made, the HTTP protocol has the ability to redirect to a different url. This is quite normal for websites to do this, and there are numerous reasons to do so, such as redirecting from the base domain e.g. (http://example.com) to the www subdomain e.g. (http://www.example.com) where the website is actually hosted. It is generally good practice to follow redirects as this is what browsers do, unless researchers wish to only analyse a response from a specific url such as the base domain, such as in \cite{Amann2017-co}.
 
 \vspace{0.3cm} \noindent
 Researchers need to be mindful however that redirects can lead to the same resultant domain for different initial domains (e.g. http://example.com and http://mydomain.com could both redirect to http://anotherdomain.com).
@@ -1155,10 +1155,10 @@ Intermediate certificates can be obtained from such means as: the website being 
 It is quite common to use non browser clients to conduct research. These clients are not guaranteed to use any of the above mentioned methods for obtaining intermediate certificates not provided by a website in order to validate the websites' claimed identity. To counteract this issue, the TLS/SSL validation can be disabled for the scanning of the website and done as an offline step which enables any missing certificates to be obtained at the researcher's leisure.
 
 \vspace{0.3cm} \noindent
-It is not evident that any of the papers in the literature research conducted for this project used such an approach, possibly assuming that the number of websites that would have this issue would be minimal enough not to affect the results analysis conducted or not aware of the issue itself.
+It is not evident that any of the papers in the literature research conducted for this project used such an approach, possibly assuming that the number of websites that would have this issue would be minimal enough not to affect the results of analysis conducted, or not aware of the issue itself.
 
 \subsubsection{Pre-Analysis Filtering}
-It is generally best to collect the rawest form of data for to give the greatest possible freedom and options when conducting any analysis. If the filtering was carried out at the data acquisition phase this could restrict further analysis or potentially cause intended analysis not to be possible due to the way the data was filtered.
+It is generally best to collect the rawest form of data for to give the greatest possible freedom and options when conducting any analysis. If filtering was carried out at the data acquisition phase this could restrict further analysis or potentially cause intended analysis not to be possible due to the way the data was filtered.
 
 \vspace{0.3cm} \noindent
 A potential example of this is where in \cite{Buchanan2018-xz} the researches decided to parse the headers of a HTTP response during the data acquisition phase. HTTP headers are caseless \cite{Berners-Lee1996-ji} and depending on how the filtering is done, some headers could have been missed, however if all the headers were captured this could have been a non issue during analysis.
@@ -1168,7 +1168,7 @@ A potential example of this is where in \cite{Buchanan2018-xz} the researches de
 The number of times data gathered and how far apart they are, in terms of time, are important in terms of showing any potential trends and having enough data to confidently make statements from the analysis of such data.
 
 \vspace{0.3cm} \noindent
-Of the research sources that were reviewed for this project, those that conducted active scanning activities make at least two scans such as \cite{Buchanan2018-xz,Amann2017-co,Chen2016-dl,Kumar2017-qw} and some with daily scans for years \cite{Holz2020-ha}. This is discussed shortly in the literature review in section \ref{section:lit_review}.
+Of the research sources that were reviewed for this project, those that conducted active scanning activities make at least two scans such as \cite{Buchanan2018-xz,Amann2017-co,Chen2016-dl,Kumar2017-qw} and some with daily scans for years \cite{Holz2020-ha}.
 
 \vspace{0.3cm} \noindent
 The more data that is gathered in the same way, the higher value that analysis obtains, assuming that the methodology of the acquisition is sound.
@@ -1194,7 +1194,7 @@ Whilst this is generally enough for the reader to understand the high-level meth
 \section{Methodology}
 \label{section:methodology}
 
-This section details the methodology this project used to obtain the data analysed in part IV.
+This section details the methodology this project used to obtain the data analysed in chapter \ref{chap:analysis}.
 
 \subsection{Requirements}
 \label{subsection:requirements}
@@ -1206,9 +1206,9 @@ A scanner is to obtain the following information from a list of domains:
     \item If the domain redirects from \texttt{http://} to \texttt{https://}.
     \item If the domain redirects from \texttt{https://} to \texttt{http://}.
     \item The TLS version(s) the domain supports.
-    \item The TLS version auto negotiated against the domain.
+    \item The TLS version auto negotiated against the domain when making a HTTPS request.
     \item If the domain meets the STS preload requirements.
-    \item The HTTP headers, including their values, in use by the base domain (or the www subdomain if the base domain does not have a \texttt{DNS A record} (IPv4 IP address).
+    \item The HTTP headers, including their values, in use by the base domain (or the www subdomain if the base domain does not have a \texttt{DNS A record} (IPv4 IP address)).
     \item The content of the security.txt of the domain.
 \end{itemize}
 
@@ -1219,7 +1219,7 @@ This section covers the high-level design, represented in Figure \ref{fig:hla_de
 \ref{subsection:requirements}.
 
 \vspace{0.3cm} \noindent
-Existing technologies were evaluated, however a tool that met all the data capture requirements was not met. In particular obtaining the if STS Preload requirements were met was not found to be in a current tool.
+Existing technologies were evaluated, however a tool that met all the data capture requirements was not identified. In particular obtaining if the STS Preload requirements were met was not found to be in a current tool.
 
 %\clearpage
 
@@ -1237,21 +1237,21 @@ Existing technologies were evaluated, however a tool that met all the data captu
       \hline
       \textbf{\#} & \textbf{Description}\\
       \hline
-      1 & A list of domains will be acquired to scan against \\
+      1 & A list of domains will be acquired to scan against. \\
       \hline
-      2 & For each of the domains in the domain list, a task manager will create a ``task'', to be stored in a database, representing a domain to be scanned \\
+      2 & For each of the domains in the domain list, a task manager will create a ``task'', to be stored in a database, representing a domain to be scanned. \\
       \hline
-      3 & Metrics on the state of tasks will be sent to a time series database \\
+      3 & Metrics on the state of tasks will be sent to a time series database. \\
       \hline
-      4 & A task agent will poll an API for a new batch of tasks \\
+      4 & A task agent will poll an API for a new batch of tasks. \\
       \hline
-      5 & A task agent will scan a domain as stated in the task being processed \\
+      5 & A task agent will scan a domain as stated in the task being processed. \\
       \hline
-      6 & A task agent will send the result of a domain scan to an API to be stored in a database \\
+      6 & A task agent will send the result of a domain scan to an API to be stored in a database. \\
       \hline
-      7 & A task manager, once all tasks are completed, will extract all tasks from the database to an archive file format \\
+      7 & A task manager, once all tasks are completed, will extract all tasks from the database to an archive file format. \\
       \hline
-      8 & A task manager, once all tasks are completed, will delete all the tasks from the database \\
+      8 & A task manager, once all tasks are completed and archived, will delete all the tasks from the database. \\
       \hline
     \end{tabular}
 %    \captionsetup{width=.75\textwidth}
@@ -1288,9 +1288,9 @@ The Task Manager performs the following tasks:
 	\setlength\itemsep{0.1em}
     \item Obtains the list of domains from the ``Tranco'' domain list source \newline (\texttt{https://tranco-list.eu/top-1m.csv.zip}).
     \item Create tasks directly in the Datastore (MongoDB).
-    \item Create an archive of the tasks via the Task API.
+    \item Creates an archive of the tasks via the Task API.
     \item Delete tasks from the MongoDB database.
-    \item Identify zombie tasks (tasks that have been marked as started but not complete after a certain amount of time).
+    \item Identify and reset zombie tasks (tasks that have been marked as started but not complete after a certain amount of time).
     \item Generate task metrics and store them directly in the time series DB (Influx DB).
 \end{itemize}
 
@@ -1300,7 +1300,7 @@ The task manager was developed in python as it:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
     \item Is a relatively high-level programming language which aids in being easier to learn than a more low-level language.
-    \item Has many libraries and resources freely available online.
+    \item Has many libraries and resources freely available.
     \item There is a large global community generally willing to help each other.
     \item Being such a popular language, issues that one may come across may have already been encountered and solved already.
     \item Is cross platform, i.e. will run on any computer that has a python interpretor available to it.
@@ -1321,17 +1321,17 @@ As a result of this paper and that the Tranco list uses other top site lists to 
 The database is intended to only be an ephemeral store as it will only store the tasks until they have all been completed.
 
 \vspace{0.3cm} \noindent
-The data that will be returned by the task agent will be of arbitrary length and structure. A relational database is not the optimal choice as it is based on having one or more ``tables'' that relate to one another.
+The data that will be returned by the task agent will be of arbitrary length and structure. A relational database is not the optimal choice as it is based on having one or more ``tables'' that relate to one another with a fixed defined structure.
 
 \vspace{0.3cm} \noindent
-A NOSQL database is designed to store arbitrary length and a non pre-defined content structure.
+A NOSQL database is designed to store arbitrary length and a non pre-defined content structured data.
 
 \vspace{0.3cm} \noindent
 The MongoDB database technology was chosen as it:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-    \item A NOSQL database.
+    \item Is a NOSQL database.
     \item Is relatively mature technology implementation.
     \item Has a community version (i.e. free).
     \item Many programming languages have pre-existing support (libraries).
@@ -1355,10 +1355,13 @@ The Task API can perform the following functions:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
     \item Allow a client to retrieve one or more tasks via a HTTP GET request.
-    \item Allow the following task database filtering via url arguments when a HTTP GET request is made.
-    \item Task Status (e.g completed).
-    \item Task Unique ID.
-    \item Sort by Unique ID.
+    \item Allow the following task database filtering via url arguments when a HTTP GET request is made:
+    	\begin{itemize}
+		\setlength\itemsep{0.1em}
+	    \item Task Status (e.g completed).
+   		\item Task Unique ID.
+	    \item Sort by Task Unique ID.
+	\end{itemize}
     \item Allow a client to update one or more tasks via a HTTP POST request.
 \end{itemize}
 
@@ -1438,7 +1441,7 @@ Alerts were configured in Grafana to fire under the following conditions:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-    \item If there were zombie tasks.
+    \item If there were zombie tasks (tasks that have been marked as started but not complete after a certain amount of time)..
     \item If the number of tasks being processed dropped below a certain value over a specific amount of time for a task agent, if there were tasks waiting to be processed.
 \end{itemize}
 
@@ -1452,7 +1455,7 @@ This compressed archive is transferred to an archive file server for later analy
 \subsection{Task Parameters}
 \label{subsection:task_parameters}
 
-A task has up to two parameters as shown in table \ref{task_paramters}.
+A task has up to two parameters as shown in table \ref{table:task_paramters}.
 
 \begin{table}[H]
   \begin{center}
@@ -1477,7 +1480,7 @@ All tasks will be using the same request headers as shown in table \ref{table:ta
 \newpage
 
 \noindent
-This was done to best represent the standard request headers a browser would send to domain to thus have the best representation of response headers a user browsing the internet, would receive from a domain.
+This was done to best represent the standard request headers a browser would send to a domain to have the best representation of response headers a user browsing the internet, would receive from a domain.
 
 \begin{table}[t]
 \footnotesize
@@ -1515,7 +1518,7 @@ This was done to best represent the standard request headers a browser would sen
 All the headers in table \ref{table:task_paramters_headers} where carefully checked as to their purpose and if they were suitable to be included in order to obtain the best response from domains for the most relevant data to analyse from the perspective of a generic user browsing the internet.
 
 \vspace{0.3cm} \noindent
-The \texttt{user-agent} header is generally considered one of the most critical headers to use for HTTP requests to be associated with coming from a browser, rather than a backend service application, as almost all related research use this header \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn}.
+The \texttt{user-agent} header is generally considered one of the most critical headers to use for HTTP requests to be associated with coming from a browser, rather than a backend service application, as shown by almost all related research using this header \cite{Patil2017-bg,Buchanan2018-xz,Amann2017-co,Kotzias2018-wd,Poteat2021-zr,Van_Goethem2014-ao,Chen2016-dl,Kumar2017-qw,Michael2015-hn}.
 
 \vspace{0.3cm} \noindent
 The headers with the prefix \texttt{sec} are to enhance the premise that the request is coming from a user making the request manually in a browser. It could be argued that the \texttt{accept} headers are not needed however they should only give credit that the request is from a user rather than a service.
@@ -1650,7 +1653,7 @@ The components as outlined in Section \ref{section:Implementation} were deployed
   \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}  % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
       \hline
-      \textbf{Components} & \textbf{OS} & \textbf{\# vCPU} & \textbf{RAM} & \textbf{SSD} & \textbf{Qty}\\
+      \textbf{Component(s)} & \textbf{OS} & \textbf{\# vCPU} & \textbf{RAM} & \textbf{SSD} & \textbf{Qty}\\
       \hline
       MongoDB & FreeBSD 12.2 & 2 & 2GB & 25GB SSD & 1 \\
       \hline
@@ -1677,7 +1680,7 @@ The number of Task Agents deployed was 5, such that the scanning could be conduc
 \subsubsection{Monitoring}
 \label{section:deployment_monitoring}
 
-A dashboard was created in Grafana to visualise the progress/status of scans. Over time several alerts were configured after issues were encountered. Figure \ref{fig:grafana_screenshot} shows a screen shot of the dashboard representing a time window of 7 days.
+A dashboard was created in Grafana to visualise the progress/status of scans. Over time several alerts were configured after issues were encountered as detailed in table \ref{table:missing_scan_archives}. Figure \ref{fig:grafana_screenshot} shows a screen shot of the dashboard representing a time window of 7 days.
 
 \newpage
 
@@ -1688,7 +1691,7 @@ There are several monitoring charts as detailed below:
     \item The Tasks Status By Agent chart displays the number of tasks of each task status' for a specific task agent. The "Agent" drop down box allows the user to select the task agent to be shown.
     \item The \textit{In Progress Tasks} / \textit{Completed Tasks} / \textit{Ready} / \textit{Error Cannot Retry} / \textit{Pending Ready} charts show the number of tasks, per task agent, of the charts title task status.
     \item Ready Delta - This is to monitor and alert for task agents that do not continually take new tasks if there are pending tasks.
-    \item The Tasks in Zombie State is to monitor and alert for tasks that have started \textit{In Progress} but have not reached \textit{Completed} or \textit{Error Cannot Retry} status after a certain amount of time.
+    \item The Tasks in Zombie State is to monitor and alert for tasks that are in the \textit{In Progress} state but have not reached \textit{Completed} or \textit{Error Cannot Retry} status after a certain amount of time.
 \end{itemize}
 
 
@@ -1712,7 +1715,7 @@ The Task Manager is scheduled to obtain the latest Tranco domain list and create
 The Task Manager is scheduled to check if all the tasks have been completed between 1000 UTC to 2300 UTC. Once all tasks have been completed, they are collected to create the ``All Tasks Archive'' and then the tasks are deleted from the MonogDB datastore. Each ``All Tasks Archive'' is approximately 4GB in size.
 
 \vspace{0.3cm} \noindent
-A Task Agent continually look for new tasks to perform and run up to 100 concurrent tasks.
+A Task Agent continually look for new tasks to perform and performs up to 100 concurrent tasks.
 
 \subsubsection{Issues Encountered}
 \label{subsection:issues_encountered}
@@ -1732,7 +1735,7 @@ It was not looked into why zombie tasks occurred as the rate was so low it was n
 \textbf{Data Loss}
 
 \vspace{0.2cm} \noindent
-An unexpected permanent loss of access to the storage location where the ``All Tasks Archives'' were stored, resulting in the permanent loss of 17 days worth of scan archives. Since this incident, scan archives are stored in more than one location within several hours of a scan archive being created.
+An unexpected permanent loss of access to the storage location where the ``All Tasks Archives'' were stored resulted in the permanent loss of 17 days worth of scan archives. Since this incident, scan archives are stored in more than one location within several hours of a scan archive being created.
 
 \vspace{0.6cm} \noindent
 \textbf{Programming}
@@ -1777,7 +1780,7 @@ Table \ref{table:missing_scan_archives} summarises the extent of missing scan ar
 
 \section{Summary}
 
-This chapter looked at previous research related to measurement studies and walked through the methodology that was used to obtain the required data for the selected security mechanism the adoption of which is to be analysed later in chapter \ref{chap:analysis}. Next in chapter \ref{chap:sec_mech_overview} a more detailed look at the selected security mechanisms which were introduced in the opening chapter in section \ref{section:selected_security_mechanisms}.
+This chapter looked at previous research related to measurement studies and walked through the methodology that was used to obtain the required data for the selected security mechanism the adoption of which is to be analysed later in chapter \ref{chap:analysis}. Next, in chapter \ref{chap:sec_mech_overview} a more detailed look at the selected security mechanisms which were introduced in the opening chapter in section \ref{section:selected_security_mechanisms}.
 
 %\vspace*{\fill}
 %\begin{center}
