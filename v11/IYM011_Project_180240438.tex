@@ -132,19 +132,19 @@ Intentionally Blank
 \addcontentsline{toc}{section}{Executive Summary}
 
 \noindent
-This report is one of the required modules for the course \texttt{MSc in Information Security} at Royal Holloway, University of London. A longitudinal study for the adoption of several security mechanisms, including: \texttt{Transport Layer Security}, \texttt{Content Security Policy}, \texttt{STS Preloading} and \texttt{Security.txt} is undertaken.
+This report is one of the required modules for the course \texttt{MSc in Information Security} at Royal Holloway, University of London. This is a longitudinal study for the adoption of several security mechanisms, including: \texttt{Transport Layer Security}, \texttt{Content Security Policy}, \texttt{STS Preloading} and \texttt{Security.txt}.
 
 \vspace{0.3cm} \noindent
-This is accomplished by scanning the top 1 million ranked domains each day for 16 months from November 2020 through to the end of January 2022 and subsequent analysis of the data in order to determine the adoption of the security mechanisms.
+This is accomplished by scanning the top 1 million ranked domains each day for 16 months, from November 2020 through to the end of January 2022 and subsequent analysis of the data in order to determine the adoption of the chosen security mechanisms.
 
 \vspace{0.3cm} \noindent
-The analysis finds that the usage of TLS versions is trending in the right direction with TLS 1.3 reaching a 64.4\% proportion of all from establishment of a TLS connection to websites in the top 1 million ranked domains.
+The analysis finds that the distribution of TLS versions is trending in the right direction with TLS 1.3 reaching a 64.4\% proportion of TLS connections to websites in the top 1 million ranked domains as of January 2022.
 
 \vspace{0.3cm} \noindent
-There is still wide spread usage of the \texttt{unsafe-inline} and \texttt{unsafe-eval} keywords in Content Security Polices especially with the \texttt{script-src} directive which allows a great attack vector for cross site scripting attacks.
+There is still wide spread usage of the \texttt{unsafe-inline} and \texttt{unsafe-eval} keywords in Content Security Polices, especially with the \texttt{script-src} directive, which allows a great attack vector for cross site scripting attacks.
 
 \vspace{0.3cm} \noindent
-There are a relatively large proportion of domains that are STS preloaded but no longer meet the STS preload requirements which puts them at risk of being removed from the STS preload list.
+There are a relatively large proportion of domains that are STS preloaded but no longer meet the STS preload requirements, which puts them at risk of being removed from the STS preload list.
 
 \vspace{0.3cm} \noindent
 The security.txt mechanism currently has low utilisation, however the RFC is still in the draft stage and the number of domains using this mechanism is trending upward. Even with the low usage, the number of security.txt that have a Contact is encouraging.
@@ -153,8 +153,8 @@ The security.txt mechanism currently has low utilisation, however the RFC is sti
 This study also adds some novel contributions not found during the literature research phase which are:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item Analysis of TLS versions that are supported by a website are captured (rather than just the TLS version negotiated when making a HTTPS request)
-	\item Analysis of the newest Cross Origin Security headers.
+	\item Analysis of the TLS versions that are supported by a website (rather than just the TLS version negotiated when making a HTTPS request) in section \ref{section:ana_ssl_tls}.
+	\item Analysis of the newest Cross Origin Security headers in sections \ref{section:ana_coep}, \ref{section:ana_coop} and \ref{section:ana_corp}.
 \end{itemize}
 
 \vspace{0.3cm} \noindent
@@ -261,15 +261,15 @@ The world revolves around internet communication and websites are a big part of 
 Security is a battle ground with attackers ever changing their techniques and defenders doing their best to thwart the attackers attempts.
 
 \vspace{0.3cm} \noindent
-In 1994 SSL was proposed \cite{Oppliger2016-ig,Wu2016-nx} to make interactions with websites more secure. As time has moved on, more improved secure channel protocols, such as TLS 1.3 [RE01]\cite{Rescorla2018-wb} being the most recent, have been introduced as well as enhancements to HTTP through security headers such as HTTP Strict Transport Security \cite{Hodges2012-pe}.
+In 1994 SSL was proposed \cite{Oppliger2016-ig,Wu2016-nx} to make interactions with websites more secure. As time has moved on, more improved secure channel protocols, such as TLS 1.3 \cite{Rescorla2018-wb} being the most recent, have been introduced as well as enhancements to HTTP through security headers such as HTTP Strict Transport Security \cite{Hodges2012-pe}.
 
 \vspace{0.3cm} \noindent
 HTTPS is one of the critical security mechanisms and was introduced as HTTP does not have any protections against the following:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item Viewing the plaintext data being exchanged between the browser and website
-	\item Manipulating data being exchanged between the browser and website without detection
-	\item Entity impersonating a website without detection
+	\item Viewing the plaintext data being exchanged between the browser and website.
+	\item Manipulating data being exchanged between the browser and website without detection.
+	\item Entity impersonating a website without detection.
 \end{itemize}
 
 \noindent
@@ -277,14 +277,15 @@ HTTPS overcomes these issues as it provides several protections including:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item Only the user browsing a website and the website itself are able to view the plaintext data being sent between them as it is encrypted in transit
-	\item If the encrypted data in transit is modified this can be detected
-	\item The authenticity of the identity of the website being visited can be verified using certificate authorities
+	\item Only the user browsing a website and the website itself are able to view the plaintext data being sent between them as it is encrypted in transit.
+	\item If the encrypted data in transit is modified this can be detected.
+	\item The authenticity of the identity of the website being visited can be verified using certificate authorities.
 \end{itemize}
 
 \noindent
 HTTPS is detailed more extensively in section \ref{sec:https_bd}.
 
+\newpage
 
 \vspace{0.3cm} \noindent
 This research aims to answer the question:
@@ -297,18 +298,21 @@ This research aims to answer the question:
 Measuring the adoption of HTTPS security mechanisms is important for many reasons including:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item Allowing the community to gain insight in the their use
-	\item Identify trends (good, bad and unexpected) leading to initiatives to improve mechanism use
-	\item Identify the usage of obsolete and or mechanisms that should no longer be in use
-	\item Identify ineffective and or mis-configurations and how widespread they are
-	\item Attempt to infer why a mechanism has lower than expected/desired usage
+	\item Allowing the community to gain insight in the their use.
+	\item Identify trends (good, bad and unexpected) leading to initiatives to improve mechanism use.
+	\item Identify the usage of obsolete and or mechanisms that should no longer be in use.
+	\item Identify ineffective and or mis-configurations and how widespread they are.
+	\item Attempt to infer why a mechanism has lower than expected/desired usage.
 \end{itemize}
 
 \noindent
-It is likely that with the more complicated the security mechanism are to deploy and or implement, the less use it will see. This research intends to discover to what extent are security mechanisms currently deployed and attempt to determines possible reasons for large or small adoptions. Once the adoption has been measured it shall be compared to similar research to seek indications of adoption trends. Chapter \ref{chap:sec_feat_exist} details ``Why Security Features Exist''.
+It is likely that the more complicated the security mechanism are to deploy and or implement, the less use it will see. This research intends to discover to what extent security mechanisms are currently deployed and attempt to determine possible reasons for large or small adoptions. Once the adoption has been measured it shall be compared to similar research to seek indications of adoption trends.
 
 \vspace{0.3cm} \noindent
-The usage of ``Top 1 Million sites`` lists are quite popular with researchers as shown by use in \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}. As these lists identify themselves as containing the ``Top'' sites, this provides a source of domains that are likely to be most commonly used by users browsing the internet and thus a very relevant source for study. The lists containing 1 million domains is of sufficient size to gain a broad insight into the websites on the internet.
+Chapter \ref{chap:sec_feat_exist} details ``Why Security Mechanisms Exist'' as it is provides additional context when analysing the adoption of security mechanisms.
+
+\vspace{0.3cm} \noindent
+The usage of ``Top 1 Million sites`` lists are quite popular with researchers in measurement studies as shown by use in \cite{Buchanan2018-xz,Chen2016-dl,Kumar2017-qw,Patil2017-bg,Ying2016-ag,Michael2015-hn,Van_Goethem2014-ao,Holz2020-ha,Poteat2021-zr}. As these lists identify themselves as containing the ``Top'' sites, this provides a source of domains that are likely to be the most commonly used by users browsing the internet and thus a very relevant source for study. The lists containing 1 million domains is also of sufficient size to gain a broad insight into the websites on the internet.
 
 \vspace{0.3cm} \noindent
 The main contributions of this research are (1) Which TLS versions a website supports (section \ref{section:ana_ssl_tls}); (2) Continuation from previous studies on the adoption of security headers; (3) The adoption of \texttt{Cross Origin} security headers introduced relatively recently (sections \ref{section:ana_coep}, \ref{section:ana_corp}, \ref{section:ana_coop}).
@@ -320,7 +324,7 @@ The main contributions of this research are (1) Which TLS versions a website sup
 \label{sec:objectives_scope}
 \addcontentsline{toc}{section}{Objectives and Scope}
 
-In order to conduct research to answer the question stated in the introduction in an constructive manner, one must set out a list of objectives to be completed:
+In order to conduct research to answer the question stated in the introduction in a constructive manner, one must set out a list of objectives to be completed:
 
 \textit{
 \begin{enumerate}
@@ -344,6 +348,9 @@ There are many services in the HTTPS ecosystem such as websites and API interfac
 \end{enumerate}
 }
 
+\noindent
+The reasoning for the chosen scopes is discussed in section \ref{subsec:dis_obj_scope}.
+
 \newpage
 
 \section*{Document Structure}
@@ -353,37 +360,36 @@ There are many services in the HTTPS ecosystem such as websites and API interfac
 This report going forward is structured as follows:
 
 \vspace{0.3cm} \noindent
-\hyperref[chap:sec_feat_primer]{\textbf{Chapter \ref{chap:sec_feat_primer} - Security Mechanisms Primer}} provides a breif background of relevant technologies related to the security mechanisms to be analysed. The chosen security mechanisms to be analysed are given a brief overview along with any attacks they are designed to mitigate.
+\hyperref[chap:sec_feat_primer]{\textbf{Chapter \ref{chap:sec_feat_primer} - Security Mechanisms Primer}} provides a breif background of relevant technologies related to the security mechanisms to be analysed. The chosen security mechanisms to be analysed are given a brief overview along with attacks they are designed to mitigate.
 
 \vspace{0.3cm} \noindent
-\hyperref[chap:sec_feat_exist]{\textbf{Chapter \ref{chap:sec_feat_exist} - Why Security Features Exist}} details the need for security mechanisms, focusing on those mentioned in Part I, including the following attacks: \textit{Cross Site Scripting (XSS)}, \textit{Supply Chain Attacks}, \textit{Clickjacking} and \textit{Entity in the Middle Attacks}.
+\hyperref[chap:sec_feat_exist]{\textbf{Chapter \ref{chap:sec_feat_exist} - Why Security Mechanisms Exist}} details the need for security mechanisms, focusing on those mentioned in \hyperref[chap:sec_feat_primer]{chapter \ref{chap:sec_feat_primer}}, including the following attacks: \textit{Cross Site Scripting (XSS)}, \textit{Supply Chain Attacks}, \textit{Clickjacking} and \textit{Entity in the Middle Attacks}.
 
 \vspace{0.3cm} \noindent
-\hyperref[chap:data_acqusition]{\textbf{Chapter \ref{chap:data_acqusition} - Data Acquisition}} discusses internet scanning, the issues to be aware of and how other similar research has captured their data. This part concludes with detailing how this project carried out the data capture.
+\hyperref[chap:data_acqusition]{\textbf{Chapter \ref{chap:data_acqusition} - Data Acquisition}} discusses internet scanning, the issues to be aware of and how other similar research has captured their data. This part concludes with detailing how this project carried out the data capture which is analysed in \hyperref[chap:analysis]{chapter \ref{chap:analysis}}.
 
 \vspace{0.3cm} \noindent
-\hyperref[chap:analysis]{\textbf{Chapter \ref{chap:analysis} - Security Mechanism Adoption Analysis}} analyses the chosen security mechanisms described in Part I from the data captured, over a 16 month period from November 2020 to February 2022, as detailed in Part III.
+\hyperref[chap:sec_mech_overview]{\textbf{Chapter \ref{chap:sec_mech_overview} - Security Mechanisms Overview}} goes into further detail about each chosen security mechanism as detailed in section \ref{section:selected_security_mechanisms} which are analysed in \hyperref[chap:analysis]{chapter \ref{chap:analysis}}. This is to allow the reader to gain further context for the analysis chapter.
 
 \vspace{0.3cm} \noindent
-\hyperref[chap:sec_mech_overview]{\textbf{Chapter \ref{chap:sec_mech_overview} - Security Mechanisms Overview}} goes into further detail about each security mechanism that will analysed. This is to allow the reader to gain further context for the analysis chapter.
-
+\hyperref[chap:analysis]{\textbf{Chapter \ref{chap:analysis} - Security Mechanism Adoption Analysis}} analyses the chosen security mechanisms described in section \ref{section:selected_security_mechanisms} from the data captured in \hyperref[chap:analysis]{chapter \ref{chap:data_acqusition}}, over a 16 month period from November 2020 to February 2022.
 
 \vspace{0.3cm} \noindent
-\hyperref[chap:conclusion]{\textbf{Chapter \ref{chap:conclusion} - Conclusions and Closing Remarks}} brings the report to an end concluding that apart from TLS the other chosen security mechanism that are currently not deprecated are of relatively low usage and work needs to be done to improve this.
+\hyperref[chap:conclusion]{\textbf{Chapter \ref{chap:conclusion} - Conclusions and Closing Remarks}} brings the report to an end concluding that apart from TLS the other chosen security mechanism, as detailed in section \ref{section:selected_security_mechanisms}, that are currently not deprecated are of relatively low usage and work needs to be done to improve this.
 
 \newpage
 
 %\vspace*{\fill}
 %\begin{center}
 %\begin{huge}
-%Part I - Security Features Primer
+%Part I - Security Mechanisms Primer
 %\end{huge}
 %\end{center}
 %\vspace{\fill}
 %
 %\newpage
 
-\chapter{Security Features Primer}
+\chapter{Security Mechanisms Primer}
 \label{chap:sec_feat_primer}
 
 \section{HTTP}
@@ -613,7 +619,7 @@ This header was intended to protect websites in the event a CA provider was comp
 %\vspace*{\fill}
 %\begin{center}
 %\begin{huge}
-%Part II - Why Security Features Exist
+%Part II - Why Security Mechanisms Exist
 %\end{huge}
 %\end{center}
 %\vspace{\fill}
@@ -622,11 +628,11 @@ This header was intended to protect websites in the event a CA provider was comp
 
 \section{Summary}
 
-In this opening chapter, a brief overview of the core HTTP technology was presented leading to an overview of the selected security mechanisms (detailed in more depth in chapter \ref{chap:sec_mech_overview}) the adoption of which is to be analysed later in chapter \ref{chap:analysis}. Next in chapter \ref{chap:sec_feat_exist} ``Why Security Features Exist'' attacks related to the \textit{selected security mechanisms}, as outlined in section \ref{section:selected_security_mechanisms}, are detailed along with the security mechanisms that can be used to mitigate these attacks.
+In this opening chapter, a brief overview of the core HTTP technology was presented leading to an overview of the selected security mechanisms (detailed in more depth in chapter \ref{chap:sec_mech_overview}) the adoption of which is to be analysed later in chapter \ref{chap:analysis}. Next in chapter \ref{chap:sec_feat_exist} ``Why Security Mechanisms Exist'' attacks related to the \textit{selected security mechanisms}, as outlined in section \ref{section:selected_security_mechanisms}, are detailed along with the security mechanisms that can be used to mitigate these attacks.
 
 
 
-\chapter{Why Security Features Exist}
+\chapter{Why Security Mechanisms Exist}
 \label{chap:sec_feat_exist}
 
 This chapter details of certain attacks with real world examples leading to the security mechanisms that are intended to mitigate the attacks.
@@ -852,7 +858,7 @@ The ethical considerations as outlined in \cite{Amann2017-co,Partridge2016-ph,Du
 During the literature research, not all research that was of a similar nature contained ethical consideration statements. One would hope that ethic consideration was performed in the research, but should be outlined if only minimally.
 
 \vspace{0.3cm} \noindent
-The ``BCS, The Chartered Institute For It'' code of conduct \cite{Bcs2011-rj} outlines professional standards that should be met. This research was conducted with the same sentiment of these standards. Below are several of the most relevant excerpts taken from the document as presented below verbitem that represent to conduct of this research:
+The ``BCS, The Chartered Institute For IT'' code of conduct \cite{Bcs2011-rj} outlines professional standards that should be met. This research was conducted with the same sentiment of these standards. Below are several of the most relevant excerpts taken from the document as presented below verbitem that represent to conduct of this research:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
 	\item \textit{``NOT disclose or authorise to be disclosed, or use for personal gain or to benefit a third party, confidential information except with the permission of your Relevant Authority, or as required by Legislation.''}
@@ -3955,8 +3961,9 @@ Table \ref{table:pkp_header_count} shows that May 2017 was potentially the peak 
 
 \section{Discussion}
 
-\subsection{Objectives Scope Justification}
 
+\subsection{Objectives Scope Justification}
+\label{subsec:dis_obj_scope}
 As a refresher the \hyperref[sec:objectives_scope]{scope for the objectives} for this study are:
 
 \textit{
