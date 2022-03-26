@@ -392,6 +392,8 @@ This report going forward is structured as follows:
 \chapter{Security Mechanisms Primer}
 \label{chap:sec_feat_primer}
 
+This chapter introduces the selected security mechanisms that are analysed in \hyperref[chap:analysis]{chapter \ref{chap:analysis}} and technologies that they build upon.
+
 \section{HTTP}
 \label{section:http}
 
@@ -643,7 +645,7 @@ This mechanism is detailed further in chapter \ref{section:bg_coop} and analysed
 The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
 
 \vspace{0.3cm} \noindent
-This header was intended to protect websites in the event a CA provider was compromised, such as DigiNotar in 2011 \cite{Amann2017-co}, and unauthorised certificates being issued to an attacker for the purposes of impersonating websites. The HPKP mechanism would prevent the unauthorised certificate from being trusted by visitors that had previously visited the website i.e. preventing an entity in the middle attack.
+This header was intended to protect websites in the event a CA provider was compromised, such as DigiNotar in 2011 \cite{Amann2017-co}, and unauthorised certificates then being issued to an attacker for the purposes of impersonating websites. The HPKP mechanism would prevent the unauthorised certificate from being trusted by visitors that had previously visited the website i.e. preventing an entity in the middle attack.
 
 \vspace{0.3cm} \noindent
 This mechanism is detailed further in chapter \ref{section:bg_hpkp} and analysed in section \ref{section:ana_hpkp}.
@@ -668,7 +670,7 @@ In this opening chapter, a brief overview of the core HTTP technology was presen
 \chapter{Why Security Mechanisms Exist}
 \label{chap:sec_feat_exist}
 
-This chapter details of certain attacks with real world examples leading to the security mechanisms that are intended to mitigate the attacks.
+This chapter details reasons for security mechanisms to exist and walks through several attack types with real world examples stating which of the chosen security mechanisms, detailed in section \ref{section:selected_security_mechanisms}, are intended to mitigate the attacks.
 
 \section{The Need for Security Mechanisms}
 \label{section:need_for_security_mechanisms}
@@ -686,7 +688,7 @@ As communication technologies continually improve, it has allowed and attracted 
 There are many entities that track trends and malicious activity, one of which is the non-profit organisation Open Web Application Security Project (OWASP) which works to advance the security of applications \cite{noauthor_undated-ta,Kellezi2021-nd}.
 
 \vspace{0.3cm} \noindent
-OWASP maintain a Top Ten list, determined using a publicised methodology, which state the most important risks to web applications \cite{Kellezi2021-nd,noauthor_undated-kz}. In the 2021 Top Ten Report, Injection attacks (of which Cross Site Scripting (XSS) detailed in section \ref{subsection:XSS} is one variant) was ranked number three and of the 94\% of the applications they tested there was an average incident rate of 3\% and 274k occurrences \cite{noauthor_undated-gt}.
+OWASP maintain a Top Ten list, determined using a publicised methodology, which states the most important risks to web applications \cite{Kellezi2021-nd,noauthor_undated-kz}. In the ``2021 Top Ten Report'', injection attacks (of which Cross Site Scripting (XSS) detailed in section \ref{subsection:XSS} is one variant) was ranked number three and of the 94\% of the applications they tested, there was an average incident rate of 3\% and 274k occurrences \cite{noauthor_undated-gt}.
 
 \vspace{0.3cm} \noindent
 The ``Global Data At Risk State of the Web'' 2020 report \cite{Tala_Security2020-ee} claims that on average, the top 1000 websites in the Alexa top one million website list, rely upon the 32 third party integrations. This gives a great opportunity for attackers to leverage the supply chain attack (detailed in section \ref{subsection:SupplyChain}) to compromise websites that may be harder to compromise directly. One such example of this attack is the 2018 Magecart attack on Ticketmaster \cite{Herman2019-zb} to steal payment information via the compromise of third party resources.
@@ -695,7 +697,7 @@ The ``Global Data At Risk State of the Web'' 2020 report \cite{Tala_Security2020
 Due to the susceptibility of data traversing the internet being intercepted and attacked, its integrity and confidentially needs to be protected. For browser traffic this is achieved by the use of HTTPS, which uses SSL/TLS secure channels, instead of the insure HTTP. Unfortunately not all websites use HTTPS and or redirect to the HTTPS version should it exist. Governments are encouraging the use of HTTPS \cite{noauthor_undated-oz} as well as the community itself \cite{noauthor_undated-xk}. The general advice is that if one is in control of a website, it should be using HTTPS regardless of the websites purpose or content. 
 
 \vspace{0.3cm} \noindent
-The following attacks are ones that can be mitigated by one or more of the security mechanisms described in the previous sections of this report.
+The following attacks are ones that can be mitigated by one or more of the security mechanisms described section \ref{section:selected_security_mechanisms}.
 
 \subsection{Cross Site Scripting (XSS)}
 \label{subsection:XSS}
@@ -712,7 +714,7 @@ Stored XSS (also referred to as \textit{Non-Persistent}, \textit{Indirect} and \
 \textbf{Stored}
 
 \vspace{0.2cm} \noindent
-Stored XSS (also referred to as \textit{Persistent}, \textit{Direct} and \textit{Type I}) is where a malicious actor is able to store a malicious script on a website, by some means such as a forum post or comment section of a website such that the script will be executed, by the web application when a victim visits the page. The power of this variant is that the script is permanent, until when or even if the script is detected and removed. This variant has the potential to have many visitors to become victims depending of the traffic of the compromised web page(s) \cite{Rodriguez2020-bg}.
+Stored XSS (also referred to as \textit{Persistent}, \textit{Direct} and \textit{Type I}) is where a malicious actor is able to store a malicious script on a website, by some means such as a forum post or comment section of a website such that the script will be executed, by the web application when a victim visits the page. The power of this variant is that the script is permanent, until when or even if the script is detected and removed. This variant has the potential to have many visitors to become victims depending on the amount of traffic to the compromised web page(s) \cite{Rodriguez2020-bg}.
 
 \vspace{0.6cm} \noindent
 \textbf{DOM-Based}
@@ -724,7 +726,7 @@ DOM-Based XSS (also referred to as \textit{Type 0}) takes place entirely in the 
 \textbf{Mutation Based}
 
 \vspace{0.2cm} \noindent
-Mutation Based XSS (also referred to as \textit{mXSS}) is based on the use of the \texttt{innterHTML} functionality, often used to provide web application users to do custom styling, of a browser which allows direct manipulation of the HTML content bypassing the DOM entirely. The malicious actor crafts a ``mutated'' payload that once processed by the \texttt{innerHTML} functionality allows the script to execute \cite{Heiderich2013-qv}.
+Mutation Based XSS (also referred to as \textit{mXSS}) is based on the use of the \texttt{innterHTML} functionality, often used to provide web application users to do custom styling, of a browser which allows direct manipulation of the HTML content bypassing the DOM entirely. The malicious actor crafts a ``mutated'' payload that once processed by the \texttt{innerHTML} functionality, allows the script to execute \cite{Heiderich2013-qv}.
 
 \subsubsection{Historical Example}
 In October of 2005 it was discovered that when users visited an infected MySpace profile the phrase ``but most of all, samy is my hero'' was appended to the ``hero'' section of visiting users profiles. The infected profile contained a stored XSS payload which added itself to the visiting users profile and adding the aforementioned phrase. The attack was initiated by ``Samy'' infecting his own profile with the XSS payload. Over one million user profiles were reported to have been affected within 20 hours \cite{Lee2019-xf}.
@@ -767,16 +769,16 @@ The 2018 Texthelp breach is one example of this type of attack where a malicious
 
 \subsection{Clickjacking}
 
-A clickjacking attack is one in which a user-initiated attack is hijacked to perform unwanted actions. A user is enticed to click on an element of a page, such as an image, however rather than an action or outcome the user expects to occur, one determined by the attacker takes place. To undertake the attack a malicious site renders a web page from the target website within an iframe. The malicious site uses styling to show only what the attack desires of the target website \cite{Jamwal2018-tz}.
+A clickjacking attack is one in which a user-initiated attack is hijacked to perform unwanted actions. A user is enticed to click on an element of a page, such as an image, however rather than an action or outcome the user expects to occur, one determined by the attacker takes place. To undertake the attack a malicious site renders a web page from the target website within an iframe. The malicious site uses styling to show only what the attacker desires of the target website \cite{Jamwal2018-tz}.
 
 \subsubsection{Historical Example}
-The Twitter Attack, also referred to as the ``Twitter Bomb'', begins by a user seeing a twitter post that contains the text \texttt{Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and clicking on the link. Visiting the link will present the user with a page seemingly only containing only a single button ladled \texttt{Don't Click}.
+The Twitter Attack, also referred to as the ``Twitter Bomb'', begins by a user seeing a twitter post that contains the text \texttt{Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and clicking on the link. Visiting the link will present the user with a page seemingly only containing only a single button labelled \texttt{Don't Click}.
 
 \vspace{0.3cm} \noindent
-Unbeknownst to the user, the twitter home page is also rendered on the page but in an invisible iframe. The \texttt{Don't Click} button is directly underneath the invisible ``update'' button, which posts a tweet of the twitter home page. The iframe is configure to load the url \texttt{http://www.twitter.com/?status=Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and twitters \texttt{?status=} feature will pre-load the users tweet box with the status message.
+Unbeknownst to the user, the twitter home page is also rendered on the page but in an invisible iframe. The \texttt{Don't Click} button is directly underneath the invisible ``update'' button on the twitter home page, which posts a tweet. The iframe is configure to load the url \texttt{http://www.twitter.com/?status=Don't Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} and twitters \texttt{?status=} url parameter feature will pre-load the users tweet box with the value from the \texttt{?status=} url parameter.
 
 \vspace{0.3cm} \noindent
-When the user clicks the \texttt{Don't Click} section of the page they are actually clicking the invisible \texttt{update} button of the twitter home page which creates a tweet with the text \texttt{Don’t Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} which helps to spread the message. There was no ill intent to this clickjacking attack and as such considered more of a prank.
+When the user clicks the \texttt{Don't Click} section of the page they are actually clicking the invisible \texttt{update} button of the twitter home page which posts a tweet with the text \texttt{Don’t Click: http://tinyurl.com/amgzs6} \cite{Jani2015-kw} which helps to spread the message. There was no ill intent to this clickjacking attack and as such considered more of a prank.
 \subsubsection{Security Mechanism(s) Providing Mitigation}
 
 \begin{itemize}
@@ -828,7 +830,7 @@ The Poodle attack is similar to the Lucky 13 attack, where unprotected padding i
 \textbf{Heartbleed (2014)}
 
 \vspace{0.2cm} \noindent
-The 2014 Heartbleed attack, which gained attention in the mainstream media, exploited an implantation flaw in the length of a data bounds check. The flaw was in the rarely used but commonly enabled heartbeat protocol \cite{Durumeric2014-yj} of the TLS mechanism in the OpenSSL library (used by millions of servers).
+The 2014 Heartbleed attack, which gained attention in the mainstream media, exploited an implementation flaw in the length of a data bounds check. The flaw was in the rarely used but commonly enabled heartbeat protocol \cite{Durumeric2014-yj} of the TLS mechanism in the OpenSSL library (used by millions of servers).
 
 \vspace{0.2cm} \noindent
 To exploit the vulnerability, a malicious actor would send a \texttt{HeartbeatRequest} message, setting the payload length set to a length larger than the actual \texttt{HeartbeatRequest} message payload length \cite{Durumeric2014-yj}. This allowed the extraction of private memory on the target which could lead to the ex-filtration of sensitive data such as website private keys and cryptographic secrets.
@@ -841,7 +843,7 @@ The maintainers of the OpenSSL library released a fix for the vulnerability alon
 \textbf{FREAK (2015)}
 
 \vspace{0.2cm} \noindent
-The 2015 FREAK attack shed light that the OpenSSL library would accept weak RSA encryption keys, from the use of export grade cipher suites, during a full-strength RSA TLS handshake. A malicious actor would force the client to use such a weak key by sending a \texttt{SeverKeyExchange} TLS protocol message to the client. If such a weak key was used the malicious actor could capture the traffic, brute force the key within a matter of hours and decrypt the captured traffic. The removal of export grade cipher suites on the server stops this attack \cite{Ristic2017-aj,Beurdouche2015-ga}.
+The 2015 FREAK attack shed light that the OpenSSL library would accept weak RSA encryption keys, from the use of export grade cipher suites, during a full-strength RSA TLS handshake. A malicious actor would force the client to use such a weak key by sending a \texttt{SeverKeyExchange} TLS protocol message to the client. If such a weak key was used, the malicious actor could capture the traffic, brute force the key within a matter of hours and decrypt the captured traffic. The removal of export grade cipher suites on the server stops this attack \cite{Ristic2017-aj,Beurdouche2015-ga}.
 
 \subsubsection{Security Mechanism(s) Providing Mitigation}
 
@@ -853,6 +855,7 @@ The 2015 FREAK attack shed light that the OpenSSL library would accept weak RSA 
 	\item Public Key Pinning
 \end{itemize}
 
+\noindent
 Organisations should have policies in place to keep up to date with current state of TLS vulnerabilities and best practice recommendations to best mitigate risk to themselves and their users from malicious actors.
 \clearpage
 \newpage
@@ -876,7 +879,7 @@ This chapter provided context for which attacks can be mitigated by the \textit{
 \chapter{Data Acquisition}
 \label{chap:data_acqusition}
 
-This chapter details the ethical considerations of measurement studies, critically analyses the related studies and details the methodology of this study to obtain the data in order to be able to analyse the adoption of the selected security mechanisms outlined in section \ref{section:selected_security_mechanisms}.
+This chapter details the \hyperref[section:ethics]{ethical considerations} of measurement studies, critically analyses the \hyperref[section:lit_review]{related studies} and \hyperref[section:methodology]{details the methodology} of this study to obtain the data in order to be able to \hyperref[chap:analysis]{analyse the adoption} of the selected security mechanisms outlined in section \ref{section:selected_security_mechanisms}.
 
 
 \section{Ethical Considerations}
