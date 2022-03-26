@@ -283,7 +283,7 @@ HTTPS overcomes these issues as it provides several protections including:
 \end{itemize}
 
 \noindent
-HTTPS is detailed more extensively in section \ref{sec:https_bd}.
+HTTPS is detailed more extensively in section \ref{section:bg_https}.
 
 \newpage
 
@@ -321,7 +321,7 @@ The main contributions of this research are (1) Which TLS versions a website sup
 \newpage
 
 \section*{Objectives and Scope}
-\label{sec:objectives_scope}
+\label{section:objectives_scope}
 \addcontentsline{toc}{section}{Objectives and Scope}
 
 In order to conduct research to answer the question stated in the introduction in a constructive manner, one must set out a list of objectives to be completed:
@@ -440,7 +440,7 @@ Slowly over time HTTPS has seen an ever increasing amount of adoption. There hav
 \end{itemize}
 
 \noindent
-SSL/TLS is detailed in more depth in sections \ref{section:ssm_tls} and \ref{sec:tls_bd}.
+SSL/TLS is detailed in more depth in sections \ref{section:ssm_tls} and \ref{section:bg_tls}.
 
 \section{Same Origin Policy}
 \label{section:same_origin_policy}
@@ -526,16 +526,17 @@ The following security mechanisms are those that have been selected for their ad
 For the context of this research, SSL/TLS provides the secure channel used to send HTTP protocol traffic securely. This is more widely known as HTTPS.
 
 \vspace{0.3cm} \noindent
-SSL/TLS provides the following security services:
+SSL/TLS provides the following main security services:
 
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item Confidentiality - the protection of data such that only those who have been given authorisation can access the data
+	\item Confidentiality - the protection of data such that only those who have been given authorisation can access the data.
 	\item Data Origin Authentication - establishes the integrity of the SSL/TLS channel data, i.e. to be able to verify the data was sent, and not altered in transit, by the corresponding party with whom the SSL/TLS channel was established with.
 	\item Entity Authentication - the ability for an entity to prove their identity using mechanisms such as digital signatures.
 \end{itemize}
 
-This mechanism is detailed further in chapter \ref{section:ssm_tls}.
+\noindent
+This mechanism is detailed further in chapter \ref{section:bg_tls} and analysed in section \ref{section:ana_ssl_tls}.
 
 
 \subsection{Security.txt}
@@ -544,7 +545,8 @@ The ``security.txt'' mechanism is to aid in informing security researchers how t
 \vspace{0.3cm} \noindent
 The specification specifies a number of locations where a ``security.txt'' file should be placed thus allowing security researchers to know where to look to find disclosure/reporting information should a site support the security.txt mechanism.
 
-This mechanism is detailed further in section \ref{sec:security_txt_bd} and analysed in section\ref{section:ana_ssl_tls}.
+\vspace{0.3cm} \noindent
+This mechanism is detailed further in section \ref{section:bg_security_txt} and analysed in section \ref{section:ana_security_txt}.
 
 
 \subsection{Content Security Policy}
@@ -556,58 +558,42 @@ A policy can consist of a number of directives targeted at restricting the loadi
 \vspace{0.3cm} \noindent
 The main attacks that are intended to be mitigated include Cross Site Scripting (XSS), data injection , packet sniffing and supply chain attacks.
 
-This mechanism is detailed further in chapter \ref{section:csp_bd} and analysed in section\ref{section:ana_csp}..
+\vspace{0.3cm} \noindent
+This mechanism is detailed further in chapter \ref{section:bg_csp} and analysed in section \ref{section:ana_csp}.
 
 
 \subsection{Strict Transport Security}
-The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over HTTPS and never HTTP \cite{Hodges2012-pe}. This prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack allowing them to impersonate the user or just capture sensitive information to name only a few possibilities.
+The \texttt{Strict-Transport Security} response header (STS) is a mechanism that instructs the browser to load the website only over HTTPS and never HTTP \cite{Hodges2012-pe}. This prevents an attacker trying to get the user to use HTTP to access the site so that the attacker could perform an entity in the middle attack (detailed further in section \ref{subsection:entity_in_the_middle}) allowing the attacker to impersonate the user or just capture sensitive information to name only a few possibilities.
 
 \vspace{0.3cm} \noindent
-There is an issue with this header such that a browser can only know to load over HTTPS when the header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the STS header. To overcome this preloading is required.
+There is an issue with this header such that a browser can only know to load a website only over HTTPS when the STS header is received. On the first visit to a website an attacker could intercept a HTTP request to the website and keep the connection HTTP and thus the user would not get the STS header. To overcome this, STS Preloading is required which is detailed next.
 
-This mechanism is detailed further in chapter \ref{section:} and analysed in section\ref{section:ana_STS}.
+\vspace{0.3cm} \noindent
+This mechanism is detailed further in chapter \ref{section:bg_STS} and analysed in section \ref{section:ana_STS}.
 
 
 \subsection{STS Preloading}
-STS Preloading is a mechanism where a browser checks to see if the requested domain is in a predefined list and if it is then the website must only be accessed over HTTPS.
+STS Preloading is a mechanism where a browser checks to see if the requested domain is in a predefined list and if it is, then the website must only be accessed over HTTPS.
 
 \vspace{0.3cm} \noindent
 The main reason for STS Preloading is to ensure the first time a user visits a website it is over HTTPS. Without preloading, should a user visit the site the first time over HTTP, an attacker could intercept the traffic and perform malicious actions such as the entity in the middle attack as described in section \ref{subsection:entity_in_the_middle}.
 
 \vspace{0.3cm} \noindent
-Google maintains this predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
-
-
-\subsection{Cross Origin Resource Policy}
-The Cross Origin Resource Policy is used to restrict which origins are allowed to read resource(s), such as scripts and images, protected by this mechanism.
+Google maintains a predefined list of websites where the website owners/maintainers have requested to be added \cite{Hodges2012-pe}.
 
 \vspace{0.3cm} \noindent
-A primary class of attacks that this mitigates against are speculative side-channel attacks. The Spectre attack \cite{Kocher2019-gv} is one such attack which was publicly announced in 2018.
-
-
-\subsection{Cross Origin Embedder Policy}
-The Cross Origin Resource Policy allows a website maintainer to require that any cross-origin resources are only allowed to be loaded if the resource is explicitly permitted to do so via a Cross Origin Resource Policy (CORP) or a Access Control Allow Origin CORS header or meta tag.
-
-\vspace{0.3cm} \noindent
-A driving factor for this header being introduced was that some developers may implement CORS in minimal way, such as setting the requesters origin in the Access-Control-Allow-Origin header \cite{noauthor_undated-cr}. This may have the undesired affect of allowing potentially sensitive data to be accessed unintentionally.
-
-\vspace{0.3cm} \noindent
-COEP has a lower risk than CORS of a similar situation form occurring as it is a lower privilege than CORS.
-
-
-\subsection{Cross Origin Opener Policy}
-The \texttt{Cross-Origin-Opener-Policy} (COOP) header provides a mechanism that prevents the sharing of browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the web page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
-
-\vspace{0.3cm} \noindent
-This is also known as a process-isolation mechanism, preventing attackers from gaining access to a global object that created a popup window/tab for example.
+This mechanism is detailed further in chapter \ref{section:bg_STS_preload} and analysed in section \ref{section:ana_STS_preload}.
 
 
 \subsection{X Content Type Options}
-The \texttt{X-Content-Type-Options} (XCTO) mechanism is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
+The \texttt{X-Content-Type-Options} (XCTO) response header is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
 \texttt{Content-Type: text/css}) matches that of the requested resource \cite{Apple_undated-hz}.
 
 \vspace{0.3cm} \noindent
 This mechanism is intended to mitigate against such attacks as \textit{drive by downloads} and untrusted user content being treated as an executable.
+
+\vspace{0.3cm} \noindent
+This mechanism is detailed further in chapter \ref{section:bg_xcto} and analysed in section \ref{section:ana_xcto}.
 
 
 \subsection{X Frame Options}
@@ -616,12 +602,51 @@ The \texttt{X-Frame-Options} (XFO) response header is a mechanism that states if
 \vspace{0.3cm} \noindent
 This mechanism is intended to mitigate against such attacks as clickjacking where an attacker invisibly embeds another site on top of theirs tricking users, via the use of enticing offers such as free electronics, into clicking a seemingly harmless link which actually triggers a function on the embedded site such as transferring money via one's banking website to the attacker.
 
+\vspace{0.3cm} \noindent
+This mechanism is detailed further in chapter \ref{section:bg_xfo} and analysed in section \ref{section:ana_xfo}.
+
+
+\subsection{Cross Origin Embedder Policy}
+The \texttt{Cross-Origin-Embedder-Policy} (COEP) response header allows a website maintainer to require that any cross-origin resources are only allowed to be loaded if the resource is explicitly permitted to do so via a Cross Origin Resource Policy (CORP) or a Access Control Allow Origin CORS header or meta tag.
+
+\vspace{0.3cm} \noindent
+A driving factor for this header being introduced was that some developers may implement CORS in minimal way, such as setting the requesters origin in the Access-Control-Allow-Origin header \cite{noauthor_undated-cr}. This may have the undesired affect of allowing potentially sensitive data to be accessed unintentionally.
+
+\vspace{0.3cm} \noindent
+COEP has a lower risk than CORS of a similar situation form occurring as it is a lower privilege than CORS.
+
+\vspace{0.3cm} \noindent
+This mechanism is detailed further in chapter \ref{section:bg_coep} and analysed in section \ref{section:ana_coep}.
+
+
+\subsection{Cross Origin Resource Policy}
+The \texttt{Cross-Origin-Resource-Policy} (CORP) response header is used to restrict which origins are allowed to read resource(s), such as scripts and images, protected by this mechanism.
+
+\vspace{0.3cm} \noindent
+A primary class of attacks that this mitigates against are speculative side-channel attacks. The Spectre attack \cite{Kocher2019-gv} is one such attack which was publicly announced in 2018.
+
+\vspace{0.3cm} \noindent
+This mechanism is detailed further in chapter \ref{section:bg_corp} and analysed in section \ref{section:ana_corp}.
+
+
+\subsection{Cross Origin Opener Policy}
+The \texttt{Cross-Origin-Opener-Policy} (COOP) response header provides a mechanism that prevents the sharing of browsing contexts of a top-level document with cross-origin documents. For example, preventing a popup window from communicating to the web page (document) that opened the popup via the use of process isolation \cite{Apple_undated-gj}.
+
+\vspace{0.3cm} \noindent
+This is also known as a process-isolation mechanism, preventing attackers from gaining access to a global object that created a popup window/tab for example.
+
+\vspace{0.3cm} \noindent
+This mechanism is detailed further in chapter \ref{section:bg_coop} and analysed in section \ref{section:ana_coop}.
+
 
 \subsection{Public Key Pinning}
 The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
 
 \vspace{0.3cm} \noindent
 This header was intended to protect websites in the event a CA provider was compromised, such as DigiNotar in 2011 \cite{Amann2017-co}, and unauthorised certificates being issued to an attacker for the purposes of impersonating websites. The HPKP mechanism would prevent the unauthorised certificate from being trusted by visitors that had previously visited the website i.e. preventing an entity in the middle attack.
+
+\vspace{0.3cm} \noindent
+This mechanism is detailed further in chapter \ref{section:bg_hpkp} and analysed in section \ref{section:ana_hpkp}.
 \newpage
 
 %\vspace*{\fill}
@@ -1573,7 +1598,7 @@ Stage 4 is deemed complete and processing moves to Stage 5.
 This stage gathers the required data, such that a determination can be made at a later stage, if the domain of last url in the redirect chain (e.g. \texttt{http://www.example.com/index.php}) from Stage 3 meets the STS Preload requirements.
 
 \vspace{0.3cm} \noindent
-The STS Preload requirements are detailed in section \ref{section:STS_preload_bd}.
+The STS Preload requirements are detailed in section \ref{section:bg_STS_preload}.
 
 \vspace{0.3cm} \noindent
 The following actions are performed on the base domain of the last url in the redirect chain from Step 3 and the results of which are recorded. The base domain of the url is determined by the use of the Golang library ``Golang.org/x/net/publicsuffix''. If any of the actions have already been performed in section 3, they are skipped as the results have already been captured:
@@ -1769,9 +1794,9 @@ This chapter looked at previous research related to measurement studies and walk
 This chapter is a detailed overview of the security mechanisms to aid in providing context in understanding the analysis in chapter \ref{chap:analysis}.
 
 \section{HTTPS}
-\label{sec:https_bd}
+\label{section:bg_https}
 
-This mechanism is analysed in section \ref{sec:ana_https_rdr}.
+This mechanism is analysed in section \ref{section:ana_https_rdr}.
 
 \vspace{0.3cm} \noindent
 The S in HTTPS signifies that the HTTP protocol communication shall be over a secure channel, provided by the SSL/TLS protocols \cite{Rescorla2000-fs}. A URL starting with \texttt{https://} e.g. \texttt{https://example.com} signifies it will be using a SSL/TLS secure channel.
@@ -1780,7 +1805,7 @@ The S in HTTPS signifies that the HTTP protocol communication shall be over a se
 It has become quite common for websites to automatic redirect a user to a HTTPS url if the user enters or follows a HTTP url e.g. the URL \texttt{http://example.com} redirecting to \texttt{https://example.com}. This helps to enable the use of the HTTP protocol over a secure channel without the user having to actively seek out the HTTPS URL of a website (which most users are unlikely to do).
 
 \section{TLS}
-\label{sec:tls_bd}
+\label{section:bg_tls}
 
 This mechanism is analysed in section \ref{section:ana_ssl_tls}.
 
@@ -1895,7 +1920,7 @@ TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currentl
 
 
 \section{Security.txt}
-\label{sec:security_txt_bd}
+\label{section:bg_security_txt}
 
 This mechanism is analysed in section \ref{section:ana_security_txt}.
 
@@ -1931,7 +1956,7 @@ Preferred-Languages: en, es, ru
 \end{lstlisting}
 
 \section{Content Security Policy}
-\label{section:csp_bd}
+\label{section:bg_csp}
 
 This mechanism is analysed in section \ref{section:ana_csp}.
 
@@ -2200,7 +2225,7 @@ The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \new
 Example basic CSP policy header: \texttt{Content-Security-Policy: default-src 'self'; script-src 'self' cdn.example.com; style-src 'self'}
 
 \section{Strict Transport Security}
-\label{section:STS_bd}
+\label{section:bg_STS}
 
 This mechanism is analysed in section \ref{section:ana_STS}.
 
@@ -2230,7 +2255,7 @@ Must be present if the site is to be preloaded via Google's STS preload service.
 Example STS header configuration: \texttt{Strict-Transport-Security: max-age 31536000; includeSubDomains}.
 
 \section{STS Preload}
-\label{section:STS_preload_bd}
+\label{section:bg_STS_preload}
 
 This mechanism is analysed in section \ref{section:ana_STS_preload}.
 
@@ -2268,7 +2293,7 @@ The following criteria must be met in order for a domain to qualify to be includ
 If a domain in the preload list stops meeting the above criteria it runs the risk of being removed from the preload list.
 
 \section{X Content Type Options}
-\label{section:xcto_bd}
+\label{section:bg_xcto}
 
 This mechanism is analysed in section \ref{section:ana_xcto}.
 
@@ -2293,7 +2318,7 @@ Denies requests under either of the two below conditions:
 Example XCTO Header: \texttt{X-Content-Type-Options: nosniff}
 
 \section{X Frame Options}
-\label{section:xfo_bd}
+\label{section:bg_xfo}
 
 This mechanism is analysed in section \ref{section:ana_xfo}.
 
@@ -2323,7 +2348,7 @@ Behaves the same as the above SAMEORIGIN directive but only for \texttt{$<$frame
 Example XFO Header: \texttt{X-Frame-Options: DENY}
 
 \section{Cross Origin Embedder Policy}
-\label{section:coep_bd}
+\label{section:bg_coep}
 
 This mechanism is analysed in section \ref{section:ana_coep}.
 
@@ -2347,7 +2372,7 @@ Example COEP Header: \texttt{Cross-Origin-Embedder-Policy: require-corp}
 
 
 \section{Cross Origin Resource Policy}
-\label{section:corp_bd}
+\label{section:bg_corp}
 
 This mechanism is analysed in section \ref{section:ana_corp}.
 
@@ -2379,7 +2404,7 @@ Example COEP Header: \texttt{Cross-Origin-Resource-Policy: same-origin}
 Example CORP Header: \texttt{Cross-Origin-Embedder-Policy: require-corp}
 
 \section{Cross Origin Opener Policy}
-\label{section:coop_bd}
+\label{section:bg_coop}
 
 This mechanism is analysed in section \ref{section:ana_coop}.
 
@@ -2408,7 +2433,7 @@ Does not allow communication (isolates) from new windows or tab to the originati
 Example COOP Header: \texttt{Cross-Origin-Opener-Policy: same-origin}
 
 \section{Public Key Pins}
-\label{section:hpkp_bd}
+\label{section:bg_hpkp}
 
 This mechanism is analysed in section \ref{section:ana_hpkp}.
 
@@ -2495,9 +2520,9 @@ Of the 5\% of domains that the scanner was not able to obtain a HTTP or a HTTPS 
 \newpage
 
 \section{HTTP(S) Redirection}
-\label{sec:ana_https_rdr}
+\label{section:ana_https_rdr}
 
-Background for this mechanism is detailed in section \ref{sec:https_bd}.
+Background for this mechanism is detailed in section \ref{section:bg_https}.
 
 \subsection{Analysis}
 
@@ -2545,7 +2570,7 @@ To some surprise there are a number of sites that redirect from HTTPS to HTTP, 3
 \section{TLS}
 \label{section:ana_ssl_tls}
 
-Background for this mechanism is detailed in section \ref{sec:tls_bd}.
+Background for this mechanism is detailed in section \ref{section:bg_tls}.
 
 \subsection{Purpose Overview}
 
@@ -2697,7 +2722,7 @@ The use of TLS 1.1 and TLS 1.0 were declining rapidly at the same rate at the en
 \section{Security.txt}
 \label{section:ana_security_txt}
 
-Background for this mechanism is detailed in section \ref{sec:security_txt_bd}.
+Background for this mechanism is detailed in section \ref{section:bg_security_txt}.
 
 \subsection{Purpose Overview}
 
@@ -3146,7 +3171,7 @@ As previously mentioned, one of the paths a securit y.txt file can be hosted at,
 \section{Content Security Policy}
 \label{section:ana_csp}
 
-Background for this mechanism is detailed in section \ref{section:csp_bd}.
+Background for this mechanism is detailed in section \ref{section:bg_csp}.
 
 \subsection{Purpose Overview}
 
@@ -3437,7 +3462,7 @@ For a greater adoption of CSP, the frameworks and tooling used to create website
 \section{Strict Transport Security}
 \label{section:ana_STS}
 
-Background for this mechanism was detailed in section \ref{section:STS_bd}.
+Background for this mechanism was detailed in section \ref{section:bg_STS}.
 
 \subsection{Purpose Overview}
 
@@ -3527,7 +3552,7 @@ The most common value for the \texttt{max-age} directive is 1-3 years and a numb
 \section{STS Preload}
 \label{section:ana_STS_preload}
 
-Background for this mechanism was detailed in section \ref{section:STS_preload_bd}.
+Background for this mechanism was detailed in section \ref{section:bg_STS_preload}.
 
 \subsection{Purpose Overview}
 
@@ -3663,7 +3688,7 @@ Of the domains that do use STS Preloading, 38\% no longer meet the requirements 
 \section{X Content Type Options}
 \label{section:ana_xcto}
 
-Background for this mechanism was detailed in section \ref{section:xcto_bd}.
+Background for this mechanism was detailed in section \ref{section:bg_xcto}.
 
 \subsection{Purpose Overview}
 
@@ -3718,7 +3743,7 @@ In table \ref{table:xcto_header_count} it can be seen that there has been a near
 \section{X Frame Options}
 \label{section:ana_xfo}
 
-Background for this mechanism was detailed in section \ref{section:xfo_bd}.
+Background for this mechanism was detailed in section \ref{section:bg_xfo}.
 
 \subsection{Purpose Overview}
 
@@ -3772,7 +3797,7 @@ The deprecated directive \texttt{allow-from} has a very low but constant usage o
 \section{Cross Origin Embedder Policy}
 \label{section:ana_coep}
 
-Background for this mechanism was detailed in section \ref{section:coep_bd}.
+Background for this mechanism was detailed in section \ref{section:bg_coep}.
 
 \subsection{Purpose Overview}
 
@@ -3821,7 +3846,7 @@ The COEP header was introduced recently enough that similar analysis of header u
 \section{Cross Origin Resource Policy}
 \label{section:ana_corp}
 
-Background for this mechanism was detailed in section \ref{section:corp_bd}.
+Background for this mechanism was detailed in section \ref{section:bg_corp}.
 
 \subsection{Purpose Overview}
 
@@ -3870,7 +3895,7 @@ The CORP header was introduced recently enough that similar analysis of header u
 \section{Cross Origin Opener Policy}
 \label{section:ana_coop}
 
-Background for this mechanism was detailed in section \ref{section:coop_bd}.
+Background for this mechanism was detailed in section \ref{section:bg_coop}.
 
 \subsection{Purpose Overview}
 
@@ -3908,7 +3933,7 @@ The COOP header was introduced recently enough that similar analysis of header u
 \section{Public Key Pins}
 \label{section:ana_hpkp}
 
-Background for this mechanism was detailed in section \ref{section:hpkp_bd}.
+Background for this mechanism was detailed in section \ref{section:bg_hpkp}.
 
 \subsection{Purpose Overview}
 
@@ -3972,7 +3997,7 @@ Table \ref{table:pkp_header_count} shows that May 2017 was potentially the peak 
 
 \subsection{Objectives Scope Justification}
 \label{subsec:dis_obj_scope}
-As a refresher the \hyperref[sec:objectives_scope]{scope for the objectives} for this study are:
+As a refresher the \hyperref[section:objectives_scope]{scope for the objectives} for this study are:
 
 \textit{
 \begin{enumerate}
