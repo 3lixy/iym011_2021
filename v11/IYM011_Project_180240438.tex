@@ -1797,7 +1797,7 @@ This chapter looked at previous research related to measurement studies and walk
 \chapter{Security Mechanism Overview}
 \label{chap:sec_mech_overview}
 
-This chapter is a detailed overview of the security mechanisms to aid in providing context in understanding the analysis in chapter \ref{chap:analysis}.
+This chapter is a detailed overview of the selected security mechanisms from section \ref{section:selected_security_mechanisms} to said in providing context in understanding the analysis in chapter \ref{chap:analysis}.
 
 \section{HTTPS}
 \label{section:bg_https}
@@ -1808,7 +1808,7 @@ This mechanism is analysed in section \ref{section:ana_https_rdr}.
 The S in HTTPS signifies that the HTTP protocol communication shall be over a secure channel, provided by the SSL/TLS protocols \cite{Rescorla2000-fs}. A URL starting with \texttt{https://} e.g. \texttt{https://example.com} signifies it will be using a SSL/TLS secure channel.
 
 \vspace{0.3cm} \noindent
-It has become quite common for websites to automatic redirect a user to a HTTPS url if the user enters or follows a HTTP url e.g. the URL \texttt{http://example.com} redirecting to \texttt{https://example.com}. This helps to enable the use of the HTTP protocol over a secure channel without the user having to actively seek out the HTTPS URL of a website (which most users are unlikely to do).
+It has become quite common for websites to automatically redirect a user to a HTTPS url if the user enters or follows a HTTP url e.g. the URL \texttt{http://example.com} redirecting to \texttt{https://example.com}. This helps to enable the use of the HTTP protocol over a secure channel without the user having to actively seek out the HTTPS URL of a website (which most users are unlikely to do).
 
 \section{TLS}
 \label{section:bg_tls}
@@ -1834,13 +1834,13 @@ The acronyms SSL and TLS are often used interchangeably to refer to the secure c
 Confidentiality is the protection of data such that only those who have been given authorisation can access the data.
 
 \vspace{0.3cm} \noindent
-Two entities should be able to establish a SSL/TLS connection between one another such that only these two entities can access the data data being sent over it. This should result in any third parties that are able capture the traffic from, not being able to recover the data being sent over the SSL/TLS channel \cite{Martin2017-sx}.
+Two entities should be able to establish a SSL/TLS connection between one another such that only these two entities can access the plain text data being sent over it. This should result in the prevention of any third parties that are able capture the traffic from being able to recover the plain text data being sent over the SSL/TLS channel \cite{Martin2017-sx}.
 
 \vspace{0.7cm} \noindent
 \textbf{Data origin authentication}
 
 \noindent
-The purpose of Data origin authentication is to establish the integrity of the SSL/TLS channel data. This is accomplished using message authentication codes (MAC)  or authenticated encryption with associated data (AEAD) algorithms \cite{Ristic2017-aj} which use keys derived from when the SSL/TLS connection was established.
+The purpose of Data origin authentication is to establish the integrity of the SSL/TLS channel data such that any modifications can be detected. This is accomplished using message authentication codes (MAC)  or authenticated encryption with associated data (AEAD) algorithms \cite{Ristic2017-aj} which use keys derived from when the SSL/TLS connection was established.
 
 \vspace{0.7cm} \noindent
 \textbf{Entity Authentication}
@@ -1858,10 +1858,10 @@ It is optional for a client to prove its identity to the server using PKI during
 \textbf{Perfect forward secrecy}
 
 \noindent
-Perfect forward secrecy ensures that if the private key that is paired with the certificate of a server/website that was compromised, any SSL/TLS traffic that was captured being sent to or from this server could not be decrypted with the private key being revealed. This is accomplished via the use of Ephemeral Diffie-Hellman key exchange \cite{Martin2017-sx}.
+Perfect forward secrecy ensures that if the private key that is paired with the certificate of a server/website  was compromised, any SSL/TLS traffic that was captured being sent to or from this server could not be decrypted with the private key being revealed. This is accomplished via the use of Ephemeral Diffie-Hellman key exchange \cite{Martin2017-sx}.
 
 \vspace{0.3cm} \noindent
-Perfect forward secrecy is mandatory as of TLS 1.3 and as such RSA key exchange was removed in TLS 1.3.
+Perfect forward secrecy is mandatory as of TLS 1.3 and as such RSA key exchange was removed in TLS 1.3 due to its reliance on the certificates' private key.
 
 \subsubsection{SSL/TLS Versions}
 \textbf{SSL 2.0 [1994]}
@@ -1931,18 +1931,13 @@ TLS 1.3 was released as RFC8446 in 2018 \cite{Rescorla2018-wb} which is currentl
 This mechanism is analysed in section \ref{section:ana_security_txt}.
 
 \vspace{0.3cm} \noindent
-The security.txt is a text file placed at one of the following two locations hosted on a website:
-
-\begin{itemize}
-  \item Web-based services
-  \item Filesystems
-\end{itemize}
+The security.txt \cite{Foudil2021-vh} is a text file for the primary purpose of providing a security researcher the required information on how to report a security issues they have identified on such systems as websites.
 
 \vspace{0.3cm} \noindent
 For websites, a file named ``security.txt'' \textbf{must} be placed in the path \texttt{/.well-known/security.txt} e.g. \texttt{https://example.com/.well-known/security.txt}.
 
 \vspace{0.3cm} \noindent
-It is also permitted to store a security.txt at the top level path e.g. \texttt{https://example.com/security.txt} or redirect to the \texttt{/.well-known/security.txt} path.
+For legacy reasons it is also permitted to store a security.txt at the top level path e.g. \texttt{https://example.com/security.txt} or redirect to the \texttt{/.well-known/security.txt} path.
 
 \vspace{0.3cm} \noindent
 A response to a request of the security.txt file must respond with a \texttt{Content-Type} header with the value of \texttt{text/plain}, and served only over HTTPS.
@@ -1951,7 +1946,7 @@ A response to a request of the security.txt file must respond with a \texttt{Con
 The RFC is currently in the draft stage and seeing updates as recently as May 2021.
 
 \vspace{0.3cm} \noindent
-Example security.txt file:
+An example security.txt file is presented below:
 
 \begin{lstlisting}
 Contact: mailto:security@example.com
@@ -1967,7 +1962,7 @@ Preferred-Languages: en, es, ru
 This mechanism is analysed in section \ref{section:ana_csp}.
 
 \vspace{0.3cm} \noindent
-The Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed to be retrieved and or loaded by the browser. CSP is an evolution of the \textit{Same-Origin Policy (SOP)} browser mechanism.
+The Content-Security-Policy (CSP) is a mechanism of a web browser that allows the maintainer of a website to control, via the use of a policy, the resources that are allowed to be retrieved and or loaded by the browser. CSP is an evolution of the \textit{Same-Origin Policy (SOP)} browser mechanism detailed in section \ref{section:same_origin_policy}.
 
 \vspace{0.3cm} \noindent
 The \texttt{Same Origin Policy} mechanism is rather restrictive and this is where Content Security Policy gives more control to website maintainers and developers.
@@ -2002,13 +1997,13 @@ CSP Level 3 first public draft introduced in 2016 \cite{West2016-xj} with the mo
 The CSP policy can be delivered either by the use of one of two HTTP headers (Content-Security-Policy and Content-Security-Policy-Report-Only) or in the \texttt{$<$meta$>$} element in the html body of a web page.
 
 \subsubsection{CSP Directive}
-A CSP Policy consists of one or more directives which are bound to a specific type of resource. For example, the script-src directive controls the restrictions, or lack thereof, for the location(s) scripts can be obtained, executed or loaded from. A CSP Directive can have of one or more values.
+A CSP Policy consists of one or more directives which are bound to a specific type of resource. For example, the script-src directive controls the restrictions, or lack thereof, for the location(s) scripts can be obtained, executed or loaded from. A CSP Directive can have one or more values.
 
 \vspace{0.3cm} \noindent
-Should a directive be absent from a CSP Policy it is deemed to have no values i.e. ``open''. Configuring the default-src directive in a CSP policy cause most directives that are not present to inherit the values of the values of the default-src directive.
+Should a directive be absent from a CSP Policy it is deemed to have no values i.e. ``open''. Configuring the default-src directive in a CSP policy cause most directives that are not present in a csp policy to inherit the values of specified for the default-src directive.
 
 \vspace{0.3cm} \noindent
-Table \ref{table:cpsdirectives1} details the directives from CSP Level 1 until CSP Level 3 29 June 2021. CSP Level 3 is still a working draft and as such until CSP Level 3 is finalised the data within table \ref{table:cpsdirectives1} may become inaccurate should there be any changes before CSP Level 3 is finalised.
+Table \ref{table:cpsdirectives1} details the directives from CSP Level 1 until CSP Level 3 (29 June 2021). CSP Level 3 is still a working draft and as such until CSP Level 3 is finalised the data within table \ref{table:cpsdirectives1} may become inaccurate should there be any changes before CSP Level 3 is finalised.
 
 
 \clearpage
@@ -2127,7 +2122,7 @@ Both \texttt{unsafe-inline} and \texttt{unsafe-eval} are deemed to be dangerous 
 \textbf{Host}
 
 \vspace{0.3cm} \noindent
-One or more ``hosts'' can be specified as values for a directive. The following are all valid examples of host values:
+One or more ``hosts'' can be specified as values for a directive. Wildcards are permitted via the use of the star (*) character. The following are all valid examples of host values:
 \begin{itemize}
   \setlength\itemsep{0.1em}
   \item domain.com
@@ -2228,7 +2223,7 @@ There are a number of CSP headers, shown below, that have been created leading u
 The header \texttt{Content-Security-Policy-Report-Only} behaves the same as \newline \texttt{Content-Security-Policy} with the exception that violations are only reported and not enforced. One of the main uses of this is when webmasters and developers are creating a CSP Policy and do not want to impact the end user experience until the policy is configured as desired.
 
 \vspace{0.5cm} \noindent
-Example basic CSP policy header: \texttt{Content-Security-Policy: default-src 'self'; script-src 'self' cdn.example.com; style-src 'self'}
+Example basic CSP policy report only header: \texttt{Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' cdn.example.com; style-src 'self'}
 
 \section{Strict Transport Security}
 \label{section:bg_STS}
@@ -2258,7 +2253,7 @@ Instructs the browser to also load any subdomains of the site only over HTTPS.
 Must be present if the site is to be preloaded via Google's STS preload service.
 
 \vspace{0.3cm} \noindent
-Example STS header configuration: \texttt{Strict-Transport-Security: max-age 31536000; includeSubDomains}.
+Example STS header configuration: \texttt{Strict-Transport-Security: max-age 31536000; includeSubDomains; preload}.
 
 \section{STS Preload}
 \label{section:bg_STS_preload}
@@ -2305,7 +2300,7 @@ This mechanism is analysed in section \ref{section:ana_xcto}.
 
 \vspace{0.3cm} \noindent
 The \texttt{X-Content-Type-Options} header (XCTO) is used to enforce that the ``Multipurpose Internet Mail Extensions'' (MIME) specified in the \texttt{Content-Type} header (e.g. \newline 
-\texttt{Content-Type: text/css}) match that of the requested resource \cite{Apple_undated-hz}.
+\texttt{Content-Type: text/css}) matches that of the requested resource \cite{Apple_undated-hz}.
 
 \subsection{Directives}
 
@@ -2444,7 +2439,6 @@ Example COOP Header: \texttt{Cross-Origin-Opener-Policy: same-origin}
 This mechanism is analysed in section \ref{section:ana_hpkp}.
 
 \vspace{0.3cm} \noindent
-This mechanism is analysed in section \ref{section:ana_hpkp}.
 The \texttt{Public-Key-Pins} (HPKP) response header is a mechanism that permits a cryptographic public key to be advertised that must be matched to the website certificate presented during the SSL/TLS connection establishment otherwise the website will be prevented from loading/rendering.
 
 \vspace{0.3cm} \noindent
